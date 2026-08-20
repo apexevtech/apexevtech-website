@@ -1,98 +1,98 @@
-# Inquiry Email Delivery Design
+# 询价邮件发送设计
 
-## Status
+## 状态
 
-Approved in conversation on 2026-08-20. Written specification pending final user review.
+已于 2026-08-20 在对话中确认。书面规格等待用户最终审核。
 
-## Goal
+## 目标
 
-Make the existing inquiry forms deliver real inquiry emails to `gu@apexps-nj.com` through Resend while providing clear, accessible submission feedback. The implementation must keep service credentials on the server and must never report success unless Resend accepts the message.
+通过 Resend 将现有询价表单提交的真实询价邮件发送到 `gu@apexps-nj.com`，并提供清晰且符合无障碍要求的提交反馈。服务凭据必须只保存在服务端；只有在 Resend 接受邮件后，页面才能显示发送成功。
 
-## Scope
+## 范围
 
-- Upgrade the shared inquiry form used on the contact page and every product detail page.
-- Collect name, work email, phone or WhatsApp number, company, country, and project requirements.
-- Require acknowledgement of the privacy policy before submission.
-- Attach a form context so product inquiries identify the relevant product model and general inquiries identify the contact page.
-- Add a Next.js route handler at `POST /api/inquiries`.
-- Send both HTML and plain-text email through Resend.
-- Provide pending, success, validation-error, configuration-error, and delivery-error UI states.
-- Add automated tests for validation, message formatting, route behavior, and client submission states.
+- 升级联系页面和所有产品详情页共用的询价表单。
+- 收集姓名、工作邮箱、电话或 WhatsApp 号码、公司、国家及项目需求。
+- 提交前必须确认隐私政策。
+- 为表单附加来源上下文：产品询价标识对应产品型号，通用询价标识联系页面。
+- 新增 Next.js 路由处理器 `POST /api/inquiries`。
+- 通过 Resend 同时发送 HTML 和纯文本邮件。
+- 提供提交中、发送成功、校验错误、配置错误和发送失败等界面状态。
+- 为数据校验、邮件格式、接口行为和客户端提交状态增加自动化测试。
 
-## Out of Scope
+## 不在范围内
 
-- SMS or WhatsApp Business notifications.
-- CRM synchronization, database persistence, attachments, or file uploads.
-- Marketing subscriptions or automated follow-up sequences.
-- Durable distributed rate limiting. The first version uses validation and a honeypot; platform-level rate limiting can be added later if abuse appears.
+- 短信或 WhatsApp Business 通知。
+- CRM 同步、数据库持久化、附件或文件上传。
+- 营销订阅或自动跟进流程。
+- 持久化的分布式限流。第一版采用数据校验和隐藏蜜罐字段；若后续出现滥用，再增加平台级限流。
 
-## User Experience
+## 用户体验
 
-The form retains the site's existing visual language and fields are arranged in the current one-column or two-column responsive layout.
+表单延续网站现有视觉风格，字段保持当前单列或双列响应式布局。
 
-Fields:
+字段：
 
-- `name`: required.
-- `email`: required and used as the email `Reply-To` address.
-- `phone`: optional; label clarifies that phone or WhatsApp numbers are accepted.
-- `company`: optional.
-- `country`: optional.
-- `message`: required.
-- `privacyAccepted`: required checkbox linking to `/privacy-policy`.
-- `website`: visually hidden honeypot that normal users leave empty.
-- `context`: supplied by the page, not typed by the visitor. Product pages use the product model; the contact page uses `General inquiry`.
+- `name`：必填。
+- `email`：必填，并作为邮件的 `Reply-To` 地址。
+- `phone`：选填；标签明确说明可以填写电话或 WhatsApp 号码。
+- `company`：选填。
+- `country`：选填。
+- `message`：必填。
+- `privacyAccepted`：必选复选框，并链接到 `/privacy-policy`。
+- `website`：视觉隐藏的蜜罐字段，正常用户应保持为空。
+- `context`：由页面提供，不由访客填写。产品页面使用产品型号，联系页面使用 `General inquiry`。
 
-When a valid form is submitted, the button changes to `Sending...` and is disabled to prevent duplicate submission. A successful response clears the visitor-entered fields and shows an `aria-live` success message. A failed response preserves the values and shows an actionable error. Field validation errors appear beside the relevant field and focus moves to the first invalid field.
+提交有效表单时，按钮文字变为 `Sending...` 并被禁用，防止重复提交。发送成功后清空访客填写的字段，并通过 `aria-live` 显示成功消息。发送失败时保留已填写内容，并显示可操作的错误提示。字段校验错误显示在对应字段附近，焦点移动到第一个无效字段。
 
-## Architecture
+## 架构
 
-### Shared Form Component
+### 共用表单组件
 
-`components/InquiryForm.tsx` remains the shared form UI. It becomes a client component with controlled submission state and accepts a required `context` prop. The contact page passes `General inquiry`; product pages pass `product.model`.
+`components/InquiryForm.tsx` 继续作为共用表单界面。它将改为带有受控提交状态的客户端组件，并接收必填的 `context` 属性。联系页面传入 `General inquiry`，产品页面传入 `product.model`。
 
-The browser sends JSON to `/api/inquiries`. It never imports Resend and never receives the Resend API key or internal provider error details.
+浏览器将 JSON 发送到 `/api/inquiries`。浏览器端不导入 Resend，也不会收到 Resend API 密钥或邮件服务商的内部错误详情。
 
-### API Route
+### API 路由
 
-`app/api/inquiries/route.ts` accepts only `POST` JSON requests. It delegates validation and message construction to small server-only helpers so they can be unit tested without making network calls.
+`app/api/inquiries/route.ts` 只接受 `POST` JSON 请求。数据校验和邮件内容构建交给小型的仅服务端辅助模块，使其能够在不发起网络请求的情况下进行单元测试。
 
-Request fields and limits:
+请求字段和限制：
 
-| Field | Requirement | Limit |
+| 字段 | 要求 | 限制 |
 | --- | --- | --- |
-| `name` | Required, trimmed | 2-100 characters |
-| `email` | Required, valid address | 254 characters |
-| `phone` | Optional, trimmed | 50 characters |
-| `company` | Optional, trimmed | 120 characters |
-| `country` | Optional, trimmed | 100 characters |
-| `message` | Required, trimmed | 10-5,000 characters |
-| `context` | Required, trimmed | 120 characters |
-| `privacyAccepted` | Must be `true` | Boolean |
-| `website` | Must be empty | 200 characters maximum |
+| `name` | 必填，去除首尾空格 | 2-100 个字符 |
+| `email` | 必填，有效邮箱地址 | 最多 254 个字符 |
+| `phone` | 选填，去除首尾空格 | 最多 50 个字符 |
+| `company` | 选填，去除首尾空格 | 最多 120 个字符 |
+| `country` | 选填，去除首尾空格 | 最多 100 个字符 |
+| `message` | 必填，去除首尾空格 | 10-5,000 个字符 |
+| `context` | 必填，去除首尾空格 | 最多 120 个字符 |
+| `privacyAccepted` | 必须为 `true` | 布尔值 |
+| `website` | 必须为空 | 最多 200 个字符 |
 
-The route rejects malformed JSON, wrong content types, invalid fields, and oversized content with `400`. A populated honeypot returns a generic `200` response without sending mail so bots do not learn that they were detected.
+路由对格式错误的 JSON、错误的内容类型、无效字段和超长内容返回 `400`。如果蜜罐字段被填写，则返回通用的 `200` 响应但不发送邮件，避免机器人得知自己已被识别。
 
-### Email Delivery
+### 邮件发送
 
-The route uses the Resend SDK with these server-side environment variables:
+路由通过 Resend SDK 使用以下服务端环境变量：
 
-- `RESEND_API_KEY`: required.
-- `INQUIRY_FROM_EMAIL`: required; for example `APEX Website <inquiries@apexpowersystems.com>` after domain verification.
-- `INQUIRY_TO_EMAIL`: optional, defaulting to `gu@apexps-nj.com`.
+- `RESEND_API_KEY`：必需。
+- `INQUIRY_FROM_EMAIL`：必需；验证域名后可配置为 `APEX Website <inquiries@apexpowersystems.com>`。
+- `INQUIRY_TO_EMAIL`：选填，默认值为 `gu@apexps-nj.com`。
 
-The message subject is `Website inquiry: <context> - <name>`. The email includes every submitted field, the form context, and the submission timestamp. It includes plain-text and HTML bodies. All visitor-provided values are HTML-escaped before entering the HTML body. `replyTo` is set to the visitor's validated email address.
+邮件主题为 `Website inquiry: <context> - <name>`。邮件包含全部提交字段、表单来源上下文和提交时间，同时包含纯文本和 HTML 正文。访客提供的所有内容在写入 HTML 正文前都必须进行 HTML 转义。`replyTo` 设置为访客通过校验的邮箱地址。
 
-The route returns `503` when required server configuration is missing and `502` when Resend rejects or cannot deliver the request. Browser responses use stable, non-sensitive error codes and friendly messages. Full inquiry contents, API keys, and provider response bodies are not logged.
+缺少必需的服务端配置时，路由返回 `503`；Resend 拒绝邮件或请求失败时返回 `502`。浏览器响应只使用稳定且不敏感的错误代码和友好提示。不得记录完整询价内容、API 密钥或服务商响应正文。
 
-## Response Contract
+## 响应约定
 
-Successful response:
+成功响应：
 
 ```json
 { "ok": true, "message": "Your inquiry has been sent." }
 ```
 
-Validation response:
+校验错误响应：
 
 ```json
 {
@@ -103,62 +103,62 @@ Validation response:
 }
 ```
 
-Configuration and provider failures return the same top-level shape without `fieldErrors`, using `EMAIL_NOT_CONFIGURED` or `EMAIL_DELIVERY_FAILED` as the code.
+配置错误和服务商错误使用相同的顶层结构，但不包含 `fieldErrors`；错误代码分别使用 `EMAIL_NOT_CONFIGURED` 或 `EMAIL_DELIVERY_FAILED`。
 
-## Security and Privacy
+## 安全与隐私
 
-- Resend credentials exist only in local or Vercel environment variables.
-- Server validation is authoritative; client validation is only for usability.
-- HTML email content is escaped.
-- The endpoint accepts a bounded JSON body and ignores unknown fields.
-- The honeypot silently drops obvious bot submissions.
-- Logs contain outcome codes and request timing only, not inquiry bodies.
-- The form links to the existing privacy policy and requires acknowledgement before sending.
-- No inquiry data is stored in the application database because the first version has no database.
+- Resend 凭据只存在于本地或 Vercel 环境变量中。
+- 服务端校验具有最终决定权；客户端校验只用于改善体验。
+- HTML 邮件内容必须转义。
+- 接口只接受大小受限的 JSON 正文，并忽略未知字段。
+- 蜜罐字段静默丢弃明显的机器人提交。
+- 日志只包含结果代码和请求耗时，不包含询价正文。
+- 表单链接到现有隐私政策，发送前必须确认。
+- 第一版没有数据库，因此应用不存储询价数据。
 
-## Testing
+## 测试
 
-Automated tests cover:
+自动化测试覆盖：
 
-- Valid input normalization.
-- Missing required fields and invalid email addresses.
-- Minimum and maximum field lengths.
-- Rejection of malformed requests and wrong content types.
-- Honeypot submissions that return success without calling Resend.
-- HTML escaping and plain-text message construction.
-- Missing environment configuration.
-- Successful Resend delivery and provider failure using a mocked delivery client.
-- Product context and general inquiry context.
-- Client pending state, double-submit prevention, success reset, field errors, and retryable delivery errors.
+- 有效输入的标准化处理。
+- 缺少必填字段和无效邮箱地址。
+- 字段最小和最大长度。
+- 拒绝格式错误的请求和错误的内容类型。
+- 蜜罐提交返回成功，但不调用 Resend。
+- HTML 转义和纯文本邮件构建。
+- 缺少环境配置。
+- 使用模拟发送客户端测试 Resend 成功和服务商失败。
+- 产品上下文和通用询价上下文。
+- 客户端提交中状态、防止重复提交、成功后重置、字段错误和可重试的发送错误。
 
-Runtime verification includes:
+运行时验证包括：
 
-- `npm test`.
-- `npm run typecheck`.
-- `npm run build`.
-- Desktop and 390px mobile screenshots for the contact and product forms.
-- A local mocked submission covering success and failure states.
-- One real Resend submission after the API key and verified sender are configured, followed by confirmation that the message arrived at `gu@apexps-nj.com` and that replying targets the visitor email.
+- `npm test`。
+- `npm run typecheck`。
+- `npm run build`。
+- 联系页面和产品表单的桌面端及 390px 手机端截图。
+- 本地模拟提交，覆盖成功和失败状态。
+- 配置 API 密钥并验证发件人后，执行一次真实 Resend 提交；随后确认邮件已到达 `gu@apexps-nj.com`，且回复目标为访客邮箱。
 
-## Rollout
+## 上线流程
 
-1. Implement and verify the form and API route locally with a mocked Resend client.
-2. Create or use a Resend account controlled by APEX.
-3. Verify the selected sending domain in Resend when its DNS access is available.
-4. Add `RESEND_API_KEY`, `INQUIRY_FROM_EMAIL`, and optionally `INQUIRY_TO_EMAIL` to the Vercel Production environment.
-5. Deploy and run one synthetic production inquiry.
-6. Confirm receipt, formatting, reply behavior, and error monitoring before treating the form as live.
+1. 使用模拟 Resend 客户端在本地实现并验证表单和 API 路由。
+2. 创建或使用由 APEX 管理的 Resend 账号。
+3. 获得所选发件域名的 DNS 权限后，在 Resend 中验证域名。
+4. 在 Vercel Production 环境中添加 `RESEND_API_KEY`、`INQUIRY_FROM_EMAIL`，并按需添加 `INQUIRY_TO_EMAIL`。
+5. 部署并执行一次合成的生产询价测试。
+6. 确认收件、邮件格式、回复行为和错误监控后，再将表单视为正式上线。
 
-Until step 4 is complete, the production endpoint must return `EMAIL_NOT_CONFIGURED`; the UI must not show a false success message.
+在第 4 步完成前，生产接口必须返回 `EMAIL_NOT_CONFIGURED`，界面不得显示虚假的成功消息。
 
-## Acceptance Criteria
+## 验收标准
 
-- A valid inquiry sends exactly one email to the configured recipient.
-- Product emails identify the product model; contact-page emails identify a general inquiry.
-- The recipient can reply directly to the visitor's validated email address.
-- Invalid submissions never call Resend and show useful field errors.
-- Bot honeypot submissions do not call Resend.
-- Missing configuration and provider failures never display success.
-- No credential or full inquiry content appears in browser responses or server logs.
-- The form is usable without horizontal overflow at 390px and exposes status changes to assistive technology.
-- Automated tests, type checking, and the production build pass.
+- 一次有效询价只向配置的收件人发送一封邮件。
+- 产品邮件标识产品型号；联系页面邮件标识通用询价。
+- 收件人可直接回复访客通过校验的邮箱地址。
+- 无效提交不得调用 Resend，并显示有效的字段错误提示。
+- 机器人蜜罐提交不得调用 Resend。
+- 缺少配置或服务商失败时不得显示发送成功。
+- 浏览器响应或服务端日志中不得出现凭据或完整询价内容。
+- 表单在 390px 宽度下可正常使用且没有横向溢出，并向辅助技术公开状态变化。
+- 自动化测试、类型检查和生产构建全部通过。
