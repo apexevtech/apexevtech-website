@@ -8,14 +8,14 @@ type PageHeroProps = {
 
 export function PageHero({ eyebrow, title, subtitle, description, compact = false }: PageHeroProps) {
   return (
-    <section className={`${compact ? "bg-slate-950" : "bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950"} text-white`}>
-      <div className={`mx-auto max-w-7xl px-5 lg:px-8 ${compact ? "py-12 md:py-14" : "py-20"}`}>
-        <p className={`${compact ? "text-xs" : "text-sm"} font-extrabold uppercase text-sky-300`}>{eyebrow}</p>
-        <h1 className={`${compact ? "mt-3 max-w-5xl text-3xl md:text-4xl lg:text-[42px]" : "mt-4 max-w-4xl text-4xl md:text-6xl"} font-black leading-tight`}>
+    <section className={`${compact ? "bg-[#17324a]" : "bg-[#102a43]"} text-white`}>
+      <div className={`mx-auto max-w-7xl px-5 lg:px-8 ${compact ? "py-10 md:py-12" : "py-12 md:py-16"}`}>
+        <p className={`${compact ? "text-xs" : "text-sm"} font-black uppercase text-[#7de3ef]`}>{eyebrow}</p>
+        <h1 className={`${compact ? "mt-3 max-w-5xl text-3xl md:text-4xl" : "mt-3 max-w-4xl text-3xl md:text-5xl"} font-black leading-[1.1]`}>
           {title}
         </h1>
-        {subtitle ? <p className="mt-2 max-w-4xl text-lg font-semibold leading-7 text-slate-100 md:text-xl">{subtitle}</p> : null}
-        <p className={`${compact ? "mt-3 max-w-4xl text-base leading-7" : "mt-5 max-w-3xl text-lg leading-8"} text-slate-300`}>{description}</p>
+        {subtitle ? <p className="mt-3 max-w-4xl text-lg font-semibold leading-7 text-white/90 md:text-xl">{subtitle}</p> : null}
+        <p className={`${compact ? "mt-3 max-w-4xl text-base leading-7" : "mt-4 max-w-3xl text-base leading-7 md:text-lg"} text-slate-200`}>{description}</p>
       </div>
     </section>
   );

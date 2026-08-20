@@ -25,15 +25,15 @@ export default function ProductsPage() {
           <ProductCatalog eyebrow="Categories" title="Product categories" products={products} />
           <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {supplementalCatalog.map((item) => (
-              <article key={item.model} className="flex h-full flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-                <div className="relative aspect-[4/3] bg-white">
+              <article key={item.model} className="flex h-full flex-col overflow-hidden rounded-md border border-slate-200 bg-white transition hover:border-[#9edbe5]">
+                <div className="relative aspect-[4/3] border-b border-slate-100 bg-[#f4f8fa]">
                   <Image src={item.image} alt={`${item.model} ${item.title}`} fill sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw" className="object-contain p-5" />
                 </div>
                 <div className="flex flex-1 flex-col p-5">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-[#f58220]">{item.category}</p>
-                  <h3 className="mt-2 text-lg font-bold text-[#1a2332]">{item.model}</h3>
-                  <p className="mt-1 font-semibold text-gray-700">{item.title}</p>
-                  <p className="mt-auto pt-3 text-sm leading-6 text-gray-600">{item.description}</p>
+                  <p className="text-xs font-black uppercase text-[#1479c9]">{item.category}</p>
+                  <h3 className="mt-2 text-lg font-black text-[#12263a]">{item.model}</h3>
+                  <p className="mt-1 font-semibold text-[#385064]">{item.title}</p>
+                  <p className="mt-auto pt-3 text-sm leading-6 text-[#526b7d]">{item.description}</p>
                 </div>
               </article>
             ))}

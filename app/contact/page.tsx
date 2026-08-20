@@ -18,7 +18,7 @@ export default function ContactPage() {
       />
       <section className="px-5 py-16 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-          <div className="rounded-lg bg-slate-950 p-8 text-white">
+          <div className="rounded-md bg-[#102a43] p-8 text-white">
             <h2 className="text-3xl font-black">APEX Contact</h2>
             <div className="mt-6 grid gap-4 text-slate-300">
               <p>{company.name}</p>

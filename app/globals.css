@@ -4,6 +4,11 @@
 
 :root {
   color-scheme: light;
+  --apex-ink: #12263a;
+  --apex-blue: #1479c9;
+  --apex-cyan: #00a6c7;
+  --apex-sand: #f3f6f8;
+  --apex-line: #dce5ea;
 }
 
 * {
@@ -16,13 +21,24 @@ html {
 
 body {
   margin: 0;
-  background: #f8fafc;
-  color: #1a2332;
+  background: var(--apex-sand);
+  color: var(--apex-ink);
   letter-spacing: 0;
+  text-rendering: optimizeLegibility;
 }
 
 img {
   max-width: 100%;
+}
+
+::selection {
+  background: #b9ecf3;
+  color: var(--apex-ink);
+}
+
+:focus-visible {
+  outline: 3px solid rgba(0, 166, 199, 0.55);
+  outline-offset: 3px;
 }
 
 input,

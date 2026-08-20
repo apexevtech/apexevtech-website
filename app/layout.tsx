@@ -6,6 +6,9 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.apexpowersystems.com"),
+  icons: {
+    icon: "/assets/apex-logo.jpg",
+  },
   title: {
     default: "EV Charging Test & Validation Solutions",
     template: "%s | APEX",

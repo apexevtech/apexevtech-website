@@ -62,11 +62,11 @@ export default function AboutPage() {
               We support EV charger manufacturers, certification laboratories, charging pile testing institutions, charging station operators and field service teams with professional test systems for AC/DC chargers, EVSE interfaces and V2G-related charging equipment.
             </p>
             <div className="mt-8 grid gap-5 md:grid-cols-2">
-              <div className="rounded-lg bg-slate-950 p-6 text-white">
+              <div className="rounded-md bg-[#102a43] p-6 text-white">
                 <p className="text-sm font-extrabold text-sky-300">Mission</p>
                 <p className="mt-3 font-bold">Make EV charger testing more reliable, repeatable and field-ready.</p>
               </div>
-              <div className="rounded-lg bg-apex-blue p-6 text-white">
+              <div className="rounded-md bg-apex-blue p-6 text-white">
                 <p className="text-sm font-extrabold text-blue-100">Vision</p>
                 <p className="mt-3 font-bold">Become a trusted global provider of EV charging test solutions.</p>
               </div>

@@ -3,7 +3,7 @@ import { company, navItems } from "@/data/site";
 
 export function Footer() {
   return (
-    <footer className="bg-[#1a2332] text-white">
+    <footer className="bg-[#102a43] text-white">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-3">
           <div>
@@ -17,7 +17,7 @@ export function Footer() {
             <h2 className="text-lg font-bold">Quick Links</h2>
             <div className="mt-4 grid gap-2">
               {navItems.slice(1).map((item) => (
-                <Link key={item.href} href={item.href} className="text-sm text-gray-300 transition-colors hover:text-[#f58220]">
+                <Link key={item.href} href={item.href} className="text-sm text-gray-300 transition-colors hover:text-[#7de3ef]">
                   {item.label}
                 </Link>
               ))}
@@ -26,8 +26,8 @@ export function Footer() {
           <div>
             <h2 className="text-lg font-bold">Contact Us</h2>
             <div className="mt-4 grid gap-3 text-sm text-gray-300">
-              <a href={`mailto:${company.email}`} className="hover:text-[#f58220]">{company.email}</a>
-              <a href={`tel:${company.phone.replace(/[^0-9+]/g, "")}`} className="hover:text-[#f58220]">{company.phone}</a>
+              <a href={`mailto:${company.email}`} className="hover:text-[#7de3ef]">{company.email}</a>
+              <a href={`tel:${company.phone.replace(/[^0-9+]/g, "")}`} className="hover:text-[#7de3ef]">{company.phone}</a>
               <a href="https://api.whatsapp.com/send?phone=8617714412321" target="_blank" rel="noopener noreferrer" className="hover:text-[#25D366]">WhatsApp: +8617714412321</a>
               <span>{company.location}</span>
             </div>

@@ -738,7 +738,7 @@ const archivedBrochureCatalog = [
     title: "Vehicle-Mounted Mobile Test Platform",
     category: "Operations & Maintenance",
     description: "Mobile charging-pile test system platform for on-site commissioning and maintenance operations.",
-    image: "/assets/products/图片 14.png",
+    image: "/assets/products/ast-9000c-mobile-platform.png",
   },
   {
     model: "ST-HCDC-CA-UA-EA",
@@ -828,7 +828,7 @@ export const caseStudies = [
     title: "AST-9000C Mobile Testing Platform",
     category: "Operations & Maintenance",
     summary: "A vehicle-based mobile test platform for charger commissioning and maintenance in locations where a fixed laboratory is not practical.",
-    image: "/assets/products/图片 14.png",
+    image: "/assets/products/ast-9000c-mobile-platform.png",
     tags: ["AST-9000C", "Field Testing", "Commissioning"],
   },
   {
