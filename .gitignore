@@ -1,6 +1,7 @@
 node_modules/
 .next/
 out/
+.worktrees/
 . DS_Store
 .env*
 tmp/
