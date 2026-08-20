@@ -10,7 +10,7 @@ export function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contact APEX on WhatsApp"
-      className="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-[#1ebe5d] hover:shadow-xl sm:bottom-7 sm:right-7"
+      className="fixed bottom-7 right-7 z-50 hidden items-center gap-2 rounded-full bg-[#25D366] px-4 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-[#1ebe5d] hover:shadow-xl sm:inline-flex"
     >
       <span aria-hidden="true" className="text-xl leading-none">◉</span>
       <span>WhatsApp</span>
