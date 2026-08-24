@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { CookieConsent } from "@/components/CookieConsent";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { buildStructuredData } from "@/lib/seo/structured-data";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.link-jl.com";
 
@@ -42,9 +43,12 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const structuredData = buildStructuredData(siteUrl);
+
   return (
     <html lang="en">
       <body className="font-sans antialiased">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
         <Header />
         <main>{children}</main>
         <Footer />
