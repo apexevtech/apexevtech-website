@@ -7,6 +7,7 @@ import { company } from "@/data/site";
 export const metadata: Metadata = {
   title: "About Us",
   description: `Company overview for ${company.name}, provider of APEX EV charging test solutions.`,
+  alternates: { canonical: "/about" },
 };
 
 const advantages = [

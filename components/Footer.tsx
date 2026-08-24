@@ -21,6 +21,9 @@ export function Footer() {
                   {item.label}
                 </Link>
               ))}
+              <Link href="/privacy-policy" className="text-sm text-gray-300 transition-colors hover:text-[#7de3ef]">
+                Privacy Policy
+              </Link>
             </div>
           </div>
           <div>

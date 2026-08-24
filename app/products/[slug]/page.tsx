@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
   return {
     title: product.model,
     description: product.shortDescription,
+    alternates: { canonical: `/products/${product.slug}` },
   };
 }
 
@@ -107,7 +108,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
             <SectionHeading eyebrow="Inquiry Form" title="Request pricing, lead time or technical support." />
             <p className="text-slate-600">Include your target standard, voltage/current range and testing environment for a faster recommendation.</p>
           </div>
-          <InquiryForm />
+          <InquiryForm context={`Product inquiry: ${product.model}`} />
         </div>
       </section>
     </>

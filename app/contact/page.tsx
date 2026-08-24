@@ -6,6 +6,7 @@ import { company } from "@/data/site";
 export const metadata: Metadata = {
   title: "Contact Us",
   description: "Contact APEX for EV charger testing equipment inquiries and technical solution support.",
+  alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {
@@ -31,7 +32,7 @@ export default function ContactPage() {
               </a>
             </div>
           </div>
-          <InquiryForm />
+          <InquiryForm context="Website contact page" />
         </div>
       </section>
     </>

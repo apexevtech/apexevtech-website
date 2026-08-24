@@ -7,6 +7,7 @@ import { caseStudies, solutions } from "@/data/site";
 export const metadata: Metadata = {
   title: "Solutions",
   description: "APEX EV charger manufacturing, certification laboratory, charger commissioning and field maintenance test solutions.",
+  alternates: { canonical: "/solutions" },
 };
 
 export default function SolutionsPage() {

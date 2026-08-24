@@ -7,6 +7,7 @@ import { brochureCatalog, products } from "@/data/site";
 export const metadata: Metadata = {
   title: "Products",
   description: "Browse APEX EV charger testers, EVSE analyzers, charging simulators and regenerative DC loads.",
+  alternates: { canonical: "/products" },
 };
 
 const existingProductModels = new Set(products.map((product) => product.model));

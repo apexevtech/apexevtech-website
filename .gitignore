@@ -2,7 +2,10 @@ node_modules/
 .next/
 out/
 .worktrees/
-. DS_Store
+.DS_Store
 .env*
+!.env.example
 tmp/
 *.log
+.playwright-cli/
+output/
