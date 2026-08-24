@@ -29,8 +29,17 @@ export function parseInquiry(input: unknown, now = Date.now()): InquiryParseResu
     return { ok: true, isBot: true };
   }
 
-  const startedAt = Number(record.formStartedAt);
-  if (!Number.isFinite(startedAt) || now - startedAt < MIN_SUBMIT_TIME_MS || now - startedAt > MAX_FORM_AGE_MS) {
+  const rawStartedAt = record.formStartedAt;
+  const startedAt =
+    typeof rawStartedAt === "number"
+      ? rawStartedAt
+      : typeof rawStartedAt === "string" && rawStartedAt.trim()
+        ? Number(rawStartedAt)
+        : Number.NaN;
+  if (!Number.isFinite(startedAt)) {
+    return errorResult({ form: "Please submit the form again." });
+  }
+  if (now - startedAt < MIN_SUBMIT_TIME_MS || now - startedAt > MAX_FORM_AGE_MS) {
     return { ok: true, isBot: true };
   }
 

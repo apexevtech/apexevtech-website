@@ -65,4 +65,9 @@ describe("parseInquiry", () => {
   it("marks submissions made too quickly as bots", () => {
     expect(parseInquiry({ ...validInput, formStartedAt: Date.now() - 100 })).toEqual({ ok: true, isBot: true });
   });
+
+  it("returns a form error when the timestamp is missing", () => {
+    const result = parseInquiry({ ...validInput, formStartedAt: undefined });
+    expect(result).toEqual({ ok: false, fieldErrors: { form: "Please submit the form again." } });
+  });
 });
