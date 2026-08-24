@@ -10,8 +10,8 @@ export function Header() {
   const [productsOpen, setProductsOpen] = useState(false);
 
   const productChildren = [
-    { label: "DC Testers", href: "/products" },
-    { label: "AC Testers", href: "/products" },
+    { label: "DC Testers", href: "/products?type=dc" },
+    { label: "AC Testers", href: "/products?type=ac" },
   ];
 
   return (
