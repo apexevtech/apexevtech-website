@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { products } from "@/data/site";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.apexpowersystems.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.link-jl.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();

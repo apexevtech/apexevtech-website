@@ -5,7 +5,7 @@ import { Header } from "@/components/Header";
 import { CookieConsent } from "@/components/CookieConsent";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.apexpowersystems.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.link-jl.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

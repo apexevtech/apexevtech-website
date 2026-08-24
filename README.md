@@ -13,4 +13,4 @@ The inquiry form sends through Resend. Set `RESEND_API_KEY`, `INQUIRY_FROM_EMAIL
 
 Set `NEXT_PUBLIC_GA_ID` to enable the Google Analytics 4 script. It is loaded only after a visitor accepts optional analytics in the cookie notice. Set `GOOGLE_SITE_VERIFICATION` to add the Google Search Console verification meta tag.
 
-The generated `sitemap.xml` and `robots.txt` use `NEXT_PUBLIC_SITE_URL`, falling back to `https://www.apexpowersystems.com`.
+The generated `sitemap.xml` and `robots.txt` use `NEXT_PUBLIC_SITE_URL`, falling back to `https://www.link-jl.com` until the permanent domain is ready.
