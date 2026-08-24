@@ -15,7 +15,7 @@ export type Product = {
 
 export const company = {
   brand: "APEX",
-  name: "Jiling (Nanjing) Power Energy Co., Ltd.",
+  name: "Apex Power Systems (Nanjing) Co., Ltd.",
   email: "gu@apexps-nj.com",
   phone: "+8617714412321",
   location: "Nanjing, China",
