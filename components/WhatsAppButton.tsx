@@ -12,7 +12,7 @@ export function WhatsAppButton() {
       aria-label="Contact APEX on WhatsApp"
       className={whatsappButtonClassName}
     >
-      <span aria-hidden="true" className="text-xl leading-none">◉</span>
+      <span aria-hidden="true" className="text-lg leading-none">☎</span>
       <span>WhatsApp</span>
     </a>
   );
