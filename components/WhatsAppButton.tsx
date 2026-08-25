@@ -1,4 +1,6 @@
-import { whatsappButtonClassName } from "@/components/WhatsAppButton.styles";
+import { whatsappButtonClassName, whatsappIconPath } from "@/components/WhatsAppButton.styles";
+
+export { whatsappIconPath } from "@/components/WhatsAppButton.styles";
 
 export function WhatsAppButton() {
   const whatsappNumber = "8617714412321";
@@ -12,7 +14,9 @@ export function WhatsAppButton() {
       aria-label="Contact APEX on WhatsApp"
       className={whatsappButtonClassName}
     >
-      <span aria-hidden="true" className="text-lg leading-none">☎</span>
+      <svg aria-hidden="true" className="h-5 w-5 shrink-0 fill-current" viewBox="0 0 24 24">
+        <path d={whatsappIconPath} />
+      </svg>
       <span>WhatsApp</span>
     </a>
   );
