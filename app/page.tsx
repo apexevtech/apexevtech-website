@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ProductCard } from "@/components/ProductCard";
 import { SectionHeading } from "@/components/SectionHeading";
 import { products } from "@/data/site";
+import { resources } from "@/lib/resources/catalog";
 
 const capabilities = [
   {
@@ -105,6 +106,16 @@ export default function HomePage() {
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="border-y border-slate-200 bg-[#f3f6f8] px-5 py-14 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading eyebrow="Engineering Resources" title="Plan your charger validation workflow with practical guidance" description="Start with a clear test boundary, then connect the right equipment to your laboratory, production or field process." />
+          <div className="mt-8 grid gap-x-8 md:grid-cols-3">
+            {resources.slice(0, 3).map((resource) => <article key={resource.slug} className="border-t border-slate-300 py-5"><h2 className="font-black text-[#12263a]"><Link href={`/resources/${resource.slug}`} className="hover:text-[#1479c9]">{resource.title}</Link></h2><p className="mt-2 text-sm leading-6 text-[#526b7d]">{resource.description}</p></article>)}
+          </div>
+          <Link href="/resources" className="mt-4 inline-flex rounded-md border border-[#1479c9] px-5 py-3 text-sm font-extrabold text-[#1479c9]">View all resources</Link>
         </div>
       </section>
 

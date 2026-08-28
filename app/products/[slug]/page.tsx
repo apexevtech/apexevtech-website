@@ -7,6 +7,7 @@ import { PageHero } from "@/components/PageHero";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SpecTable } from "@/components/SpecTable";
 import { products } from "@/data/site";
+import { getResource } from "@/lib/resources/catalog";
 
 type ProductDetailPageProps = {
   params: Promise<{
@@ -24,6 +25,7 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
   if (!product) {
     return {};
   }
+  const relatedResources = ["choose-ev-charger-test-system", "ev-charging-protocol-testing", "field-commissioning-test-equipment"].map(getResource).filter((item): item is NonNullable<ReturnType<typeof getResource>> => Boolean(item));
   return {
     title: product.model,
     description: product.shortDescription,
@@ -37,6 +39,9 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   if (!product) {
     notFound();
   }
+  const relatedResources = ["choose-ev-charger-test-system", "ev-charging-protocol-testing", "field-commissioning-test-equipment"]
+    .map((resourceSlug) => getResource(resourceSlug))
+    .filter((item): item is NonNullable<ReturnType<typeof getResource>> => Boolean(item));
 
   return (
     <>
@@ -111,6 +116,8 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           <InquiryForm context={`Product inquiry: ${product.model}`} />
         </div>
       </section>
+
+      <section className="px-5 py-12 lg:px-8"><div className="mx-auto max-w-7xl"><h2 className="text-2xl font-black text-[#12263a]">Related engineering resources</h2><div className="mt-4 grid gap-4 md:grid-cols-3">{relatedResources.map((resource) => <Link key={resource.slug} href={`/resources/${resource.slug}`} className="border-t border-slate-200 pt-4 text-sm font-bold text-[#1479c9]">{resource.title}</Link>)}</div></div></section>
     </>
   );
 }

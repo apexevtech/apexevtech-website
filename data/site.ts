@@ -25,6 +25,7 @@ export const navItems = [
   { label: "Home", href: "/" },
   { label: "Products", href: "/products" },
   { label: "Solutions", href: "/solutions" },
+  { label: "Resources", href: "/resources" },
   { label: "About Us", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
