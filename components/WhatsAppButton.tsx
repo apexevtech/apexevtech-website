@@ -1,4 +1,5 @@
 import { whatsappButtonClassName, whatsappIconPath } from "@/components/WhatsAppButton.styles";
+import { trackEvent } from "@/lib/analytics/events";
 
 export { whatsappIconPath } from "@/components/WhatsAppButton.styles";
 
@@ -13,6 +14,7 @@ export function WhatsAppButton() {
       rel="noopener noreferrer"
       aria-label="Contact APEX on WhatsApp"
       className={whatsappButtonClassName}
+      onClick={() => trackEvent("whatsapp_click", { location: "floating" })}
     >
       <svg aria-hidden="true" className="h-5 w-5 shrink-0 fill-current" viewBox="0 0 24 24">
         <path d={whatsappIconPath} />

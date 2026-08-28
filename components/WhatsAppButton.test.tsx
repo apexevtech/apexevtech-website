@@ -18,4 +18,11 @@ describe("WhatsAppButton", () => {
     expect(whatsappIconPath).toContain("M20.52");
     expect(whatsappIconPath).not.toContain("☎");
   });
+
+  it("uses a stable analytics location for the floating action", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const source = await readFile("components/WhatsAppButton.tsx", "utf8");
+
+    expect(source).toContain('trackEvent("whatsapp_click", { location: "floating" })');
+  });
 });
