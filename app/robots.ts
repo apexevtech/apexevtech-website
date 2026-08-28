@@ -1,14 +1,18 @@
 import type { MetadataRoute } from "next";
+import { siteUrl } from "@/lib/seo/site-urls";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.link-jl.com";
+const aiAgents = ["GPTBot", "OAI-SearchBot", "ClaudeBot", "PerplexityBot", "Google-Extended"];
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
+    rules: [
+      ...aiAgents.map((userAgent) => ({ userAgent, allow: "/" })),
+      {
       userAgent: "*",
       allow: "/",
       disallow: "/api/",
-    },
+      },
+    ],
     sitemap: `${siteUrl}/sitemap.xml`,
   };
 }

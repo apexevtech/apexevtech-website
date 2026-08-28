@@ -1,11 +1,9 @@
 import type { MetadataRoute } from "next";
 import { products } from "@/data/site";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.link-jl.com";
+import { siteUrl, staticRoutes } from "@/lib/seo/site-urls";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
-  const staticRoutes = ["", "/products", "/solutions", "/about", "/contact", "/privacy-policy"];
+  const lastModified = new Date("2026-08-28T00:00:00.000Z");
 
   return [
     ...staticRoutes.map((route) => ({
