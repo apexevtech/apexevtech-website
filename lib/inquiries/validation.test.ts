@@ -4,7 +4,6 @@ import { parseInquiry } from "@/lib/inquiries/validation";
 const validInput = {
   name: "  Ada Lovelace  ",
   email: "  ada@example.com  ",
-  phone: " +44 20 0000 0000 ",
   company: " Analytical Engines ",
   country: " United Kingdom ",
   message: "  Please quote the ST-HCDC-HPC system for our laboratory.  ",
@@ -22,7 +21,6 @@ describe("parseInquiry", () => {
       value: {
         name: "Ada Lovelace",
         email: "ada@example.com",
-        phone: "+44 20 0000 0000",
         company: "Analytical Engines",
         country: "United Kingdom",
         message: "Please quote the ST-HCDC-HPC system for our laboratory.",

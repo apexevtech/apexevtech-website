@@ -1,4 +1,5 @@
 import type { InquiryFieldErrors, InquiryParseResult } from "@/lib/inquiries/types";
+import type { UtmAttribution, UtmValues } from "@/lib/attribution/utm";
 
 const MIN_SUBMIT_TIME_MS = 1_200;
 const MAX_FORM_AGE_MS = 24 * 60 * 60 * 1_000;
@@ -45,7 +46,6 @@ export function parseInquiry(input: unknown, now = Date.now()): InquiryParseResu
 
   const name = clean(record.name, 120);
   const email = clean(record.email, 254).toLowerCase();
-  const phone = clean(record.phone, 60);
   const company = clean(record.company, 160);
   const country = clean(record.country, 100);
   const rawMessage = typeof record.message === "string" ? record.message.trim() : "";
@@ -56,7 +56,6 @@ export function parseInquiry(input: unknown, now = Date.now()): InquiryParseResu
   const fieldErrors: InquiryFieldErrors = {};
   if (name.length < 2) fieldErrors.name = "Please enter your name.";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) fieldErrors.email = "Please enter a valid business email.";
-  if (phone && phone.length < 7) fieldErrors.phone = "Please enter a valid phone number.";
   if (rawMessage.length > 5_000) {
     fieldErrors.message = "Please keep your message under 5,000 characters.";
   } else if (message.length < 10) {
@@ -64,11 +63,22 @@ export function parseInquiry(input: unknown, now = Date.now()): InquiryParseResu
   }
   if (!privacyAccepted) fieldErrors.privacyAccepted = "Please accept the privacy notice to continue.";
 
-  return Object.keys(fieldErrors).length > 0
-    ? errorResult(fieldErrors)
-    : {
-        ok: true,
-        isBot: false,
-        value: { name, email, phone, company, country, message, context, privacyAccepted: true },
-      };
+  const rawAttribution = record.attribution;
+  const attribution = rawAttribution && typeof rawAttribution === "object" ? rawAttribution as Partial<UtmAttribution> : undefined;
+  const safeAttribution: UtmAttribution | undefined = attribution
+    ? { firstTouch: cleanUtmValues(attribution.firstTouch), latestTouch: cleanUtmValues(attribution.latestTouch) }
+    : undefined;
+  if (Object.keys(fieldErrors).length > 0) return errorResult(fieldErrors);
+  const value = { name, email, company, country, message, context, privacyAccepted: true as const };
+  return safeAttribution ? { ok: true, isBot: false, value: { ...value, attribution: safeAttribution } } : { ok: true, isBot: false, value };
+}
+
+function cleanUtmValues(input: unknown): UtmValues {
+  if (!input || typeof input !== "object" || Array.isArray(input)) return {};
+  const record = input as Record<string, unknown>;
+  const keys = ["utmSource", "utmMedium", "utmCampaign", "utmContent", "utmTerm"] as const;
+  return Object.fromEntries(keys.flatMap((key) => {
+    const value = clean(record[key], 120);
+    return value ? [[key, value]] : [];
+  })) as UtmValues;
 }

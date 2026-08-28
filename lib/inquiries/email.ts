@@ -22,11 +22,14 @@ export function buildInquiryEmail(inquiry: InquirySubmission): InquiryEmail {
   const fields: Array<[string, string]> = [
     ["Name", inquiry.name],
     ["Email", inquiry.email],
-    ["Phone", inquiry.phone || "Not provided"],
     ["Company", inquiry.company || "Not provided"],
     ["Country", inquiry.country || "Not provided"],
     ["Context", inquiry.context || "General website inquiry"],
   ];
+  if (inquiry.attribution) {
+    fields.push(["First touch", JSON.stringify(inquiry.attribution.firstTouch)]);
+    fields.push(["Latest touch", JSON.stringify(inquiry.attribution.latestTouch)]);
+  }
   const text = [
     subject,
     "",

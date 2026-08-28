@@ -3,6 +3,8 @@
 import type { FormEvent } from "react";
 import { useRef, useState } from "react";
 import type { InquiryApiResponse, InquiryField, InquiryFieldErrors } from "@/lib/inquiries/types";
+import { clearAttribution, readAttribution } from "@/lib/attribution/utm";
+import { trackEvent } from "@/lib/analytics/events";
 
 type InquiryFormProps = {
   compact?: boolean;
@@ -35,7 +37,6 @@ export function InquiryForm({ compact = false, context = "General website inquir
     const payload = {
       name: formData.get("name"),
       email: formData.get("email"),
-      phone: formData.get("phone"),
       company: formData.get("company"),
       country: formData.get("country"),
       message: formData.get("message"),
@@ -43,6 +44,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
       privacyAccepted: formData.get("privacyAccepted") === "on",
       website: formData.get("website"),
       formStartedAt: startedAt.current,
+      attribution: readAttribution(),
     };
 
     try {
@@ -61,6 +63,8 @@ export function InquiryForm({ compact = false, context = "General website inquir
 
       form.reset();
       startedAt.current = Date.now();
+      trackEvent("generate_lead", { location: context });
+      clearAttribution();
       setMessage({ type: "success", text: result.message });
     } catch {
       setMessage({ type: "error", text: "We could not send your inquiry. Please email us directly instead." });
@@ -80,14 +84,14 @@ export function InquiryForm({ compact = false, context = "General website inquir
   return (
     <form className="relative grid gap-5 rounded-md border border-slate-200 bg-white p-6 shadow-[0_12px_36px_rgba(18,38,58,0.07)] sm:p-8" onSubmit={handleSubmit}>
       <div className={compact ? "grid gap-4" : "grid gap-4 md:grid-cols-2"}>
-        {(["name", "email", "phone", "company", "country"] as const).map((field) => (
+        {(["name", "email", "company", "country"] as const).map((field) => (
           <label key={field} className="grid gap-2 text-sm font-bold text-[#385064]">
             {fieldLabels[field]}{field === "name" || field === "email" ? " *" : ""}
             <input
               className={inputClass(field)}
               name={field}
-              type={field === "email" ? "email" : field === "phone" ? "tel" : "text"}
-              autoComplete={field === "email" ? "email" : field === "phone" ? "tel" : field}
+              type={field === "email" ? "email" : "text"}
+              autoComplete={field === "email" ? "email" : field}
               required={field === "name" || field === "email"}
               aria-invalid={Boolean(fieldErrors[field])}
               aria-describedby={fieldErrors[field] ? `${field}-error` : undefined}
@@ -125,8 +129,17 @@ export function InquiryForm({ compact = false, context = "General website inquir
         </label>
       </div>
 
-      {message ? (
-        <p className={`rounded-md border px-4 py-3 text-sm font-semibold ${message.type === "success" ? "border-emerald-200 bg-emerald-50 text-emerald-800" : "border-red-200 bg-red-50 text-red-700"}`} role="status" aria-live="polite">
+      {message?.type === "success" ? (
+        <div className="grid gap-4 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-5 text-sm text-emerald-900" role="status" aria-live="polite">
+          <p className="font-bold">{message.text}</p>
+          <div className="flex flex-wrap gap-3">
+            <a href="https://api.whatsapp.com/send?phone=8617714412321" target="_blank" rel="noopener noreferrer" className="rounded-md bg-[#25D366] px-4 py-2 font-bold text-white" onClick={() => trackEvent("whatsapp_click", { location: "inquiry-success" })}>Continue on WhatsApp</a>
+            <a href="/products" className="rounded-md border border-emerald-300 px-4 py-2 font-bold text-emerald-900">Browse products</a>
+            <a href="/solutions" className="rounded-md border border-emerald-300 px-4 py-2 font-bold text-emerald-900">Review solutions</a>
+          </div>
+        </div>
+      ) : message?.type === "error" ? (
+        <p className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700" role="status" aria-live="polite">
           {message.text}
         </p>
       ) : null}

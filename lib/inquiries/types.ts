@@ -1,7 +1,6 @@
 export type InquiryField =
   | "name"
   | "email"
-  | "phone"
   | "company"
   | "country"
   | "message"
@@ -10,15 +9,17 @@ export type InquiryField =
   | "website"
   | "formStartedAt";
 
+import type { UtmAttribution } from "@/lib/attribution/utm";
+
 export type InquirySubmission = {
   name: string;
   email: string;
-  phone: string;
   company: string;
   country: string;
   message: string;
   context: string;
   privacyAccepted: true;
+  attribution?: UtmAttribution;
 };
 
 export type InquiryFieldErrors = Partial<Record<InquiryField | "form", string>>;

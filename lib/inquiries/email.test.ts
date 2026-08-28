@@ -5,7 +5,6 @@ import type { InquirySubmission } from "@/lib/inquiries/types";
 const inquiry: InquirySubmission = {
   name: "Ada Lovelace",
   email: "ada@example.com",
-  phone: "+44 20 0000 0000",
   company: "Analytical Engines",
   country: "United Kingdom",
   message: "Please quote the <ST-HCDC-HPC> system.",
