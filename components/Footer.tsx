@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { company, navItems } from "@/data/site";
-import { trackEvent } from "@/lib/analytics/events";
+import { TrackedLink } from "@/components/TrackedLink";
 
 export function Footer() {
   return (
@@ -30,8 +30,8 @@ export function Footer() {
           <div>
             <h2 className="text-lg font-bold">Contact Us</h2>
             <div className="mt-4 grid gap-3 text-sm text-gray-300">
-              <a href={`mailto:${company.email}`} onClick={() => trackEvent("email_click", { location: "footer" })} className="hover:text-[#7de3ef]">{company.email}</a>
-              <a href={`tel:${company.phone.replace(/[^0-9+]/g, "")}`} onClick={() => trackEvent("phone_click", { location: "footer" })} className="hover:text-[#7de3ef]">{company.phone}</a>
+              <TrackedLink href={`mailto:${company.email}`} eventName="email_click" location="footer" className="hover:text-[#7de3ef]">{company.email}</TrackedLink>
+              <TrackedLink href={`tel:${company.phone.replace(/[^0-9+]/g, "")}`} eventName="phone_click" location="footer" className="hover:text-[#7de3ef]">{company.phone}</TrackedLink>
               <a href="https://api.whatsapp.com/send?phone=8617714412321" target="_blank" rel="noopener noreferrer" className="hover:text-[#25D366]">WhatsApp: +8617714412321</a>
               <span>{company.location}</span>
             </div>

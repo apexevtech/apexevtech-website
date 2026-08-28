@@ -1,3 +1,5 @@
+"use client";
+
 import { whatsappButtonClassName, whatsappIconPath } from "@/components/WhatsAppButton.styles";
 import { trackEvent } from "@/lib/analytics/events";
 
