@@ -36,3 +36,24 @@ The browser console showed external provider/network errors after intentionally 
 ## External Operator Work Remaining
 
 Live GA4 DebugView, Clarity recording, Search Console domain verification/indexing, Bing Webmaster verification/IndexNow acceptance, UptimeRobot alerts, Google Business Profile, Bing Places, LinkedIn, Crunchbase, directory profiles, and third-party content publication remain `not configured` or require authenticated evidence. The repository is not claiming those external states as complete.
+
+## Production Recheck (2026-08-31, Asia/Shanghai)
+
+Public production evidence was rechecked against `https://www.link-jl.com`:
+
+- `200`: `/`, `/resources`, `/robots.txt`, `/sitemap.xml`, and `/google9c84864cc66064f8.html`.
+- The sitemap contains 27 `<loc>` entries.
+- The Google verification file returns exactly `google-site-verification: google9c84864cc66064f8.html`.
+- `robots.txt` explicitly names GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot, and Google-Extended, and keeps `/api/` disallowed.
+
+### External Platform Evidence Matrix
+
+| Platform | Configuration evidence | Authenticated platform evidence | Current status |
+| --- | --- | --- | --- |
+| GA4 | Production ID `G-EPSJV6EMLC` is configured; a prior browser run observed a consent-gated `page_view` request to Google Analytics. | DebugView evidence for `generate_lead`, `whatsapp_click`, `email_click`, `phone_click`, and `catalog_download` is still missing. | `configured`, partially verified |
+| Microsoft Clarity | Production project ID `yas565j4eq` is configured and the consent-gated loader is deployed. | No project recording/session has yet been observed in the Clarity dashboard. | `configured`, not platform-verified |
+| Google Search Console | The verification file is publicly reachable and the sitemap is publicly valid. | Property ownership, sitemap submission status, and URL indexing status have not yet been observed in Search Console. | `site-ready`, not platform-verified |
+| Bing Webmaster / IndexNow | The sitemap and IndexNow submission tooling are deployed. | Bing Webmaster's Google Search Console import reported `Website added successfully` for `https://www.link-jl.com/`; one sitemap was found/imported. No production IndexNow key file is claimed. | `site-verified`, IndexNow pending |
+| UptimeRobot | The production HTTPS endpoint currently returns `200`. | Authenticated dashboard shows monitor `www.link-jl.com/` (HTTP), 5-minute interval, first check `Preparing...`; dashboard shows `100%` uptime and `0` incidents. Email notification `gugwen989@gmail.com` was enabled during creation. | `monitor-created`, first check pending |
+
+Platform completion remains open for UptimeRobot monitor creation, Clarity recording evidence, and any remaining event-level checks. Bing site import is recorded above from the authenticated dashboard result.
