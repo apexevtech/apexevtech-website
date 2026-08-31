@@ -4,11 +4,11 @@ type AnalyticsConfiguration = {
 };
 
 type AnalyticsFunction = ((...arguments_: unknown[]) => void) & {
-  q?: unknown[][];
+  q?: ArrayLike<unknown>[];
 };
 
 type AnalyticsWindow = {
-  dataLayer?: unknown[][];
+  dataLayer?: ArrayLike<unknown>[];
   gtag?: (...arguments_: unknown[]) => void;
   clarity?: AnalyticsFunction;
 };
@@ -20,7 +20,9 @@ export function initializeAnalytics(
 ) {
   if (configuration.measurementId && typeof browserWindow.gtag !== "function") {
     browserWindow.dataLayer = browserWindow.dataLayer || [];
-    browserWindow.gtag = (...arguments_: unknown[]) => browserWindow.dataLayer?.push(arguments_);
+    browserWindow.gtag = function () {
+      browserWindow.dataLayer?.push(arguments);
+    };
 
     const script = document.createElement("script");
     script.async = true;
@@ -32,9 +34,9 @@ export function initializeAnalytics(
   }
 
   if (configuration.clarityProjectId && typeof browserWindow.clarity !== "function") {
-    const clarity: AnalyticsFunction = (...arguments_: unknown[]) => {
+    const clarity: AnalyticsFunction = function () {
       clarity.q = clarity.q || [];
-      clarity.q.push(arguments_);
+      clarity.q.push(arguments);
     };
     browserWindow.clarity = clarity;
 

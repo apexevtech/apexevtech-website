@@ -28,6 +28,14 @@ describe("initializeAnalytics", () => {
     expect(typeof browserWindow.gtag).toBe("function");
     expect(Array.isArray(browserWindow.dataLayer)).toBe(true);
     expect(typeof browserWindow.clarity).toBe("function");
+    const dataLayer = browserWindow.dataLayer as ArrayLike<unknown>[];
+    expect(Array.isArray(dataLayer[0])).toBe(false);
+    expect(Array.from(dataLayer[1])).toEqual(["config", "G-TEST123", { anonymize_ip: true }]);
+
+    (browserWindow.clarity as (...arguments_: unknown[]) => void)("set", "test", "value");
+    const clarityQueue = (browserWindow.clarity as { q: ArrayLike<unknown>[] }).q;
+    expect(Array.isArray(clarityQueue[0])).toBe(false);
+    expect(Array.from(clarityQueue[0])).toEqual(["set", "test", "value"]);
     expect(scripts.map((script) => script.src)).toEqual([
       "https://www.googletagmanager.com/gtag/js?id=G-TEST123",
       "https://www.clarity.ms/tag/clarity123",
