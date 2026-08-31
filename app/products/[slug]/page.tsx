@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { InquiryForm } from "@/components/InquiryForm";
 import { PageHero } from "@/components/PageHero";
+import { ProductDocumentDownload } from "@/components/ProductDocumentDownload";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SpecTable } from "@/components/SpecTable";
 import { products } from "@/data/site";
@@ -65,6 +66,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
               <Link href="/contact" className="rounded-md bg-[#1479c9] px-5 py-3 font-extrabold text-white hover:bg-[#0f5f9f]">
                 Request a quote
               </Link>
+              {product.document ? <ProductDocumentDownload href={product.document} model={product.model} /> : null}
             </div>
           </div>
         </div>
