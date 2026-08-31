@@ -7,7 +7,7 @@ export type AnalyticsEventName =
 
 declare global {
   interface Window {
-    gtag?: (command: "event", name: AnalyticsEventName, parameters?: Record<string, string>) => void;
+    gtag?: (...arguments_: unknown[]) => void;
   }
 }
 
@@ -15,4 +15,3 @@ export function trackEvent(name: AnalyticsEventName, parameters: Record<string, 
   if (typeof window === "undefined" || typeof window.gtag !== "function") return;
   window.gtag("event", name, parameters);
 }
-

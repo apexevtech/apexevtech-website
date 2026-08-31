@@ -1,0 +1,46 @@
+type AnalyticsConfiguration = {
+  measurementId?: string;
+  clarityProjectId?: string;
+};
+
+type AnalyticsFunction = ((...arguments_: unknown[]) => void) & {
+  q?: unknown[][];
+};
+
+type AnalyticsWindow = {
+  dataLayer?: unknown[][];
+  gtag?: (...arguments_: unknown[]) => void;
+  clarity?: AnalyticsFunction;
+};
+
+export function initializeAnalytics(
+  browserWindow: AnalyticsWindow,
+  document: Document,
+  configuration: AnalyticsConfiguration,
+) {
+  if (configuration.measurementId && typeof browserWindow.gtag !== "function") {
+    browserWindow.dataLayer = browserWindow.dataLayer || [];
+    browserWindow.gtag = (...arguments_: unknown[]) => browserWindow.dataLayer?.push(arguments_);
+
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${configuration.measurementId}`;
+    document.head.appendChild(script);
+
+    browserWindow.gtag("js", new Date());
+    browserWindow.gtag("config", configuration.measurementId, { anonymize_ip: true });
+  }
+
+  if (configuration.clarityProjectId && typeof browserWindow.clarity !== "function") {
+    const clarity: AnalyticsFunction = (...arguments_: unknown[]) => {
+      clarity.q = clarity.q || [];
+      clarity.q.push(arguments_);
+    };
+    browserWindow.clarity = clarity;
+
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `https://www.clarity.ms/tag/${configuration.clarityProjectId}`;
+    document.head.appendChild(script);
+  }
+}
