@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     icon: "/assets/apex-logo.jpg",
   },
   title: {
-    default: "EV Charging Test & Validation Solutions",
+    default: "EV Charger Test Equipment & EVSE Testing Solutions",
     template: "%s | APEX",
   },
   description:
@@ -35,7 +35,8 @@ export const metadata: Metadata = {
     "regenerative DC load",
   ],
   openGraph: {
-    title: "EV Charging Test & Validation Solutions",
+    title: "EV Charger Test Equipment & EVSE Testing Solutions | APEX",
+    type: "website",
     description:
       "Professional EV charger testing equipment, EVSE analyzers, charging simulators, and compliance validation systems for manufacturers, laboratories, and EV infrastructure companies worldwide.",
     url: siteUrl,

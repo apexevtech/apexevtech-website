@@ -4,7 +4,7 @@ import { siteUrl, staticRoutes } from "@/lib/seo/site-urls";
 import { resources } from "@/lib/resources/catalog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date("2026-08-28T00:00:00.000Z");
+  const lastModified = new Date();
 
   return [
     ...staticRoutes.map((route) => ({

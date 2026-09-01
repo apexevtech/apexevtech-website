@@ -9,6 +9,7 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { SpecTable } from "@/components/SpecTable";
 import { products } from "@/data/site";
 import { getResource } from "@/lib/resources/catalog";
+import { StructuredData } from "@/components/StructuredData";
 
 type ProductDetailPageProps = {
   params: Promise<{
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
   }
   const relatedResources = ["choose-ev-charger-test-system", "ev-charging-protocol-testing", "field-commissioning-test-equipment"].map(getResource).filter((item): item is NonNullable<ReturnType<typeof getResource>> => Boolean(item));
   return {
-    title: product.model,
+    title: `${product.model} ${product.category.split(" /")[0]} | APEX`,
     description: product.shortDescription,
     alternates: { canonical: `/products/${product.slug}` },
   };
@@ -44,14 +45,38 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
     .map((resourceSlug) => getResource(resourceSlug))
     .filter((item): item is NonNullable<ReturnType<typeof getResource>> => Boolean(item));
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.link-jl.com";
+  const productData = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.title,
+    model: product.model,
+    category: product.category,
+    description: product.shortDescription,
+    image: `${siteUrl}${product.image}`,
+    brand: { "@type": "Brand", name: "APEX" },
+    additionalProperty: product.specs.map(([name, value]) => ({ "@type": "PropertyValue", name, value })),
+  };
+  const breadcrumbData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: "Products", item: `${siteUrl}/products` },
+      { "@type": "ListItem", position: 3, name: product.model, item: `${siteUrl}/products/${product.slug}` },
+    ],
+  };
+
   return (
     <>
+      <StructuredData data={productData} />
+      <StructuredData data={breadcrumbData} />
       <PageHero compact eyebrow={product.category} title={product.model} subtitle={product.title} description={product.shortDescription} />
 
       <section className="px-5 py-16 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="flex min-h-[460px] items-center justify-center rounded-md border border-slate-200 bg-[#eef4f7] p-8">
-            <Image src={product.image} alt={`${product.model} product image`} width={900} height={680} className="h-full w-full object-contain" />
+            <Image src={product.image} alt={`${product.model} ${product.title} for EV charger testing`} width={900} height={680} className="h-full w-full object-contain" />
           </div>
           <div>
             <SectionHeading eyebrow="Product Overview" title={product.title} description={product.overview} />
