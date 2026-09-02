@@ -9,3 +9,4 @@ tmp/
 *.log
 .playwright-cli/
 output/
+.vercel
