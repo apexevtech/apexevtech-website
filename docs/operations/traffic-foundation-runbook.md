@@ -10,6 +10,7 @@ This checklist separates repository readiness from live platform evidence. Use o
 - `configured`: GA4 and Clarity load only after analytics consent and only with public IDs.
 - `configured`: UTM first-touch/latest-touch attribution is included in internal inquiry notifications.
 - `configured`: `npm run indexnow` builds canonical URL batches.
+- `review pending`: compatible dependency patches are current and the production build passes; `npm audit` still reports 3 vulnerabilities requiring a separate Next.js 16 breaking-upgrade review.
 
 ## Provider Setup
 
