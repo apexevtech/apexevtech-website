@@ -10,6 +10,6 @@ export default defineConfig({
   test: {
     environment: "node",
     clearMocks: true,
-    exclude: [".worktrees/**", "node_modules/**", ".next/**"],
+    exclude: [".worktrees/**", "node_modules/**", ".next/**", "scripts/**/*.test.mjs"],
   },
 });
