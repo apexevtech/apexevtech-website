@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { buildPayload } from "./indexnow.mjs";
 
@@ -17,4 +18,14 @@ test("buildPayload rejects non-HTTPS sites and cross-host URLs", () => {
     () => buildPayload("https://www.link-jl.com", "key", ["https://example.com/"]),
     /site host/,
   );
+});
+
+test("running the CLI without configuration fails loudly", () => {
+  const result = spawnSync(process.execPath, ["scripts/indexnow.mjs"], {
+    cwd: process.cwd(),
+    env: { ...process.env, NEXT_PUBLIC_SITE_URL: "", INDEXNOW_KEY: "" },
+    encoding: "utf8",
+  });
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /Set NEXT_PUBLIC_SITE_URL and INDEXNOW_KEY/);
 });

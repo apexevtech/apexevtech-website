@@ -1,3 +1,6 @@
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
 export function buildPayload(siteUrl, key, paths) {
   const base = new URL(siteUrl);
   if (base.protocol !== "https:") throw new Error("IndexNow requires an HTTPS site URL");
@@ -17,4 +20,6 @@ async function main() {
   if (!response.ok) throw new Error(`IndexNow submission failed: ${response.status}`);
   console.info(`Submitted ${payload.urlList.length} URLs to IndexNow.`);
 }
-if (import.meta.url === `file://${process.argv[1]}`) main().catch((error) => { console.error(error.message); process.exitCode = 1; });
+if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
+  main().catch((error) => { console.error(error.message); process.exitCode = 1; });
+}
