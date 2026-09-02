@@ -7,7 +7,8 @@ type AnalyticsScriptsProps = { measurementId?: string; clarityProjectId?: string
 
 export function AnalyticsScripts({ measurementId, clarityProjectId }: AnalyticsScriptsProps) {
   useEffect(() => {
-    initializeAnalytics(window, document, { measurementId, clarityProjectId });
+    const debugMode = new URLSearchParams(window.location.search).get("ga_debug") === "1";
+    initializeAnalytics(window, document, { measurementId, clarityProjectId, debugMode });
   }, [clarityProjectId, measurementId]);
 
   return null;

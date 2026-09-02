@@ -1,6 +1,7 @@
 type AnalyticsConfiguration = {
   measurementId?: string;
   clarityProjectId?: string;
+  debugMode?: boolean;
 };
 
 type AnalyticsFunction = ((...arguments_: unknown[]) => void) & {
@@ -30,7 +31,10 @@ export function initializeAnalytics(
     document.head.appendChild(script);
 
     browserWindow.gtag("js", new Date());
-    browserWindow.gtag("config", configuration.measurementId, { anonymize_ip: true });
+    browserWindow.gtag("config", configuration.measurementId, {
+      anonymize_ip: true,
+      ...(configuration.debugMode ? { debug_mode: true } : {}),
+    });
   }
 
   if (configuration.clarityProjectId && typeof browserWindow.clarity !== "function") {

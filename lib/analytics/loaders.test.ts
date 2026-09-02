@@ -41,4 +41,15 @@ describe("initializeAnalytics", () => {
       "https://www.clarity.ms/tag/clarity123",
     ]);
   });
+
+  it("adds GA4 debug mode only when explicitly requested", () => {
+    const browserWindow: Record<string, unknown> = {};
+    const { document } = createDocument();
+    initializeAnalytics(browserWindow, document as unknown as Document, {
+      measurementId: "G-DEBUG123",
+      debugMode: true,
+    });
+    const dataLayer = browserWindow.dataLayer as ArrayLike<unknown>[];
+    expect(Array.from(dataLayer[1])).toEqual(["config", "G-DEBUG123", { anonymize_ip: true, debug_mode: true }]);
+  });
 });
