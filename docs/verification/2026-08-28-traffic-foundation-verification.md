@@ -52,7 +52,7 @@ Authenticated Google Search Console checks on 2026-09-02 confirmed that `/sitema
 
 | Platform | Configuration evidence | Authenticated platform evidence | Current status |
 | --- | --- | --- | --- |
-| GA4 | Production ID `G-EPSJV6EMLC` is configured; a prior browser run observed a consent-gated `page_view` request to Google Analytics. | DebugView evidence for `generate_lead`, `whatsapp_click`, `email_click`, `phone_click`, and `catalog_download` is still missing. | `configured`, partially verified |
+| GA4 | Production ID `G-EPSJV6EMLC` is configured; a prior browser run observed a consent-gated `page_view` request to Google Analytics. | A production contact submission completed successfully on 2026-09-02, but the realtime UI did not yet expose named event evidence during the check. | `configured`, event evidence pending |
 | Microsoft Clarity | Production project ID `yas565j4eq` is configured and the consent-gated loader is deployed. | Clarity dashboard shows 2 recordings in the last 3 days, including a 30:41 session. | `verified` |
 | Google Search Console | The verification file is publicly reachable and the sitemap is publicly valid. | Property ownership, sitemap submission status, and URL indexing status have not yet been observed in Search Console. | `site-ready`, not platform-verified |
 | Bing Webmaster / IndexNow | The sitemap and IndexNow submission tooling are deployed. | Bing Webmaster's Google Search Console import reported `Website added successfully` for `https://www.link-jl.com/`; one sitemap was found/imported. Key file `https://www.link-jl.com/fb9c27dea786490f940bb8bc323c5406.txt` returned HTTP 200 with the expected key, and IndexNow accepted 27 sitemap URLs with HTTP 202. | `site-verified`, IndexNow submitted |
