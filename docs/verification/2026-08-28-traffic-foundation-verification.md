@@ -37,7 +37,7 @@ The browser console showed external provider/network errors after intentionally 
 
 Live GA4 DebugView, Clarity recording, Search Console domain verification/indexing, Bing Webmaster verification/IndexNow acceptance, UptimeRobot alerts, Google Business Profile, Bing Places, LinkedIn, Crunchbase, directory profiles, and third-party content publication remain `not configured` or require authenticated evidence. The repository is not claiming those external states as complete.
 
-## Production Recheck (2026-08-31, Asia/Shanghai)
+## Production Recheck (2026-09-02, Asia/Shanghai)
 
 Public production evidence was rechecked against `https://www.link-jl.com`:
 
@@ -45,6 +45,8 @@ Public production evidence was rechecked against `https://www.link-jl.com`:
 - The sitemap contains 27 `<loc>` entries.
 - The Google verification file returns exactly `google-site-verification: google9c84864cc66064f8.html`.
 - `robots.txt` explicitly names GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot, and Google-Extended, and keeps `/api/` disallowed.
+
+Authenticated Google Search Console checks on 2026-09-02 confirmed that `/sitemap.xml` was read successfully and 27 pages were discovered. URL Inspection also reported `https://www.link-jl.com/contact` as indexed.
 
 ### External Platform Evidence Matrix
 

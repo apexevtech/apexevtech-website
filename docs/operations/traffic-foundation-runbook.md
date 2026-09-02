@@ -13,11 +13,11 @@ This checklist separates repository readiness from live platform evidence. Use o
 
 ## Provider Setup
 
-- `not configured`: add real `NEXT_PUBLIC_GA_MEASUREMENT_ID` and verify each event in GA4 DebugView.
-- `not configured`: add real `NEXT_PUBLIC_CLARITY_PROJECT_ID`; verify the first recording.
-- `not configured`: verify the domain in Google Search Console and submit `/sitemap.xml`.
-- `not configured`: verify the site in Bing Webmaster Tools, submit `/sitemap.xml`, then run `INDEXNOW_KEY=... npm run indexnow`.
-- `not configured`: add a five-minute UptimeRobot monitor and test alert delivery.
+- `configured`: production GA4 measurement ID is deployed; verify each event in GA4 DebugView.
+- `configured`: production Clarity project ID is deployed; verify the first recording.
+- `verified`: Google Search Console property is accessible, `/sitemap.xml` was read successfully on 2026-09-02, and 27 pages were discovered.
+- `submitted`: Bing Webmaster import succeeded and IndexNow accepted the 27 canonical URLs; continue monitoring indexing.
+- `configured`: a five-minute UptimeRobot monitor exists; verify the first check and alert delivery.
 
 ## Entity Consistency
 
