@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { initializeAnalytics } from "@/lib/analytics/loaders";
+import { initializeAnalytics, scheduleAnalyticsInitialization } from "@/lib/analytics/loaders";
 
 function createDocument() {
   const scripts: Array<{ async: boolean; src: string }> = [];
@@ -16,6 +16,21 @@ function createDocument() {
 }
 
 describe("initializeAnalytics", () => {
+  it("defers analytics initialization until the browser is idle", () => {
+    const browserWindow: Record<string, unknown> = {
+      requestIdleCallback: (callback: () => void) => { callback(); return 1; },
+    };
+    const { document, scripts } = createDocument();
+
+    scheduleAnalyticsInitialization(browserWindow, document as unknown as Document, {
+      measurementId: "G-IDLE123",
+    });
+
+    expect(scripts.map((script) => script.src)).toEqual([
+      "https://www.googletagmanager.com/gtag/js?id=G-IDLE123",
+    ]);
+  });
+
   it("initializes GA4 and Clarity after analytics consent", () => {
     const browserWindow: Record<string, unknown> = {};
     const { document, scripts } = createDocument();

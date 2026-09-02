@@ -12,7 +12,20 @@ type AnalyticsWindow = {
   dataLayer?: ArrayLike<unknown>[];
   gtag?: (...arguments_: unknown[]) => void;
   clarity?: AnalyticsFunction;
+  requestIdleCallback?: (callback: () => void) => number;
 };
+
+export function scheduleAnalyticsInitialization(
+  browserWindow: AnalyticsWindow,
+  document: Document,
+  configuration: AnalyticsConfiguration,
+) {
+  if (typeof browserWindow.requestIdleCallback === "function") {
+    browserWindow.requestIdleCallback(() => initializeAnalytics(browserWindow, document, configuration));
+    return;
+  }
+  setTimeout(() => initializeAnalytics(browserWindow, document, configuration), 0);
+}
 
 export function initializeAnalytics(
   browserWindow: AnalyticsWindow,
