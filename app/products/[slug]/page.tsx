@@ -46,17 +46,6 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
     .filter((item): item is NonNullable<ReturnType<typeof getResource>> => Boolean(item));
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.link-jl.com";
-  const productData = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.title,
-    model: product.model,
-    category: product.category,
-    description: product.shortDescription,
-    image: `${siteUrl}${product.image}`,
-    brand: { "@type": "Brand", name: "APEX" },
-    additionalProperty: product.specs.map(([name, value]) => ({ "@type": "PropertyValue", name, value })),
-  };
   const breadcrumbData = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -69,7 +58,6 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
   return (
     <>
-      <StructuredData data={productData} />
       <StructuredData data={breadcrumbData} />
       <PageHero compact eyebrow={product.category} title={product.model} subtitle={product.title} description={product.shortDescription} />
 
