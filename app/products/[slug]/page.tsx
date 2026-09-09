@@ -10,6 +10,7 @@ import { SpecTable } from "@/components/SpecTable";
 import { products } from "@/data/site";
 import { getResource } from "@/lib/resources/catalog";
 import { StructuredData } from "@/components/StructuredData";
+import { getProductSeo } from "@/lib/products/seo";
 
 type ProductDetailPageProps = {
   params: Promise<{
@@ -27,10 +28,10 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
   if (!product) {
     return {};
   }
-  const relatedResources = ["choose-ev-charger-test-system", "ev-charging-protocol-testing", "field-commissioning-test-equipment"].map(getResource).filter((item): item is NonNullable<ReturnType<typeof getResource>> => Boolean(item));
+  const seo = getProductSeo(product.slug);
   return {
-    title: `${product.model} ${product.category.split(" /")[0]} | APEX`,
-    description: product.shortDescription,
+    title: seo?.title || `${product.model} ${product.category.split(" /")[0]} | APEX`,
+    description: seo?.description || product.shortDescription,
     alternates: { canonical: `/products/${product.slug}` },
   };
 }
@@ -44,6 +45,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   const relatedResources = ["choose-ev-charger-test-system", "ev-charging-protocol-testing", "field-commissioning-test-equipment"]
     .map((resourceSlug) => getResource(resourceSlug))
     .filter((item): item is NonNullable<ReturnType<typeof getResource>> => Boolean(item));
+  const seo = getProductSeo(product.slug);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.link-jl.com";
   const breadcrumbData = {
@@ -59,6 +61,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   return (
     <>
       <StructuredData data={breadcrumbData} />
+      {seo ? <StructuredData data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: seo.faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } })) }} /> : null}
       <PageHero compact eyebrow={product.category} title={product.model} subtitle={product.title} description={product.shortDescription} />
 
       <section className="px-5 py-16 lg:px-8">
@@ -68,6 +71,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           </div>
           <div>
             <SectionHeading eyebrow="Product Overview" title={product.title} description={product.overview} />
+            {seo ? <p className="mb-6 leading-7 text-[#526b7d]">{seo.intro}</p> : null}
             <div className="grid gap-3 sm:grid-cols-2">
               {product.highlights.map((highlight) => (
                 <div key={highlight} className="rounded-md border border-slate-200 bg-white p-4 font-extrabold text-slate-900">
@@ -121,6 +125,8 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           </div>
         </div>
       </section>
+
+      {seo ? <section className="px-5 py-14 lg:px-8"><div className="mx-auto max-w-7xl"><SectionHeading compact eyebrow="Product FAQ" title={`Common questions about ${product.model}`} /><div className="grid gap-6 md:grid-cols-3">{seo.faqs.map((faq) => <div key={faq.question} className="border-t-2 border-[#00a6c7] pt-4"><h3 className="font-black text-[#12263a]">{faq.question}</h3><p className="mt-2 text-sm leading-6 text-[#526b7d]">{faq.answer}</p></div>)}</div></div></section> : null}
 
       <section className="bg-slate-50 px-5 py-16 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.8fr_1.2fr]">
