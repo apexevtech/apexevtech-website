@@ -7,7 +7,7 @@ export type ProductSeoContent = {
 
 export const priorityProductSeo: Record<string, ProductSeoContent> = {
   "st-hcdc-hpc": {
-    title: "ST-HCDC-HPC High-Power DC EV Charger Tester | APEX",
+    title: "ST-HCDC-HPC High-Power DC EV Charger Tester",
     description: "Test high-power GB/T DC chargers with 0-1100 V battery simulation, BMS communication, protocol conformance, metering verification and external loads up to 250 A.",
     intro: "Use ST-HCDC-HPC when a repeatable instrument must replace a vehicle during high-power GB/T charger development, factory acceptance or field diagnosis. It combines charger communication, battery-voltage simulation, measurement access and fault simulation in a portable system.",
     faqs: [
@@ -17,7 +17,7 @@ export const priorityProductSeo: Record<string, ProductSeoContent> = {
     ],
   },
   "st-6680ca-dc": {
-    title: "ST-6680CA-DC CHAdeMO Charger Tester | APEX",
+    title: "ST-6680CA-DC CHAdeMO Charger Tester",
     description: "Validate CHAdeMO DC chargers with a portable 600 V, 200 A interface, battery-voltage simulation, 100 ms communication frames, waveform options and external-load testing.",
     intro: "ST-6680CA-DC is built for teams that need repeatable CHAdeMO charger testing without relying on a vehicle. It supports communication diagnosis, startup-voltage and insulation checks, signal measurement and field acceptance through a portable test workflow.",
     faqs: [
@@ -27,7 +27,7 @@ export const priorityProductSeo: Record<string, ProductSeoContent> = {
     ],
   },
   "ast-9000": {
-    title: "AST-9000 Multi-Standard DC Charger Test System | APEX",
+    title: "AST-9000 Multi-Standard DC Charger Test System",
     description: "Build repeatable GB/T, IEC and SAE DC charger R&D tests with 0-1100 V battery simulation, BMS communication, CAN capture, programmable sources and automated reports.",
     intro: "AST-9000 is an integrated laboratory platform for charger development and repeatable validation. It coordinates interface simulation, programmable power equipment, communication capture and reporting so engineers can reproduce charging sequences and retain test evidence.",
     faqs: [
@@ -37,7 +37,7 @@ export const priorityProductSeo: Record<string, ProductSeoContent> = {
     ],
   },
   "st-9980ea-hpc": {
-    title: "ST-9980EA-HPC Portable CCS2 Charger Tester | APEX",
+    title: "ST-9980EA-HPC Portable CCS2 Charger Tester",
     description: "Test CCS2 DC chargers up to 1000 V and 500 A with ISO 15118 and DIN SPEC 70121 communication, optional PLC capture, waveform analysis and remote operation.",
     intro: "ST-9980EA-HPC gives European DC charger teams a portable alternative to vehicle-based acceptance testing. It combines a CCS2 interface, live charging data, EVCC simulation and optional PLC and waveform diagnostics for commissioning and interoperability work.",
     faqs: [
@@ -47,7 +47,7 @@ export const priorityProductSeo: Record<string, ProductSeoContent> = {
     ],
   },
   "st-hcac-gb-ua-ea": {
-    title: "ST-HCAC Three-Standard AC Charger Tester | APEX",
+    title: "ST-HCAC Three-Standard AC Charger Tester",
     description: "Test GB, European and North American AC chargers in one portable platform with interoperability checks, pilot simulation, optional 0.05-class metering and waveform capture.",
     intro: "ST-HCAC-GB / UA / EA consolidates three regional AC charging interfaces into one validation platform. It is intended for manufacturers, laboratories and inspection teams comparing charger behavior, metering and control-pilot signals across target markets.",
     faqs: [

@@ -15,6 +15,12 @@ describe("priority product SEO content", () => {
     }
   });
 
+  it("leaves the global APEX title template to add the brand suffix", () => {
+    for (const [, value] of Object.entries(priorityProductSeo)) {
+      expect(value.title).not.toMatch(/\| APEX$/);
+    }
+  });
+
   it("renders priority SEO content and FAQ structured data on product pages", () => {
     const source = readFileSync("app/products/[slug]/page.tsx", "utf8");
     expect(source).toContain("getProductSeo(product.slug)");
