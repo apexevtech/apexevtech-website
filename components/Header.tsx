@@ -20,10 +20,10 @@ export function Header() {
         <div className="flex h-[76px] items-center justify-between">
           <Link href="/" className="flex min-w-0 items-center gap-2" aria-label={`${company.brand} home`}>
             <Image
-              src="/assets/apex-logo.jpg"
+              src="/assets/apex-logo.webp"
               alt="APEX"
-              width={1328}
-              height={1280}
+              width={96}
+              height={93}
               priority
               className="h-11 w-11 rounded object-contain sm:h-12 sm:w-12"
             />
