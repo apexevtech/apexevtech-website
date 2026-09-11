@@ -158,7 +158,7 @@ export const products: Product[] = [
       "Portable high-power DC charger test system for laboratory, production and field-service validation, with GB/T protocol analysis, BMS simulation, metering verification and external-load testing.",
     overview:
       "ST-HCDC-HPC is a third-party field test system for non-vehicle conductive EV chargers. Built around GB/T 27930-2015, GB/T 34658-2017 and GB/T 34657.1-2017, it replaces test vehicles for repeatable charger validation, avoiding incomplete coverage, battery wear from repeated charging and potential vehicle damage caused by charger faults. The system supports R&D debugging, metering verification and end-of-line testing for charger manufacturers, laboratories and charging facilities.",
-    image: "/assets/products/ST-HCDC-HPC.png",
+    image: "/assets/products/ST-HCDC-HPC.webp",
     document: "/product-documents/ST-HCDC-HPC.docx",
     highlights: [
       "High-Power DC Charger Testing",
@@ -206,7 +206,7 @@ export const products: Product[] = [
       "Portable GB, European and North American AC charger tester for interoperability, protocol, metering, waveform and field acceptance testing.",
     overview:
       "ST-HCAC-GB / UA / EA is a portable three-standard AC EV charger tester that combines GB, European and North American charging interfaces in one system. It provides interoperability and protocol-conformance testing, independent line switching, high-current capability for laboratory work and field acceptance workflows. The system is designed for charger manufacturers, power utilities, third-party laboratories, buyers and inspection teams carrying out R&D debugging, production tests, commissioning and verification.",
-    image: "/assets/products/ST-HCAC-GB：UA：EA.png",
+    image: "/assets/products/ST-HCAC-GB：UA：EA.webp",
     document: "/product-documents/ST-HCAC-GB：UA：EA.docx",
     highlights: [
       "GB / European / North American Interfaces",
@@ -252,7 +252,7 @@ export const products: Product[] = [
       "Integrated GB, European and North American DC charger R&D system with battery simulation, BMS communication, CAN capture, programmable sources and automated reports.",
     overview:
       "AST-9000 is a highly integrated R&D and validation system for non-vehicle conductive DC chargers. It combines a charger test system, programmable resistance load, programmable AC source and configuration software to support charger debugging, function verification and factory testing. The platform is developed around GB/T, IEC and SAE charging requirements and is intended for charger manufacturers, charging-facility builders, power utilities and metrology organizations.",
-    image: "/assets/products/AST-9000.png",
+    image: "/assets/products/AST-9000.webp",
     document: "/product-documents/AST-9000.docx",
     highlights: [
       "GB / European / North American DC Interfaces",
@@ -293,7 +293,7 @@ export const products: Product[] = [
       "Portable CCS2 DC charger tester for field acceptance, interoperability validation and high-power charger diagnostics up to 1000 V and 500 A.",
     overview:
       "ST-9980EA-HPC is a portable tester for European non-vehicle conductive DC chargers. It is designed for field testing, product acceptance, R&D and third-party inspection, replacing a test vehicle with a repeatable instrument that improves test coverage and avoids vehicle damage caused by charger faults. The trolley-case system supports CCS2 charging, ISO 15118 and DIN SPEC 70121 communication testing, live charger monitoring and optional waveform and PLC data analysis.",
-    image: "/assets/products/ST-9980EA-HPC.png",
+    image: "/assets/products/ST-9980EA-HPC.webp",
     document: "/product-documents/ST-9980EA-HPC.docx",
     highlights: [
       "CCS2, DC 1000 V / 500 A",
@@ -338,7 +338,7 @@ export const products: Product[] = [
       "Portable GB/T AC charger tester with charge and fault simulation, R2/R3 adjustment, live data acquisition, optional metering and an IP67 field case.",
     overview:
       "ST-6680B+ is a portable third-party tester for GB/T AC EV chargers. It supports interoperability testing, independent line switching, vehicle-state and fault simulation, live voltage and current acquisition, field acceptance and inspection. The rugged trolley case is designed for outdoor service, while optional battery, GPS, temperature/humidity and 0.05-class metering modules extend the instrument for field and verification workflows.",
-    image: "/assets/products/ST-6680B+.png",
+    image: "/assets/products/ST-6680B+.webp",
     document: "/product-documents/ST-6680B+.docx",
     highlights: [
       "GB/T AC Charger Testing",
@@ -389,7 +389,7 @@ export const products: Product[] = [
       "Portable CHAdeMO DC charger tester for Japanese-standard charger R&D, factory testing, field acceptance and interoperability diagnostics.",
     overview:
       "ST-6680CA-DC is a portable field tester for Japanese-standard CHAdeMO DC chargers. Developed around the CHAdeMO protocol, it supports charger debugging, function verification, factory testing and on-site acceptance for charger manufacturers, utilities, metrology organizations and charger buyers. Its repeatable test workflow reduces reliance on an EV test vehicle and supports communication, insulation, waveform and load-related checks.",
-    image: "/assets/products/ST-6680CA-DC.png",
+    image: "/assets/products/ST-6680CA-DC.webp",
     document: "/product-documents/ST-6680CA-DC.docx",
     highlights: [
       "CHAdeMO DC Charging",
@@ -436,7 +436,7 @@ export const products: Product[] = [
       "Portable European Type 2 AC charger tester with PP/CP/PE simulation, live data acquisition, optional metering and IP67 field protection.",
     overview:
       "ST-6680EA-AC is a portable third-party tester for European Type 2 AC chargers. It supports field testing, product acceptance, R&D debugging, factory testing and inspection while reducing the need to use an EV as the test instrument. The rugged trolley case, configurable vehicle-state simulation and optional battery, GPS, environmental and metering modules make it suitable for outdoor and laboratory workflows.",
-    image: "/assets/products/ST-6680EA-AC.png",
+    image: "/assets/products/ST-6680EA-AC.webp",
     document: "/product-documents/ST-6680EA-AC.docx",
     highlights: [
       "Type 2, AC 415 V / 32 A",
@@ -485,7 +485,7 @@ export const products: Product[] = [
       "Portable European CCS2 DC charger tester for field acceptance, interoperability testing, high-power load connection and charger diagnostics.",
     overview:
       "ST-6680EA-DC is a portable third-party tester for European CCS2 DC chargers. It supports charger R&D, product acceptance, field inspection and commissioning against IEC 61851, DIN SPEC 70121 and ISO 15118 requirements. The system combines a CCS2 interface, external-load connection, fault simulation, live data acquisition and a rugged IP67 trolley case.",
-    image: "/assets/products/ST-6680EA-DC.png",
+    image: "/assets/products/ST-6680EA-DC.webp",
     document: "/product-documents/ST-6680EA-DC.docx",
     highlights: [
       "CCS2, DC 1000 V / 300 A",
@@ -535,7 +535,7 @@ export const products: Product[] = [
       "Portable North American AC charger tester for SAE J1772 conformance, interoperability, metering and field acceptance testing.",
     overview:
       "ST-6680UA-AC is a portable third-party tester for North American AC EV chargers. It supports charger R&D, factory testing, field inspection, interoperability and acceptance without relying on an EV as the test instrument. The system follows SAE J1772-2017, provides real-time data acquisition and supports optional metering, battery, GPS and environmental modules.",
-    image: "/assets/products/ST-6680UA-AC.png",
+    image: "/assets/products/ST-6680UA-AC.webp",
     document: "/product-documents/ST-6680UA-AC.docx",
     highlights: [
       "SAE J1772-2017",
@@ -585,7 +585,7 @@ export const products: Product[] = [
       "Portable North American DC charger tester for SAE J1772 communication, interoperability, waveform, metering and field acceptance testing.",
     overview:
       "ST-6680UA-DC is a portable tester for North American DC EV chargers with interoperability test support. It is designed for charger manufacturers, utilities, third-party labs, buyers and inspection teams carrying out R&D, factory testing, field inspection and acceptance. The system simulates the vehicle charging process, displays EVCC/EVSE parameters and provides optional wireless and waveform analysis functions.",
-    image: "/assets/products/ST-6680UA-DC.png",
+    image: "/assets/products/ST-6680UA-DC.webp",
     document: "/product-documents/ST-6680UA-DC.docx",
     highlights: [
       "North American DC Interface",
@@ -632,7 +632,7 @@ export const products: Product[] = [
       "Portable GB/T DC charger tester with dual sockets, 1000 V / 250 A coverage, protocol analysis, short-circuit pre-check and IP67 field protection.",
     overview:
       "ST-9980A+ Pro is a portable third-party DC EV charger tester with interoperability test support. It is designed for charger manufacturers, utilities, third-party inspection organizations, buyers and service teams carrying out R&D debugging, factory tests, field inspection and acceptance. It simulates the vehicle charging process, exports and parses charger messages, and adds short-circuit pre-checks for safer field operation.",
-    image: "/assets/products/ST-9980A+Pro.png",
+    image: "/assets/products/ST-9980A+Pro.webp",
     document: "/product-documents/ST-9980A+Pro.docx",
     highlights: [
       "GB/T 20234.3-2023",
@@ -683,7 +683,7 @@ export const products: Product[] = [
       "Modular three-standard AC charger tester for Type 1, Type 2 and NACS connectors, with R2/R3 simulation, EVCC/EVSE data and cabinet-ready integration.",
     overview:
       "ST-HCAC-EA / UA / NA is a three-in-one AC EV charger tester for NACS, Type 1 and Type 2 charging equipment. Its integrated control-pilot circuit supports plug-in testing, while the modular design can be supplied as an independent 6U protective-case module or integrated into a test cabinet for a customized laboratory solution. The system combines multiple sockets, load connection, test cases and charger-data acquisition for global AC charger validation.",
-    image: "/assets/products/ST-HCAC-EA:UA:NA.png",
+    image: "/assets/products/ST-HCAC-EA:UA:NA.webp",
     document: "/product-documents/ST-HCAC-EA：UA：NA.docx",
     highlights: [
       "Type 1 / Type 2 / NACS",
