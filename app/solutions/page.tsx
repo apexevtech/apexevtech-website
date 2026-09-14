@@ -25,7 +25,7 @@ export default function SolutionsPage() {
             <article>
               <div className="group relative aspect-[16/9] overflow-hidden rounded-lg bg-slate-100 shadow-lg shadow-slate-900/10">
                 <Image
-                  src="/assets/products/evse-field-commissioning.png"
+                  src="/assets/products/evse-field-commissioning.webp"
                   alt="Engineers conducting an EV charger system field test"
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"
@@ -40,7 +40,7 @@ export default function SolutionsPage() {
             <article>
               <div className="group relative aspect-[16/9] overflow-hidden rounded-lg bg-slate-100 shadow-lg shadow-slate-900/10">
                 <Image
-                  src="/assets/products/图片5.png"
+                  src="/assets/products/图片5.webp"
                   alt="EV charger interface and waveform testing laboratory"
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"

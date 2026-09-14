@@ -40,7 +40,7 @@ const archivedProducts: Product[] = [
       "Portable DC charger tester for protocol compliance, interoperability and field metering verification.",
     overview:
       "The ST-9980A+ Pro is a portable DC EV charger comprehensive tester designed for charger manufacturers, laboratories and field service teams. It supports communication protocol conformance, interoperability testing, on-site metering verification and safety simulation workflows.",
-    image: "/assets/products/st-9980a-pro.png",
+    image: "/assets/products/st-9980a-pro.webp",
     highlights: [
       "Supports GB/T 27930.2-2024",
       "1500V",
@@ -79,7 +79,7 @@ const archivedProducts: Product[] = [
       "Type 2 AC charger tester for IEC-based interoperability and metering verification.",
     overview:
       "The ST-9980 Pro-EA-AC is a portable AC EV charger tester developed for Type 2 AC charging piles. It provides interoperability testing, on-site metering verification, data query functions and safety-oriented field operation.",
-    image: "/assets/products/st-9980-pro-ea-ac-box.png",
+    image: "/assets/products/st-9980-pro-ea-ac-box.webp",
     highlights: [
       "IEC 61851",
       "IEC 62196",
@@ -117,7 +117,7 @@ const archivedProducts: Product[] = [
       "North American Type 1 AC charger tester for EV charger validation and field diagnostics.",
     overview:
       "The ST-9980 Pro-UA-AC is designed for Type 1 North American AC charging applications. It supports interoperability, field metering verification, switch signal simulation and rugged portable testing.",
-    image: "/assets/products/st-9980-pro-ua-ac.png",
+    image: "/assets/products/st-9980-pro-ua-ac.webp",
     highlights: [
       "SAE J1772",
       "UL 2251",
@@ -732,35 +732,35 @@ const archivedBrochureCatalog = [
     title: "CCC Charging-Pile Test System",
     category: "Laboratory & Certification",
     description: "Integrated charging-pile functional, capability and compliance testing platform for laboratory workflows.",
-    image: "/assets/products/图片1.png",
+    image: "/assets/products/图片1.webp",
   },
   {
     model: "AST-9000C",
     title: "Vehicle-Mounted Mobile Test Platform",
     category: "Operations & Maintenance",
     description: "Mobile charging-pile test system platform for on-site commissioning and maintenance operations.",
-    image: "/assets/products/ast-9000c-mobile-platform.png",
+    image: "/assets/products/ast-9000c-mobile-platform.webp",
   },
   {
     model: "ST-HCDC-CA-UA-EA",
     title: "Multi-Standard DC Charger Tester",
     category: "DC Charger Testing",
     description: "Multi-standard DC charging interface tester for charger communication, simulation and diagnostic workflows.",
-    image: "/assets/products/st-hcdc-na.png",
+    image: "/assets/products/st-hcdc-na.webp",
   },
   {
     model: "ST-9980A+ Pro",
     title: "DC EV Charger Comprehensive Tester",
     category: "Portable Field Testing",
     description: "Portable DC charger tester for protocol compliance, interoperability, metering and safety verification.",
-    image: "/assets/products/st-9980a-pro.png",
+    image: "/assets/products/st-9980a-pro.webp",
   },
   {
     model: "PV-Storage-Charging",
     title: "光储充 Integrated Test Solution",
     category: "New Energy Integration",
     description: "Integrated test architecture for photovoltaic generation, energy storage, DC charging and grid interaction.",
-    image: "/assets/products/图片9.png",
+    image: "/assets/products/图片9.webp",
   },
 ];
 
@@ -829,7 +829,7 @@ export const caseStudies = [
     title: "AST-9000C Mobile Testing Platform",
     category: "Operations & Maintenance",
     summary: "A vehicle-based mobile test platform for charger commissioning and maintenance in locations where a fixed laboratory is not practical.",
-    image: "/assets/products/ast-9000c-mobile-platform.png",
+    image: "/assets/products/ast-9000c-mobile-platform.webp",
     tags: ["AST-9000C", "Field Testing", "Commissioning"],
   },
   {
@@ -837,7 +837,7 @@ export const caseStudies = [
     title: "AC/DC Charger Production and Aging Line",
     category: "Factory Testing",
     summary: "Modular AST-900 and AST-9000 line systems for end-of-line tests, high-volume aging, automated reports and production traceability.",
-    image: "/assets/products/图片1.png",
+    image: "/assets/products/图片1.webp",
     tags: ["AST-900", "Aging Test", "MES"],
   },
   {
@@ -845,7 +845,7 @@ export const caseStudies = [
     title: "PV-Storage-Charging Integrated Test",
     category: "New Energy Integration",
     summary: "A coordinated test architecture for photovoltaic generation, storage systems, DC charging and grid interaction across project scales.",
-    image: "/assets/products/图片9.png",
+    image: "/assets/products/图片9.webp",
     tags: ["PV", "Energy Storage", "DC Charging"],
   },
 ];

@@ -17,4 +17,28 @@ describe("product image assets", () => {
     expect(headerSource).toContain('src="/assets/apex-logo.webp"');
     expect(existsSync(join(process.cwd(), "public", "assets/apex-logo.webp"))).toBe(true);
   });
+
+  it("uses optimized WebP assets for the high-traffic about and solutions pages", () => {
+    const pageSources = [
+      readFileSync(join(process.cwd(), "app", "about", "page.tsx"), "utf8"),
+      readFileSync(join(process.cwd(), "app", "solutions", "page.tsx"), "utf8"),
+    ].join("\n");
+    const optimizedAssets = [
+      "/assets/products/AST-9000x-fitted.webp",
+      "/assets/products/evse-field-commissioning.webp",
+      "/assets/products/图片5.webp",
+    ];
+
+    for (const asset of optimizedAssets) {
+      expect(pageSources).toContain(asset);
+      expect(existsSync(join(process.cwd(), "public", asset))).toBe(true);
+    }
+  });
+
+  it("uses the optimized favicon in the root metadata", () => {
+    const layoutSource = readFileSync(join(process.cwd(), "app", "layout.tsx"), "utf8");
+
+    expect(layoutSource).toContain('icon: "/assets/apex-logo.webp"');
+    expect(layoutSource).not.toContain('icon: "/assets/apex-logo.jpg"');
+  });
 });

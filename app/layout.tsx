@@ -12,7 +12,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.link-jl.com";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   icons: {
-    icon: "/assets/apex-logo.jpg",
+    icon: "/assets/apex-logo.webp",
   },
   title: {
     default: "EV Charger Test Equipment & EVSE Testing Solutions",

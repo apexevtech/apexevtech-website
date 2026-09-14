@@ -75,7 +75,7 @@ export default function AboutPage() {
           </div>
           <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg bg-[#f8fafc]">
             <Image
-              src="/assets/products/AST-9000x-fitted.png"
+              src="/assets/products/AST-9000x-fitted.webp"
               alt="AST-9000X EV charger testing system"
               fill
               priority
