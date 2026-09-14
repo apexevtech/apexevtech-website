@@ -32,7 +32,7 @@ export function Footer() {
             <div className="mt-4 grid gap-3 text-sm text-gray-300">
               <TrackedLink href={`mailto:${company.email}`} eventName="email_click" location="footer" className="hover:text-[#7de3ef]">{company.email}</TrackedLink>
               <TrackedLink href={`tel:${company.phone.replace(/[^0-9+]/g, "")}`} eventName="phone_click" location="footer" className="hover:text-[#7de3ef]">{company.phone}</TrackedLink>
-              <a href="https://api.whatsapp.com/send?phone=8617714412321" target="_blank" rel="noopener noreferrer" className="hover:text-[#25D366]">WhatsApp: +8617714412321</a>
+              <TrackedLink href="https://api.whatsapp.com/send?phone=8617714412321" target="_blank" rel="noopener noreferrer" eventName="whatsapp_click" location="footer" className="hover:text-[#25D366]">WhatsApp: +8617714412321</TrackedLink>
               <span>{company.location}</span>
             </div>
           </div>

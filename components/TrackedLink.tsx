@@ -9,6 +9,8 @@ type TrackedLinkProps = LinkProps & {
   location: string;
   children: React.ReactNode;
   className?: string;
+  target?: string;
+  rel?: string;
 };
 
 export function TrackedLink({ eventName, location, onClick, children, ...props }: TrackedLinkProps) {
