@@ -3,12 +3,13 @@ import Image from "next/image";
 import { PageHero } from "@/components/PageHero";
 import { SectionHeading } from "@/components/SectionHeading";
 import { company } from "@/data/site";
+import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "About Us",
   description: `Company overview for ${company.name}, provider of APEX EV charging test solutions.`,
-  alternates: { canonical: "/about" },
-};
+  path: "/about",
+});
 
 const advantages = [
   "Experienced Engineering Team",

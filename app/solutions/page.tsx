@@ -3,12 +3,13 @@ import Image from "next/image";
 import { PageHero } from "@/components/PageHero";
 import { SectionHeading } from "@/components/SectionHeading";
 import { caseStudies, solutions } from "@/data/site";
+import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Solutions",
   description: "APEX EV charger manufacturing, certification laboratory, charger commissioning and field maintenance test solutions.",
-  alternates: { canonical: "/solutions" },
-};
+  path: "/solutions",
+});
 
 export default function SolutionsPage() {
   return (

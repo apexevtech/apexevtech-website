@@ -15,6 +15,6 @@ describe("products page rendering", () => {
     const source = readFileSync(join(process.cwd(), "app", "products", "page.tsx"), "utf8");
 
     expect(source).toContain("generateMetadata");
-    expect(source).toContain("canonical: \"/products\"");
+    expect(source).toContain('path: "/products"');
   });
 });

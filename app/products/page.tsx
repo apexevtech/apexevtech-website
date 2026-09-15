@@ -3,13 +3,14 @@ import { PageHero } from "@/components/PageHero";
 import { ProductCatalogSection } from "@/components/ProductCatalogSection";
 import { brochureCatalog, products } from "@/data/site";
 import { parseProductFilter } from "@/lib/products/filter";
+import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return {
+  return buildPageMetadata({
     title: "Products",
     description: "Browse APEX EV charger testers, EVSE analyzers, charging simulators and regenerative DC loads.",
-    alternates: { canonical: "/products" },
-  };
+    path: "/products",
+  });
 }
 
 const existingProductModels = new Set(products.map((product) => product.model));

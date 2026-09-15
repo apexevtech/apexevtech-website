@@ -11,6 +11,7 @@ import { products } from "@/data/site";
 import { getResource } from "@/lib/resources/catalog";
 import { StructuredData } from "@/components/StructuredData";
 import { getProductSeo } from "@/lib/products/seo";
+import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 type ProductDetailPageProps = {
   params: Promise<{
@@ -29,11 +30,12 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
     return {};
   }
   const seo = getProductSeo(product.slug);
-  return {
+  return buildPageMetadata({
     title: seo?.title || `${product.model} ${product.category.split(" /")[0]} | APEX`,
     description: seo?.description || product.shortDescription,
-    alternates: { canonical: `/products/${product.slug}` },
-  };
+    path: `/products/${product.slug}`,
+    image: product.image,
+  });
 }
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
