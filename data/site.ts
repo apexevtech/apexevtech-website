@@ -821,7 +821,7 @@ export const caseStudies = [
     title: "AST-9000 CCC Charging-Pile Laboratory",
     category: "Laboratory Validation",
     summary: "A complete charging-pile CCC functional and capability validation platform with programmable power, interface simulation and automated records.",
-    image: "/assets/hero/test-lab-systems.jpg",
+    image: "/assets/hero/test-lab-systems.webp",
     tags: ["AST-9000", "CCC", "GB/T", "IEC"],
   },
   {

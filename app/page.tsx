@@ -69,7 +69,7 @@ export default function HomePage() {
 
           <div className="relative h-[210px] overflow-hidden rounded-md bg-[#eaf1f5] sm:h-auto sm:aspect-[16/10] lg:aspect-[16/11]">
             <Image
-              src="/assets/hero/test-lab-systems.jpg"
+              src="/assets/hero/test-lab-systems.webp"
               alt="APEX integrated EV charger test laboratory systems"
               fill
               priority

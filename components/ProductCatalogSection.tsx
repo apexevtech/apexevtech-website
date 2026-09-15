@@ -1,7 +1,4 @@
-"use client";
-
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { ProductCatalog } from "@/components/ProductCatalog";
 import { brochureCatalog, type Product } from "@/data/site";
 import { filterProducts, parseProductFilter, type ProductFilter } from "@/lib/products/filter";
@@ -11,6 +8,7 @@ type SupplementalProduct = (typeof brochureCatalog)[number];
 type ProductCatalogSectionProps = {
   products: Product[];
   supplementalCatalog: SupplementalProduct[];
+  initialFilter: ProductFilter;
 };
 
 const filterLabels: Record<ProductFilter, string> = {
@@ -19,13 +17,8 @@ const filterLabels: Record<ProductFilter, string> = {
   ac: "AC Testers",
 };
 
-export function ProductCatalogSection({ products, supplementalCatalog }: ProductCatalogSectionProps) {
-  const [filter, setFilter] = useState<ProductFilter>("all");
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setFilter(parseProductFilter(params.get("type")));
-  }, []);
+export function ProductCatalogSection({ products, supplementalCatalog, initialFilter }: ProductCatalogSectionProps) {
+  const filter = initialFilter;
 
   const filteredProducts = filterProducts(products, filter);
   const filteredSupplementalCatalog = filterProducts(supplementalCatalog, filter);

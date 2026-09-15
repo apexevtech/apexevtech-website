@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     description:
       "Professional EV charger testing equipment, EVSE analyzers, charging simulators, and compliance validation systems for manufacturers, laboratories, and EV infrastructure companies worldwide.",
     url: siteUrl,
-    images: ["/assets/hero/test-lab-systems.jpg"],
+    images: ["/assets/hero/test-lab-systems.webp"],
   },
 };
 

@@ -9,6 +9,11 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
 
+  const closeMobileMenu = () => {
+    setOpen(false);
+    setProductsOpen(false);
+  };
+
   const productChildren = [
     { label: "DC Testers", href: "/products?type=dc" },
     { label: "AC Testers", href: "/products?type=ac" },
@@ -16,7 +21,13 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 shadow-[0_8px_24px_rgba(18,38,58,0.05)] backdrop-blur">
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
+      <nav
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+        aria-label="Main navigation"
+        onKeyDown={(event) => {
+          if (event.key === "Escape" && open) closeMobileMenu();
+        }}
+      >
         <div className="flex h-[76px] items-center justify-between">
           <Link href="/" className="flex min-w-0 items-center gap-2" aria-label={`${company.brand} home`}>
             <Image
@@ -57,21 +68,22 @@ export function Header() {
             className="flex h-10 w-10 items-center justify-center text-2xl text-[#12263a] lg:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            onClick={() => setOpen((value) => !value)}
+            aria-controls="mobile-navigation"
+            onClick={() => (open ? closeMobileMenu() : setOpen(true))}
           >
             {open ? "×" : "☰"}
           </button>
         </div>
 
         {open && (
-          <div className="border-t border-slate-200 py-3 lg:hidden">
+          <div id="mobile-navigation" className="border-t border-slate-200 py-3 lg:hidden">
             {navItems.map((item) => item.label === "Products" ? (
               <div key={item.href}>
                 <button type="button" onClick={() => setProductsOpen((value) => !value)} aria-expanded={productsOpen} className="flex w-full items-center justify-between py-2.5 text-left text-sm font-semibold text-[#385064]">Products <span aria-hidden="true">{productsOpen ? "▲" : "▼"}</span></button>
-                {productsOpen && <div className="border-l-2 border-[#00a6c7] pl-4">{productChildren.map((child) => <Link key={child.href} href={child.href} onClick={() => setOpen(false)} className="block py-2 text-sm text-slate-600">{child.label}</Link>)}<Link href={item.href} onClick={() => setOpen(false)} className="block py-2 text-sm font-bold text-[#1479c9]">All Products</Link></div>}
+                {productsOpen && <div className="border-l-2 border-[#00a6c7] pl-4">{productChildren.map((child) => <Link key={child.href} href={child.href} onClick={closeMobileMenu} className="block py-2 text-sm text-slate-600">{child.label}</Link>)}<Link href={item.href} onClick={closeMobileMenu} className="block py-2 text-sm font-bold text-[#1479c9]">All Products</Link></div>}
               </div>
-            ) : <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className="block py-2.5 text-sm font-semibold text-[#385064]">{item.label}</Link>)}
-            <Link href="/contact" onClick={() => setOpen(false)} className="mt-2 inline-flex rounded-md bg-[#1479c9] px-5 py-2.5 text-sm font-bold text-white">
+            ) : <Link key={item.href} href={item.href} onClick={closeMobileMenu} className="block py-2.5 text-sm font-semibold text-[#385064]">{item.label}</Link>)}
+            <Link href="/contact" onClick={closeMobileMenu} className="mt-2 inline-flex rounded-md bg-[#1479c9] px-5 py-2.5 text-sm font-bold text-white">
               Talk to an engineer
             </Link>
           </div>
