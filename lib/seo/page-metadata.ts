@@ -6,9 +6,10 @@ type PageMetadataInput = {
   description: string;
   path: string;
   image?: string;
+  article?: { publishedAt: string; modifiedAt: string };
 };
 
-export function buildPageMetadata({ title, description, path, image = "/assets/hero/test-lab-systems.webp" }: PageMetadataInput): Metadata {
+export function buildPageMetadata({ title, description, path, article, image = "/assets/hero/test-lab-systems.webp" }: PageMetadataInput): Metadata {
   const url = new URL(path, siteUrl).toString();
 
   return {
@@ -19,7 +20,8 @@ export function buildPageMetadata({ title, description, path, image = "/assets/h
       title,
       description,
       url,
-      type: "website",
+      type: article ? "article" : "website",
+      ...(article ? { publishedTime: article.publishedAt, modifiedTime: article.modifiedAt } : {}),
       images: [image],
     },
     twitter: {

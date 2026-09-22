@@ -43,11 +43,11 @@ export default function PrivacyPolicyPage() {
           </div>
           <div>
             <h2 className="text-2xl font-black text-slate-950">Your Choices and Rights</h2>
-            <p className="mt-3">You may ask us to access, correct or delete personal information submitted through this website, or object to optional analytics. Contact us at <a className="font-bold text-[#1479c9] underline" href={`mailto:${company.email}`}>{company.email}</a>. Depending on your location, local privacy law may provide additional rights.</p>
+            <p className="mt-3">You may ask us to access, correct or delete personal information submitted through this website, or object to optional analytics. Contact us at <a className="font-bold text-[#1268a8] underline" href={`mailto:${company.email}`}>{company.email}</a>. Depending on your location, local privacy law may provide additional rights.</p>
           </div>
           <div>
             <h2 className="text-2xl font-black text-slate-950">Contact</h2>
-            <p className="mt-3">{company.name}, {company.location}. Email: <a className="font-bold text-[#1479c9] underline" href={`mailto:${company.email}`}>{company.email}</a>.</p>
+            <p className="mt-3">{company.name}, {company.location}. Email: <a className="font-bold text-[#1268a8] underline" href={`mailto:${company.email}`}>{company.email}</a>.</p>
           </div>
         </div>
       </section>

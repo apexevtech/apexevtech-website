@@ -4,10 +4,9 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { CookieConsent } from "@/components/CookieConsent";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { siteUrl } from "@/lib/seo/site-urls";
 import { buildStructuredData } from "@/lib/seo/structured-data";
 import { AttributionCapture } from "@/components/AttributionCapture";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.link-jl.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -48,7 +47,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const structuredData = buildStructuredData(siteUrl);
 
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body className="font-sans antialiased">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
         <Header />

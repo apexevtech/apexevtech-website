@@ -11,11 +11,11 @@ describe("ProductDocumentDownload", () => {
     vi.stubGlobal("window", { gtag });
 
     const link = ProductDocumentDownload({
-      href: "/product-documents/ST-HCDC-HPC.docx",
+      href: "/downloads/st-hcdc-hpc-specifications.docx",
       model: "ST-HCDC-HPC",
     });
 
-    expect(link.props.href).toBe("/product-documents/ST-HCDC-HPC.docx");
+    expect(link.props.href).toBe("/downloads/st-hcdc-hpc-specifications.docx");
     expect(link.props.download).toBe("");
 
     link.props.onClick();

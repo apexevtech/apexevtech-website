@@ -12,6 +12,7 @@ type AnalyticsWindow = {
   dataLayer?: ArrayLike<unknown>[];
   gtag?: (...arguments_: unknown[]) => void;
   clarity?: AnalyticsFunction;
+  apexAnalyticsQueue?: Array<{ name: string; parameters: Record<string, unknown> }>;
   requestIdleCallback?: (callback: () => void) => number;
 };
 
@@ -48,6 +49,10 @@ export function initializeAnalytics(
       anonymize_ip: true,
       ...(configuration.debugMode ? { debug_mode: true } : {}),
     });
+    for (const event of browserWindow.apexAnalyticsQueue || []) {
+      browserWindow.gtag("event", event.name, event.parameters);
+    }
+    browserWindow.apexAnalyticsQueue = [];
   }
 
   if (configuration.clarityProjectId && typeof browserWindow.clarity !== "function") {

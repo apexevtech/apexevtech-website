@@ -30,7 +30,7 @@ export type InquiryParseResult =
   | { ok: false; fieldErrors: InquiryFieldErrors };
 
 export type InquiryApiResponse =
-  | { ok: true; message: string }
+  | { ok: true; message: string; leadRecorded: boolean }
   | {
       ok: false;
       code: "INVALID_REQUEST" | "VALIDATION_ERROR" | "EMAIL_NOT_CONFIGURED" | "EMAIL_DELIVERY_FAILED" | "RATE_LIMITED";

@@ -21,7 +21,7 @@ export function WhatsAppButton() {
       <svg aria-hidden="true" className="h-5 w-5 shrink-0 fill-current" viewBox="0 0 24 24">
         <path d={whatsappIconPath} />
       </svg>
-      <span>WhatsApp</span>
+      <span className="sr-only sm:not-sr-only">WhatsApp</span>
     </a>
   );
 }

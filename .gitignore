@@ -10,3 +10,5 @@ tmp/
 .playwright-cli/
 output/
 .vercel
+docs/verification/search-performance-*/
+docs/verification/indexing-*/

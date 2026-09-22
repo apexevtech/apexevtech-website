@@ -14,9 +14,9 @@ export function ProductDocumentDownload({ href, model }: ProductDocumentDownload
     {
       href,
       download: "",
-      className: "rounded-md border border-[#1479c9] px-5 py-3 font-extrabold text-[#1479c9] hover:bg-[#eef7fd]",
+      className: "rounded-md border border-[#1479c9] px-5 py-3 font-extrabold text-[#1268a8] hover:bg-[#eef7fd]",
       onClick: () => trackEvent("catalog_download", { location: "product-detail", model }),
     },
-    "Download product document",
+    "Download original specifications (Word)",
   );
 }

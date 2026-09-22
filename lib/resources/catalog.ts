@@ -6,3 +6,6 @@ export function getResource(slug: string) { return resources.find((resource) => 
 export function getRelatedResources(resource: Resource) {
   return resource.relatedResourceSlugs.map((slug) => getResource(slug)).filter((item): item is Resource => Boolean(item));
 }
+export function getProductResources(slug: string) {
+  return resources.filter((resource) => resource.relatedProductSlugs.includes(slug));
+}

@@ -11,8 +11,9 @@ type TrackedLinkProps = LinkProps & {
   className?: string;
   target?: string;
   rel?: string;
+  eventParameters?: Record<string, string>;
 };
 
-export function TrackedLink({ eventName, location, onClick, children, ...props }: TrackedLinkProps) {
-  return <Link {...props} onClick={(event) => { trackEvent(eventName, { location }); onClick?.(event); }}>{children}</Link>;
+export function TrackedLink({ eventName, location, eventParameters, onClick, children, ...props }: TrackedLinkProps) {
+  return <Link {...props} onClick={(event) => { trackEvent(eventName, { location, ...eventParameters }); onClick?.(event); }}>{children}</Link>;
 }

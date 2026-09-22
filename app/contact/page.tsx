@@ -3,10 +3,11 @@ import { InquiryForm } from "@/components/InquiryForm";
 import { PageHero } from "@/components/PageHero";
 import { company } from "@/data/site";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
+import { TrackedLink } from "@/components/TrackedLink";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Contact Us",
-  description: "Contact APEX for EV charger testing equipment inquiries and technical solution support.",
+  title: "EV Charger Test Equipment Quotes & Technical Support",
+  description: "Request an APEX AC/DC EV charger tester quote. Share your connector, standards, voltage/current range and test workflow for equipment configuration support.",
   path: "/contact",
 });
 
@@ -25,15 +26,17 @@ export default function ContactPage() {
             <div className="mt-6 grid gap-4 text-slate-300">
               <p>{company.name}</p>
               <p>{company.location}</p>
-              <a href={`mailto:${company.email}`} className="text-white hover:text-sky-300">
+              <TrackedLink href={`mailto:${company.email}`} eventName="email_click" location="contact-details" className="text-white hover:text-sky-300">
                 {company.email}
-              </a>
-              <a href={`tel:${company.phone.replaceAll(" ", "")}`} className="text-white hover:text-sky-300">
+              </TrackedLink>
+              <TrackedLink href={`tel:${company.phone.replaceAll(" ", "")}`} eventName="phone_click" location="contact-details" className="text-white hover:text-sky-300">
                 {company.phone}
-              </a>
+              </TrackedLink>
             </div>
           </div>
-          <InquiryForm context="Website contact page" />
+          <div id="inquiry-form" className="scroll-mt-28">
+            <InquiryForm context="Website contact page" prefillProductsFromQuery />
+          </div>
         </div>
       </section>
     </>

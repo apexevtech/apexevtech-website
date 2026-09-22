@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
 import { SectionHeading } from "@/components/SectionHeading";
-import { caseStudies, solutions } from "@/data/site";
+import { solutions, products } from "@/data/site";
+import { applicationExamples } from "@/data/applications";
+import { ApplicationCard } from "@/components/ApplicationCard";
+import { solutionLinks } from "@/data/solution-links";
+import { resources } from "@/lib/resources/catalog";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Solutions",
-  description: "APEX EV charger manufacturing, certification laboratory, charger commissioning and field maintenance test solutions.",
+  title: "EV Charger Testing Solutions for Labs & Field Teams",
+  description: "Match APEX EV charger test systems to development, production verification, laboratory validation and field commissioning. Explore equipment by workflow.",
   path: "/solutions",
 });
 
@@ -61,7 +66,7 @@ export default function SolutionsPage() {
           <SectionHeading eyebrow="Solution Portfolio" title="Solutions derived from real charger testing workflows" />
           <div className="grid gap-6 md:grid-cols-2">
             {solutions.map((solution) => (
-              <article key={solution.slug} className="rounded-md border border-slate-200 bg-white p-7">
+              <article id={solution.slug} key={solution.slug} className="scroll-mt-28 rounded-md border border-slate-200 bg-white p-7">
                 <h2 className="text-2xl font-black text-slate-950">{solution.title}</h2>
                 <p className="mt-3 leading-7 text-slate-600">{solution.overview}</p>
                 <div className="mt-6 grid gap-5 md:grid-cols-2">
@@ -83,6 +88,21 @@ export default function SolutionsPage() {
                   </div>
                 </div>
                 <p className="mt-6 border-l-4 border-[#00a6c7] bg-[#f3f8fa] p-4 text-sm font-semibold text-slate-700">{solution.value}</p>
+                <div className="mt-6 border-t border-slate-200 pt-5">
+                  <h3 className="font-black text-[#12263a]">Compare equipment configurations</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">Review the interface and options for your project.</p>
+                  <ul className="mt-3 grid gap-3 text-sm">
+                    {products.filter((product) => solutionLinks[solution.slug]?.productSlugs.includes(product.slug)).map((product) => (
+                      <li key={product.slug}><Link href={`/products/${product.slug}`} className="font-bold text-[#1268a8] hover:underline">{product.model}: {product.title} →</Link></li>
+                    ))}
+                  </ul>
+                  <h3 className="mt-5 font-black text-[#12263a]">Plan the test workflow</h3>
+                  <ul className="mt-3 grid gap-3 text-sm">
+                    {resources.filter((resource) => solutionLinks[solution.slug]?.resourceSlugs.includes(resource.slug)).map((resource) => (
+                      <li key={resource.slug}><Link href={`/resources/${resource.slug}`} className="font-bold text-[#1268a8] hover:underline">{resource.title} →</Link></li>
+                    ))}
+                  </ul>
+                </div>
               </article>
             ))}
           </div>
@@ -91,34 +111,14 @@ export default function SolutionsPage() {
       <section className="bg-[#f8fafc] px-5 py-16 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
-            eyebrow="Engineering Cases"
-            title="Representative projects from laboratory, factory and field operations"
+            eyebrow="Application Architectures"
+            title="Reference configurations for laboratory, factory and field operations"
+            description="Use these examples to prepare a project scope. Final equipment, ratings and evidence depend on the actual charger and test plan."
           />
           <div className="grid gap-8 md:grid-cols-2">
-            {caseStudies.map((study) => (
-              <article key={study.slug} className="overflow-hidden rounded-md border border-slate-200 bg-white transition hover:border-[#9edbe5]">
-                <div className={`relative aspect-[16/9] overflow-hidden ${study.slug === "charger-production-aging-line" ? "bg-white" : "bg-slate-100"}`}>
-                  <Image
-                    src={study.image}
-                    alt={study.title}
-                    fill
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                    className={study.slug === "charger-production-aging-line" ? "object-contain p-3" : "object-cover"}
-                  />
-                </div>
-                <div className="p-6">
-                  <p className="text-xs font-black uppercase text-[#1479c9]">{study.category}</p>
-                  <h2 className="mt-2 text-2xl font-black text-[#12263a]">{study.title}</h2>
-                  <p className="mt-3 leading-7 text-[#526b7d]">{study.summary}</p>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {study.tags.map((tag) => (
-                      <span key={tag} className="rounded bg-[#e7f0f5] px-2.5 py-1 text-xs font-semibold text-[#385064]">{tag}</span>
-                    ))}
-                  </div>
-                </div>
-              </article>
-            ))}
+            {applicationExamples.map((application) => <ApplicationCard key={application.slug} application={application} headingLevel="h3" />)}
           </div>
+          <div className="mt-8 text-center"><Link href="/applications" className="inline-flex rounded-md border border-[#1479c9] px-5 py-3 text-sm font-black text-[#1268a8] hover:bg-[#1479c9] hover:text-white">View all application architectures</Link></div>
         </div>
       </section>
     </>

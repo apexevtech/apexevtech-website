@@ -32,7 +32,9 @@ describe("initializeAnalytics", () => {
   });
 
   it("initializes GA4 and Clarity after analytics consent", () => {
-    const browserWindow: Record<string, unknown> = {};
+    const browserWindow: Record<string, unknown> = {
+      apexAnalyticsQueue: [{ name: "view_item", parameters: { page_path: "/products/example" } }],
+    };
     const { document, scripts } = createDocument();
 
     initializeAnalytics(browserWindow, document as unknown as Document, {
@@ -46,6 +48,8 @@ describe("initializeAnalytics", () => {
     const dataLayer = browserWindow.dataLayer as ArrayLike<unknown>[];
     expect(Array.isArray(dataLayer[0])).toBe(false);
     expect(Array.from(dataLayer[1])).toEqual(["config", "G-TEST123", { anonymize_ip: true }]);
+    expect(Array.from(dataLayer[2])).toEqual(["event", "view_item", { page_path: "/products/example" }]);
+    expect(browserWindow.apexAnalyticsQueue).toEqual([]);
 
     (browserWindow.clarity as (...arguments_: unknown[]) => void)("set", "test", "value");
     const clarityQueue = (browserWindow.clarity as { q: ArrayLike<unknown>[] }).q;

@@ -6,8 +6,8 @@ import { company } from "@/data/site";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "About Us",
-  description: `Company overview for ${company.name}, provider of APEX EV charging test solutions.`,
+  title: "About Apex Power Systems | EV Charger Test Equipment",
+  description: "Meet Apex Power Systems (Nanjing) Co., Ltd. Explore AC/DC EV charger test equipment, protocol analysis and systems for laboratory and field validation.",
   path: "/about",
 });
 
@@ -57,7 +57,7 @@ export default function AboutPage() {
         description="APEX is focused on EV charger testing equipment, charging pile validation systems and EVSE test solutions for global B2B customers."
       />
       <section className="px-5 py-16 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <SectionHeading eyebrow="Company Overview" title="Technology-focused partner for EV charger testing." />
             <p className="leading-8 text-slate-600">
@@ -74,14 +74,14 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg bg-[#f8fafc]">
+          <div className="relative mx-auto aspect-[16/10] w-full max-w-3xl overflow-hidden rounded-lg bg-transparent">
             <Image
               src="/assets/products/AST-9000x-fitted.webp"
               alt="AST-9000X EV charger testing system"
               fill
               priority
-              sizes="(min-width: 1024px) 60vw, 100vw"
-              className="object-contain"
+              sizes="(min-width: 1280px) 740px, (min-width: 1024px) 60vw, 100vw"
+              className="object-contain p-5 sm:p-8"
             />
           </div>
         </div>

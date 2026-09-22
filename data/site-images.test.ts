@@ -66,4 +66,23 @@ describe("product image assets", () => {
     expect(layoutSource).toContain(`images: ["${heroAsset}"]`);
     expect(existsSync(join(process.cwd(), "public", heroAsset))).toBe(true);
   });
+
+  it("does not retain duplicate PNG or JPEG sources for active WebP assets", () => {
+    const activeAssets = new Set([
+      ...products.map((product) => product.image),
+      ...caseStudies.map((study) => study.image),
+      "/assets/apex-logo.webp",
+      "/assets/hero/test-lab-systems.webp",
+      "/assets/products/AST-9000x-fitted.webp",
+      "/assets/products/evse-field-commissioning.webp",
+      "/assets/products/图片5.webp",
+    ]);
+
+    for (const asset of activeAssets) {
+      for (const extension of [".png", ".jpg", ".jpeg"]) {
+        const duplicate = asset.replace(/\.webp$/, extension);
+        expect(existsSync(join(process.cwd(), "public", duplicate))).toBe(false);
+      }
+    }
+  });
 });

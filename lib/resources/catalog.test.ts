@@ -1,15 +1,29 @@
 import { describe, expect, it } from "vitest";
-import { getResource, resources } from "@/lib/resources/catalog";
+import { getResource, getProductResources, resources } from "@/lib/resources/catalog";
+import { solutionLinks } from "@/data/solution-links";
+import { solutions } from "@/data/site";
 import { products } from "@/data/site";
 
 describe("resource catalog", () => {
-  it("provides a unique, internally connected initial cluster", () => {
-    expect(resources).toHaveLength(9);
-    expect(new Set(resources.map((item) => item.slug)).size).toBe(9);
+  it("gives every product reciprocal article links and an anchored application solution", () => {
+    for (const product of products) {
+      expect(getProductResources(product.slug).length).toBeGreaterThan(0);
+      expect(Object.values(solutionLinks).some((links) => links.productSlugs.includes(product.slug))).toBe(true);
+    }
+    for (const [slug, links] of Object.entries(solutionLinks)) {
+      expect(solutions.some((solution) => solution.slug === slug)).toBe(true);
+      expect(links.productSlugs.every((slug) => products.some((product) => product.slug === slug))).toBe(true);
+      expect(links.resourceSlugs.every((slug) => getResource(slug))).toBe(true);
+    }
+  });
+  it("provides a unique, internally connected content cluster", () => {
+    expect(resources).toHaveLength(15);
+    expect(new Set(resources.map((item) => item.slug)).size).toBe(resources.length);
     for (const resource of resources) {
       expect(resource.summaryAnswer.length).toBeGreaterThan(80);
       expect(resource.relatedResourceSlugs.length).toBeGreaterThanOrEqual(2);
       expect(resource.relatedProductSlugs.length).toBeGreaterThanOrEqual(1);
+      expect(resource.relatedResourceSlugs.every((slug) => getResource(slug))).toBe(true);
     }
   });
 
@@ -26,7 +40,8 @@ describe("resource catalog", () => {
     for (const resource of resources) {
       expect(resource.sections.length).toBeGreaterThanOrEqual(3);
       expect(resource.sections.flatMap((section) => section.paragraphs).join(" ").length).toBeGreaterThan(500);
-      expect(resource.modifiedAt).toBe("2026-09-15");
+      expect(resource.modifiedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(Date.parse(resource.modifiedAt)).toBeGreaterThanOrEqual(Date.parse(resource.publishedAt));
     }
   });
 

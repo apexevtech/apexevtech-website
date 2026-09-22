@@ -8,7 +8,7 @@ export type Resource = {
 };
 
 const publishedAt = "2026-08-28";
-const modifiedAt = "2026-09-15";
+const modifiedAt = "2026-09-18";
 
 export const resources: Resource[] = [
   {
@@ -37,7 +37,7 @@ export const resources: Resource[] = [
       { question: "What information should be sent with a quotation request?", answer: "Include charger type, connector, target standards, voltage and current range, laboratory or field use, required fault simulations and the reports or raw data your team must retain." },
     ],
     relatedProductSlugs: ["ast-9000", "st-hcdc-hpc", "st-hcac-gb-ua-ea"],
-    relatedResourceSlugs: ["evse-test-plan-checklist", "integrated-vs-portable-test-systems", "prepare-ev-charger-standards-validation"],
+    relatedResourceSlugs: ["evse-test-plan-checklist", "integrated-vs-portable-test-systems", "prepare-ev-charger-standards-validation", "ccs2-dc-fast-charger-testing", "gbt-dc-charger-conformance-testing"],
   },
   {
     slug: "ac-vs-dc-evse-testing",
@@ -64,18 +64,22 @@ export const resources: Resource[] = [
       { question: "Is DC charger testing always a high-power test?", answer: "No. Communication, pilot, insulation and low-current sequence checks can be performed without a full-power run, but the connection ratings and energy path must still match the planned test." },
       { question: "Can an AC tester validate a DC connector?", answer: "No. AC and DC interfaces use different power paths and may use different communication methods. Use equipment configured for the exact connector and standard." },
     ],
-    relatedProductSlugs: ["st-hcac-gb-ua-ea", "st-hcdc-hpc", "st-9980ea-hpc"],
-    relatedResourceSlugs: ["choose-ev-charger-test-system", "ev-charging-protocol-testing", "regenerative-load-considerations"],
+    relatedProductSlugs: ["st-hcac-gb-ua-ea", "st-hcdc-hpc", "st-9980ea-hpc", "st-6680ea-ac", "st-6680ua-ac", "st-hcac-ea-ua-na"],
+    relatedResourceSlugs: ["choose-ev-charger-test-system", "ev-charging-protocol-testing", "regenerative-load-considerations", "type-2-ac-evse-testing", "ccs2-dc-fast-charger-testing"],
   },
   {
     slug: "ev-charging-protocol-testing",
     title: "EV Charging Protocol Testing and Signal Diagnosis",
-    description: "A structured workflow for capturing charging messages, pilot signals and fault conditions during engineering diagnosis.",
+    description: "Plan EVSE communication protocol tests with CAN or PLC capture, pilot signals, charging-state checks and repeatable fault-diagnosis evidence.",
     topic: "EV charging protocol diagnosis",
     intent: "technical",
     publishedAt, modifiedAt,
     summaryAnswer: "Protocol testing should connect each communication event to the charger state and measured electrical response. Build a repeatable timeline from connection and initialization through parameter exchange, energy transfer and termination, then inject one fault at a time and retain the raw messages needed to explain the result.",
     sections: [
+      { heading: "Select the interface and communication test scope", paragraphs: [
+        "EV charger communication protocol testing starts with the connector and protocol revision. GB/T and CHAdeMO workflows can involve CAN communication; CCS workflows can involve PLC communication. Specify the actual charger implementation, required messages and test cases rather than assuming one analyzer covers every interface.",
+        "Use the product configuration as the equipment boundary: AST-9000 provides an integrated laboratory route, ST-9980EA-HPC is a portable CCS2 option with optional PLC capture, and ST-6680CA-DC addresses CHAdeMO testing. Confirm capture, decoding, fault-injection and measurement options separately with the engineer.",
+      ], checklist: ["Identify connector and protocol revision", "Confirm CAN or PLC capture requirements", "Define normal, timeout and termination cases"] },
       { heading: "Build a synchronized charging timeline", paragraphs: [
         "Begin by recording the physical connection, pilot state and communication startup. For CAN-based or PLC-based charging, capture the raw traffic together with timestamps and charger measurements. A decoded message table is useful, but it should not replace the original data because timing, repetition and malformed fields can explain behavior that a summary hides.",
         "Mark the transition into parameter negotiation, readiness, current demand, active charging and shutdown. Compare requested voltage and current with charger output and tester measurements at each stage. This makes it possible to distinguish a communication disagreement from an electrical response problem.",
@@ -84,6 +88,10 @@ export const resources: Resource[] = [
         "A protocol fault test should change one controlled condition and define the expected recovery or shutdown behavior before execution. Examples include a delayed message, an out-of-range parameter, a communication interruption or a simulated insulation condition. Avoid changing several signals together because the resulting shutdown cannot be attributed confidently.",
         "Capture data before the injection, during the abnormal condition and after recovery. The surrounding messages often show whether the charger detected the intended fault, reacted to a secondary condition or continued using stale state information.",
       ] },
+      { heading: "Example: diagnose a charger that stops during negotiation", paragraphs: [
+        "Save a normal reference session, then reproduce the stopped session using the same charger firmware and tester configuration. Identify the last completed charging state and compare the parameter exchange, pilot behavior and measured output with the reference.",
+        "If a communication timeout is suspected, check the raw message interval and the charger response before drawing a conclusion. If messages continue but power transfer does not begin, review readiness conditions and electrical measurements. Set pass or fail limits from the applicable test procedure; a missing charging session alone does not identify the cause.",
+      ], checklist: ["Save a normal reference capture", "Find the first state that differs", "Retest after the corrective change"] },
       { heading: "Turn captures into repeatable evidence", paragraphs: [
         "Store the tester configuration, software version, charger identity, standard version and test-case revision with every capture. A useful engineering report links the test step to message evidence, electrical measurements and the observed charger response. When a failure is reproduced, the same setup should produce a comparable timeline rather than a screenshot without context.",
       ], checklist: ["Record protocol and software versions", "Link raw evidence to each test step", "Repeat the sequence after corrective action"] },
@@ -92,8 +100,8 @@ export const resources: Resource[] = [
       { question: "Is decoded protocol data enough for fault analysis?", answer: "Not always. Keep raw traffic and timestamps because message timing, repetition and encoding details may be needed to explain a failure." },
       { question: "Should protocol and waveform data be captured together?", answer: "When the fault involves pilot behavior, switching or output response, synchronized protocol and waveform evidence makes the diagnosis much stronger." },
     ],
-    relatedProductSlugs: ["ast-9000", "st-9980ea-hpc", "st-6680ca-dc"],
-    relatedResourceSlugs: ["prepare-ev-charger-standards-validation", "evse-test-plan-checklist", "ac-vs-dc-evse-testing"],
+    relatedProductSlugs: ["ast-9000", "st-9980ea-hpc", "st-6680ca-dc", "st-6680ea-dc", "st-6680ua-dc"],
+    relatedResourceSlugs: ["prepare-ev-charger-standards-validation", "evse-test-plan-checklist", "ac-vs-dc-evse-testing", "ccs2-dc-fast-charger-testing", "gbt-dc-charger-conformance-testing"],
   },
   {
     slug: "production-vs-laboratory-validation",
@@ -121,12 +129,12 @@ export const resources: Resource[] = [
       { question: "What should a production failure record contain?", answer: "Keep unit identity, test configuration, failed step, measured values, limits, timestamps and the relevant communication or waveform evidence." },
     ],
     relatedProductSlugs: ["ast-9000", "st-hcdc-hpc", "st-hcac-gb-ua-ea"],
-    relatedResourceSlugs: ["evse-test-plan-checklist", "integrated-vs-portable-test-systems", "choose-ev-charger-test-system"],
+    relatedResourceSlugs: ["evse-test-plan-checklist", "integrated-vs-portable-test-systems", "choose-ev-charger-test-system", "evse-end-of-line-testing"],
   },
   {
     slug: "field-commissioning-test-equipment",
     title: "Field Commissioning Test Equipment for EV Chargers",
-    description: "Plan portable commissioning work around interoperability, metering, safety simulation and service evidence.",
+    description: "Plan EVSE testing after installation: select portable AC/DC charger equipment, confirm the external load and record commissioning and acceptance evidence.",
     topic: "EV charger field commissioning",
     intent: "selection",
     publishedAt, modifiedAt,
@@ -136,10 +144,18 @@ export const resources: Resource[] = [
         "Confirm the installed charger model, connector, rated output, upstream supply and site access before dispatching equipment. The field team should know whether the work is initial commissioning, periodic inspection, metering verification or fault diagnosis because each objective requires different accessories and evidence.",
         "Document how charging energy will be handled. Some portable testers simulate the vehicle interface but do not contain a high-power load. In that case, plan a compatible resistive, electronic, regenerative or vehicle load and confirm the cables, ratings and site procedure before connection.",
       ], checklist: ["Confirm connector and charger rating", "Define the energy-absorption path", "Check cables, supply and site access"] },
+      { heading: "Match portable equipment to the installed charger", paragraphs: [
+        "For GB/T DC sites, compare ST-9980A+ Pro; for CCS2 DC sites, compare ST-9980EA-HPC; for CHAdeMO sites, compare ST-6680CA-DC. For AC EVSE work, choose an AC tester configured for the installed connector and required measurements. These are different equipment configurations, not interchangeable adapters.",
+        "Separate vehicle-interface simulation from sustained power testing. ST-9980A+ Pro has no built-in load and supports an external load up to 250 A. Confirm each selected tester's ratings, load interface, accessories and optional metering or protocol modules before dispatch.",
+      ], checklist: ["Match AC or DC and the installed connector", "Confirm tester and external-load ratings", "List required measurement and software options"] },
       { heading: "Use a repeatable commissioning sequence", paragraphs: [
         "Start with visual and protective-earth checks, then verify connection states before enabling power transfer. Observe the charger startup sequence, requested and delivered values, metering behavior and normal termination. Record the configuration so another technician can reproduce the same test after maintenance.",
         "For fault diagnosis, capture the normal sequence first and introduce only the condition needed to reproduce the complaint. Portable message capture, pilot measurement and configurable fault simulation can reduce repeated vehicle tests and make intermittent behavior easier to explain.",
       ] },
+      { heading: "EVSE testing after commissioning or maintenance", paragraphs: [
+        "Keep the original acceptance record as a reference. After installation changes, repair or firmware updates, repeat the affected connection, startup, power-transfer and termination checks using a versioned procedure. Identify any change in the supply, connector, charger firmware or tester configuration.",
+        "Create a separate record for each connector. Retain requested and measured output, relevant communication logs and the result of each defined check. Escalate unexplained differences with the original and new captures so the service or laboratory team can reproduce the condition.",
+      ], checklist: ["Compare against the acceptance baseline", "Record changes and affected test cases", "Track unresolved findings through retest"] },
       { heading: "Leave evidence that supports handover", paragraphs: [
         "A commissioning record should identify the site, charger, connector, tester, software version and procedure. Include measured values, relevant logs, photos where appropriate and clear pass or fail limits. If a test cannot be completed because the site lacks a required load or supply condition, record that limitation instead of treating a partial connection as full acceptance.",
       ], checklist: ["Identify every charger and instrument", "Export measurements and communication logs", "Record limitations and follow-up actions"] },
@@ -148,8 +164,8 @@ export const resources: Resource[] = [
       { question: "Does a portable charger tester include a power load?", answer: "Not necessarily. Many portable testers provide the vehicle interface and measurement functions but require a separate load for sustained power tests. Confirm the exact configuration." },
       { question: "What is the minimum useful field record?", answer: "Record site and charger identity, test configuration, measured values, result limits, relevant logs and any conditions that prevented completion." },
     ],
-    relatedProductSlugs: ["st-9980a-pro", "st-9980ea-hpc", "st-6680b-plus", "st-6680ca-dc"],
-    relatedResourceSlugs: ["integrated-vs-portable-test-systems", "evse-test-plan-checklist", "regenerative-load-considerations"],
+    relatedProductSlugs: ["st-9980a-pro", "st-9980ea-hpc", "st-6680b-plus", "st-6680ca-dc", "st-6680ea-ac", "st-6680ua-ac", "st-6680ua-dc"],
+    relatedResourceSlugs: ["integrated-vs-portable-test-systems", "evse-test-plan-checklist", "regenerative-load-considerations", "post-installation-evse-testing", "type-2-ac-evse-testing"],
   },
   {
     slug: "prepare-ev-charger-standards-validation",
@@ -177,7 +193,7 @@ export const resources: Resource[] = [
       { question: "When should pre-compliance testing begin?", answer: "Begin after the applicable requirements and interfaces are stable enough to create repeatable cases, and before formal testing makes design changes expensive." },
     ],
     relatedProductSlugs: ["ast-9000", "st-hcac-ea-ua-na", "st-9980ea-hpc", "st-9980a-pro"],
-    relatedResourceSlugs: ["ev-charging-protocol-testing", "evse-test-plan-checklist", "choose-ev-charger-test-system"],
+    relatedResourceSlugs: ["ev-charging-protocol-testing", "evse-test-plan-checklist", "choose-ev-charger-test-system", "ccs2-dc-fast-charger-testing", "gbt-dc-charger-conformance-testing"],
   },
   {
     slug: "regenerative-load-considerations",
@@ -204,7 +220,7 @@ export const resources: Resource[] = [
       { question: "Is a regenerative load included in a portable charger tester?", answer: "Usually it is a separate system. Confirm the tester's external-load interface and the load ratings, controls and protection required for the planned power tests." },
       { question: "When is a resistive load sufficient?", answer: "A resistive load may suit limited fixed-point tests when heat, efficiency and dynamic control are acceptable. Sustained or automated programs may benefit from an electronic or regenerative load." },
     ],
-    relatedProductSlugs: ["st-hcdc-hpc", "st-9980a-pro", "st-9980ea-hpc", "ast-9000"],
+    relatedProductSlugs: ["st-hcdc-hpc", "st-9980a-pro", "st-9980ea-hpc", "ast-9000", "st-6680ea-dc"],
     relatedResourceSlugs: ["field-commissioning-test-equipment", "ac-vs-dc-evse-testing", "choose-ev-charger-test-system"],
   },
   {
@@ -262,5 +278,185 @@ export const resources: Resource[] = [
     ],
     relatedProductSlugs: ["ast-9000", "st-hcdc-hpc", "st-hcac-gb-ua-ea", "st-9980a-pro"],
     relatedResourceSlugs: ["prepare-ev-charger-standards-validation", "ev-charging-protocol-testing", "production-vs-laboratory-validation"],
+  },
+  {
+    slug: "ccs2-dc-fast-charger-testing",
+    title: "CCS2 DC Fast Charger Testing: Interface, PLC and Load Planning",
+    description: "Plan CCS2 DC fast charger tests around connector ratings, PLC communication, ISO 15118 or DIN workflows, external loads and recorded evidence.",
+    topic: "CCS2 DC fast charger testing",
+    intent: "technical",
+    publishedAt: "2026-09-21",
+    modifiedAt: "2026-09-21",
+    summaryAnswer: "A CCS2 DC fast charger test setup must combine the correct Combo 2 interface, control-pilot behavior, PLC communication, charger output measurement and a power-absorption path. Confirm the required ISO 15118 or DIN communication version, maximum voltage and current, load arrangement and evidence format before selecting the tester.",
+    sections: [
+      { heading: "Define the CCS2 charger and communication scope", paragraphs: [
+        "Record the charger model, firmware, Combo 2 connector rating and target market before choosing test equipment. CCS2 identifies the physical charging system, but it does not by itself define every communication version, optional function or acceptance limit required by a project.",
+        "List whether the work covers basic connection and startup, DIN SPEC 70121 behavior, a specific part and edition of ISO 15118, interoperability diagnosis or a formal conformance program. The tester, PLC module and test cases must support the same protocol scope as the charger under test.",
+      ], checklist: ["Confirm Combo 2 connection and cable rating", "Name the protocol and edition in scope", "Record charger firmware and configured options"] },
+      { heading: "Separate communication from high-power loading", paragraphs: [
+        "The vehicle simulator establishes pilot and high-level communication states, while the external load or laboratory power system absorbs charger output. Verify the tester connection limit separately from the load voltage, current, continuous power, cooling and facility requirements.",
+        "Plan normal startup, requested-current changes, charging stop and protective shutdown before applying high power. Synchronize protocol messages, pilot state, voltage, current and load demand so a failed sequence can be traced to communication, power conversion or the test setup.",
+      ] },
+      { heading: "Retain evidence for diagnosis and comparison", paragraphs: [
+        "Save the charger configuration, tester configuration, message trace, key waveform or measured values and result rule for every test. A communication trace without electrical timing can miss contactor or output behavior, while electrical data without the message sequence can hide the reason for a charger decision.",
+        "Start with one known-good reference session and one controlled fault. Review the final completed state and the first divergence between sessions before expanding the campaign to boundary conditions or repeated interoperability tests.",
+      ], checklist: ["Capture PLC messages and pilot state", "Record synchronized voltage and current", "Keep a known-good reference session"] },
+    ],
+    faqs: [
+      { question: "Does a CCS2 tester include a full-power load?", answer: "Not necessarily. Portable testers commonly simulate the vehicle interface and connect to a separate load. Confirm both the tester connection limit and the external load specification." },
+      { question: "Is ISO 15118 testing the same as CCS2 connector testing?", answer: "No. The connector and electrical interface are only part of the scope. ISO 15118 testing addresses defined communication behavior and requires compatible communication hardware, software and test cases." },
+    ],
+    relatedProductSlugs: ["st-9980ea-hpc", "st-6680ea-dc", "ast-9000"],
+    relatedResourceSlugs: ["ev-charging-protocol-testing", "regenerative-load-considerations", "evse-test-plan-checklist"],
+  },
+  {
+    slug: "gbt-dc-charger-conformance-testing",
+    title: "GB/T DC Charger Conformance and Interoperability Testing",
+    description: "Structure GB/T DC charger testing around the required standard editions, BMS communication, electrical limits, faults and traceable results.",
+    topic: "GB/T DC charger testing",
+    intent: "technical",
+    publishedAt: "2026-09-21",
+    modifiedAt: "2026-09-21",
+    summaryAnswer: "Plan GB/T DC charger testing by fixing the connector, communication and interoperability standard editions first, then mapping each requirement to a reproducible charger state, BMS message sequence, electrical measurement, fault stimulus and acceptance rule. Do not assume that equipment supporting one GB/T revision automatically covers another revision or every certification case.",
+    sections: [
+      { heading: "Freeze the applicable GB/T editions", paragraphs: [
+        "Identify the target-market requirement, charger firmware and exact editions named by the test plan. Connector, charging communication, interoperability and protocol-conformance documents can change on different schedules, so a general statement of GB/T support is not a sufficient test boundary.",
+        "Create a requirement matrix that links each case to its source clause, initial state, simulated BMS behavior and expected charger response. Mark optional functions and project-specific limits separately so they are not reported as universal requirements.",
+      ], checklist: ["List every applicable document and edition", "Record charger hardware and firmware", "Separate mandatory and optional cases"] },
+      { heading: "Exercise the complete charging sequence", paragraphs: [
+        "Cover physical connection, handshake, parameter configuration, charging, controlled stop and completion states. Retain CAN messages and timing together with output voltage and current so the reviewer can see whether the charger followed the requested state and electrical limits.",
+        "Add controlled abnormal cases only after a repeatable normal session is available. Examples may include message timing deviations, values outside the declared operating envelope, insulation-related conditions or interrupted communication, but the exact stimuli and limits must come from the selected test specification.",
+      ] },
+      { heading: "Distinguish conformance from interoperability", paragraphs: [
+        "Conformance testing checks observed implementation behavior against a defined test suite. Interoperability testing checks whether the charger completes representative sessions with another implementation. Passing one activity increases confidence but does not replace the other.",
+        "Use stable case identifiers, exportable traces and explicit pass or fail rules. When firmware or the applicable standard edition changes, perform an impact review and repeat affected cases instead of combining results from incompatible configurations.",
+      ], checklist: ["Keep conformance and interoperability results separate", "Use stable case identifiers", "Repeat cases affected by revisions"] },
+    ],
+    faqs: [
+      { question: "Which GB/T version should the tester support?", answer: "It should match the exact connector, communication and test-document editions required by the project. Confirm this against the charger firmware and procurement specification before ordering." },
+      { question: "Can vehicle charging prove protocol conformance?", answer: "A successful vehicle session is useful interoperability evidence, but it does not execute a defined conformance suite or provide controlled coverage of boundary and fault cases." },
+    ],
+    relatedProductSlugs: ["st-9980a-pro", "st-hcdc-hpc", "ast-9000"],
+    relatedResourceSlugs: ["prepare-ev-charger-standards-validation", "ev-charging-protocol-testing", "evse-test-plan-checklist"],
+  },
+  {
+    slug: "nacs-ac-evse-testing",
+    title: "NACS AC EVSE Testing and SAE J3400 Test Planning",
+    description: "Plan NACS AC charger tests around the coupler, pilot states, electrical ratings, safety behavior, measurements and applicable SAE J3400 requirements.",
+    topic: "NACS AC EVSE testing",
+    intent: "technical",
+    publishedAt: "2026-09-21",
+    modifiedAt: "2026-09-21",
+    summaryAnswer: "A NACS AC EVSE test plan should identify the coupler configuration, SAE J3400 edition, AC voltage and current, pilot-state behavior, switching, fault simulations, metering needs and retained evidence. Because J3400 covers both AC and DC power transfer through the coupler, the test scope must explicitly state that the selected equipment and procedure address the intended AC application.",
+    sections: [
+      { heading: "Define the NACS AC boundary", paragraphs: [
+        "Record the EVSE rating, connector and cable configuration, supply arrangement and the exact SAE J3400 revision required by the project. Do not infer DC charging coverage from an AC tester merely because the same coupler family can support both forms of power transfer.",
+        "List normal pilot states, current-capacity signaling, connection detection, switching behavior and any project-specific safety checks. Confirm which measurements are standard in the proposed tester and which require optional acquisition or external instruments.",
+      ], checklist: ["State AC scope explicitly", "Confirm J3400 revision", "Record voltage, current and supply arrangement"] },
+      { heading: "Test state transitions and abnormal behavior", paragraphs: [
+        "Build a reference session from disconnected state through connection, readiness, energized charging and controlled stop. Observe pilot behavior and EVSE output together, because a valid signal state without the expected switching response is not a complete functional result.",
+        "Introduce one controlled abnormal condition at a time and verify both the immediate response and recovery path. Document fixtures, resistance settings, timing and acceptance limits so another engineer can repeat the case without relying on operator judgment.",
+      ] },
+      { heading: "Plan laboratory and field evidence", paragraphs: [
+        "Laboratory work may need wider fault adjustment, synchronized waveforms and automated sequences. Field acceptance usually prioritizes safe connection checks, repeatable state transitions, measured output and a concise record tied to the charger identity and firmware.",
+        "Use the same case names and result fields where laboratory and field procedures overlap. This makes it easier to escalate an installed-site failure into a controlled reproduction without treating the two environments as equivalent.",
+      ], checklist: ["Synchronize pilot and electrical evidence", "Identify charger and firmware", "Use compatible laboratory and field records"] },
+    ],
+    faqs: [
+      { question: "Does every NACS tester support both AC and DC charging?", answer: "No. Confirm the tester's stated AC or DC scope, electrical ratings, communication functions and load arrangement. Coupler compatibility alone does not establish test coverage." },
+      { question: "What should be included in a NACS AC inquiry?", answer: "Provide the SAE J3400 revision, EVSE voltage and current, supply phase, required pilot and fault cases, metering accuracy, waveform needs and laboratory or field environment." },
+    ],
+    relatedProductSlugs: ["st-hcac-ea-ua-na"],
+    relatedResourceSlugs: ["type-2-ac-evse-testing", "ac-vs-dc-evse-testing", "evse-test-plan-checklist"],
+  },
+  {
+    slug: "type-2-ac-evse-testing",
+    title: "Type 2 AC EVSE Testing for IEC 61851 Workflows",
+    description: "Plan Type 2 AC charging station tests for control-pilot states, proximity detection, switching, metering, faults and field acceptance.",
+    topic: "Type 2 AC EVSE testing",
+    intent: "technical",
+    publishedAt: "2026-09-21",
+    modifiedAt: "2026-09-21",
+    summaryAnswer: "Type 2 AC EVSE testing should verify the configured connector and cable rating, IEC 61851 control-pilot sequence, proximity or cable-coding behavior, EVSE switching, voltage and current measurement, protective responses and recovery. State the applicable standards and evidence requirements explicitly rather than treating every Type 2 charger as the same configuration.",
+    sections: [
+      { heading: "Record the Type 2 installation and rating", paragraphs: [
+        "Identify single- or three-phase operation, socketed or tethered cable arrangement, maximum current and the applicable IEC 61851 and connector requirements. The tester connection, cables, adapters and measurement path must be rated for the planned setup.",
+        "Separate functional state testing from energy measurement, waveform capture and installation checks. These functions can require different sensors or instruments even when they are performed during one charging session.",
+      ], checklist: ["Record phase and current rating", "Identify socketed or tethered arrangement", "List required measurements and evidence"] },
+      { heading: "Verify pilot states and EVSE output", paragraphs: [
+        "Exercise the normal control-pilot sequence from connection through readiness, energized charging and stop. Record the simulated vehicle state, pilot observation and EVSE output together so the result proves both signaling and power switching behavior.",
+        "Where in scope, vary proximity or cable-coding conditions and controlled pilot faults. Use defined resistance, diode and timing settings with explicit expected responses; do not substitute an informal plug-in check for a repeatable case.",
+      ] },
+      { heading: "Adapt the procedure for field acceptance", paragraphs: [
+        "At an installed charging station, begin with supply, grounding, connector and visual checks before functional tests. Keep the field sequence within the site's permitted current and safety controls, and record the charger identity, firmware, location and tester configuration.",
+        "A field tester can support commissioning and fault isolation, but formal conformity assessment may require additional laboratory controls, calibrated instrumentation and test methods. Define the intended claim before deciding which results the field report can support.",
+      ], checklist: ["Complete site safety checks first", "Record charger and tester identity", "Keep report claims within the executed scope"] },
+    ],
+    faqs: [
+      { question: "What is the difference between a Type 2 tester and a load?", answer: "The tester simulates vehicle-side connection and pilot behavior and may measure the session. A load provides the electrical path that draws charging power; confirm whether it is internal or external." },
+      { question: "Can a portable Type 2 tester be used for commissioning?", answer: "Yes, when its ratings and functions match the site procedure. Confirm supply arrangement, maximum current, required safety checks, evidence and any external load." },
+    ],
+    relatedProductSlugs: ["st-6680ea-ac", "st-hcac-gb-ua-ea", "st-hcac-ea-ua-na"],
+    relatedResourceSlugs: ["field-commissioning-test-equipment", "ac-vs-dc-evse-testing", "post-installation-evse-testing"],
+  },
+  {
+    slug: "evse-end-of-line-testing",
+    title: "EVSE End-of-Line Testing for Charger Production",
+    description: "Design repeatable EVSE end-of-line tests for identity, safety, charging states, measurements, communication, reports and production traceability.",
+    topic: "EVSE end-of-line testing",
+    intent: "process",
+    publishedAt: "2026-09-21",
+    modifiedAt: "2026-09-21",
+    summaryAnswer: "An EVSE end-of-line test should confirm unit identity, configuration, essential safety checks, interface states, charging communication, measured output and required fault responses within a controlled cycle time. Automate stable pass or fail limits and store results against the charger serial number while routing deeper diagnosis outside the main production station.",
+    sections: [
+      { heading: "Convert product requirements into station limits", paragraphs: [
+        "Define the charger variants that will use the station, including connector, power class, firmware and market configuration. Map each production check to a measurable stimulus, response and limit rather than copying a broad laboratory validation plan into the line.",
+        "Prioritize faults that assembly, wiring, configuration or calibration can introduce. Confirm which checks require energized power, a communication simulator, metering reference, safety instrument or external load, and assign safe ownership of every connection.",
+      ], checklist: ["Identify product variants and firmware", "Define numeric pass or fail limits", "Assign fixtures and instruments to each check"] },
+      { heading: "Balance coverage with cycle time", paragraphs: [
+        "Run fast identity and precondition checks before expensive power or communication sequences so obvious failures exit early. Use stable fixtures, automatic configuration and controlled test data to reduce operator choices and prevent variant settings from carrying into the next unit.",
+        "Keep full boundary investigation and long-duration aging outside the end-of-line station unless the production requirement explicitly needs them. The line should detect and contain nonconforming units; engineering diagnosis can use a separate station without blocking takt time.",
+      ] },
+      { heading: "Build traceability and recovery", paragraphs: [
+        "Store serial number, hardware and software versions, fixture and instrument identifiers, test-program version, measurements, limits, result and timestamp. A simple pass record without configuration and measured values is difficult to audit or use for trend detection.",
+        "Define retest rules and require a reason for overrides. Review first-pass yield, failures by case and recurrence after repair, then use the data to improve assembly controls and the test sequence instead of treating every failure as an isolated operator event.",
+      ], checklist: ["Link results to charger serial number", "Version the test program", "Control retest and override permissions"] },
+    ],
+    faqs: [
+      { question: "Should end-of-line testing repeat every laboratory validation case?", answer: "Usually no. Select production-relevant checks with stable limits and short cycle time, then use laboratory or diagnostic stations for deeper investigation and boundary testing." },
+      { question: "What data should an EVSE production test retain?", answer: "Retain unit identity, configuration, test-program version, instrument or fixture identity, measured values, limits, result, timestamp and any authorized retest or override." },
+    ],
+    relatedProductSlugs: ["ast-9000", "st-hcdc-hpc", "st-hcac-gb-ua-ea", "st-9980a-pro"],
+    relatedResourceSlugs: ["production-vs-laboratory-validation", "evse-test-plan-checklist", "choose-ev-charger-test-system"],
+  },
+  {
+    slug: "post-installation-evse-testing",
+    title: "Post-Installation EVSE Testing After Commissioning",
+    description: "Plan EVSE checks after installation, repair or configuration changes using a safe baseline, functional sequence and traceable site evidence.",
+    topic: "EVSE testing after commissioning",
+    intent: "process",
+    publishedAt: "2026-09-21",
+    modifiedAt: "2026-09-21",
+    summaryAnswer: "Post-installation EVSE testing should confirm site identity and configuration, supply and grounding preconditions, connector condition, normal charging states, measured output, communication evidence and safe stop behavior. Repeat the baseline after firmware, network, protection, power-module or wiring changes and compare results with the commissioning record.",
+    sections: [
+      { heading: "Start with site and change history", paragraphs: [
+        "Record the charger identifier, location, connector, rating, hardware and firmware, backend configuration and reason for the visit. Review commissioning results and recent repairs before energizing tests so the procedure addresses what changed without losing the original acceptance baseline.",
+        "Complete visual, supply, grounding and connector checks required by the site's safety procedure. Confirm that the tester, adapters and external load are rated for the planned session and that the charging area can be controlled during the work.",
+      ], checklist: ["Identify the charger and change reason", "Review commissioning baseline", "Complete site safety preconditions"] },
+      { heading: "Run a repeatable functional sequence", paragraphs: [
+        "Use the same normal connection, readiness, charging and stop sequence for routine comparisons. Record pilot or communication state and measured output at defined points instead of relying only on a successful session indicator.",
+        "Add targeted checks for the changed subsystem, such as communication after a firmware update, switching after contactor work or measured output after a power-module replacement. Avoid broad fault injection at a live site unless the approved procedure and equipment explicitly support it.",
+      ] },
+      { heading: "Close the visit with actionable evidence", paragraphs: [
+        "Retain tester configuration, timestamps, measured values, message or waveform evidence where needed, result limits and observed charger alarms. Distinguish a confirmed failure from an inconclusive test caused by site supply, network, load or access limits.",
+        "Compare the new record with commissioning or the last known-good visit. If the issue requires laboratory reproduction, preserve the charger firmware, configuration and last completed protocol state so the engineering team can recreate the failure efficiently.",
+      ], checklist: ["Save repeatable baseline results", "Record site limitations", "Preserve evidence needed for escalation"] },
+    ],
+    faqs: [
+      { question: "When should EVSE testing be repeated after commissioning?", answer: "Repeat the relevant baseline after changes that can affect charging behavior, including firmware, communication, protection, wiring, connector, contactor or power-module work, and according to the operator's maintenance plan." },
+      { question: "Is a successful charging session enough after repair?", answer: "It is useful evidence but may not prove the changed function, measured limits or protective response. Use a defined sequence and retain values tied to the repair scope." },
+    ],
+    relatedProductSlugs: ["st-9980a-pro", "st-9980ea-hpc", "st-6680b-plus", "st-6680ca-dc", "st-6680ea-ac", "st-6680ea-dc", "st-6680ua-ac", "st-6680ua-dc"],
+    relatedResourceSlugs: ["field-commissioning-test-equipment", "evse-test-plan-checklist", "integrated-vs-portable-test-systems"],
   },
 ];

@@ -80,7 +80,7 @@ export async function POST(request: Request) {
   }
 
   if (parsed.isBot) {
-    return json({ ok: true, message: "Thank you. Your inquiry has been received." }, 200, "BOT_IGNORED");
+    return json({ ok: true, message: "Thank you. Your inquiry has been received.", leadRecorded: false }, 200, "BOT_IGNORED");
   }
 
   if (inquiryRateLimiter.isLimited(requestKey(request))) {
@@ -97,8 +97,11 @@ export async function POST(request: Request) {
 
   const delivery = await deliverInquiry(parsed.value);
   if (delivery.ok) {
-    return json({ ok: true, message: "Thanks — your inquiry has been sent. Our team will reply shortly." }, 200, "SUCCESS");
+    console.info("Inquiry delivery", { provider: "resend", result: "ACCEPTED", providerId: delivery.providerId });
+    return json({ ok: true, message: "Thanks — your inquiry has been sent. Our team will reply shortly.", leadRecorded: true }, 200, "SUCCESS");
   }
+
+  console.error("Inquiry delivery", { provider: "resend", result: delivery.code, detail: delivery.detail || "Unavailable" });
 
   if (delivery.code === "NOT_CONFIGURED") {
     return json(
