@@ -14,7 +14,7 @@ const staticPageUpdates: Record<string, string> = {
   "/contact": "2026-09-18T00:00:00.000Z",
   "/solutions": "2026-09-18T00:00:00.000Z",
   "/applications": "2026-09-21T00:00:00.000Z",
-  "/interfaces": "2026-09-21T00:00:00.000Z",
+  "/interfaces": "2026-09-22T00:00:00.000Z",
 };
 const productContentLastModified = "2026-09-16T00:00:00.000Z";
 const resourcesLastModified = resources.reduce((latest, resource) => resource.modifiedAt > latest ? resource.modifiedAt : latest, "2026-08-28");

@@ -4,9 +4,9 @@ import { products } from "@/data/site";
 import { getResource } from "@/lib/resources/catalog";
 
 describe("interface topics", () => {
-  it("provides four unique, complete interface hubs", () => {
-    expect(interfaceTopics).toHaveLength(4);
-    expect(new Set(interfaceTopics.map((topic) => topic.slug)).size).toBe(4);
+  it("provides six unique, complete interface hubs", () => {
+    expect(interfaceTopics).toHaveLength(6);
+    expect(new Set(interfaceTopics.map((topic) => topic.slug)).size).toBe(6);
     for (const topic of interfaceTopics) {
       expect(getInterfaceTopic(topic.slug)).toBe(topic);
       expect(topic.scope).toHaveLength(4);

@@ -14,7 +14,7 @@ export type InterfaceTopic = {
 };
 
 const publishedAt = "2026-09-21";
-const modifiedAt = "2026-09-21";
+const modifiedAt = "2026-09-22";
 
 export const interfaceTopics: InterfaceTopic[] = [
   {
@@ -100,6 +100,48 @@ export const interfaceTopics: InterfaceTopic[] = [
     relatedProductSlugs: ["st-6680ea-ac", "st-hcac-gb-ua-ea", "st-hcac-ea-ua-na"],
     relatedResourceSlugs: ["type-2-ac-evse-testing", "field-commissioning-test-equipment", "post-installation-evse-testing"],
     publishedAt, modifiedAt,
+  },
+  {
+    slug: "chademo-dc-charger-testing",
+    name: "CHAdeMO",
+    title: "CHAdeMO DC Charger Testing Equipment and Workflow",
+    description: "Plan CHAdeMO DC charger testing around protocol version, CAN communication, voltage and current limits, insulation checks, external load and retained evidence.",
+    summary: "CHAdeMO charger testing requires more than a matching connector. Define the protocol version, charger voltage and current, CAN message scope, startup and insulation sequence, external-load path and evidence needed for development, production or field acceptance before choosing equipment.",
+    scope: ["CHAdeMO connector and protocol version", "CAN messages and charging sequence", "Startup voltage, insulation and output checks", "External load, faults and result records"],
+    planningSteps: [
+      { title: "Freeze the protocol scope", detail: "Record the charger firmware, target CHAdeMO version, required messages, timing and approved abnormal cases before configuring the test plan." },
+      { title: "Confirm every electrical limit", detail: "Check the tester socket, measurement channels, charger output and external load voltage, current and continuous-power limits independently." },
+      { title: "Reproduce the charging sequence", detail: "Plan connection, CAN negotiation, startup and insulation checks, current demand, controlled stop and protective responses in a repeatable order." },
+      { title: "Align the evidence", detail: "Retain time-correlated CAN records, requested values, measured charger output, insulation observations, waveforms and pass or fail criteria." },
+    ],
+    faqs: [
+      { question: "Does a CHAdeMO tester absorb full charger power?", answer: "Not necessarily. The tester can simulate the vehicle-side interface while a separate compatible load absorbs power. Confirm the external-load arrangement and ratings." },
+      { question: "Can a CCS tester be used for CHAdeMO testing with an adapter?", answer: "A connector adapter does not replace CHAdeMO CAN communication, sequence control or safety behavior. Use equipment configured for the required CHAdeMO version and test scope." },
+    ],
+    relatedProductSlugs: ["st-6680ca-dc", "ast-9000"],
+    relatedResourceSlugs: ["ev-charging-protocol-testing", "field-commissioning-test-equipment", "evse-test-plan-checklist"],
+    publishedAt: "2026-09-22", modifiedAt,
+  },
+  {
+    slug: "type-1-j1772-evse-testing",
+    name: "Type 1 / SAE J1772",
+    title: "Type 1 SAE J1772 EVSE Testing Equipment and Workflow",
+    description: "Plan Type 1 SAE J1772 AC EVSE testing for control-pilot states, proximity behavior, supply ratings, switching, metering, faults and field evidence.",
+    summary: "Type 1 EVSE testing should match the SAE J1772 edition, connector arrangement, supply voltage, current and the required laboratory or field procedure. Build the workflow around vehicle-state simulation, pilot behavior, EVSE switching, measured output, protective responses and traceable results.",
+    scope: ["Type 1 connector and SAE J1772 edition", "Control-pilot and proximity behavior", "AC supply, switching and measurements", "Fault cases, field checks and reports"],
+    planningSteps: [
+      { title: "Identify the installed configuration", detail: "Record the SAE J1772 edition, tethered connector, supply voltage, current and upstream protection for the charger under test." },
+      { title: "Define simulated vehicle states", detail: "Specify connection, readiness, ventilation where applicable, energized charging and controlled stop with expected pilot and switching behavior." },
+      { title: "Select measurement depth", detail: "Choose functional checks, live electrical values, precision metering, waveform capture and optional modules according to the acceptance procedure." },
+      { title: "Document scope and limits", detail: "Record the tester rating, external-load path, test conditions and evidence so field checks are not mistaken for formal certification." },
+    ],
+    faqs: [
+      { question: "Is Type 1 the same as SAE J1772?", answer: "Type 1 commonly refers to the SAE J1772 AC connector and charging interface. Confirm the exact standard edition, regional requirements and equipment ratings for the project." },
+      { question: "Can one Type 1 tester also test NACS or Type 2 EVSE?", answer: "Only a specifically configured multi-interface system can cover those connections. A dedicated Type 1 tester does not gain NACS or Type 2 coverage through its pilot functions alone." },
+    ],
+    relatedProductSlugs: ["st-6680ua-ac", "st-hcac-ea-ua-na", "st-hcac-gb-ua-ea"],
+    relatedResourceSlugs: ["ac-vs-dc-evse-testing", "field-commissioning-test-equipment", "post-installation-evse-testing"],
+    publishedAt: "2026-09-22", modifiedAt,
   },
 ];
 

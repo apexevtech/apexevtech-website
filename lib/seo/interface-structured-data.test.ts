@@ -14,7 +14,7 @@ describe("interface structured data", () => {
 
   it("lists all interface hubs on the index", () => {
     const data = buildInterfaceIndexStructuredData(interfaceTopics, "https://example.com/");
-    expect(data.numberOfItems).toBe(4);
-    expect(new Set(data.itemListElement.map((item) => item.url)).size).toBe(4);
+    expect(data.numberOfItems).toBe(interfaceTopics.length);
+    expect(new Set(data.itemListElement.map((item) => item.url)).size).toBe(interfaceTopics.length);
   });
 });

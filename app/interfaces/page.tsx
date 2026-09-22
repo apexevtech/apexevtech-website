@@ -7,7 +7,7 @@ import { buildInterfaceIndexStructuredData } from "@/lib/seo/interface-structure
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 import { siteUrl } from "@/lib/seo/site-urls";
 
-export const metadata: Metadata = buildPageMetadata({ title: "EV Charger Test Interfaces: CCS2, GB/T, NACS & Type 2", description: "Compare EV charger test equipment and workflows by CCS2, GB/T, NACS and Type 2 interface, protocol scope and validation environment.", path: "/interfaces" });
+export const metadata: Metadata = buildPageMetadata({ title: "EV Charger Test Interfaces: CCS2, CHAdeMO, GB/T, NACS & AC", description: "Compare EV charger test equipment and workflows for CCS2, CHAdeMO, GB/T, NACS, Type 1 and Type 2 interfaces, protocol scope and validation environment.", path: "/interfaces" });
 
 export default function InterfacesPage() {
   return <>
