@@ -4,6 +4,9 @@ import { securityHeaders } from "./lib/security/headers";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  images: {
+    minimumCacheTTL: 604800,
+  },
   async headers() {
     return [
       {
@@ -12,7 +15,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/assets/:path*",
-        headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }],
+        headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=2592000" }],
       },
       {
         source: "/downloads/:path*",

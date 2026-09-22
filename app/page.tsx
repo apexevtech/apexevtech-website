@@ -84,7 +84,8 @@ export default function HomePage() {
               src="/assets/hero/test-lab-systems.webp"
               alt="APEX integrated EV charger test laboratory systems"
               fill
-              priority
+              fetchPriority="high"
+              loading="eager"
               sizes="(min-width: 1280px) 680px, (min-width: 1024px) 53vw, 100vw"
               className="object-cover"
             />
