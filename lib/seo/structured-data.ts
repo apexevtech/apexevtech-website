@@ -10,8 +10,16 @@ export function buildStructuredData(siteUrl: string): StructuredData[] {
       name: company.name,
       alternateName: company.brand,
       url: siteUrl,
+      logo: new URL("/assets/apex-logo.webp", siteUrl).toString(),
       email: company.email,
       telephone: company.phone,
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "sales and technical inquiries",
+        email: company.email,
+        telephone: company.phone,
+        availableLanguage: ["English", "Chinese"],
+      },
       ...(getVerifiedSameAs().length ? { sameAs: getVerifiedSameAs() } : {}),
       address: {
         "@type": "PostalAddress",

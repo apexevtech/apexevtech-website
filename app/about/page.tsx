@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
 import { SectionHeading } from "@/components/SectionHeading";
-import { company } from "@/data/site";
+import { company, products } from "@/data/site";
+import { interfaceTopics } from "@/data/interface-topics";
+import { resources } from "@/lib/resources/catalog";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 export const metadata: Metadata = buildPageMetadata({
@@ -11,11 +14,11 @@ export const metadata: Metadata = buildPageMetadata({
   path: "/about",
 });
 
-const advantages = [
-  "Experienced Engineering Team",
-  "Industrial Testing Expertise",
-  "Custom Test Solutions",
-  "Global Customer Service",
+const evidenceLinks = [
+  { value: products.length, label: "published equipment configurations", href: "/products" },
+  { value: interfaceTopics.length, label: "interface planning guides", href: "/interfaces" },
+  { value: resources.length, label: "engineering resources", href: "/resources" },
+  { value: 1, label: "direct engineering inquiry route", href: "/contact#inquiry-form" },
 ];
 
 const supportedProtocols = [
@@ -117,11 +120,23 @@ export default function AboutPage() {
             </div>
           </div>
           <div className="mt-8 grid gap-5 md:grid-cols-4">
-            {advantages.map((item) => (
-              <div key={item} className="rounded-lg border border-slate-200 bg-white p-6 font-black text-slate-900">
-                {item}
-              </div>
+            {evidenceLinks.map((item) => (
+              <Link key={item.label} href={item.href} className="rounded-lg border border-slate-200 bg-white p-6 transition hover:border-[#1479c9]">
+                <span className="block text-3xl font-black text-[#1268a8]">{item.value}</span>
+                <span className="mt-2 block text-sm font-bold leading-6 text-slate-700">{item.label} →</span>
+              </Link>
             ))}
+          </div>
+          <div className="mt-10 rounded-lg border border-slate-200 bg-white p-7">
+            <h3 className="text-2xl font-black text-slate-950">What to verify before ordering</h3>
+            <p className="mt-3 max-w-4xl leading-7 text-slate-600">The published pages are a configuration starting point. A project review should confirm the exact model, connector, standards editions, electrical limits, included software and external-load arrangement in the quotation.</p>
+            <ul className="mt-5 grid gap-3 text-sm leading-6 text-slate-700 md:grid-cols-2">
+              <li className="border-l-4 border-[#00a6c7] pl-4">Ask for the model-specific specification and option list.</li>
+              <li className="border-l-4 border-[#00a6c7] pl-4">Separate tester socket ratings from continuous load ratings.</li>
+              <li className="border-l-4 border-[#00a6c7] pl-4">Name the required standards and revisions in the test plan.</li>
+              <li className="border-l-4 border-[#00a6c7] pl-4">Request calibration or conformity evidence required by your own procedure.</li>
+            </ul>
+            <Link href="/contact#inquiry-form" className="mt-6 inline-flex rounded-md bg-[#1479c9] px-5 py-3 text-sm font-black text-white hover:bg-[#0f5f9f]">Verify a project configuration</Link>
           </div>
         </div>
       </section>

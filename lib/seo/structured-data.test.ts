@@ -10,7 +10,9 @@ describe("structured SEO data", () => {
         "@type": "Organization",
         name: "Apex Power Systems (Nanjing) Co., Ltd.",
         url: "https://www.link-jl.com",
+        logo: "https://www.link-jl.com/assets/apex-logo.webp",
         email: "gu@apexps-nj.com",
+        contactPoint: expect.objectContaining({ contactType: "sales and technical inquiries" }),
       }),
       expect.objectContaining({
         "@type": "WebSite",
