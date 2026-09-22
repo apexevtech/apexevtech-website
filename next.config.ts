@@ -11,10 +11,15 @@ const nextConfig: NextConfig = {
         headers: [...securityHeaders],
       },
       {
+        source: "/assets/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }],
+      },
+      {
         source: "/downloads/:path*",
         headers: [
           { key: "X-Robots-Tag", value: "noindex, nosnippet" },
           { key: "Content-Disposition", value: "attachment" },
+          { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },
         ],
       },
     ];
