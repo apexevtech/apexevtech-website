@@ -1,10 +1,15 @@
 import type { NextConfig } from "next";
 import { legacyRedirects } from "./lib/seo/redirects";
+import { securityHeaders } from "./lib/security/headers";
 
 const nextConfig: NextConfig = {
   output: "standalone",
   async headers() {
     return [
+      {
+        source: "/:path*",
+        headers: [...securityHeaders],
+      },
       {
         source: "/product-documents/:path*",
         headers: [{ key: "X-Robots-Tag", value: "noindex, nosnippet" }],
