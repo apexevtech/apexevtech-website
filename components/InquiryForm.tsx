@@ -2,6 +2,7 @@
 
 import { company } from "@/data/site";
 import { TrackedLink } from "@/components/TrackedLink";
+import Link from "next/link";
 import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import type { InquiryApiResponse, InquiryField, InquiryFieldErrors } from "@/lib/inquiries/types";
@@ -31,7 +32,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
   const [fieldErrors, setFieldErrors] = useState<InquiryFieldErrors>({});
   const [resolvedContext, setResolvedContext] = useState(context);
   const [relatedProductModels, setRelatedProductModels] = useState(context.startsWith("Product inquiry: ") ? context.slice("Product inquiry: ".length) : "");
-  const startedAt = useRef(Date.now());
+  const startedAt = useRef(0);
   const inFlight = useRef(false);
   const interactionTracked = useRef(false);
   const invalidTracked = useRef(false);
@@ -44,20 +45,27 @@ export function InquiryForm({ compact = false, context = "General website inquir
   const whatsappHref = `https://api.whatsapp.com/send?phone=8617714412321&text=${encodeURIComponent(`Hello APEX, I need help with ${resolvedContext}.`)}`;
 
   useEffect(() => {
+    startedAt.current = Date.now();
+  }, []);
+
+  useEffect(() => {
     if (!prefillProductsFromQuery) return;
     const comparedProducts = getComparedProducts(new URLSearchParams(window.location.search).get("products"), products);
     if (!comparedProducts.length) return;
 
     const models = comparedProducts.map((product) => product.model);
-    setResolvedContext(`Product comparison inquiry: ${models.join(", ")}`);
-    setRelatedProductModels(models.join(", "));
-    if (messageRef.current && !messageRef.current.value) {
-      messageRef.current.value = `I would like help comparing ${models.join(" and ")}.
+    const frame = window.requestAnimationFrame(() => {
+      setResolvedContext(`Product comparison inquiry: ${models.join(", ")}`);
+      setRelatedProductModels(models.join(", "));
+      if (messageRef.current && !messageRef.current.value) {
+        messageRef.current.value = `I would like help comparing ${models.join(" and ")}.
 
 Application / charger interface:
 Voltage and current range:
 Required standards and tests:`;
-    }
+      }
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, [prefillProductsFromQuery]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -137,6 +145,7 @@ Required standards and tests:`;
       const target = event.target;
       if (target instanceof HTMLInputElement && target.name === "website") return;
       invalidTracked.current = false;
+      if (!startedAt.current) startedAt.current = Date.now();
       if (!interactionTracked.current) {
         interactionTracked.current = true;
         trackEvent("inquiry_start", analyticsParameters);
@@ -210,8 +219,8 @@ Required standards and tests:`;
           <p className="font-bold">{message.text}</p>
           <div className="flex flex-wrap gap-3">
             <TrackedLink href={whatsappHref} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded-md bg-[#15803d] px-4 py-2 font-bold text-white" eventName="whatsapp_click" location="inquiry-success" eventParameters={analyticsParameters}>Continue on WhatsApp</TrackedLink>
-            <a href="/products" className="rounded-md border border-emerald-300 px-4 py-2 font-bold text-emerald-900">Browse products</a>
-            <a href="/solutions" className="rounded-md border border-emerald-300 px-4 py-2 font-bold text-emerald-900">Review solutions</a>
+            <Link href="/products" className="rounded-md border border-emerald-300 px-4 py-2 font-bold text-emerald-900">Browse products</Link>
+            <Link href="/solutions" className="rounded-md border border-emerald-300 px-4 py-2 font-bold text-emerald-900">Review solutions</Link>
           </div>
         </div>
       ) : message?.type === "error" ? (

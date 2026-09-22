@@ -22,7 +22,7 @@ export default function PrivacyPolicyPage() {
         <div className="mx-auto max-w-4xl space-y-8 leading-8 text-slate-600">
           <p className="text-sm font-semibold text-slate-500">Last updated: 21 August 2026</p>
           <p>
-            This website is operated by {company.name} ("APEX", "we", "us"). It is intended for business customers, engineering teams and organizations evaluating EV charging test equipment.
+            This website is operated by {company.name} (“APEX”, “we”, “us”). It is intended for business customers, engineering teams and organizations evaluating EV charging test equipment.
           </p>
           <div>
             <h2 className="text-2xl font-black text-slate-950">Information We Collect</h2>

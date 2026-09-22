@@ -12,16 +12,21 @@ export function CookieConsent() {
   const [consent, setConsent] = useState<Consent>("unknown");
 
   useEffect(() => {
+    let savedConsent: Consent = "unknown";
     try {
       const saved = window.localStorage.getItem(STORAGE_KEY);
-      if (saved === "accepted" || saved === "declined") setConsent(saved);
+      if (saved === "accepted" || saved === "declined") savedConsent = saved;
     } catch {
-      setConsent("declined");
+      savedConsent = "declined";
     }
+    const frame = window.requestAnimationFrame(() => setConsent(savedConsent));
 
     const openSettings = () => setConsent("unknown");
     window.addEventListener("apex-cookie-settings", openSettings);
-    return () => window.removeEventListener("apex-cookie-settings", openSettings);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("apex-cookie-settings", openSettings);
+    };
   }, []);
 
   if (!measurementId) return null;
