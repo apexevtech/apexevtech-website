@@ -10,7 +10,7 @@ export const legacyRedirects = [
   { source: "/product-documents/ST-6680UA-DC.docx", destination: "/downloads/st-6680ua-dc-specifications.docx", permanent: true },
   { source: "/product-documents/ST-9980A\\+Pro.docx", destination: "/downloads/st-9980a-plus-pro-specifications.docx", permanent: true },
   { source: "/product-documents/ST-9980EA-HPC.docx", destination: "/downloads/st-9980ea-hpc-specifications.docx", permanent: true },
-  { source: "/product-documents/ST-HCAC-EA：UA：NA.docx", destination: "/downloads/st-hcac-ea-ua-na-specifications.docx", permanent: true },
-  { source: "/product-documents/ST-HCAC-GB：UA：EA.docx", destination: "/downloads/st-hcac-gb-ua-ea-specifications.docx", permanent: true },
+  { source: "/product-documents/:filename(ST-HCAC-EA.*)", destination: "/downloads/st-hcac-ea-ua-na-specifications.docx", permanent: true },
+  { source: "/product-documents/:filename(ST-HCAC-GB.*)", destination: "/downloads/st-hcac-gb-ua-ea-specifications.docx", permanent: true },
   { source: "/product-documents/ST-HCDC-HPC.docx", destination: "/downloads/st-hcdc-hpc-specifications.docx", permanent: true },
 ] as const;
