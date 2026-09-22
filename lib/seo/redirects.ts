@@ -1,4 +1,16 @@
 export const legacyRedirects = [
   { source: "/&", destination: "/", permanent: true },
   { source: "/$", destination: "/", permanent: true },
+  { source: "/product-documents/AST-9000.docx", destination: "/downloads/ast-9000-specifications.docx", permanent: true },
+  { source: "/product-documents/ST-6680B\\+.docx", destination: "/downloads/st-6680b-plus-specifications.docx", permanent: true },
+  { source: "/product-documents/ST-6680CA-DC.docx", destination: "/downloads/st-6680ca-dc-specifications.docx", permanent: true },
+  { source: "/product-documents/ST-6680EA-AC.docx", destination: "/downloads/st-6680ea-ac-specifications.docx", permanent: true },
+  { source: "/product-documents/ST-6680EA-DC.docx", destination: "/downloads/st-6680ea-dc-specifications.docx", permanent: true },
+  { source: "/product-documents/ST-6680UA-AC.docx", destination: "/downloads/st-6680ua-ac-specifications.docx", permanent: true },
+  { source: "/product-documents/ST-6680UA-DC.docx", destination: "/downloads/st-6680ua-dc-specifications.docx", permanent: true },
+  { source: "/product-documents/ST-9980A\\+Pro.docx", destination: "/downloads/st-9980a-plus-pro-specifications.docx", permanent: true },
+  { source: "/product-documents/ST-9980EA-HPC.docx", destination: "/downloads/st-9980ea-hpc-specifications.docx", permanent: true },
+  { source: "/product-documents/ST-HCAC-EA：UA：NA.docx", destination: "/downloads/st-hcac-ea-ua-na-specifications.docx", permanent: true },
+  { source: "/product-documents/ST-HCAC-GB：UA：EA.docx", destination: "/downloads/st-hcac-gb-ua-ea-specifications.docx", permanent: true },
+  { source: "/product-documents/ST-HCDC-HPC.docx", destination: "/downloads/st-hcdc-hpc-specifications.docx", permanent: true },
 ] as const;

@@ -11,10 +11,6 @@ const nextConfig: NextConfig = {
         headers: [...securityHeaders],
       },
       {
-        source: "/product-documents/:path*",
-        headers: [{ key: "X-Robots-Tag", value: "noindex, nosnippet" }],
-      },
-      {
         source: "/downloads/:path*",
         headers: [
           { key: "X-Robots-Tag", value: "noindex, nosnippet" },
