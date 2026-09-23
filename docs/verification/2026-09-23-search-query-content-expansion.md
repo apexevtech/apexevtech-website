@@ -28,3 +28,13 @@ The resources index metadata and hero copy were updated to cover AC, DC fast cha
 - `npm run build`: passed; 53 static pages generated.
 
 Search rankings and click-through changes require recrawling and should be compared in Search Console over equivalent future periods.
+
+## Production release
+
+- Commit: `bfea672`
+- Vercel deployment: `dpl_DkrYu9tdn4CyUQ1H9Wt9QHUGC921`
+- Production alias: `https://www.link-jl.com`
+- Both new guides and the resources index returned HTTP 200.
+- The production sitemap returned HTTP 200 and contained 48 canonical URLs.
+- The generated guide HTML contained the expected title, canonical URL and FAQ structured data.
+- All 48 canonical URLs were submitted to IndexNow after deployment.
