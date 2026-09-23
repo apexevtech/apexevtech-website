@@ -2,34 +2,34 @@ import type { MetadataRoute } from "next";
 import { products } from "@/data/site";
 import { siteUrl, staticRoutes } from "@/lib/seo/site-urls";
 import { resources } from "@/lib/resources/catalog";
-import { getProductSeo } from "@/lib/products/seo";
 import { applicationExamples } from "@/data/applications";
 import { interfaceTopics } from "@/data/interface-topics";
 
-const siteContentLastModified = "2026-09-11T00:00:00.000Z";
+const siteContentLastModified = "2026-09-22T00:00:00.000Z";
 const staticPageUpdates: Record<string, string> = {
-  "": "2026-09-16T00:00:00.000Z",
-  "/products": "2026-09-16T00:00:00.000Z",
-  "/about": "2026-09-18T00:00:00.000Z",
-  "/contact": "2026-09-18T00:00:00.000Z",
-  "/solutions": "2026-09-18T00:00:00.000Z",
-  "/applications": "2026-09-21T00:00:00.000Z",
+  "": "2026-09-22T00:00:00.000Z",
+  "/products": "2026-09-22T00:00:00.000Z",
+  "/about": "2026-09-22T00:00:00.000Z",
+  "/contact": "2026-09-22T00:00:00.000Z",
+  "/solutions": "2026-09-22T00:00:00.000Z",
+  "/applications": "2026-09-22T00:00:00.000Z",
   "/interfaces": "2026-09-22T00:00:00.000Z",
+  "/resources": "2026-09-22T00:00:00.000Z",
+  "/privacy-policy": "2026-09-22T00:00:00.000Z",
 };
-const productContentLastModified = "2026-09-16T00:00:00.000Z";
-const resourcesLastModified = resources.reduce((latest, resource) => resource.modifiedAt > latest ? resource.modifiedAt : latest, "2026-08-28");
+const productContentLastModified = "2026-09-22T00:00:00.000Z";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...staticRoutes.map((route) => ({
       url: `${siteUrl}${route}`,
-      lastModified: new Date(route === "/resources" ? `${resourcesLastModified}T00:00:00.000Z` : staticPageUpdates[route] || siteContentLastModified),
+      lastModified: new Date(staticPageUpdates[route] || siteContentLastModified),
       changeFrequency: route === "" ? "weekly" as const : "monthly" as const,
       priority: route === "" ? 1 : 0.7,
     })),
     ...products.map((product) => ({
       url: `${siteUrl}/products/${product.slug}`,
-      lastModified: new Date(getProductSeo(product.slug)?.selection ? "2026-09-18T00:00:00.000Z" : productContentLastModified),
+      lastModified: new Date(productContentLastModified),
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),

@@ -15,26 +15,14 @@ describe("sitemap", () => {
 
   it("updates changed static pages while preserving unchanged dates", () => {
     const entries = sitemap();
-    const updated = ["", "/products"];
+    const updated = ["", "/products", "/about", "/contact", "/solutions", "/applications", "/interfaces", "/resources", "/privacy-policy"];
     for (const route of updated) {
       expect(entries.find((entry) => entry.url === `${siteUrl}${route}`)?.lastModified)
-        .toEqual(new Date("2026-09-16T00:00:00.000Z"));
-    }
-    for (const route of ["/about", "/contact", "/solutions"]) {
-      expect(entries.find((entry) => entry.url === `${siteUrl}${route}`)?.lastModified)
-        .toEqual(new Date("2026-09-18T00:00:00.000Z"));
-    }
-    expect(entries.find((entry) => entry.url === `${siteUrl}/applications`)?.lastModified)
-      .toEqual(new Date("2026-09-21T00:00:00.000Z"));
-    expect(entries.find((entry) => entry.url === `${siteUrl}/interfaces`)?.lastModified)
-      .toEqual(new Date("2026-09-22T00:00:00.000Z"));
-    for (const route of ["/privacy-policy"]) {
-      expect(entries.find((entry) => entry.url === `${siteUrl}${route}`)?.lastModified)
-        .toEqual(new Date("2026-09-11T00:00:00.000Z"));
+        .toEqual(new Date("2026-09-22T00:00:00.000Z"));
     }
     const productEntries = entries.filter((entry) => entry.url.includes("/products/"));
     for (const entry of productEntries) {
-      const date = "2026-09-18T00:00:00.000Z";
+      const date = "2026-09-22T00:00:00.000Z";
       expect(entry.lastModified).toEqual(new Date(date));
     }
   });
@@ -43,8 +31,7 @@ describe("sitemap", () => {
     const paths = [...navItems.map((item) => item.href), "/interfaces", ...products.map((item) => `/products/${item.slug}`), ...resources.map((item) => `/resources/${item.slug}`), ...applicationExamples.map((item) => `/applications/${item.slug}`), ...interfaceTopics.map((item) => `/interfaces/${item.slug}`)];
     for (const path of paths) expect(urls).toContain(new URL(path, siteUrl).toString().replace(/\/$/, ""));
     const index = sitemap().find((entry) => entry.url === `${siteUrl}/resources`);
-    const latestResourceDate = resources.reduce((latest, resource) => resource.modifiedAt > latest ? resource.modifiedAt : latest, resources[0].modifiedAt);
-    expect(index?.lastModified).toEqual(new Date(`${latestResourceDate}T00:00:00.000Z`));
+    expect(index?.lastModified).toEqual(new Date("2026-09-22T00:00:00.000Z"));
   });
 
 });
