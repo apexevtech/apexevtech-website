@@ -6,19 +6,25 @@ This checklist separates repository readiness from live platform evidence. Use o
 
 - `configured`: robots allows GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot, and Google-Extended; `/api/` remains disallowed.
 - `configured`: sitemap includes static, product, and resource URLs.
-- `configured`: GA4 events are `generate_lead`, `whatsapp_click`, `email_click`, `phone_click`, and `catalog_download`.
+- `configured`: GA4 records the inquiry funnel (`inquiry_start`, `inquiry_submit`, `inquiry_error`, `generate_lead`), product discovery (`view_item`, `product_compare`, `comparison_inquiry_click`), and contact/download actions.
 - `configured`: GA4 and Clarity load only after analytics consent and only with public IDs.
 - `configured`: UTM first-touch/latest-touch attribution is included in internal inquiry notifications.
 - `configured`: `npm run indexnow` builds canonical URL batches.
-- `review pending`: compatible dependency patches are current and the production build passes; `npm audit` still reports 3 vulnerabilities requiring a separate Next.js 16 breaking-upgrade review.
+- `verified`: the site uses Next.js 16.3.5, the production build passes, and `npm audit` reports zero known vulnerabilities as of 2026-09-23.
 
 ## Provider Setup
 
-- `configured`: production GA4 measurement ID is deployed; verify each event in GA4 DebugView.
-- `configured`: production Clarity project ID is deployed; verify the first recording.
-- `verified`: Google Search Console property is accessible, `/sitemap.xml` was read successfully on 2026-09-02, and 27 pages were discovered.
+- `verified`: production GA4 is receiving website events, `generate_lead` is a key event, and five event-scoped custom dimensions were created on 2026-09-23.
+- `verified`: production Clarity project ID is deployed and the authenticated dashboard has recorded sessions.
+- `verified`: Google Search Console is accessible, 30 pages are indexed, and a fresh validation for 12 redirected legacy document URLs started on 2026-09-23.
 - `submitted`: Bing Webmaster import succeeded and IndexNow accepted the 27 canonical URLs; continue monitoring indexing.
-- `configured`: a five-minute UptimeRobot monitor exists; verify the first check and alert delivery.
+- `verified`: a five-minute UptimeRobot monitor exists and has completed successful checks; alert delivery testing remains an operator task.
+
+## Email Authentication
+
+- `verified`: Tencent enterprise mail MX and SPF records are published.
+- `verified`: Resend DKIM is published and the production inquiry API has returned a provider `ACCEPTED` result.
+- `not configured`: `_dmarc.link-jl.com` is still absent; publish a monitoring policy after signing in to DNSPod.
 
 ## Entity Consistency
 
