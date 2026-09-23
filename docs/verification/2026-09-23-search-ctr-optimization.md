@@ -34,3 +34,11 @@ Descriptions were rewritten to identify the intended workflow, concrete comparis
 The first parallel typecheck overlapped with Next.js regenerating `.next/types` and reported missing generated files. This was a local command race rather than a source error; the sequential typecheck passed.
 
 CTR should be compared only after Google recrawls the updated pages and should be evaluated alongside position, since the current query sample is small and several queries rank outside the first results page.
+
+## Production release
+
+- Commit: `da41d55`
+- Vercel deployment: `dpl_FotbFypjzTThKq8ML9vURTHeVTRd`
+- Production alias: `https://www.link-jl.com`
+- Live HTML confirmed the updated title and description on the homepage and four targeted resource pages.
+- All 48 canonical URLs were submitted to IndexNow after deployment.
