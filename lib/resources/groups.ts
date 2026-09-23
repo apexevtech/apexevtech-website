@@ -19,6 +19,7 @@ const groupDefinitions: ResourceGroupDefinition[] = [
     title: "Plan testing for the target charging interface",
     description: "Define connector, protocol revision and evidence for CCS2, GB/T, NACS and Type 2 charger testing.",
     slugs: [
+      "dc-fast-charger-testing-guide",
       "ccs2-dc-fast-charger-testing",
       "gbt-dc-charger-conformance-testing",
       "nacs-ac-evse-testing",
@@ -33,6 +34,7 @@ const groupDefinitions: ResourceGroupDefinition[] = [
     title: "Choose the test architecture and power path",
     description: "Compare AC and DC workflows, equipment configurations and external or regenerative load requirements.",
     slugs: [
+      "ev-charger-testing-guide",
       "choose-ev-charger-test-system",
       "ac-vs-dc-evse-testing",
       "regenerative-load-considerations",

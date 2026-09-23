@@ -10,13 +10,13 @@ import { siteUrl } from "@/lib/seo/site-urls";
 import Link from "next/link";
 import { interfaceTopics } from "@/data/interface-topics";
 
-export const metadata: Metadata = buildPageMetadata({ title: "EV Charger Testing Guides: CCS2, GB/T, NACS & EVSE", description: "Technical guides for EV charger conformance, protocol, production-line and post-installation testing across CCS2, GB/T, NACS and Type 2 interfaces.", path: "/resources" });
+export const metadata: Metadata = buildPageMetadata({ title: "EV Charger Testing Guides: AC, DC Fast Charging & EVSE", description: "Technical EV charger testing guides for DC fast chargers, AC EVSE, CCS2, GB/T, NACS, production, commissioning and post-installation workflows.", path: "/resources" });
 
 export default function ResourcesPage() {
   const itemListData = buildResourceIndexStructuredData(resources, siteUrl);
   return <>
     <StructuredData data={itemListData} />
-    <PageHero eyebrow="Resources" title="EV charger testing guides for laboratory, production and field work." description="Plan CCS2, GB/T, NACS and Type 2 tests, compare equipment and define the evidence needed for conformance, end-of-line and post-installation checks." />
+    <PageHero eyebrow="Resources" title="EV charger testing guides for AC, DC fast charging and EVSE workflows." description="Plan charger tests, compare equipment and define the evidence needed for laboratory validation, production, commissioning and post-installation checks." />
     <section className="border-b border-slate-200 bg-white px-5 py-10 lg:px-8"><div className="mx-auto max-w-7xl"><h2 className="text-2xl font-black text-[#12263a]">Browse by charging interface</h2><div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{interfaceTopics.map((topic) => <Link key={topic.slug} href={`/interfaces/${topic.slug}`} className="rounded-md border border-slate-200 p-5 hover:border-[#1479c9]"><span className="text-lg font-black text-[#1268a8]">{topic.name} →</span><span className="mt-2 block text-sm leading-6 text-[#526b7d]">{topic.description}</span></Link>)}</div></div></section>
     <nav aria-labelledby="resource-topics-heading" className="border-b border-slate-200 bg-[#f3f8fa] px-5 py-10 lg:px-8">
       <div className="mx-auto max-w-7xl">

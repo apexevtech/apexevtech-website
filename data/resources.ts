@@ -17,7 +17,7 @@ export const resources: Resource[] = [
     description: "A practical framework for matching charger interfaces, standards, electrical ranges and evidence requirements to a test platform.",
     topic: "EV charger test system selection",
     intent: "selection",
-    publishedAt, modifiedAt,
+    publishedAt, modifiedAt: "2026-09-23",
     summaryAnswer: "Choose an EV charger test system by defining the connector, communication standard, voltage and current range, test environment and required evidence before comparing equipment. The correct platform is the one that reproduces the target charging workflow and records the measurements your team must review.",
     sections: [
       { heading: "Define the charger and target market", paragraphs: [
@@ -37,7 +37,7 @@ export const resources: Resource[] = [
       { question: "What information should be sent with a quotation request?", answer: "Include charger type, connector, target standards, voltage and current range, laboratory or field use, required fault simulations and the reports or raw data your team must retain." },
     ],
     relatedProductSlugs: ["ast-9000", "st-hcdc-hpc", "st-hcac-gb-ua-ea"],
-    relatedResourceSlugs: ["evse-test-plan-checklist", "integrated-vs-portable-test-systems", "prepare-ev-charger-standards-validation", "ccs2-dc-fast-charger-testing", "gbt-dc-charger-conformance-testing"],
+    relatedResourceSlugs: ["ev-charger-testing-guide", "dc-fast-charger-testing-guide", "evse-test-plan-checklist", "integrated-vs-portable-test-systems", "ccs2-dc-fast-charger-testing", "gbt-dc-charger-conformance-testing"],
   },
   {
     slug: "ac-vs-dc-evse-testing",
@@ -286,7 +286,7 @@ export const resources: Resource[] = [
     topic: "CCS2 DC fast charger testing",
     intent: "technical",
     publishedAt: "2026-09-21",
-    modifiedAt: "2026-09-21",
+    modifiedAt: "2026-09-23",
     summaryAnswer: "A CCS2 DC fast charger test setup must combine the correct Combo 2 interface, control-pilot behavior, PLC communication, charger output measurement and a power-absorption path. Confirm the required ISO 15118 or DIN communication version, maximum voltage and current, load arrangement and evidence format before selecting the tester.",
     sections: [
       { heading: "Define the CCS2 charger and communication scope", paragraphs: [
@@ -307,7 +307,7 @@ export const resources: Resource[] = [
       { question: "Is ISO 15118 testing the same as CCS2 connector testing?", answer: "No. The connector and electrical interface are only part of the scope. ISO 15118 testing addresses defined communication behavior and requires compatible communication hardware, software and test cases." },
     ],
     relatedProductSlugs: ["st-9980ea-hpc", "st-6680ea-dc", "ast-9000"],
-    relatedResourceSlugs: ["ev-charging-protocol-testing", "regenerative-load-considerations", "evse-test-plan-checklist"],
+    relatedResourceSlugs: ["dc-fast-charger-testing-guide", "ev-charging-protocol-testing", "regenerative-load-considerations", "evse-test-plan-checklist"],
   },
   {
     slug: "gbt-dc-charger-conformance-testing",
@@ -458,5 +458,83 @@ export const resources: Resource[] = [
     ],
     relatedProductSlugs: ["st-9980a-pro", "st-9980ea-hpc", "st-6680b-plus", "st-6680ca-dc", "st-6680ea-ac", "st-6680ea-dc", "st-6680ua-ac", "st-6680ua-dc"],
     relatedResourceSlugs: ["field-commissioning-test-equipment", "evse-test-plan-checklist", "integrated-vs-portable-test-systems"],
+  },
+  {
+    slug: "ev-charger-testing-guide",
+    title: "EV Charger Testing: Workflow, Equipment and Evidence",
+    description: "Plan EV charger testing from scope and equipment selection through connection, communication, electrical response, faults and reviewable evidence.",
+    topic: "EV charger testing workflow",
+    intent: "process",
+    publishedAt: "2026-09-23",
+    modifiedAt: "2026-09-23",
+    summaryAnswer: "EV charger testing should define the charger interface, applicable standard, electrical range, test environment and required evidence before equipment is connected. A useful workflow verifies preconditions, reproduces the vehicle-side charging sequence, compares requested and measured values, checks controlled abnormal responses and saves enough context to repeat the result.",
+    sections: [
+      { heading: "Define the EV charger testing scope", paragraphs: [
+        "Start with the charger rather than a generic tester specification. Record whether the unit is AC or DC, its connector, target market, communication method, rated voltage and current, firmware and intended operating environment. These facts determine the pilot circuits, message exchange, measurement range and power path the test setup must support.",
+        "State the decision the test must support. Development diagnosis, conformance preparation, production release and field commissioning need different depth, controls and records. Separate required checks from optional investigations so a quotation or test plan does not confuse broad equipment capability with the cases that will actually be executed.",
+      ], checklist: ["Identify AC or DC and the exact connector", "Record standards, ratings and firmware", "Define the decision and evidence required"] },
+      { heading: "Select equipment and the power path", paragraphs: [
+        "Choose equipment that can reproduce the vehicle-side interface and observe the charger response. AC work commonly needs control-pilot and proximity states, switching checks and metering. DC work adds digital charging communication, output-voltage control, insulation behavior and a planned path for absorbing charging energy.",
+        "Confirm whether the tester contains a load or coordinates with an external resistive, electronic, regenerative or vehicle load. Match connectors, cables, switching devices and instruments to the maximum planned condition. A communication test at limited power and a sustained rated-power test are different setups even when they use the same charger interface.",
+      ], checklist: ["Match interface and measurement ranges", "Confirm load ownership and ratings", "List included and optional diagnostic functions"] },
+      { heading: "Run a controlled charging sequence", paragraphs: [
+        "Complete site, supply, grounding, cable and emergency-stop preconditions before energizing the session. Record the initial configuration, then follow a repeatable sequence from connection and initialization through parameter exchange, readiness, energy transfer and normal stop. Mark the expected charger response at each state.",
+        "Compare requested voltage and current with the tester and reference-instrument measurements where applicable. Capture pilot states and CAN or PLC messages together with electrical values when timing or protocol behavior matters. A successful charge indicator alone does not explain whether the charger followed the intended limits and transitions.",
+      ] },
+      { heading: "Add fault and boundary tests safely", paragraphs: [
+        "Introduce one approved abnormal condition at a time, such as a communication interruption, pilot-state change, parameter mismatch or simulated protection condition. Define the expected shutdown, alarm or recovery before the test and keep the injected condition within the equipment and procedure limits.",
+        "Retain evidence before, during and after the injection. Changing several signals together may trigger a safe stop, but it will not identify which condition caused the response. Use laboratory controls for aggressive fault work that is unsuitable for an installed public charging site.",
+      ], checklist: ["Define the injected condition", "Set the expected response and limit", "Capture recovery or safe shutdown"] },
+      { heading: "Create evidence that can be reviewed", paragraphs: [
+        "Store the charger identity, hardware and firmware, tester configuration, software and procedure versions, instruments, timestamps, measured values, limits and result. Link communication captures, waveforms and photos to the relevant step instead of keeping isolated files with no configuration context.",
+        "Repeat failed cases after corrective action with the same controlled setup. For production or commissioning, distinguish a confirmed charger failure from an incomplete test caused by supply, network, load or access limits. This makes the record useful for engineering escalation and later comparison.",
+      ] },
+    ],
+    faqs: [
+      { question: "What equipment is needed for EV charger testing?", answer: "The minimum set depends on the charger. It normally includes a vehicle-interface simulator or EVSE tester, suitable cables and adapters, electrical measurement, and a defined load path; protocol capture, waveform acquisition and fault simulation may be added for the required cases." },
+      { question: "Can one EV charger testing system cover every connector?", answer: "An integrated platform can combine several interface modules, but each connector, protocol, voltage and current range still needs a confirmed configuration and acceptance boundary." },
+      { question: "What should an EV charger test report contain?", answer: "Include charger and tester identity, configuration and versions, procedure and test case, measured values and limits, protocol or waveform evidence where relevant, result, timestamps and any test limitations." },
+    ],
+    relatedProductSlugs: ["ast-9000", "st-hcdc-hpc", "st-hcac-gb-ua-ea", "st-9980ea-hpc"],
+    relatedResourceSlugs: ["choose-ev-charger-test-system", "evse-test-plan-checklist", "ac-vs-dc-evse-testing", "ev-charging-protocol-testing"],
+  },
+  {
+    slug: "dc-fast-charger-testing-guide",
+    title: "DC Fast Charger Testing: Procedure, Equipment and Load Planning",
+    description: "Build a DC fast charger testing procedure for connector and protocol setup, charging states, output measurements, load planning, faults and test evidence.",
+    topic: "DC fast charger testing",
+    intent: "technical",
+    publishedAt: "2026-09-23",
+    modifiedAt: "2026-09-23",
+    summaryAnswer: "DC fast charger testing combines a vehicle-side communication simulator, the correct connector and protocol, high-voltage measurement and a safe energy-absorption path. The procedure should verify initialization and insulation checks, parameter negotiation, controlled output, charging-state transitions, normal termination and defined fault responses while preserving synchronized protocol and electrical evidence.",
+    sections: [
+      { heading: "Identify the DC charging interface", paragraphs: [
+        "Record whether the charger uses CCS, GB/T, CHAdeMO or another supported interface, then specify the exact protocol editions and market requirements. Connector shape alone is not enough: the tester must reproduce the correct pilot behavior, digital communication and charging-state sequence used by the charger firmware.",
+        "Confirm the maximum planned voltage and current separately from the charger nameplate. Early communication and sequence tests may operate at limited power, while thermal, metering or full-output cases require cables, switching devices, instruments and loads rated for the actual session.",
+      ], checklist: ["Confirm connector and protocol editions", "Record maximum planned voltage and current", "Separate limited-power and rated-power cases"] },
+      { heading: "Plan the load before connecting", paragraphs: [
+        "A portable DC charger tester may simulate the vehicle controller without absorbing the full charger output. Decide whether the test will use a resistive load, electronic load, regenerative system, battery simulator or controlled vehicle, and document who controls requested power and emergency shutdown.",
+        "Check the complete power path, including connector, cables, protection, cooling, load range and site capacity. Confirm minimum operating voltage and current as well as maximum ratings because the charger and load must reach a stable common operating point during the intended test.",
+      ], checklist: ["Choose the energy-absorption method", "Verify cable, protection and cooling ratings", "Confirm the shared operating range"] },
+      { heading: "Verify the normal DC charging sequence", paragraphs: [
+        "Begin with connection detection, pilot states, communication startup and the charger safety checks required by the selected interface. Capture the transition into parameter exchange and readiness, then compare the tester request with charger-reported values and independent measurements as output rises.",
+        "During energy transfer, observe requested and delivered voltage and current, message timing, charger state, alarms and relevant insulation or safety status. End the session through the normal protocol path and confirm controlled current reduction, contactor behavior and connector release conditions.",
+      ] },
+      { heading: "Test faults and limits one condition at a time", paragraphs: [
+        "Create a test matrix that names the injected condition, expected charger response, evidence and pass limit. Examples may include a delayed or interrupted message, out-of-range request, simulated insulation issue, voltage mismatch or abnormal termination, depending on the approved procedure and equipment functions.",
+        "Apply only conditions that the setup is designed to produce safely. Capture the last normal state, the injected change, charger detection and recovery or shutdown. This synchronized record helps distinguish a communication failure from a power-stage, protection or load limitation.",
+      ], checklist: ["Define expected detection and timeout", "Capture messages with measured output", "Verify safe recovery or shutdown"] },
+      { heading: "Choose between portable and laboratory systems", paragraphs: [
+        "Portable systems suit commissioning, acceptance and fault isolation when the team must travel to the charger. Integrated laboratory systems are stronger when automated regression, multiple interfaces, synchronized instruments and repeatable boundary conditions are required. Production stations should prioritize stable cycle time and traceable pass or fail limits.",
+        "Review the proposed configuration against one representative charger and test sequence before purchase. Confirm the interface module, protocol options, measurement accuracy, load connection, report format and raw-data access needed for that workflow.",
+      ] },
+    ],
+    faqs: [
+      { question: "Does a DC fast charger tester include a high-power load?", answer: "Not always. Many testers simulate the EV communication and control interface while using a separate external load or regenerative system. Confirm the energy path and ratings for the selected configuration." },
+      { question: "Can DC fast charger communication be tested without full power?", answer: "Many initialization, negotiation and diagnostic checks can run at limited power, but the setup must still remain within safe connector, voltage and load conditions. Rated-output validation requires the appropriate power path." },
+      { question: "Which evidence is most useful for a failed DC charging session?", answer: "Keep raw protocol messages with timestamps, pilot and state transitions, requested values, independently measured voltage and current, charger alarms, tester configuration and the last completed step." },
+    ],
+    relatedProductSlugs: ["st-hcdc-hpc", "st-9980ea-hpc", "st-9980a-pro", "st-6680ca-dc", "ast-9000"],
+    relatedResourceSlugs: ["ccs2-dc-fast-charger-testing", "gbt-dc-charger-conformance-testing", "ev-charging-protocol-testing", "regenerative-load-considerations"],
   },
 ];
