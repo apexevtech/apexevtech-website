@@ -13,8 +13,8 @@ const modifiedAt = "2026-09-18";
 export const resources: Resource[] = [
   {
     slug: "choose-ev-charger-test-system",
-    title: "How to Choose an EV Charger Test System",
-    description: "A practical framework for matching charger interfaces, standards, electrical ranges and evidence requirements to a test platform.",
+    title: "EV Charger Test System Selection: AC/DC Equipment Guide",
+    description: "Compare AC and DC EV charger test systems by connector, protocol, voltage and current range, load path, test environment and required evidence.",
     topic: "EV charger test system selection",
     intent: "selection",
     publishedAt, modifiedAt: "2026-09-23",
@@ -41,11 +41,11 @@ export const resources: Resource[] = [
   },
   {
     slug: "ac-vs-dc-evse-testing",
-    title: "AC vs DC EVSE Testing: What Changes?",
-    description: "Compare the electrical interfaces, protocol workflows and field constraints that shape AC and DC charger validation.",
+    title: "AC Charger Testing vs DC EVSE Testing: What Changes?",
+    description: "Compare AC charger testing with DC EVSE validation across pilot states, communication, electrical measurements, external loads and fault workflows.",
     topic: "AC and DC EVSE testing",
     intent: "comparison",
-    publishedAt, modifiedAt,
+    publishedAt, modifiedAt: "2026-09-23",
     summaryAnswer: "AC EVSE testing focuses heavily on control-pilot states, proximity detection, switching and metering, while DC charger testing adds high-voltage output control, digital charging communication, insulation behavior and an external power-absorption path. The test plan and equipment must follow the selected connector and regional standard.",
     sections: [
       { heading: "Electrical and connection differences", paragraphs: [
@@ -69,11 +69,11 @@ export const resources: Resource[] = [
   },
   {
     slug: "ev-charging-protocol-testing",
-    title: "EV Charging Protocol Testing and Signal Diagnosis",
-    description: "Plan EVSE communication protocol tests with CAN or PLC capture, pilot signals, charging-state checks and repeatable fault-diagnosis evidence.",
+    title: "eMobility and EV Charging Protocol Testing Guide",
+    description: "Plan eMobility protocol testing with CAN or PLC capture, pilot signals, charging-state checks, controlled faults and synchronized electrical evidence.",
     topic: "EV charging protocol diagnosis",
     intent: "technical",
-    publishedAt, modifiedAt,
+    publishedAt, modifiedAt: "2026-09-23",
     summaryAnswer: "Protocol testing should connect each communication event to the charger state and measured electrical response. Build a repeatable timeline from connection and initialization through parameter exchange, energy transfer and termination, then inject one fault at a time and retain the raw messages needed to explain the result.",
     sections: [
       { heading: "Select the interface and communication test scope", paragraphs: [
@@ -431,12 +431,12 @@ export const resources: Resource[] = [
   },
   {
     slug: "post-installation-evse-testing",
-    title: "Post-Installation EVSE Testing After Commissioning",
-    description: "Plan EVSE checks after installation, repair or configuration changes using a safe baseline, functional sequence and traceable site evidence.",
+    title: "EVSE Testing After Commissioning: Post-Installation Checklist",
+    description: "Use a practical EVSE testing checklist after commissioning, repair or firmware changes to verify site conditions, charging states and traceable evidence.",
     topic: "EVSE testing after commissioning",
     intent: "process",
     publishedAt: "2026-09-21",
-    modifiedAt: "2026-09-21",
+    modifiedAt: "2026-09-23",
     summaryAnswer: "Post-installation EVSE testing should confirm site identity and configuration, supply and grounding preconditions, connector condition, normal charging states, measured output, communication evidence and safe stop behavior. Repeat the baseline after firmware, network, protection, power-module or wiring changes and compare results with the commissioning record.",
     sections: [
       { heading: "Start with site and change history", paragraphs: [

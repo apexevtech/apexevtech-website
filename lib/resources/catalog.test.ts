@@ -30,8 +30,11 @@ describe("resource catalog", () => {
   it("covers the highest-impression charger testing topics with dedicated guides", () => {
     expect(getResource("ev-charger-testing-guide")?.title).toMatch(/EV Charger Testing/);
     expect(getResource("dc-fast-charger-testing-guide")?.title).toMatch(/DC Fast Charger Testing/);
-    expect(getResource("choose-ev-charger-test-system")?.title).toMatch(/EV Charger Test System/);
+    expect(getResource("choose-ev-charger-test-system")?.title).toMatch(/^EV Charger Test System/);
     expect(getResource("post-installation-evse-testing")?.topic).toBe("EVSE testing after commissioning");
+    expect(getResource("post-installation-evse-testing")?.title).toMatch(/^EVSE Testing After Commissioning/);
+    expect(getResource("ev-charging-protocol-testing")?.title).toMatch(/eMobility.*Protocol Testing/);
+    expect(getResource("ac-vs-dc-evse-testing")?.title).toMatch(/^AC Charger Testing/);
   });
 
   it("returns undefined for an unknown slug", () => {

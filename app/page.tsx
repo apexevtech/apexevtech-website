@@ -9,12 +9,12 @@ import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 export const metadata = {
   ...buildPageMetadata({
-  title: "EV Charger Test Equipment & AC/DC EVSE Test Systems",
-  description: "APEX Power Systems supplies AC and DC EV charger testers, protocol analyzers and laboratory systems for development, production and field commissioning.",
+  title: "APEX EV Charger Test Lab Equipment & AC/DC EVSE Systems",
+  description: "Configure APEX AC/DC EV charger test systems for laboratories, production and field commissioning. Compare connectors, protocols, ratings and load options.",
   path: "/",
   image: "/assets/hero/test-lab-systems.webp",
   }),
-  title: { absolute: "EV Charger Test Equipment & AC/DC EVSE Test Systems | APEX" },
+  title: { absolute: "APEX EV Charger Test Lab Equipment & AC/DC EVSE Systems" },
 };
 
 const capabilities = [
