@@ -16,6 +16,14 @@ The authenticated `APEX Website` GA4 property initially had no custom dimensions
 
 These definitions support the inquiry and product-comparison funnel without collecting names, email addresses, phone numbers, or message content. GA4 does not backfill custom dimensions, so reporting starts with events collected after creation.
 
+An open exploration named `APEX inquiry conversion funnel` was also created with these steps:
+
+1. `page_view`
+2. `form_start`
+3. `generate_lead`
+
+For the default 28-day window at creation time, the exploration showed 8 users at page view, 2 at form start, and 2 at lead recorded. The sample includes implementation and verification activity, so it should not yet be treated as a production conversion benchmark.
+
 ## Repository checks
 
 - `npm test`: 37 files and 80 tests passed.
