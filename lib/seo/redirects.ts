@@ -13,4 +13,11 @@ export const legacyRedirects = [
   { source: "/product-documents/:filename(ST-HCAC-EA.*)", destination: "/downloads/st-hcac-ea-ua-na-specifications.docx", permanent: true },
   { source: "/product-documents/:filename(ST-HCAC-GB.*)", destination: "/downloads/st-hcac-gb-ua-ea-specifications.docx", permanent: true },
   { source: "/product-documents/ST-HCDC-HPC.docx", destination: "/downloads/st-hcdc-hpc-specifications.docx", permanent: true },
+  { source: "/assets/products/ST-6680B\\+.webp", destination: "/assets/products/st-6680b-plus.webp", permanent: true },
+  { source: "/assets/products/ST-9980A\\+Pro.webp", destination: "/assets/products/st-9980a-plus-pro.webp", permanent: true },
+  { source: "/assets/products/ST-HCAC-EA\\:UA\\:NA.webp", destination: "/assets/products/st-hcac-ea-ua-na.webp", permanent: true },
+  { source: "/assets/products/ST-HCAC-GB%EF%BC%9AUA%EF%BC%9AEA.webp", destination: "/assets/products/st-hcac-gb-ua-ea.webp", permanent: true },
+  { source: "/assets/products/%E5%9B%BE%E7%89%871.webp", destination: "/assets/products/ev-charger-production-test-system.webp", permanent: true },
+  { source: "/assets/products/%E5%9B%BE%E7%89%875.webp", destination: "/assets/products/ev-charger-test-laboratory.webp", permanent: true },
+  { source: "/assets/products/%E5%9B%BE%E7%89%879.webp", destination: "/assets/products/pv-storage-evse-test-system.webp", permanent: true },
 ] as const;

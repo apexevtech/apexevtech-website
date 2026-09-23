@@ -10,4 +10,12 @@ describe("legacy redirects", () => {
     )).toBe(true);
     expect(new Set(documentRedirects.map(({ destination }) => destination)).size).toBe(12);
   });
+
+  it("permanently maps legacy product image filenames to descriptive ASCII URLs", () => {
+    const imageRedirects = legacyRedirects.filter(({ source }) => source.startsWith("/assets/products/"));
+    expect(imageRedirects).toHaveLength(7);
+    expect(imageRedirects.every(({ destination, permanent }) =>
+      destination.startsWith("/assets/products/") && /^[\x00-\x7F]+$/.test(destination) && permanent,
+    )).toBe(true);
+  });
 });

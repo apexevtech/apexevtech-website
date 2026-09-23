@@ -26,7 +26,7 @@ describe("product image assets", () => {
     const optimizedAssets = [
       "/assets/products/AST-9000x-fitted.webp",
       "/assets/products/evse-field-commissioning.webp",
-      "/assets/products/图片5.webp",
+      "/assets/products/ev-charger-test-laboratory.webp",
     ];
 
     for (const asset of optimizedAssets) {
@@ -75,7 +75,7 @@ describe("product image assets", () => {
       "/assets/hero/test-lab-systems.webp",
       "/assets/products/AST-9000x-fitted.webp",
       "/assets/products/evse-field-commissioning.webp",
-      "/assets/products/图片5.webp",
+      "/assets/products/ev-charger-test-laboratory.webp",
     ]);
 
     for (const asset of activeAssets) {

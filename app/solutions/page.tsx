@@ -46,7 +46,7 @@ export default function SolutionsPage() {
             <article>
               <div className="group relative aspect-[16/9] overflow-hidden rounded-lg bg-slate-100 shadow-lg shadow-slate-900/10">
                 <Image
-                  src="/assets/products/图片5.webp"
+                  src="/assets/products/ev-charger-test-laboratory.webp"
                   alt="EV charger interface and waveform testing laboratory"
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"

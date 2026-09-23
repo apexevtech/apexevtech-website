@@ -208,7 +208,7 @@ export const products: Product[] = [
       "Portable GB, European and North American AC charger tester for interoperability, protocol, metering, waveform and field acceptance testing.",
     overview:
       "ST-HCAC-GB / UA / EA is a portable three-standard AC EV charger tester that combines GB, European and North American charging interfaces in one system. It provides interoperability and protocol-conformance testing, independent line switching, high-current capability for laboratory work and field acceptance workflows. The system is designed for charger manufacturers, power utilities, third-party laboratories, buyers and inspection teams carrying out R&D debugging, production tests, commissioning and verification.",
-    image: "/assets/products/ST-HCAC-GB：UA：EA.webp",
+    image: "/assets/products/st-hcac-gb-ua-ea.webp",
     document: "/downloads/st-hcac-gb-ua-ea-specifications.docx",
     highlights: [
       "GB / European / North American Interfaces",
@@ -341,7 +341,7 @@ export const products: Product[] = [
       "Test GB/T AC chargers with the portable ST-6680B+: 440 V / 63 A sockets, vehicle-state and fault simulation, adjustable R2/R3 and optional metering.",
     overview:
       "ST-6680B+ is a portable third-party tester for GB/T AC EV chargers. It supports interoperability testing, independent line switching, vehicle-state and fault simulation, live voltage and current acquisition, field acceptance and inspection. The rugged trolley case is designed for outdoor service, while optional battery, GPS, temperature/humidity and 0.05-class metering modules extend the instrument for field and verification workflows.",
-    image: "/assets/products/ST-6680B+.webp",
+    image: "/assets/products/st-6680b-plus.webp",
     document: "/downloads/st-6680b-plus-specifications.docx",
     highlights: [
       "GB/T AC Charger Testing",
@@ -635,7 +635,7 @@ export const products: Product[] = [
       "Portable GB/T DC charger tester with dual sockets, 1000 V / 250 A coverage, protocol analysis, short-circuit pre-check and IP67 field protection.",
     overview:
       "ST-9980A+ Pro is a portable third-party DC EV charger tester with interoperability test support. It is designed for charger manufacturers, utilities, third-party inspection organizations, buyers and service teams carrying out R&D debugging, factory tests, field inspection and acceptance. It simulates the vehicle charging process, exports and parses charger messages, and adds short-circuit pre-checks for safer field operation.",
-    image: "/assets/products/ST-9980A+Pro.webp",
+    image: "/assets/products/st-9980a-plus-pro.webp",
     document: "/downloads/st-9980a-plus-pro-specifications.docx",
     highlights: [
       "GB/T 20234.3-2023",
@@ -686,7 +686,7 @@ export const products: Product[] = [
       "Modular three-standard AC charger tester for Type 1, Type 2 and NACS connectors, with R2/R3 simulation, EVCC/EVSE data and cabinet-ready integration.",
     overview:
       "ST-HCAC-EA / UA / NA is a three-in-one AC EV charger tester for NACS, Type 1 and Type 2 charging equipment. Its integrated control-pilot circuit supports plug-in testing, while the modular design can be supplied as an independent 6U protective-case module or integrated into a test cabinet for a customized laboratory solution. The system combines multiple sockets, load connection, test cases and charger-data acquisition for global AC charger validation.",
-    image: "/assets/products/ST-HCAC-EA:UA:NA.webp",
+    image: "/assets/products/st-hcac-ea-ua-na.webp",
     document: "/downloads/st-hcac-ea-ua-na-specifications.docx",
     highlights: [
       "Type 1 / Type 2 / NACS",
@@ -735,7 +735,7 @@ const archivedBrochureCatalog = [
     title: "CCC Charging-Pile Test System",
     category: "Laboratory & Certification",
     description: "Integrated charging-pile functional, capability and compliance testing platform for laboratory workflows.",
-    image: "/assets/products/图片1.webp",
+    image: "/assets/products/ev-charger-production-test-system.webp",
   },
   {
     model: "AST-9000C",
@@ -763,7 +763,7 @@ const archivedBrochureCatalog = [
     title: "光储充 Integrated Test Solution",
     category: "New Energy Integration",
     description: "Integrated test architecture for photovoltaic generation, energy storage, DC charging and grid interaction.",
-    image: "/assets/products/图片9.webp",
+    image: "/assets/products/pv-storage-evse-test-system.webp",
   },
 ];
 
@@ -840,7 +840,7 @@ export const caseStudies = [
     title: "AC/DC Charger Production and Aging Line",
     category: "Factory Testing",
     summary: "Modular AST-900 and AST-9000 line systems for end-of-line tests, high-volume aging, automated reports and production traceability.",
-    image: "/assets/products/图片1.webp",
+    image: "/assets/products/ev-charger-production-test-system.webp",
     tags: ["AST-900", "Aging Test", "MES"],
   },
   {
@@ -848,7 +848,7 @@ export const caseStudies = [
     title: "PV-Storage-Charging Integrated Test",
     category: "New Energy Integration",
     summary: "A coordinated test architecture for photovoltaic generation, storage systems, DC charging and grid interaction across project scales.",
-    image: "/assets/products/图片9.webp",
+    image: "/assets/products/pv-storage-evse-test-system.webp",
     tags: ["PV", "Energy Storage", "DC Charging"],
   },
 ];
