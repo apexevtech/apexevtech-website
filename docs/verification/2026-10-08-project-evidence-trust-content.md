@@ -29,4 +29,12 @@ The local browser console only reported development-mode CSP and hot-reload WebS
 
 ## Production release
 
-Pending deployment and live verification.
+- Source commit: `8af14ea`.
+- Both configured Vercel checks completed successfully for the pushed commit.
+- Production alias: `https://www.link-jl.com`.
+- `/applications`, `/applications/integrated-ev-charger-validation-laboratory` and `/about` returned HTTP 200.
+- Live HTML exposed the updated application title, `Project evidence plan`, `Evidence boundary` and the About-page count of four reference project architectures.
+- The verified Vercel response ID was `sfo1::z4xww-1791432297319-69ce869f66b8`.
+- All 48 canonical URLs were submitted to IndexNow after the production update.
+
+The direct Vercel CLI attempt reported an expired local authorization, while the repository's GitHub-to-Vercel production integration deployed both configured projects successfully.
