@@ -17,7 +17,7 @@ describe("resource catalog", () => {
     }
   });
   it("provides a unique, internally connected content cluster", () => {
-    expect(resources).toHaveLength(17);
+    expect(resources).toHaveLength(18);
     expect(new Set(resources.map((item) => item.slug)).size).toBe(resources.length);
     for (const resource of resources) {
       expect(resource.summaryAnswer.length).toBeGreaterThan(80);
@@ -29,6 +29,7 @@ describe("resource catalog", () => {
 
   it("covers the highest-impression charger testing topics with dedicated guides", () => {
     expect(getResource("ev-charger-testing-guide")?.title).toMatch(/EV Charger Testing/);
+    expect(getResource("ev-charger-test-equipment-guide")?.title).toMatch(/^EV Charger Test Equipment/);
     expect(getResource("dc-fast-charger-testing-guide")?.title).toMatch(/DC Fast Charger Testing/);
     expect(getResource("choose-ev-charger-test-system")?.title).toMatch(/^EV Charger Test System/);
     expect(getResource("post-installation-evse-testing")?.topic).toBe("EVSE testing after commissioning");

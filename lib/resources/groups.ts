@@ -34,6 +34,7 @@ const groupDefinitions: ResourceGroupDefinition[] = [
     title: "Choose the test architecture and power path",
     description: "Compare AC and DC workflows, equipment configurations and external or regenerative load requirements.",
     slugs: [
+      "ev-charger-test-equipment-guide",
       "ev-charger-testing-guide",
       "choose-ev-charger-test-system",
       "ac-vs-dc-evse-testing",

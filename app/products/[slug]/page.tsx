@@ -126,7 +126,21 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
         </section>
       ) : null}
 
-
+      <section className="px-5 pb-12 lg:px-8">
+        <div className="mx-auto max-w-7xl rounded-md border border-slate-200 bg-[#f3f8fa] p-6 sm:p-8">
+          <p className="text-sm font-black uppercase tracking-wide text-[#1268a8]">Procurement checklist</p>
+          <h2 className="mt-2 text-2xl font-black text-[#12263a]">Confirm the delivered configuration before ordering</h2>
+          <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["Interface and standards", "Confirm the connector, market, protocol and exact standard editions required by the charger and test plan."],
+              ["Electrical and load path", "Separate socket, cable and measurement ratings from the source or external load used during sustained power tests."],
+              ["Evidence and options", "List required metering accuracy, message or waveform capture, fault cases, report fields and optional modules."],
+              ["Acceptance and support", "Agree supplied accessories, software, factory acceptance checks, commissioning, training and support boundaries."],
+            ].map(([title, text]) => <div key={title} className="border-t-2 border-[#00a6c7] pt-4"><h3 className="font-black text-[#12263a]">{title}</h3><p className="mt-2 text-sm leading-6 text-[#526b7d]">{text}</p></div>)}
+          </div>
+          <Link href="/resources/ev-charger-test-equipment-guide" className="mt-6 inline-flex text-sm font-black text-[#1268a8]">Read the equipment buying guide →</Link>
+        </div>
+      </section>
 
       <section className="bg-slate-50 px-5 py-12 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">

@@ -8,7 +8,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-3">
           <div>
-            <h2 className="text-lg font-bold">Apex EV Charger Testers</h2>
+            <h2 className="text-lg font-bold"><Link href="/" className="hover:text-[#7de3ef]">Apex EV Charger Testers</Link></h2>
             <p className="mt-4 max-w-md text-sm leading-6 text-gray-300">
               Professional EV charger testing equipment and validation systems for manufacturers, laboratories and infrastructure operators worldwide.
             </p>

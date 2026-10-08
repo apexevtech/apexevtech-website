@@ -5,19 +5,19 @@ import { resources } from "@/lib/resources/catalog";
 import { applicationExamples } from "@/data/applications";
 import { interfaceTopics } from "@/data/interface-topics";
 
-const siteContentLastModified = "2026-09-22T00:00:00.000Z";
+const siteContentLastModified = "2026-10-08T00:00:00.000Z";
 const staticPageUpdates: Record<string, string> = {
   "": "2026-09-22T00:00:00.000Z",
-  "/products": "2026-09-22T00:00:00.000Z",
+  "/products": "2026-10-08T00:00:00.000Z",
   "/about": "2026-09-22T00:00:00.000Z",
   "/contact": "2026-09-22T00:00:00.000Z",
   "/solutions": "2026-09-22T00:00:00.000Z",
   "/applications": "2026-09-22T00:00:00.000Z",
   "/interfaces": "2026-09-22T00:00:00.000Z",
-  "/resources": "2026-09-22T00:00:00.000Z",
+  "/resources": "2026-10-08T00:00:00.000Z",
   "/privacy-policy": "2026-09-22T00:00:00.000Z",
 };
-const productContentLastModified = "2026-09-22T00:00:00.000Z";
+const productContentLastModified = "2026-10-08T00:00:00.000Z";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
