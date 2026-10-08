@@ -5,6 +5,7 @@ import { PageHero } from "@/components/PageHero";
 import { SectionHeading } from "@/components/SectionHeading";
 import { company, products } from "@/data/site";
 import { interfaceTopics } from "@/data/interface-topics";
+import { applicationExamples } from "@/data/applications";
 import { resources } from "@/lib/resources/catalog";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
@@ -18,6 +19,7 @@ const evidenceLinks = [
   { value: products.length, label: "published equipment configurations", href: "/products" },
   { value: interfaceTopics.length, label: "interface planning guides", href: "/interfaces" },
   { value: resources.length, label: "engineering resources", href: "/resources" },
+  { value: applicationExamples.length, label: "reference project architectures", href: "/applications" },
   { value: 1, label: "direct engineering inquiry route", href: "/contact#inquiry-form" },
 ];
 
@@ -119,7 +121,7 @@ export default function AboutPage() {
               ))}
             </div>
           </div>
-          <div className="mt-8 grid gap-5 md:grid-cols-4">
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {evidenceLinks.map((item) => (
               <Link key={item.label} href={item.href} className="rounded-lg border border-slate-200 bg-white p-6 transition hover:border-[#1479c9]">
                 <span className="block text-3xl font-black text-[#1268a8]">{item.value}</span>

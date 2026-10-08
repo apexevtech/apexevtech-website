@@ -11,6 +11,8 @@ describe("application examples", () => {
       expect(application.configuration.length).toBeGreaterThanOrEqual(4);
       expect(application.workflow.length).toBeGreaterThanOrEqual(5);
       expect(application.outputs.length).toBeGreaterThanOrEqual(4);
+      expect(application.evidencePlan.length).toBeGreaterThanOrEqual(4);
+      expect(application.evidencePlan.every((item) => item.evidence.length > 5 && item.reviewUse.length > 40)).toBe(true);
       expect(application.confirmBeforeProject.length).toBeGreaterThanOrEqual(4);
       expect(getApplicationExample(application.slug)).toBe(application);
     }

@@ -11,6 +11,7 @@ export type ApplicationExample = {
   configuration: Array<{ component: string; purpose: string }>;
   workflow: Array<{ step: string; detail: string }>;
   outputs: string[];
+  evidencePlan: Array<{ evidence: string; reviewUse: string }>;
   confirmBeforeProject: string[];
   relatedProductSlugs: string[];
   relatedResourceSlugs: string[];
@@ -19,7 +20,7 @@ export type ApplicationExample = {
 };
 
 const publishedAt = "2026-09-21";
-const modifiedAt = "2026-09-21";
+const modifiedAt = "2026-10-08";
 
 export const applicationExamples: ApplicationExample[] = [
   {
@@ -46,6 +47,12 @@ export const applicationExamples: ApplicationExample[] = [
       { step: "Package the evidence", detail: "Store setup revisions, raw captures, measurements, limits, results and unresolved observations together." },
     ],
     outputs: ["Approved equipment and interface configuration", "Versioned test procedure and case matrix", "Synchronized communication and electrical records", "Reviewable result package for engineering or pre-compliance decisions"],
+    evidencePlan: [
+      { evidence: "Configuration baseline", reviewUse: "Identifies charger firmware, interface modules, power equipment, instruments and software revisions used for the run." },
+      { evidence: "Known-good reference session", reviewUse: "Provides the message, pilot and electrical timeline used to compare later boundary or fault cases." },
+      { evidence: "Case-level measurement package", reviewUse: "Connects each test condition to raw communication data, waveforms, measured values, limits and observed response." },
+      { evidence: "Engineering review record", reviewUse: "Separates confirmed results, setup limitations, unresolved observations and actions requiring formal conformity assessment." },
+    ],
     confirmBeforeProject: ["Exact standards and editions", "Connector and maximum voltage, current and power", "Included versus external source and load equipment", "Automation, report and calibration requirements"],
     relatedProductSlugs: ["ast-9000", "st-hcdc-hpc", "st-hcac-gb-ua-ea", "st-hcac-ea-ua-na"],
     relatedResourceSlugs: ["prepare-ev-charger-standards-validation", "ev-charging-protocol-testing", "evse-test-plan-checklist"],
@@ -76,6 +83,12 @@ export const applicationExamples: ApplicationExample[] = [
       { step: "Confirm handover or escalation", detail: "Repeat affected checks after repair, or preserve the configuration and first divergent state for laboratory reproduction." },
     ],
     outputs: ["Site-specific test scope and equipment list", "Baseline or post-repair functional record", "Measurements and communication evidence tied to the charger", "Open findings with a defined owner and follow-up action"],
+    evidencePlan: [
+      { evidence: "Site and charger identity record", reviewUse: "Links the visit to the installed asset, connector, ratings, firmware, backend configuration and reason for testing." },
+      { evidence: "Safety and load precondition checklist", reviewUse: "Shows that supply, grounding, cables, access controls and the energy-absorption path matched the planned work." },
+      { evidence: "Baseline and post-work comparison", reviewUse: "Compares the same charging states and measured values before and after repair, maintenance or configuration changes." },
+      { evidence: "Escalation package", reviewUse: "Preserves the last completed state, logs, measurements and site limitations needed for laboratory reproduction." },
+    ],
     confirmBeforeProject: ["Installed connector and charger rating", "Permitted field tests and site safety controls", "External load or energy-absorption arrangement", "Required acceptance report and escalation process"],
     relatedProductSlugs: ["st-9980a-pro", "st-9980ea-hpc", "st-6680b-plus", "st-6680ca-dc", "st-6680ea-ac", "st-6680ea-dc", "st-6680ua-ac", "st-6680ua-dc", "st-hcac-ea-ua-na"],
     relatedResourceSlugs: ["field-commissioning-test-equipment", "post-installation-evse-testing", "type-2-ac-evse-testing"],
@@ -106,6 +119,12 @@ export const applicationExamples: ApplicationExample[] = [
       { step: "Control failures and retests", detail: "Route diagnostic work away from the main line and require a recorded reason for repair, retest or override." },
     ],
     outputs: ["Product-variant test matrix", "Station acceptance and reference checks", "Serial-number-linked measurements and results", "First-pass yield and failure data suitable for production review"],
+    evidencePlan: [
+      { evidence: "Variant and limit matrix", reviewUse: "Maps each charger configuration to the correct program, stimulus, measurement, numeric limit and fixture." },
+      { evidence: "Fixture and reference checks", reviewUse: "Demonstrates that station hardware and controlled reference units remain stable across shifts and maintenance." },
+      { evidence: "Serial-number result record", reviewUse: "Links measurements, limits, program version, instruments, timestamp and result to the manufactured charger." },
+      { evidence: "Retest and override history", reviewUse: "Provides an auditable reason for repair, repeat testing or authorized disposition without hiding first-pass failures." },
+    ],
     confirmBeforeProject: ["Product variants and required takt time", "Power and aging duty profile", "Fixture, safety and facility interfaces", "MES or report format and retest permissions"],
     relatedProductSlugs: ["ast-9000", "st-hcdc-hpc", "st-hcac-gb-ua-ea", "st-hcac-ea-ua-na"],
     relatedResourceSlugs: ["evse-end-of-line-testing", "production-vs-laboratory-validation", "evse-test-plan-checklist"],
@@ -136,6 +155,12 @@ export const applicationExamples: ApplicationExample[] = [
       { step: "Review energy and protection evidence", detail: "Confirm that observed flows, limits, alarms and shutdown behavior match the approved project procedure." },
     ],
     outputs: ["System boundary and responsibility diagram", "Scenario matrix with initial states and limits", "Synchronized control and measurement record", "Findings separated by charger, storage, grid and supervisory subsystem"],
+    evidencePlan: [
+      { evidence: "Power and control boundary diagram", reviewUse: "Identifies sources, storage, converters, charger, load, controllers, measurement points and subsystem ownership." },
+      { evidence: "Operating scenario matrix", reviewUse: "Defines initial state, setpoints, energy priority, transitions, limits and expected protection behavior." },
+      { evidence: "Synchronized command and power trace", reviewUse: "Aligns supervisory commands with charger state and measured grid, storage and load power." },
+      { evidence: "Subsystem finding register", reviewUse: "Assigns each observed issue to the charger, storage, grid, load, communication or supervisory boundary for follow-up." },
+    ],
     confirmBeforeProject: ["Power ratings and bidirectional requirements", "Grid-connection and regeneration permissions", "Energy-management interfaces and control ownership", "Protection, measurement accuracy and report requirements"],
     relatedProductSlugs: ["ast-9000", "st-9980ea-hpc", "st-hcdc-hpc"],
     relatedResourceSlugs: ["regenerative-load-considerations", "choose-ev-charger-test-system", "evse-test-plan-checklist"],
