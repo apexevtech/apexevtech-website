@@ -68,11 +68,12 @@ The checklist links to the new equipment buying guide. Product and resource site
 - Production deployment through the GitHub-to-Vercel integration remains available.
 - Next.js was upgraded from 16.3.5 to 16.4.0, Sharp to 0.35.5 and `source-map-js` to 1.2.2 through the non-breaking `npm audit fix` path.
 - The production dependency audit now reports zero known vulnerabilities. Nine build-tool findings remain in the Tailwind 3 dependency tree; npm only offers a forced Tailwind 4 upgrade, so that breaking migration was not mixed into this release.
-- Direct Vercel CLI authorization has expired and requires browser reauthorization.
+- Direct Vercel CLI authorization is active under `apexevtech`; the local project is linked to `ape-x1/apexevtech-website` and the latest production deployment is ready.
 - UptimeRobot requires Google OAuth reauthorization before the configured monitor and alert contacts can be tested.
 - DNSPod requires Tencent Cloud account verification before DMARC can be published.
 - Search results did not show a matching EV-charger LinkedIn company page or a definitive Google/Bing business listing.
 - A Crunchbase profile using the same legal company name currently describes the transformer business and points to `apexpowerlink.com`; a separate EV-charger division identity should be confirmed before a public profile is created or edited.
+- A reusable external-business-profile brief is available at `docs/operations/external-business-profile-brief.md`; publication still requires confirmation of the customer-facing name, exact address and platform ownership.
 
 ## Verification
 
@@ -93,3 +94,4 @@ The checklist links to the new equipment buying guide. Product and resource site
 - Live HTML exposed the new guide sections and product procurement checklist.
 - The production sitemap contains 49 canonical URLs.
 - All 49 canonical URLs were submitted to IndexNow after deployment.
+- Vercel CLI inspection confirmed that the `www.link-jl.com` production deployment is `Ready`. The Vercel project still lists `apexpowersystems.com` aliases, but public DNS for those names currently serves a separate LiteSpeed-hosted servo-voltage-stabilizer website; they must not be treated as EV-charger profile URLs.
