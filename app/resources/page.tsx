@@ -10,7 +10,7 @@ import { siteUrl } from "@/lib/seo/site-urls";
 import Link from "next/link";
 import { interfaceTopics } from "@/data/interface-topics";
 
-export const metadata: Metadata = buildPageMetadata({ title: "EV Charger Test Equipment & Testing Guides", description: "Technical guides for EV charger test equipment, DC fast chargers, AC EVSE, CCS2, GB/T, NACS, production and commissioning workflows.", path: "/resources" });
+export const metadata: Metadata = buildPageMetadata({ title: "EV Charger Test Equipment & Testing Guides", description: "Technical guides for EV charger test equipment, DC fast chargers, AC EVSE, CCS2, GB/T, NACS, production and commissioning workflows.", path: "/resources", image: "/assets/social/resources.png" });
 
 export default function ResourcesPage() {
   const itemListData = buildResourceIndexStructuredData(resources, siteUrl);

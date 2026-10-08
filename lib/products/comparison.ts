@@ -14,6 +14,7 @@ export function getProductComparisonDetails(product: Product) {
     interface: matchingSpecs(product, /connector|socket|supported interfaces|test object/i, 2) || "Confirm the required interface with APEX.",
     electricalRange: matchingSpecs(product, /voltage|current|socket rating|energy acquisition/i, 2) || "Configured for the target charger and test scope.",
     loadArrangement: matchingSpecs(product, /external load|system configuration|installation/i, 2) || "Confirm the load arrangement with APEX.",
+    standards: matchingSpecs(product, /standard|protocol|reference/i, 2) || product.highlights.filter((item) => /IEC|GB\/T|SAE|ISO|DIN|CHAdeMO|NACS/i.test(item)).slice(0, 3).join(" · ") || "Confirm the exact standards and editions with APEX.",
     capabilities: product.highlights.slice(0, 4).join(" · "),
     applications: product.applications.slice(0, 3).join(" · "),
   };

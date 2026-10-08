@@ -12,7 +12,7 @@ export const metadata = {
   title: "APEX EV Charger Test Lab Equipment & AC/DC EVSE Systems",
   description: "Configure APEX AC/DC EV charger test systems for laboratories, production and field commissioning. Compare connectors, protocols, ratings and load options.",
   path: "/",
-  image: "/assets/hero/test-lab-systems.webp",
+  image: "/assets/social/home.png",
   }),
   title: { absolute: "APEX EV Charger Test Lab Equipment & AC/DC EVSE Systems" },
 };
@@ -86,7 +86,8 @@ export default function HomePage() {
               fill
               fetchPriority="high"
               loading="eager"
-              sizes="(min-width: 1280px) 680px, (min-width: 1024px) 53vw, 100vw"
+              quality={60}
+              sizes="(min-width: 1280px) 680px, (min-width: 1024px) 53vw, calc(100vw - 40px)"
               className="object-cover"
             />
             <div className="absolute bottom-0 left-0 right-0 border-t border-white/20 bg-[#102a43]/95 px-5 py-4 text-sm font-bold text-white">

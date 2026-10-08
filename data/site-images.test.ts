@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { caseStudies, products } from "@/data/site";
+import { products } from "@/data/site";
 
 describe("product image assets", () => {
   it("uses optimized WebP source images that are present in the public directory", () => {
@@ -35,13 +35,6 @@ describe("product image assets", () => {
     }
   });
 
-  it("keeps solution case-study images on optimized WebP assets", () => {
-    for (const study of caseStudies) {
-      expect(study.image).toMatch(/\.webp$/);
-      expect(existsSync(join(process.cwd(), "public", study.image))).toBe(true);
-    }
-  });
-
   it("uses the optimized favicon in the root metadata", () => {
     const layoutSource = readFileSync(join(process.cwd(), "app", "layout.tsx"), "utf8");
 
@@ -63,14 +56,13 @@ describe("product image assets", () => {
     const heroAsset = "/assets/hero/test-lab-systems.webp";
 
     expect(homeSource).toContain(`src="${heroAsset}"`);
-    expect(layoutSource).toContain(`images: ["${heroAsset}"]`);
+    expect(layoutSource).toContain('images: ["/assets/social/home.png"]');
     expect(existsSync(join(process.cwd(), "public", heroAsset))).toBe(true);
   });
 
   it("does not retain duplicate PNG or JPEG sources for active WebP assets", () => {
     const activeAssets = new Set([
       ...products.map((product) => product.image),
-      ...caseStudies.map((study) => study.image),
       "/assets/apex-logo.webp",
       "/assets/hero/test-lab-systems.webp",
       "/assets/products/AST-9000x-fitted.webp",

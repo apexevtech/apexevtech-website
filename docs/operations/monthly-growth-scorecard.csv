@@ -1,0 +1,3 @@
+period_end,period_days,organic_clicks,organic_impressions,search_ctr_percent,average_position,ga4_active_users,ga4_new_users,ga4_sessions,organic_sessions,average_engagement_seconds,inquiry_emails,clarity_sessions,clarity_unique_users,average_scroll_percent,release_commit,notes
+2026-09-10,28,0,73,0,33.4,,,,,,,,,,,,"Previous Search Console comparison period"
+2026-10-08,28,4,347,1.2,22.3,5,3,13,1,173,2,17,4,58.31,0cbc7a2,"Baseline after search content and conversion work"

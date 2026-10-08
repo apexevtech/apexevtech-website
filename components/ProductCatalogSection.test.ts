@@ -8,9 +8,11 @@ describe("product catalog filter initialization", () => {
     const pageSource = readFileSync(join(process.cwd(), "app", "products", "page.tsx"), "utf8");
 
     expect(pageSource).not.toContain("searchParams");
-    expect(source).toContain('useState<ProductFilter>("all")');
-    expect(source).toContain('new URLSearchParams(window.location.search).get("type")');
-    expect(source).toContain('window.addEventListener("popstate", syncFilterWithUrl)');
-    expect(source).toContain('window.history.pushState(null, "", href)');
+    expect(source).toContain("useState<ProductFilters>(defaults)");
+    expect(source).toContain("parseProductFilters(new URLSearchParams(window.location.search))");
+    expect(source).toContain('window.addEventListener("popstate", sync)');
+    expect(source).toContain('window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`)');
+    expect(source).toContain('updateFilter("interface"');
+    expect(source).toContain('updateFilter("workflow"');
   });
 });

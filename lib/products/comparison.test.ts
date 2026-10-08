@@ -16,6 +16,7 @@ describe("product comparison", () => {
       expect(details.interface.length).toBeGreaterThan(10);
       expect(details.electricalRange.length).toBeGreaterThan(10);
       expect(details.loadArrangement.length).toBeGreaterThan(10);
+      expect(details.standards.length).toBeGreaterThan(10);
       expect(details.capabilities).toContain(product.highlights[0]);
       expect(details.applications).toContain(product.applications[0]);
     }

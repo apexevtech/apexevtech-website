@@ -10,7 +10,7 @@ import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 type Props = { params: Promise<{ slug: string }> };
 export function generateStaticParams() { return resources.map((resource) => ({ slug: resource.slug })); }
-export async function generateMetadata({ params }: Props): Promise<Metadata> { const resource = getResource((await params).slug); return resource ? buildPageMetadata({ title: resource.title, description: resource.description, path: `/resources/${resource.slug}`, article: { publishedAt: resource.publishedAt, modifiedAt: resource.modifiedAt } }) : {}; }
+export async function generateMetadata({ params }: Props): Promise<Metadata> { const resource = getResource((await params).slug); return resource ? buildPageMetadata({ title: resource.title, description: resource.description, path: `/resources/${resource.slug}`, image: "/assets/social/resources.png", article: { publishedAt: resource.publishedAt, modifiedAt: resource.modifiedAt } }) : {}; }
 
 export default async function ResourcePage({ params }: Props) {
   const resource = getResource((await params).slug); if (!resource) notFound();

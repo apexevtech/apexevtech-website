@@ -60,6 +60,7 @@ export function ProductComparison({ products }: { products: Product[] }) {
     ["Interface / connector", "interface"],
     ["Electrical range", "electricalRange"],
     ["Load arrangement", "loadArrangement"],
+    ["Standards / protocol scope", "standards"],
     ["Test capabilities", "capabilities"],
     ["Typical applications", "applications"],
   ] as const;

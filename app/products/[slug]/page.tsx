@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
     title: seo?.title || product.seoTitle || `${product.model} ${product.category.split(" /")[0]}`,
     description: seo?.description || product.shortDescription,
     path: `/products/${product.slug}`,
-    image: product.image,
+    image: "/assets/social/products.png",
   });
 }
 
@@ -91,7 +91,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
               ))}
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link href={product.slug === "st-9980a-pro" ? "#product-inquiry" : "/contact#inquiry-form"} className="rounded-md bg-[#1479c9] px-5 py-3 font-extrabold text-white hover:bg-[#0f5f9f]">
+              <Link href="#product-inquiry" className="rounded-md bg-[#1479c9] px-5 py-3 font-extrabold text-white hover:bg-[#0f5f9f]">
                 Request a quote
               </Link>
               {product.document ? <ProductDocumentDownload href={product.document} model={product.model} /> : null}
@@ -138,7 +138,11 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
               ["Acceptance and support", "Agree supplied accessories, software, factory acceptance checks, commissioning, training and support boundaries."],
             ].map(([title, text]) => <div key={title} className="border-t-2 border-[#00a6c7] pt-4"><h3 className="font-black text-[#12263a]">{title}</h3><p className="mt-2 text-sm leading-6 text-[#526b7d]">{text}</p></div>)}
           </div>
-          <Link href="/resources/ev-charger-test-equipment-guide" className="mt-6 inline-flex text-sm font-black text-[#1268a8]">Read the equipment buying guide →</Link>
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <Link href="#product-inquiry" className="rounded-md bg-[#1479c9] px-5 py-3 text-sm font-black text-white hover:bg-[#0f5f9f]">Send configuration requirements</Link>
+            <Link href={`/products?compare=${product.slug}#compare`} className="text-sm font-black text-[#1268a8]">Compare {product.model} →</Link>
+            <Link href="/resources/ev-charger-test-equipment-guide" className="text-sm font-black text-[#1268a8]">Read the equipment buying guide →</Link>
+          </div>
         </div>
       </section>
 
@@ -162,6 +166,11 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           <div>
             <SectionHeading compact eyebrow="Technical Specifications" title="Core specifications" />
             <SpecTable specs={product.specs} />
+            <div className="mt-5 rounded-md border-l-4 border-[#00a6c7] bg-white p-5">
+              <h3 className="font-black text-[#12263a]">Need this model configured for your charger?</h3>
+              <p className="mt-2 text-sm leading-6 text-[#526b7d]">Send the connector, target standard, voltage/current range and test workflow. The form below already includes {product.model} as the inquiry context.</p>
+              <Link href="#product-inquiry" className="mt-4 inline-flex rounded-md bg-[#1479c9] px-5 py-3 text-sm font-black text-white hover:bg-[#0f5f9f]">Request a configuration review</Link>
+            </div>
           </div>
         </div>
       </section>

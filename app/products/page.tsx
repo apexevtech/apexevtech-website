@@ -3,17 +3,15 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/PageHero";
 import { ProductCatalogSection } from "@/components/ProductCatalogSection";
 import { ProductComparison } from "@/components/ProductComparison";
-import { brochureCatalog, products } from "@/data/site";
+import { products } from "@/data/site";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "EV Charger Test Equipment: AC, DC & Laboratory Systems",
   description: "Compare APEX AC and DC EVSE testers, portable charger analyzers and integrated laboratory systems by connector, test workflow and external-load requirements.",
   path: "/products",
+  image: "/assets/social/products.png",
 });
-
-const existingProductModels = new Set(products.map((product) => product.model));
-const supplementalCatalog = brochureCatalog.filter((item) => !existingProductModels.has(item.model));
 
 export default function ProductsPage() {
   return (
@@ -40,7 +38,6 @@ export default function ProductsPage() {
       <ProductComparison products={products} />
       <ProductCatalogSection
         products={products}
-        supplementalCatalog={supplementalCatalog}
       />
     </>
   );

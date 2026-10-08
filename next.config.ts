@@ -5,7 +5,8 @@ import { securityHeaders } from "./lib/security/headers";
 const nextConfig: NextConfig = {
   output: "standalone",
   images: {
-    minimumCacheTTL: 604800,
+    minimumCacheTTL: 2592000,
+    qualities: [60, 75],
   },
   async headers() {
     return [

@@ -572,4 +572,128 @@ export const resources: Resource[] = [
     relatedProductSlugs: ["st-hcdc-hpc", "st-9980ea-hpc", "st-9980a-pro", "st-6680ca-dc", "ast-9000"],
     relatedResourceSlugs: ["ccs2-dc-fast-charger-testing", "gbt-dc-charger-conformance-testing", "ev-charging-protocol-testing", "regenerative-load-considerations"],
   },
+  {
+    slug: "iso-15118-din-70121-testing",
+    title: "ISO 15118 & DIN 70121 EV Charger Testing Plan",
+    description: "Plan CCS charger communication testing for DIN SPEC 70121 and ISO 15118 with PLC setup, protocol scope, electrical correlation, faults and retained evidence.",
+    topic: "ISO 15118 and DIN 70121 testing",
+    intent: "technical",
+    publishedAt: "2026-10-08",
+    modifiedAt: "2026-10-08",
+    summaryAnswer: "An ISO 15118 or DIN SPEC 70121 test plan must name the exact protocol edition, supported charging mode and test purpose before equipment is selected. Combine compatible PLC communication hardware and software with control-pilot observation, measured charger output and time-correlated logs; connector compatibility alone does not prove protocol coverage.",
+    sections: [
+      { heading: "Freeze the communication scope", paragraphs: [
+        "Record whether the project requires DIN SPEC 70121, ISO 15118-2, ISO 15118-20 or a defined combination, together with the charger firmware and intended charging mode. Treat each document and edition as a separate scope item because messages, state behavior and optional functions are not interchangeable.",
+        "Define whether the work supports development diagnosis, interoperability, regression or preparation for a formal procedure. The equipment configuration and result language should stay within that purpose and must not imply certification without the applicable accredited process.",
+      ], checklist: ["Name every protocol and edition", "Record charger firmware and charging mode", "Define the decision the test supports"] },
+      { heading: "Correlate PLC traffic with charger behavior", paragraphs: [
+        "A useful setup observes the control-pilot state, PLC session and electrical response on a common timeline. Retain raw messages when encoding, sequence or timing matters, and compare requested values with the charger report and independent voltage or current measurements where required.",
+        "Confirm which parts of SLAC, session setup, parameter exchange, energy transfer and termination the selected tools can generate and decode. State separately whether certificate handling, Plug & Charge or bidirectional functions are included in the approved scope.",
+      ], checklist: ["Capture raw PLC messages and timestamps", "Align pilot, messages and measurements", "List optional security or bidirectional functions"] },
+      { heading: "Build repeatable normal and fault cases", paragraphs: [
+        "Start with one known normal charging path, then change one approved condition at a time. Define the injected message, delay, parameter or termination condition, expected charger response and safe boundary before execution.",
+        "Store the tester configuration, protocol stack version, charger identity, measured output and final result with every case. This record helps distinguish a charger defect from a test-tool, connection, load or version mismatch.",
+      ] },
+    ],
+    faqs: [
+      { question: "Is DIN SPEC 70121 the same as ISO 15118?", answer: "No. They are related CCS communication specifications with different protocol scope. Name the exact document and edition required by the charger and procedure." },
+      { question: "Does a CCS2 connector prove ISO 15118 support?", answer: "No. The physical connector, PLC hardware, protocol software and implemented test cases must all be confirmed separately." },
+      { question: "Can ISO 15118 communication be tested without rated power?", answer: "Many communication and sequence checks can operate at limited power, but the complete setup must still provide a safe, compatible electrical and load path for the chosen case." },
+    ],
+    relatedProductSlugs: ["st-9980ea-hpc", "st-6680ea-dc", "ast-9000"],
+    relatedResourceSlugs: ["ccs2-dc-fast-charger-testing", "ev-charging-protocol-testing", "dc-fast-charger-testing-guide"],
+  },
+  {
+    slug: "iec-61851-evse-testing",
+    title: "IEC 61851 EVSE Testing: Scope, Pilot States & Evidence",
+    description: "Plan IEC 61851 EVSE testing around the applicable parts and editions, control-pilot states, switching, measurements, abnormal conditions and test records.",
+    topic: "IEC 61851 EVSE testing",
+    intent: "technical",
+    publishedAt: "2026-10-08",
+    modifiedAt: "2026-10-08",
+    summaryAnswer: "IEC 61851 EVSE testing should identify the applicable part and edition, AC or DC equipment, charging mode, connector and decision being supported. Translate those requirements into controlled pilot states, switching and measurement checks with explicit limits and retained evidence rather than treating a successful charging session as complete validation.",
+    sections: [
+      { heading: "Identify the applicable IEC 61851 scope", paragraphs: [
+        "Begin with the EVSE type, charging mode, connector arrangement, supply or output ratings and the exact IEC 61851 parts and editions named by the project. Add regional installation, metering or safety requirements separately instead of assuming they are included in the base communication workflow.",
+        "State whether the activity is engineering diagnosis, production inspection, commissioning or conformity-assessment preparation. These uses can share equipment while requiring different controls, sample plans and result language.",
+      ], checklist: ["Record applicable parts and editions", "Identify AC or DC and charging mode", "Separate product and installation requirements"] },
+      { heading: "Map states to measurable responses", paragraphs: [
+        "For conductive AC charging, define the vehicle-side control-pilot and proximity conditions, expected EVSE switching behavior, available-current indication and required measurements. For a DC scope, add the selected digital communication and high-voltage sequence requirements.",
+        "Use a table that connects each simulated state with expected contactor, voltage, current, timing and indication results. Record instrument ranges and accuracy so an observation is not mistaken for a quantified acceptance result.",
+      ], checklist: ["Define simulated pilot conditions", "Set expected switching and timing", "Record measurement method and limits"] },
+      { heading: "Control abnormal tests and evidence", paragraphs: [
+        "List approved diode, resistance, protective-conductor, communication or termination conditions individually. Establish the safe setup, expected response and recovery path before applying each one, especially at an installed charger.",
+        "Retain the EVSE identity, firmware, tester configuration, procedure revision, values, timestamps and limitations. Laboratory controls may be required for cases that are unsuitable for routine field commissioning.",
+      ] },
+    ],
+    faqs: [
+      { question: "Is IEC 61851 testing only a control-pilot check?", answer: "No. The applicable scope can include charging states, switching, communication, electrical behavior and protective responses. The required parts and editions determine the test plan." },
+      { question: "Does a portable EVSE tester certify an IEC 61851 charger?", answer: "No. A portable tester can support defined checks, but certification or conformity assessment depends on the applicable procedure, facilities, evidence and authorized body." },
+      { question: "Which information is needed to configure an IEC 61851 tester?", answer: "Provide the EVSE type, connector, phases, voltage and current, applicable parts and editions, required states and faults, measurement accuracy and laboratory or field workflow." },
+    ],
+    relatedProductSlugs: ["st-6680ea-ac", "st-hcac-gb-ua-ea", "st-hcac-ea-ua-na", "ast-9000"],
+    relatedResourceSlugs: ["type-2-ac-evse-testing", "ac-vs-dc-evse-testing", "evse-test-plan-checklist"],
+  },
+  {
+    slug: "gbt-27930-2-charger-testing",
+    title: "GB/T 27930.2 Charger Protocol Testing Guide",
+    description: "Prepare GB/T 27930.2 DC charger protocol tests with version control, BMS simulation, CAN evidence, electrical correlation, abnormal cases and reports.",
+    topic: "GB/T 27930.2 protocol testing",
+    intent: "technical",
+    publishedAt: "2026-10-08",
+    modifiedAt: "2026-10-08",
+    summaryAnswer: "GB/T 27930.2 charger testing should lock the required standard edition and charger firmware, then connect simulated BMS communication to measured charger behavior across handshake, configuration, charging and termination. Record CAN messages, requested parameters, charger output, timing and approved abnormal responses in one repeatable result set.",
+    sections: [
+      { heading: "Lock the GB/T protocol baseline", paragraphs: [
+        "Record the exact GB/T 27930.2 edition required by the market, customer or procedure and identify any relationship to earlier charger firmware behavior. Do not infer compatibility across revisions from a successful physical connection.",
+        "List the associated connector, system, interoperability, metering and safety documents separately. The communication test equipment must match the required CAN behavior while the complete setup also respects every electrical and connection limit.",
+      ], checklist: ["Name the exact GB/T 27930.2 edition", "Record charger hardware and firmware", "List related standards separately"] },
+      { heading: "Reproduce the charging communication stages", paragraphs: [
+        "Build the normal sequence from handshake and recognition through parameter configuration, charging and completion. At each stage, specify the required message, timing, requested voltage or current and expected charger transition.",
+        "Correlate CAN logs with charger-reported and independently measured output. Preserve raw traffic when message content or timeout behavior matters, together with the BMS simulator configuration used to produce it.",
+      ], checklist: ["Define messages and timing by stage", "Compare requested and measured output", "Save raw CAN and simulator configuration"] },
+      { heading: "Separate conformance, interoperability and faults", paragraphs: [
+        "A completed charging session supports interoperability evidence but does not automatically prove every protocol-conformance case. Keep required normative checks, real-device interoperability and engineering fault diagnosis as identifiable result groups.",
+        "For each approved abnormal message, timeout, parameter or termination case, state the expected charger response and safe execution limit. Repeat a failed case with the same baseline after corrective action.",
+      ] },
+    ],
+    faqs: [
+      { question: "Can a GB/T 27930-2015 tester automatically cover GB/T 27930.2?", answer: "Do not assume it can. Confirm the protocol hardware, software, message set, timing and test cases for the exact required edition." },
+      { question: "Is BMS simulation enough for GB/T charger testing?", answer: "BMS simulation is central to communication testing, but electrical measurement, connector limits, load arrangement and evidence requirements must also match the procedure." },
+      { question: "What should a GB/T 27930.2 report retain?", answer: "Retain charger and tester identity, versions, configuration, test case, raw CAN records where required, requested and measured values, timing, limits, result and test limitations." },
+    ],
+    relatedProductSlugs: ["st-9980a-pro", "st-hcdc-hpc", "st-6680b-plus", "ast-9000"],
+    relatedResourceSlugs: ["gbt-dc-charger-conformance-testing", "ev-charging-protocol-testing", "dc-fast-charger-testing-guide"],
+  },
+  {
+    slug: "sae-j3400-nacs-testing",
+    title: "SAE J3400 / NACS EVSE Testing Guide",
+    description: "Plan SAE J3400 and NACS EVSE testing by defining AC or DC scope, connector ratings, pilot and communication behavior, measurements, faults and evidence.",
+    topic: "SAE J3400 and NACS testing",
+    intent: "technical",
+    publishedAt: "2026-10-08",
+    modifiedAt: "2026-10-08",
+    summaryAnswer: "An SAE J3400 or NACS test plan must explicitly state whether it addresses AC charging, DC charging or both. Match the coupler and cable ratings, pilot and communication functions, power path, measurements and approved abnormal cases to the selected standard edition; the shared connector family does not make AC and DC test coverage interchangeable.",
+    sections: [
+      { heading: "State the AC or DC scope first", paragraphs: [
+        "Record the SAE J3400 edition, charger implementation, coupler arrangement and whether the project covers AC, DC or defined portions of both. Identify the supply or output limits and communication functions for each mode instead of using NACS as a single undifferentiated equipment requirement.",
+        "Add regional installation, safety, metering and customer requirements as separate scope items. A quotation should identify which functions belong to the tester, adapters, instruments and external load.",
+      ], checklist: ["Name the SAE J3400 edition", "Separate AC and DC requirements", "Record coupler, cable and power limits"] },
+      { heading: "Build the functional and measurement matrix", paragraphs: [
+        "For AC work, connect simulated vehicle states and pilot behavior with EVSE switching, available-current indication and measured output. For DC work, define the required communication stack, initialization, requested values, high-voltage sequence and external energy-absorption path.",
+        "Set evidence depth for each case: functional indication, measured values, waveform or protocol capture, timing and report fields. Confirm optional modules and accuracy before treating a model as suitable.",
+      ], checklist: ["Map states to charger response", "Define independent measurements", "Confirm communication and evidence options"] },
+      { heading: "Document safe abnormal and recovery cases", paragraphs: [
+        "List approved pilot, communication, protective or termination conditions one at a time, together with the expected response and recovery. Apply only conditions supported by the equipment and procedure, particularly during field work.",
+        "Preserve the charger firmware, tester configuration, standard edition, measured values and limitations with every result. This baseline makes later regression or commissioning comparisons meaningful.",
+      ] },
+    ],
+    faqs: [
+      { question: "Is NACS the same as SAE J3400?", answer: "NACS commonly names the connector system, while SAE J3400 standardizes the charging interface. Testing should cite the exact SAE J3400 edition and the AC or DC functions required." },
+      { question: "Does one NACS tester automatically cover AC and DC?", answer: "No. Confirm AC and DC electrical paths, pilot or communication functions, ratings and test cases separately." },
+      { question: "What should be included in an SAE J3400 equipment request?", answer: "Provide the standard edition, AC or DC scope, charger and coupler ratings, pilot and communication cases, measurements, faults, workflow and required evidence." },
+    ],
+    relatedProductSlugs: ["st-hcac-ea-ua-na", "st-6680ua-ac", "ast-9000"],
+    relatedResourceSlugs: ["nacs-ac-evse-testing", "ac-vs-dc-evse-testing", "evse-test-plan-checklist"],
+  },
 ];

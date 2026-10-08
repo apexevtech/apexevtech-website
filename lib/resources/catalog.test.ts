@@ -17,7 +17,7 @@ describe("resource catalog", () => {
     }
   });
   it("provides a unique, internally connected content cluster", () => {
-    expect(resources).toHaveLength(18);
+    expect(resources).toHaveLength(22);
     expect(new Set(resources.map((item) => item.slug)).size).toBe(resources.length);
     for (const resource of resources) {
       expect(resource.summaryAnswer.length).toBeGreaterThan(80);
@@ -36,6 +36,10 @@ describe("resource catalog", () => {
     expect(getResource("post-installation-evse-testing")?.title).toMatch(/^EVSE Testing After Commissioning/);
     expect(getResource("ev-charging-protocol-testing")?.title).toMatch(/eMobility.*Protocol Testing/);
     expect(getResource("ac-vs-dc-evse-testing")?.title).toMatch(/^AC Charger Testing/);
+    expect(getResource("iso-15118-din-70121-testing")?.title).toMatch(/ISO 15118/);
+    expect(getResource("iec-61851-evse-testing")?.title).toMatch(/IEC 61851/);
+    expect(getResource("gbt-27930-2-charger-testing")?.title).toMatch(/GB\/T 27930\.2/);
+    expect(getResource("sae-j3400-nacs-testing")?.title).toMatch(/SAE J3400/);
   });
 
   it("returns undefined for an unknown slug", () => {

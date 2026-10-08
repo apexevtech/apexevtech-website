@@ -20,6 +20,10 @@ const groupDefinitions: ResourceGroupDefinition[] = [
     description: "Define connector, protocol revision and evidence for CCS2, GB/T, NACS and Type 2 charger testing.",
     slugs: [
       "dc-fast-charger-testing-guide",
+      "iso-15118-din-70121-testing",
+      "iec-61851-evse-testing",
+      "gbt-27930-2-charger-testing",
+      "sae-j3400-nacs-testing",
       "ccs2-dc-fast-charger-testing",
       "gbt-dc-charger-conformance-testing",
       "nacs-ac-evse-testing",
