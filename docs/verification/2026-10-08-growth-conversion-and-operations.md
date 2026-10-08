@@ -86,4 +86,10 @@ The checklist links to the new equipment buying guide. Product and resource site
 
 ## Production release
 
-Pending commit, deployment and live verification.
+- Source commit: `0cbc7a2`.
+- Both configured Vercel checks completed successfully through the GitHub integration.
+- Production alias: `https://www.link-jl.com`.
+- The new equipment guide, three updated search pages, a representative product page, the resource index, About page and sitemap returned HTTP 200.
+- Live HTML exposed the new guide sections and product procurement checklist.
+- The production sitemap contains 49 canonical URLs.
+- All 49 canonical URLs were submitted to IndexNow after deployment.
