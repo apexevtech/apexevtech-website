@@ -16,15 +16,15 @@ This checklist separates repository readiness from live platform evidence. Use o
 
 - `verified`: production GA4 is receiving website events, `generate_lead` is a key event, and five event-scoped custom dimensions were created on 2026-09-23.
 - `verified`: production Clarity project ID is deployed and the authenticated dashboard has recorded sessions.
-- `verified`: Google Search Console is accessible, 30 pages are indexed, and a fresh validation for 12 redirected legacy document URLs started on 2026-09-23.
-- `submitted`: Bing Webmaster import succeeded and IndexNow accepted the 27 canonical URLs; continue monitoring indexing.
-- `verified`: a five-minute UptimeRobot monitor exists and has completed successful checks; alert delivery testing remains an operator task.
+- `verified`: Google Search Console is accessible. On 2026-10-09, the ISO 15118 / DIN 70121 and GB/T 27930.2 guides were indexed; priority crawl requests were accepted for the IEC 61851 and SAE J3400 / NACS guides.
+- `submitted`: Bing Webmaster import succeeded. IndexNow accepted all 53 current canonical sitemap URLs on 2026-10-09; continue monitoring Bing discovery and indexing.
+- `verified`: a five-minute UptimeRobot monitor exists, reports the production site as up, and delivered both simulated DOWN and UP test emails on 2026-10-09.
 
 ## Email Authentication
 
 - `verified`: Tencent enterprise mail MX and SPF records are published.
 - `verified`: Resend DKIM is published and the production inquiry API has returned a provider `ACCEPTED` result.
-- `not configured`: `_dmarc.link-jl.com` is still absent; publish a monitoring policy after signing in to DNSPod.
+- `verified`: `_dmarc.link-jl.com` publishes `v=DMARC1; p=none; rua=mailto:gu@apexps-nj.com; adkim=r; aspf=r; pct=100`; DNSPod accepted the record and a public `1.1.1.1` lookup returned it on 2026-10-09.
 
 ## Entity Consistency
 
