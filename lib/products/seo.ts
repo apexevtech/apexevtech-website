@@ -243,7 +243,7 @@ export const priorityProductSeo: Record<string, ProductSeoContent> = {
   },
   "st-hcac-gb-ua-ea": {
     title: "ST-HCAC Three-Standard AC Charger Tester",
-    description: "Test GB, European and North American AC chargers in one portable platform with interoperability checks, pilot simulation, optional 0.05-class metering and waveform capture.",
+    description: "Test GB, European and North American AC chargers in one portable platform with interoperability, pilot simulation, 0.05-class metering and waveform capture.",
     intro: "ST-HCAC-GB / UA / EA consolidates three regional AC charging interfaces into one validation platform. It is intended for manufacturers, laboratories and inspection teams comparing charger behavior, metering and control-pilot signals across target markets.",
     selection: {
       "workflow": "GB, European and North American AC charger validation in one platform. Confirm the connectors and test current for each regional interface before configuring the station.",

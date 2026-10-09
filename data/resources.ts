@@ -170,10 +170,10 @@ export const resources: Resource[] = [
   {
     slug: "prepare-ev-charger-standards-validation",
     title: "Preparing for IEC, SAE, NACS and GB/T Validation",
-    description: "Organize standards coverage and test evidence before configuring an EV charger validation system.",
+    description: "Organize IEC, SAE, NACS and GB/T standards coverage, test methods, equipment requirements and retained evidence before configuring an EV charger validation system.",
     topic: "EV charger standards validation",
     intent: "process",
-    publishedAt, modifiedAt,
+    publishedAt, modifiedAt: "2026-10-09",
     summaryAnswer: "Prepare for charger standards validation by fixing the target market, connector, charger type and exact document versions before selecting tests. Build a requirements matrix that maps each applicable clause to a test method, equipment configuration, expected result and retained evidence; do not treat a list of standard names as proof of coverage.",
     sections: [
       { heading: "Freeze the applicable document set", paragraphs: [
@@ -431,12 +431,12 @@ export const resources: Resource[] = [
   },
   {
     slug: "post-installation-evse-testing",
-    title: "EVSE Testing After Commissioning: Site & Evidence Checklist",
+    title: "EVSE Testing After Commissioning: Site Checklist",
     description: "Follow a practical EVSE testing checklist after commissioning, repair or firmware changes to verify site conditions, charging states and retained evidence.",
     topic: "EVSE testing after commissioning",
     intent: "process",
     publishedAt: "2026-09-21",
-    modifiedAt: "2026-10-08",
+    modifiedAt: "2026-10-09",
     summaryAnswer: "Post-installation EVSE testing should confirm site identity and configuration, supply and grounding preconditions, connector condition, normal charging states, measured output, communication evidence and safe stop behavior. Repeat the baseline after firmware, network, protection, power-module or wiring changes and compare results with the commissioning record.",
     sections: [
       { heading: "Start with site and change history", paragraphs: [
@@ -535,12 +535,12 @@ export const resources: Resource[] = [
   },
   {
     slug: "dc-fast-charger-testing-guide",
-    title: "DC Fast Charger Testing: Procedure, Equipment and Load Planning",
+    title: "DC Fast Charger Testing: Equipment & Load Guide",
     description: "Build a DC fast charger testing procedure for connector and protocol setup, charging states, output measurements, load planning, faults and test evidence.",
     topic: "DC fast charger testing",
     intent: "technical",
     publishedAt: "2026-09-23",
-    modifiedAt: "2026-09-23",
+    modifiedAt: "2026-10-09",
     summaryAnswer: "DC fast charger testing combines a vehicle-side communication simulator, the correct connector and protocol, high-voltage measurement and a safe energy-absorption path. The procedure should verify initialization and insulation checks, parameter negotiation, controlled output, charging-state transitions, normal termination and defined fault responses while preserving synchronized protocol and electrical evidence.",
     sections: [
       { heading: "Identify the DC charging interface", paragraphs: [

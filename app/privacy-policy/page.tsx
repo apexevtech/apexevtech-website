@@ -5,8 +5,8 @@ import { company } from "@/data/site";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Privacy Policy",
-  description: "Privacy and analytics policy for the APEX EV charger testing website.",
+  title: "Privacy, Cookies & Analytics Policy",
+  description: "Learn how APEX handles business inquiry data, website analytics and cookies, including the information collected, service providers, retention and your choices.",
   path: "/privacy-policy",
 });
 

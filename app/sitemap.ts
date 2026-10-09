@@ -14,10 +14,13 @@ const staticPageUpdates: Record<string, string> = {
   "/solutions": "2026-09-22T00:00:00.000Z",
   "/applications": "2026-09-22T00:00:00.000Z",
   "/interfaces": "2026-09-22T00:00:00.000Z",
-  "/resources": "2026-10-08T00:00:00.000Z",
-  "/privacy-policy": "2026-09-22T00:00:00.000Z",
+  "/resources": "2026-10-09T00:00:00.000Z",
+  "/privacy-policy": "2026-10-09T00:00:00.000Z",
 };
 const productContentLastModified = "2026-10-08T00:00:00.000Z";
+const productPageUpdates: Record<string, string> = {
+  "st-hcac-gb-ua-ea": "2026-10-09T00:00:00.000Z",
+};
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -29,7 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...products.map((product) => ({
       url: `${siteUrl}/products/${product.slug}`,
-      lastModified: new Date(productContentLastModified),
+      lastModified: new Date(productPageUpdates[product.slug] || productContentLastModified),
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
