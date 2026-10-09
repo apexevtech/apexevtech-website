@@ -16,6 +16,15 @@ The accepted requests place the two URLs in Google's priority crawl queue. They 
 - The production sitemap contained 53 canonical URLs.
 - `npm run indexnow` submitted all 53 URLs successfully using the deployed public IndexNow key.
 - The IndexNow endpoint returned a successful response and the operator script reported `Submitted 53 URLs to IndexNow.`
+- The authenticated Bing Webmaster IndexNow report confirmed 53 URLs received from the site on 2026-10-09 with source `Self`.
+
+## Bing Webmaster
+
+- The production sitemap was resubmitted on 2026-10-09.
+- Bing reported the sitemap as successful, last submitted and crawled on 2026-10-09, with 53 discovered URLs and no sitemap errors or warnings.
+- Bing URL Inspection reported the ISO 15118 / DIN 70121 guide as discovered but not yet crawled.
+- Manual URL submission was completed for all four new standards guides: ISO 15118 / DIN 70121, IEC 61851, GB/T 27930.2, and SAE J3400 / NACS.
+- The URL Submission report listed all four URLs on 2026-10-09 and showed four URLs submitted that day.
 
 ## DMARC
 
@@ -33,5 +42,5 @@ The accepted requests place the two URLs in Google's priority crawl queue. They 
 ## Follow-up
 
 - Recheck the two pending Google URLs after 3–7 days.
-- Confirm the four new standards guides appear in Bing Webmaster discovery/indexing reports.
+- Recheck Bing crawling and indexing for the four manually submitted standards guides after 3–7 days.
 - Review DMARC aggregate reports for 2–4 weeks before changing the policy.
