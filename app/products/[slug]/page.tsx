@@ -14,7 +14,6 @@ import { StructuredData } from "@/components/StructuredData";
 import { getProductSeo } from "@/lib/products/seo";
 import { siteUrl } from "@/lib/seo/site-urls";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
-import { buildProductStructuredData } from "@/lib/seo/product-structured-data";
 import { ProductViewEvent } from "@/components/ProductViewEvent";
 import { getProductApplications } from "@/data/applications";
 import { getProductInterfaceTopics } from "@/data/interface-topics";
@@ -55,8 +54,6 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   const relatedApplications = getProductApplications(product.slug);
   const relatedInterfaceTopics = getProductInterfaceTopics(product.slug);
   const seo = getProductSeo(product.slug);
-  const productData = buildProductStructuredData(product, siteUrl);
-
   const breadcrumbData = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -70,7 +67,6 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   return (
     <>
       <ProductViewEvent product={product} />
-      <StructuredData data={productData} />
       <StructuredData data={breadcrumbData} />
       {seo ? <StructuredData data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: seo.faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } })) }} /> : null}
       <PageHero compact eyebrow={product.category} title={product.model} subtitle={product.title} description={product.shortDescription} />
