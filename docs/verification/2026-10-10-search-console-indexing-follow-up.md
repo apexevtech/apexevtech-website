@@ -41,5 +41,7 @@ The single 404 example is the historical malformed URL `/$`. Returning 404 is th
 - Breadcrumbs, updated 2026-10-08: 0 invalid items and 4 valid items.
 - HTTPS, updated 2026-10-04: 0 non-HTTPS URLs and 11 HTTPS URLs.
 - Core Web Vitals, updated 2026-10-08: insufficient field data for both mobile and desktop. Current Lighthouse lab checks pass, including a 1.1-second home-page LCP and zero CLS.
+- Manual actions: no issues detected.
+- Security issues: no issues detected.
 
 No additional code defect was identified in these reports. The next review should compare indexing totals after Google completes the validation and refreshes the report snapshot.
