@@ -35,7 +35,7 @@ export default function ContactPage() {
             </div>
           </div>
           <div id="inquiry-form" className="scroll-mt-28">
-            <InquiryForm context="Website contact page" prefillProductsFromQuery />
+            <InquiryForm context="Website contact page" prefillProductsFromQuery prefillContextFromQuery />
           </div>
         </div>
       </section>

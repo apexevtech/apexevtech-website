@@ -15,6 +15,7 @@ type InquiryFormProps = {
   compact?: boolean;
   context?: string;
   prefillProductsFromQuery?: boolean;
+  prefillContextFromQuery?: boolean;
 };
 
 const fieldLabels: Record<string, string> = {
@@ -26,7 +27,7 @@ const fieldLabels: Record<string, string> = {
   message: "Message",
 };
 
-export function InquiryForm({ compact = false, context = "General website inquiry", prefillProductsFromQuery = false }: InquiryFormProps) {
+export function InquiryForm({ compact = false, context = "General website inquiry", prefillProductsFromQuery = false, prefillContextFromQuery = false }: InquiryFormProps) {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [fieldErrors, setFieldErrors] = useState<InquiryFieldErrors>({});
@@ -67,6 +68,24 @@ Required standards and tests:`;
     });
     return () => window.cancelAnimationFrame(frame);
   }, [prefillProductsFromQuery]);
+
+  useEffect(() => {
+    if (!prefillContextFromQuery) return;
+    const queryContext = new URLSearchParams(window.location.search).get("context")?.trim().slice(0, 200);
+    if (!queryContext?.startsWith("Guide inquiry: ")) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      setResolvedContext(queryContext);
+      if (messageRef.current && !messageRef.current.value) {
+        messageRef.current.value = `I would like equipment recommendations for this guide.
+
+Charger connector / interface:
+Voltage and current range:
+Required standards and test workflow:`;
+      }
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [prefillContextFromQuery]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
