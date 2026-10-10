@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { products, navItems } from "@/data/site";
 import { resources } from "@/lib/resources/catalog";
 import { siteUrl } from "@/lib/seo/site-urls";
@@ -51,6 +53,10 @@ describe("sitemap", () => {
     for (const application of applicationExamples) {
       expect(entries.find((entry) => entry.url === `${siteUrl}/applications/${application.slug}`)?.images)
         .toEqual([new URL(application.image, siteUrl).toString()]);
+    }
+    for (const imageUrl of entries.flatMap((entry) => entry.images || [])) {
+      const pathname = new URL(imageUrl).pathname;
+      expect(existsSync(join(process.cwd(), "public", pathname))).toBe(true);
     }
   });
 
