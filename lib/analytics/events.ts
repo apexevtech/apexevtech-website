@@ -8,6 +8,7 @@ export type AnalyticsEventName =
   | "email_click"
   | "phone_click"
   | "catalog_download"
+  | "guide_print"
   | "product_compare"
   | "product_filter"
   | "comparison_inquiry_click";

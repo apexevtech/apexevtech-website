@@ -29,7 +29,7 @@ export function ResourceDecisionSupport({ decisionTable, representativeProduct }
         </Link>
       ) : null}
 
-      <div className="mt-6 grid gap-3 sm:hidden">
+      <div className="resource-decision-mobile mt-6 grid gap-3 sm:hidden">
         {decisionTable.rows.map((row) => (
           <article key={row[0]} className="rounded-md border border-slate-200 bg-white p-4">
             <h3 className="font-black text-[#12263a]">{row[0]}</h3>
@@ -47,7 +47,7 @@ export function ResourceDecisionSupport({ decisionTable, representativeProduct }
         ))}
       </div>
 
-      <div className="mt-6 hidden overflow-hidden rounded-md border border-slate-200 sm:block">
+      <div className="resource-decision-table mt-6 hidden overflow-hidden rounded-md border border-slate-200 sm:block">
         <table className="w-full border-collapse text-left text-sm">
           <thead className="bg-[#102a43] text-white">
             <tr>{decisionTable.columns.map((column) => <th key={column} scope="col" className="px-4 py-3 font-black">{column}</th>)}</tr>

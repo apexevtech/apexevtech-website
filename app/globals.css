@@ -57,3 +57,49 @@ button {
     visibility: hidden;
   }
 }
+
+@media print {
+  @page { margin: 14mm; }
+
+  html,
+  body,
+  main {
+    background: #fff !important;
+    color: #12263a;
+  }
+
+  body > header,
+  body > footer,
+  .print-hide,
+  .whatsapp-floating,
+  [role="dialog"] {
+    display: none !important;
+  }
+
+  .resource-guide {
+    max-width: none;
+    padding: 0;
+  }
+
+  .resource-guide a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .resource-decision-mobile {
+    display: none !important;
+  }
+
+  .resource-decision-table {
+    display: block !important;
+    break-inside: avoid;
+  }
+
+  .resource-guide h1,
+  .resource-guide h2,
+  .resource-guide h3,
+  .resource-guide table,
+  .resource-guide img {
+    break-inside: avoid;
+  }
+}

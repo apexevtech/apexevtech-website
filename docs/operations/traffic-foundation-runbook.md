@@ -10,7 +10,8 @@ This checklist separates repository readiness from live platform evidence. Use o
 - `configured`: GA4 and Clarity load only after analytics consent and only with public IDs.
 - `configured`: UTM first-touch/latest-touch attribution is included in internal inquiry notifications.
 - `configured`: `npm run indexnow` builds canonical URL batches.
-- `verified`: the site uses Next.js 16.3.5, the production build passes, and `npm audit` reports zero known vulnerabilities as of 2026-09-23.
+- `verified`: the site uses Next.js 16.4.0, the production build passes, and the production dependency audit reports zero known vulnerabilities.
+- `verified`: `npm run audit:site` checks every sitemap page and internal link target for broken responses, orphan pages, metadata duplicates, canonical/H1/image-alt errors and download-file `noindex` headers.
 
 ## Provider Setup
 
