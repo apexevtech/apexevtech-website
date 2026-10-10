@@ -14,7 +14,7 @@ This checklist separates repository readiness from live platform evidence. Use o
 
 ## Provider Setup
 
-- `verified`: production GA4 is receiving website events, `generate_lead` is a key event, and five event-scoped custom dimensions were created on 2026-09-23.
+- `verified`: production GA4 is receiving website events; `generate_lead` and `whatsapp_click` are key events, and five event-scoped custom dimensions were created on 2026-09-23. Analytics initialization after consent was made immediate on 2026-10-10 to preserve short and throttled visits.
 - `verified`: production Clarity project ID is deployed and the authenticated dashboard has recorded sessions.
 - `verified`: Google Search Console is accessible. On 2026-10-09, the ISO 15118 / DIN 70121 and GB/T 27930.2 guides were indexed; priority crawl requests were accepted for the IEC 61851 and SAE J3400 / NACS guides.
 - `submitted`: Bing Webmaster import succeeded. IndexNow accepted all 53 current canonical sitemap URLs on 2026-10-09; continue monitoring Bing discovery and indexing.
