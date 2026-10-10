@@ -156,7 +156,11 @@ export default function HomePage() {
           <div className="mt-8 grid gap-x-8 md:grid-cols-3">
             {resources.filter((resource) => ["choose-ev-charger-test-system", "ev-charging-protocol-testing", "post-installation-evse-testing"].includes(resource.slug)).map((resource) => <article key={resource.slug} className="border-t border-slate-300 py-5"><h2 className="font-black text-[#12263a]"><Link href={`/resources/${resource.slug}`} className="hover:text-[#1268a8]">{resource.title}</Link></h2><p className="mt-2 text-sm leading-6 text-[#526b7d]">{resource.description}</p></article>)}
           </div>
-          <Link href="/resources" className="mt-4 inline-flex rounded-md border border-[#1479c9] px-5 py-3 text-sm font-extrabold text-[#1268a8]">View all resources</Link>
+          <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <Link href="/resources" className="inline-flex rounded-md border border-[#1479c9] px-5 py-3 text-sm font-extrabold text-[#1268a8]">View all resources</Link>
+            <Link href="/resources/ev-charger-testing-guide" className="text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">EV charger testing guide →</Link>
+            <Link href="/resources/dc-fast-charger-testing-guide" className="text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">DC fast charger testing guide →</Link>
+          </div>
         </div>
       </section>
 
@@ -164,9 +168,10 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-wrap items-end justify-between gap-5">
             <SectionHeading eyebrow="Product portfolio" title="Systems for laboratory, production and field validation" />
-            <Link href="/products" className="mb-10 border-b-2 border-[#1479c9] pb-1 text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">
-              View all equipment →
-            </Link>
+            <div className="mb-10 flex flex-wrap gap-x-6 gap-y-3">
+              <Link href="/applications" className="border-b-2 border-[#1479c9] pb-1 text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">View application architectures →</Link>
+              <Link href="/products" className="border-b-2 border-[#1479c9] pb-1 text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">View all equipment →</Link>
+            </div>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {products.slice(0, 3).map((product) => <ProductCard key={product.slug} product={product} sizes="(min-width: 1280px) 350px, (min-width: 1024px) calc(33vw - 62px), (min-width: 768px) calc(50vw - 72px), calc(100vw - 82px)" />)}
