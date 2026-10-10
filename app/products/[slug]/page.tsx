@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
     title: seo?.title || product.seoTitle || `${product.model} ${product.category.split(" /")[0]}`,
     description: seo?.description || product.shortDescription,
     path: `/products/${product.slug}`,
-    image: "/assets/social/products.png",
+    image: product.image,
   });
 }
 

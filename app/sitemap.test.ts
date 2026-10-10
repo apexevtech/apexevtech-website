@@ -42,4 +42,16 @@ describe("sitemap", () => {
     expect(index?.lastModified).toEqual(new Date("2026-10-09T00:00:00.000Z"));
   });
 
+  it("publishes crawlable product and application images", () => {
+    const entries = sitemap();
+    for (const product of products) {
+      expect(entries.find((entry) => entry.url === `${siteUrl}/products/${product.slug}`)?.images)
+        .toEqual([new URL(product.image, siteUrl).toString()]);
+    }
+    for (const application of applicationExamples) {
+      expect(entries.find((entry) => entry.url === `${siteUrl}/applications/${application.slug}`)?.images)
+        .toEqual([new URL(application.image, siteUrl).toString()]);
+    }
+  });
+
 });

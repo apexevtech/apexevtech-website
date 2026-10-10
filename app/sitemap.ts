@@ -22,6 +22,16 @@ const productPageUpdates: Record<string, string> = {
   "st-hcac-gb-ua-ea": "2026-10-09T00:00:00.000Z",
 };
 
+const staticPageImages: Record<string, string[]> = {
+  "": ["/assets/hero/test-lab-systems.webp"],
+  "/products": products.map((product) => product.image),
+  "/applications": applicationExamples.map((application) => application.image),
+};
+
+function absoluteImageUrls(paths: string[] | undefined) {
+  return paths?.map((path) => new URL(path, siteUrl).toString());
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...staticRoutes.map((route) => ({
@@ -29,12 +39,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(staticPageUpdates[route] || siteContentLastModified),
       changeFrequency: route === "" ? "weekly" as const : "monthly" as const,
       priority: route === "" ? 1 : 0.7,
+      images: absoluteImageUrls(staticPageImages[route]),
     })),
     ...products.map((product) => ({
       url: `${siteUrl}/products/${product.slug}`,
       lastModified: new Date(productPageUpdates[product.slug] || productContentLastModified),
       changeFrequency: "monthly" as const,
       priority: 0.8,
+      images: absoluteImageUrls([product.image]),
     })),
     ...resources.map((resource) => ({
       url: `${siteUrl}/resources/${resource.slug}`,
@@ -47,6 +59,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(`${application.modifiedAt}T00:00:00.000Z`),
       changeFrequency: "monthly" as const,
       priority: 0.7,
+      images: absoluteImageUrls([application.image]),
     })),
     ...interfaceTopics.map((topic) => ({
       url: `${siteUrl}/interfaces/${topic.slug}`,
