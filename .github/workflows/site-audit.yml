@@ -1,0 +1,35 @@
+name: Production site audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 1 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-site-audit
+  cancel-in-progress: true
+
+jobs:
+  audit-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Audit production sitemap and internal links
+        run: npm run audit:site
+        env:
+          SITE_AUDIT_URL: https://www.link-jl.com

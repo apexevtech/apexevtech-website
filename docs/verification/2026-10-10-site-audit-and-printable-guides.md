@@ -15,6 +15,8 @@ The repeatable `npm run audit:site` command audited the production sitemap and i
 
 URL comparison removes fragments, query strings and insignificant trailing slashes so valid filtered, contextual-contact and home links are not reported as false orphan or sitemap errors.
 
+The `Production site audit` GitHub Actions workflow runs this check every day at 01:17 UTC and can also be started manually. A failed crawl, metadata check or linked-download policy check therefore appears as a failed repository workflow.
+
 ## Printable engineering guides
 
 The three search-priority guides with decision tools now expose a `Print or save as PDF` action. The print layout:
