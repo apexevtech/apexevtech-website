@@ -16,10 +16,8 @@ function createDocument() {
 }
 
 describe("initializeAnalytics", () => {
-  it("defers analytics initialization until the browser is idle", () => {
-    const browserWindow: Record<string, unknown> = {
-      requestIdleCallback: (callback: () => void) => { callback(); return 1; },
-    };
+  it("initializes analytics immediately after consent", () => {
+    const browserWindow: Record<string, unknown> = {};
     const { document, scripts } = createDocument();
 
     scheduleAnalyticsInitialization(browserWindow, document as unknown as Document, {

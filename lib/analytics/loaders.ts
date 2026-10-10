@@ -13,7 +13,6 @@ type AnalyticsWindow = {
   gtag?: (...arguments_: unknown[]) => void;
   clarity?: AnalyticsFunction;
   apexAnalyticsQueue?: Array<{ name: string; parameters: Record<string, unknown> }>;
-  requestIdleCallback?: (callback: () => void) => number;
 };
 
 export function scheduleAnalyticsInitialization(
@@ -21,11 +20,10 @@ export function scheduleAnalyticsInitialization(
   document: Document,
   configuration: AnalyticsConfiguration,
 ) {
-  if (typeof browserWindow.requestIdleCallback === "function") {
-    browserWindow.requestIdleCallback(() => initializeAnalytics(browserWindow, document, configuration));
-    return;
-  }
-  setTimeout(() => initializeAnalytics(browserWindow, document, configuration), 0);
+  // Consent has already been granted by the time this function runs. Loading
+  // immediately preserves the first page view and short visits; an idle
+  // callback can be delayed indefinitely in background or throttled tabs.
+  initializeAnalytics(browserWindow, document, configuration);
 }
 
 export function initializeAnalytics(
