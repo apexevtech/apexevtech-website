@@ -127,7 +127,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl">
           <SectionHeading eyebrow="Engineering Resources" title="Plan your charger validation workflow with practical guidance" description="Start with a clear test boundary, then connect the right equipment to your laboratory, production or field process." />
           <div className="mt-8 grid gap-x-8 md:grid-cols-3">
-            {resources.filter((resource) => ["choose-ev-charger-test-system", "ev-charging-protocol-testing", "field-commissioning-test-equipment"].includes(resource.slug)).map((resource) => <article key={resource.slug} className="border-t border-slate-300 py-5"><h2 className="font-black text-[#12263a]"><Link href={`/resources/${resource.slug}`} className="hover:text-[#1268a8]">{resource.title}</Link></h2><p className="mt-2 text-sm leading-6 text-[#526b7d]">{resource.description}</p></article>)}
+            {resources.filter((resource) => ["choose-ev-charger-test-system", "ev-charging-protocol-testing", "post-installation-evse-testing"].includes(resource.slug)).map((resource) => <article key={resource.slug} className="border-t border-slate-300 py-5"><h2 className="font-black text-[#12263a]"><Link href={`/resources/${resource.slug}`} className="hover:text-[#1268a8]">{resource.title}</Link></h2><p className="mt-2 text-sm leading-6 text-[#526b7d]">{resource.description}</p></article>)}
           </div>
           <Link href="/resources" className="mt-4 inline-flex rounded-md border border-[#1479c9] px-5 py-3 text-sm font-extrabold text-[#1268a8]">View all resources</Link>
         </div>

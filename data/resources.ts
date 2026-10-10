@@ -1,10 +1,19 @@
 export type ResourceSection = { heading: string; paragraphs: string[]; checklist?: string[] };
+export type ResourceDecisionTable = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  columns: [string, string, string];
+  rows: Array<[string, string, string]>;
+  note: string;
+};
 export type Resource = {
   slug: string; title: string; description: string; topic: string;
   intent: "selection" | "comparison" | "technical" | "process";
   publishedAt: string; modifiedAt: string; summaryAnswer: string;
   sections: ResourceSection[]; faqs: Array<{ question: string; answer: string }>;
   relatedProductSlugs: string[]; relatedResourceSlugs: string[];
+  decisionTable?: ResourceDecisionTable;
 };
 
 const publishedAt = "2026-08-28";
@@ -17,7 +26,7 @@ export const resources: Resource[] = [
     description: "Compare AC and DC EV charger test systems by connector, protocol, voltage and current range, load path, test environment and required evidence.",
     topic: "EV charger test system selection",
     intent: "selection",
-    publishedAt, modifiedAt: "2026-09-23",
+    publishedAt, modifiedAt: "2026-10-10",
     summaryAnswer: "Choose an EV charger test system by defining the connector, communication standard, voltage and current range, test environment and required evidence before comparing equipment. The correct platform is the one that reproduces the target charging workflow and records the measurements your team must review.",
     sections: [
       { heading: "Define the charger and target market", paragraphs: [
@@ -32,6 +41,19 @@ export const resources: Resource[] = [
         "Before ordering, review a configuration against one representative charger and one representative test case. Confirm connector ratings, communication versions, measurement accuracy, included software, report formats and external-load requirements. This acceptance review is more reliable than comparing model names alone and gives both the supplier and engineering team a measurable boundary for delivery.",
       ], checklist: ["Review one representative test sequence", "Confirm included and optional modules", "Agree on evidence and export formats"] },
     ],
+    decisionTable: {
+      eyebrow: "Configuration worksheet",
+      title: "Turn a charger requirement into a reviewable equipment specification",
+      description: "Use these four decisions before comparing models. The final column defines what should be confirmed in a quotation or acceptance review.",
+      columns: ["Decision", "Project input", "Evidence to request"],
+      rows: [
+        ["Charging interface", "AC or DC; connector; market; exact protocol edition", "Connector list, supported protocol versions and configuration boundary"],
+        ["Electrical path", "Maximum voltage, current, phases and continuous-power duration", "Socket and cable ratings, measurement limits and separate source or load ratings"],
+        ["Diagnostic depth", "Pilot, CAN or PLC messages, waveforms, metering and approved fault cases", "Included channels, accuracy, capture format and optional-module list"],
+        ["Operating workflow", "Laboratory, production or field use; operator steps; required report", "Representative test sequence, export example and acceptance responsibilities"],
+      ],
+      note: "Do not treat the model name or connector alone as proof that the complete power path, protocol capture and reporting scope are included.",
+    },
     faqs: [
       { question: "Can one system test both AC and DC chargers?", answer: "An integrated laboratory can combine AC and DC modules, but the connectors, communication methods and power paths remain different. Confirm each interface and test function separately." },
       { question: "What information should be sent with a quotation request?", answer: "Include charger type, connector, target standards, voltage and current range, laboratory or field use, required fault simulations and the reports or raw data your team must retain." },
@@ -73,7 +95,7 @@ export const resources: Resource[] = [
     description: "Plan eMobility protocol testing with CAN or PLC capture, pilot signals, charging-state checks, controlled faults and synchronized electrical evidence.",
     topic: "EV charging protocol diagnosis",
     intent: "technical",
-    publishedAt, modifiedAt: "2026-09-23",
+    publishedAt, modifiedAt: "2026-10-10",
     summaryAnswer: "Protocol testing should connect each communication event to the charger state and measured electrical response. Build a repeatable timeline from connection and initialization through parameter exchange, energy transfer and termination, then inject one fault at a time and retain the raw messages needed to explain the result.",
     sections: [
       { heading: "Select the interface and communication test scope", paragraphs: [
@@ -96,6 +118,19 @@ export const resources: Resource[] = [
         "Store the tester configuration, software version, charger identity, standard version and test-case revision with every capture. A useful engineering report links the test step to message evidence, electrical measurements and the observed charger response. When a failure is reproduced, the same setup should produce a comparable timeline rather than a screenshot without context.",
       ], checklist: ["Record protocol and software versions", "Link raw evidence to each test step", "Repeat the sequence after corrective action"] },
     ],
+    decisionTable: {
+      eyebrow: "Protocol evidence map",
+      title: "Keep communication and electrical evidence on one timeline",
+      description: "This evidence map prevents a decoded message list from being mistaken for a complete charger test record.",
+      columns: ["Test stage", "Observe together", "Retain for diagnosis"],
+      rows: [
+        ["Connection and initialization", "Connector state, pilot state and communication startup", "Timestamped state transition and raw CAN or PLC capture"],
+        ["Parameter negotiation", "Requested limits, charger limits and readiness conditions", "Raw messages, decoded values, software version and test-case revision"],
+        ["Energy transfer", "Requested voltage/current, measured output and contactor state", "Synchronized messages, measurements and relevant waveform segment"],
+        ["Fault and termination", "Injected condition, charger response, shutdown timing and recovery", "Pre-fault context, event marker, response evidence and repeat-test result"],
+      ],
+      note: "Pass or fail limits must come from the applicable project procedure and standard edition; this table defines record structure, not conformity criteria.",
+    },
     faqs: [
       { question: "Is decoded protocol data enough for fault analysis?", answer: "Not always. Keep raw traffic and timestamps because message timing, repetition and encoding details may be needed to explain a failure." },
       { question: "Should protocol and waveform data be captured together?", answer: "When the fault involves pilot behavior, switching or output response, synchronized protocol and waveform evidence makes the diagnosis much stronger." },
@@ -341,12 +376,12 @@ export const resources: Resource[] = [
   },
   {
     slug: "nacs-ac-evse-testing",
-    title: "NACS AC EVSE Testing and SAE J3400 Test Planning",
-    description: "Plan NACS AC charger tests around the coupler, pilot states, electrical ratings, safety behavior, measurements and applicable SAE J3400 requirements.",
+    title: "NACS AC EVSE Testing: Pilot States & Field Evidence",
+    description: "Plan NACS AC EVSE tests around SAE J3400, pilot states, electrical ratings, switching, measurements, faults and repeatable field evidence.",
     topic: "NACS AC EVSE testing",
     intent: "technical",
     publishedAt: "2026-09-21",
-    modifiedAt: "2026-09-21",
+    modifiedAt: "2026-10-10",
     summaryAnswer: "A NACS AC EVSE test plan should identify the coupler configuration, SAE J3400 edition, AC voltage and current, pilot-state behavior, switching, fault simulations, metering needs and retained evidence. Because J3400 covers both AC and DC power transfer through the coupler, the test scope must explicitly state that the selected equipment and procedure address the intended AC application.",
     sections: [
       { heading: "Define the NACS AC boundary", paragraphs: [
@@ -436,7 +471,7 @@ export const resources: Resource[] = [
     topic: "EVSE testing after commissioning",
     intent: "process",
     publishedAt: "2026-09-21",
-    modifiedAt: "2026-10-09",
+    modifiedAt: "2026-10-10",
     summaryAnswer: "Post-installation EVSE testing should confirm site identity and configuration, supply and grounding preconditions, connector condition, normal charging states, measured output, communication evidence and safe stop behavior. Repeat the baseline after firmware, network, protection, power-module or wiring changes and compare results with the commissioning record.",
     sections: [
       { heading: "Start with site and change history", paragraphs: [
@@ -452,6 +487,19 @@ export const resources: Resource[] = [
         "Compare the new record with commissioning or the last known-good visit. If the issue requires laboratory reproduction, preserve the charger firmware, configuration and last completed protocol state so the engineering team can recreate the failure efficiently.",
       ], checklist: ["Save repeatable baseline results", "Record site limitations", "Preserve evidence needed for escalation"] },
     ],
+    decisionTable: {
+      eyebrow: "Site record template",
+      title: "Compare the post-work result with the commissioning baseline",
+      description: "Record the same fields before and after maintenance so the result can be reviewed without relying on a successful-session indicator alone.",
+      columns: ["Record field", "Baseline or pre-work record", "Post-work evidence"],
+      rows: [
+        ["Asset identity", "Site, charger ID, connector, rating, hardware and firmware", "Changed components, firmware and final configuration"],
+        ["Site preconditions", "Supply, grounding, protection, network and visible connector condition", "Completed checks and any site limitation affecting the result"],
+        ["Charging sequence", "Expected connection, readiness, energy transfer and controlled stop", "Observed state transitions, timestamps and charger alarms"],
+        ["Measured result", "Commissioning values or last known-good record", "Output values, communication evidence, result limit and disposition"],
+      ],
+      note: "If the test is inconclusive because of supply, network, load or access constraints, record that limitation instead of reporting a charger failure.",
+    },
     faqs: [
       { question: "When should EVSE testing be repeated after commissioning?", answer: "Repeat the relevant baseline after changes that can affect charging behavior, including firmware, communication, protection, wiring, connector, contactor or power-module work, and according to the operator's maintenance plan." },
       { question: "Is a successful charging session enough after repair?", answer: "It is useful evidence but may not prove the changed function, measured limits or protective response. Use a defined sequence and retain values tied to the repair scope." },
@@ -461,12 +509,12 @@ export const resources: Resource[] = [
   },
   {
     slug: "ev-charger-test-equipment-guide",
-    title: "EV Charger Test Equipment: Configuration & Buying Guide",
-    description: "Compare EV charger test equipment for AC and DC interfaces, communication, measurement, loads, laboratory validation, production and field commissioning.",
-    topic: "EV charger test equipment configuration",
+    title: "EV Charger Test Equipment Procurement Specification Guide",
+    description: "Specify EV charger test equipment for procurement: interface, protocol, measurement, load path, options, acceptance evidence, commissioning and training.",
+    topic: "EV charger test equipment procurement",
     intent: "selection",
     publishedAt: "2026-10-08",
-    modifiedAt: "2026-10-08",
+    modifiedAt: "2026-10-10",
     summaryAnswer: "A complete EV charger test equipment configuration combines the correct vehicle-side interface simulator with communication tools, independent electrical measurement and a safe power-absorption path. Select each part from the charger connector, protocol, voltage and current range, test environment and evidence requirements instead of assuming one tester includes every source, load and instrument.",
     sections: [
       { heading: "Start with the charger interface and test decision", paragraphs: [
@@ -667,12 +715,12 @@ export const resources: Resource[] = [
   },
   {
     slug: "sae-j3400-nacs-testing",
-    title: "SAE J3400 / NACS EVSE Testing Guide",
-    description: "Plan SAE J3400 and NACS EVSE testing by defining AC or DC scope, connector ratings, pilot and communication behavior, measurements, faults and evidence.",
+    title: "SAE J3400 Test Planning: AC/DC Scope & Evidence",
+    description: "Plan SAE J3400 testing by separating AC and DC scope, then define coupler ratings, pilot or communication behavior, power paths, faults and evidence.",
     topic: "SAE J3400 and NACS testing",
     intent: "technical",
     publishedAt: "2026-10-08",
-    modifiedAt: "2026-10-08",
+    modifiedAt: "2026-10-10",
     summaryAnswer: "An SAE J3400 or NACS test plan must explicitly state whether it addresses AC charging, DC charging or both. Match the coupler and cable ratings, pilot and communication functions, power path, measurements and approved abnormal cases to the selected standard edition; the shared connector family does not make AC and DC test coverage interchangeable.",
     sections: [
       { heading: "State the AC or DC scope first", paragraphs: [

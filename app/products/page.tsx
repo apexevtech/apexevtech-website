@@ -32,7 +32,7 @@ export default function ProductsPage() {
               { title: "Integrated laboratory validation", text: "Coordinate interface simulation, power equipment, communication capture and reports for repeatable development tests.", href: "/products/ast-9000", label: "Explore AST-9000" },
             ].map((item) => <article key={item.title} className="rounded-md border border-slate-200 bg-white p-6"><h3 className="text-lg font-black text-[#12263a]">{item.title}</h3><p className="mt-3 text-sm leading-6 text-[#526b7d]">{item.text}</p><Link href={item.href} className="mt-5 inline-flex font-bold text-[#1268a8]">{item.label} →</Link></article>)}
           </div>
-          <div className="mt-6 flex flex-wrap gap-5 text-sm font-bold text-[#1268a8]"><Link href="/resources/choose-ev-charger-test-system">Read the equipment selection guide →</Link><Link href="/resources/field-commissioning-test-equipment">Plan portable field testing →</Link><Link href="/contact#inquiry-form">Ask an engineer about your configuration →</Link></div>
+          <div className="mt-6 flex flex-wrap gap-5 text-sm font-bold text-[#1268a8]"><Link href="/resources/choose-ev-charger-test-system">Compare EV charger test system requirements →</Link><Link href="/resources/ev-charging-protocol-testing">Plan CAN and PLC protocol evidence →</Link><Link href="/resources/post-installation-evse-testing">Use the post-commissioning site checklist →</Link><Link href="/contact#inquiry-form">Ask an engineer about your configuration →</Link></div>
         </div>
       </section>
       <ProductComparison products={products} />
