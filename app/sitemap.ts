@@ -7,7 +7,7 @@ import { interfaceTopics } from "@/data/interface-topics";
 
 const siteContentLastModified = "2026-10-08T00:00:00.000Z";
 const staticPageUpdates: Record<string, string> = {
-  "": "2026-09-22T00:00:00.000Z",
+  "": "2026-10-10T00:00:00.000Z",
   "/products": "2026-10-08T00:00:00.000Z",
   "/about": "2026-09-22T00:00:00.000Z",
   "/contact": "2026-09-22T00:00:00.000Z",

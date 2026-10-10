@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/ProductCard";
 import { SectionHeading } from "@/components/SectionHeading";
+import { interfaceTopics } from "@/data/interface-topics";
 import { products } from "@/data/site";
 import { resources } from "@/lib/resources/catalog";
 
@@ -120,6 +121,32 @@ export default function HomePage() {
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="border-y border-slate-200 bg-[#f3f6f8] px-5 py-14 lg:px-8 lg:py-16">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading
+            eyebrow="Charging interfaces"
+            title="Plan testing for the charger interface"
+            description="Compare connector, communication, electrical and evidence requirements before selecting laboratory or field equipment."
+          />
+          <div className="mt-8 grid border-l border-t border-slate-300 sm:grid-cols-2 lg:grid-cols-3">
+            {interfaceTopics.map((topic) => (
+              <Link
+                key={topic.slug}
+                href={`/interfaces/${topic.slug}`}
+                className="group min-h-40 border-b border-r border-slate-300 bg-white p-6 transition-colors hover:border-[#1479c9] hover:bg-[#f7fbfd]"
+              >
+                <span className="text-xs font-black uppercase tracking-wide text-[#067187]">{topic.name}</span>
+                <span className="mt-3 block text-lg font-black leading-6 text-[#12263a] group-hover:text-[#1268a8]">{topic.title}</span>
+                <span className="mt-4 inline-flex text-sm font-extrabold text-[#1268a8]">View test workflow →</span>
+              </Link>
+            ))}
+          </div>
+          <Link href="/interfaces" className="mt-6 inline-flex rounded-md border border-[#1479c9] px-5 py-3 text-sm font-extrabold text-[#1268a8] hover:bg-white">
+            Compare all interface workflows
+          </Link>
         </div>
       </section>
 

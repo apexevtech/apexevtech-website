@@ -15,11 +15,13 @@ describe("sitemap", () => {
 
   it("updates changed static pages while preserving unchanged dates", () => {
     const entries = sitemap();
-    const unchanged = ["", "/about", "/contact", "/solutions", "/applications", "/interfaces"];
+    const unchanged = ["/about", "/contact", "/solutions", "/applications", "/interfaces"];
     for (const route of unchanged) {
       expect(entries.find((entry) => entry.url === `${siteUrl}${route}`)?.lastModified)
         .toEqual(new Date("2026-09-22T00:00:00.000Z"));
     }
+    expect(entries.find((entry) => entry.url === siteUrl)?.lastModified)
+      .toEqual(new Date("2026-10-10T00:00:00.000Z"));
     expect(entries.find((entry) => entry.url === `${siteUrl}/products`)?.lastModified)
       .toEqual(new Date("2026-10-08T00:00:00.000Z"));
     for (const route of ["/resources", "/privacy-policy"]) {
