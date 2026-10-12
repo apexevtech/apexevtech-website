@@ -2,6 +2,12 @@
 
 Prepared: 2026-10-10
 
+## 2026-10-12 checkpoint
+
+Search Console now reports 5 clicks, 379 impressions, 1.3% CTR and average position 22.0 for 2026-09-12 through 2026-10-09. Validation for the nine discovered-but-not-indexed sitemap URLs passed, and the Product snippets validation found no remaining issue after Google recrawled the last example on 2026-10-10. The report totals have not yet caught up with these validation results.
+
+The strongest eligible query/page pairs are `evse end-of-line testing` on `/resources/evse-end-of-line-testing` (30 page impressions, position 5.7) and `evse testing after commissioning` on `/resources/post-installation-evse-testing` (28 page impressions, position 6.8). Keep their current snippets unchanged until the first post-deployment comparison on or after 2026-10-24.
+
 ## Measurement window
 
 The latest comparable Search Console period showed 347 impressions, 4 clicks, 1.2% CTR and an average position of 22.3. The preceding 28 days showed 73 impressions, 0 clicks and an average position of 33.4.
