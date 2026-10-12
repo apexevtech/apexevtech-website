@@ -43,6 +43,22 @@ The latest complete 28-day report covers 2026-09-14 through 2026-10-11:
 
 The sample is too small to infer a conversion trend, and some activity may include verification traffic. Keep the analytics configuration unchanged and compare equivalent complete periods after more organic sessions accumulate.
 
+The GA4 event configuration was also checked directly. Both `generate_lead` and `whatsapp_click` remain marked as key events, and GA4 identifies the APEX Website data stream as active for both. The zero key-event count in the traffic-acquisition report therefore does not indicate that these events are disabled; the report should be rechecked after new qualifying sessions occur.
+
+## Bing Webmaster Tools
+
+- The 2026-07-12 through 2026-10-11 search-performance window contains 54 impressions, 1 click and a 1.85% CTR.
+- The first click came from `bms to gb/t 2015 charger sequence`; the matching GBT conformance guide recorded 3 impressions, 1 click and an average position of 1.33.
+- `/resources/ccs2-dc-fast-charger-testing` has 17 impressions at average position 4.47, and `/resources/type-2-ac-evse-testing` has 12 impressions at average position 4.58. These are early CTR candidates, but their samples are still too small for a title change.
+- The sitemap is successful with 0 errors, 0 warnings and 53 discovered URLs; Bing last crawled it on 2026-10-10.
+- IndexNow contains the latest submission for all 53 current URLs on 2026-10-10. No duplicate resubmission is needed while the site remains unchanged.
+- Bing's SEO recommendations contain no high-severity errors. Its only page-level warning says the `/about` title is too short, but the live title is now `About Apex Power Systems | EV Charger Test Equipment | APEX` (59 characters), within Bing's stated 50–60-character guidance. Treat the warning as stale until Bing recrawls the page.
+- A fresh Bing site scan could not be scheduled because the account currently shows a remaining scan quota of 0 pages. The production audit remains the current technical crawl evidence.
+
+## Availability monitoring
+
+UptimeRobot reports `www.link-jl.com` as Up on a five-minute check interval. The monitor shows 100% uptime, zero incidents in the latest 24 hours and 11 days of monitoring history.
+
 ## Production health
 
 - Manual production audit passed on 2026-10-12.
@@ -57,3 +73,4 @@ The sample is too small to infer a conversion trend, and some activity may inclu
 2. Recheck the Product snippets summary after the successful validation propagates.
 3. On or after 2026-10-24, compare complete post-change periods and test one snippet direction on the highest-opportunity eligible page.
 4. Keep collecting source-approved company identity evidence and original technical assets before publishing external profiles or customer-facing evidence.
+5. Recheck the two leading Bing pages after each reaches at least 30 impressions; use the same single-variable snippet-test rule as Google.
