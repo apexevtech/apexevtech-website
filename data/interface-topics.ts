@@ -14,7 +14,7 @@ export type InterfaceTopic = {
 };
 
 const publishedAt = "2026-09-21";
-const modifiedAt = "2026-10-08";
+const modifiedAt = "2026-10-14";
 
 export const interfaceTopics: InterfaceTopic[] = [
   {

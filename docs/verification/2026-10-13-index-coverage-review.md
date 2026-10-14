@@ -26,3 +26,5 @@ No site-code defect was found. Recheck the report after Google refreshes the 202
 ## 2026-10-14 follow-up
 
 After receiving approval to submit the remaining interface URLs, URL Inspection showed `再次提交请求` for the CHAdeMO, GB/T, NACS and Type 1 pages. This confirms that each URL has already been submitted to Google's priority crawl queue. Google states that submitting the same URL again does not change its queue position or priority, so no duplicate requests were sent.
+
+Each of the six interface guides now includes a visible comparison section linking to the other five interface guides. This strengthens crawl paths and helps users move between connector and protocol options without changing the titles or descriptions currently under observation. Because the section appears on all six pages, their `modifiedAt` value and sitemap `lastmod` were advanced to 2026-10-14.
