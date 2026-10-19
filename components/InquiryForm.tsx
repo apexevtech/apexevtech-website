@@ -14,6 +14,7 @@ import { InquiryRequirementsAssistant } from "@/components/InquiryRequirementsAs
 import { addInquiryRequirements } from "@/lib/inquiries/requirements";
 import { resolveInquiryPrefill, shouldReplaceInquiryPrefill } from "@/lib/inquiries/prefill";
 import { QueryStateSync } from "@/components/QueryStateSync";
+import { readCatalogInquiryConfiguration } from "@/lib/inquiries/catalog-scope";
 
 type InquiryFormProps = {
   compact?: boolean;
@@ -87,6 +88,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const params = new URLSearchParams(window.location.search);
     const payload = {
       name: formData.get("name"),
       email: formData.get("email"),
@@ -94,6 +96,8 @@ export function InquiryForm({ compact = false, context = "General website inquir
       country: formData.get("country"),
       message: formData.get("message"),
       context: resolvedContext,
+      sourcePage: prefillContextFromQuery ? params.get("sourcePage") : window.location.pathname,
+      configuration: prefillContextFromQuery ? readCatalogInquiryConfiguration(params) : undefined,
       privacyAccepted: formData.get("privacyAccepted") === "on",
       website: formData.get("website"),
       formStartedAt: startedAt.current,

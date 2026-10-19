@@ -26,6 +26,8 @@ export function buildInquiryEmail(inquiry: InquirySubmission): InquiryEmail {
     ["Country", inquiry.country || "Not provided"],
     ["Context", inquiry.context || "General website inquiry"],
   ];
+  if (inquiry.sourcePage) fields.push(["Source page", inquiry.sourcePage]);
+  if (inquiry.configuration) fields.push(["Selected configuration", inquiry.configuration]);
   if (inquiry.attribution) {
     fields.push(["First touch", JSON.stringify(inquiry.attribution.firstTouch)]);
     fields.push(["Latest touch", JSON.stringify(inquiry.attribution.latestTouch)]);

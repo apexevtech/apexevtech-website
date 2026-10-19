@@ -6,8 +6,9 @@ const labels = {
   workflow: { portable: "Portable testing", laboratory: "Laboratory / R&D", production: "Production / end-of-line", field: "Field commissioning" },
 };
 
-export function buildCatalogInquiryHref(filters: ProductFilters) {
+export function buildCatalogInquiryHref(filters: ProductFilters, sourcePage = "/products") {
   const params = new URLSearchParams({ source: "equipment-finder" });
+  if (sourcePage) params.set("sourcePage", sourcePage);
   for (const [key, value] of Object.entries(filters)) {
     if (value !== "all") params.set(key, value);
   }
@@ -15,6 +16,11 @@ export function buildCatalogInquiryHref(filters: ProductFilters) {
 }
 
 export function readCatalogInquiryScope(params: URLSearchParams): string | null {
+  const configuration = readCatalogInquiryConfiguration(params);
+  return configuration ? `I would like equipment recommendations for these requirements.\n\n${configuration}\nVoltage / current range:\nRequired tests:` : null;
+}
+
+export function readCatalogInquiryConfiguration(params: URLSearchParams): string | null {
   if (params.get("source") !== "equipment-finder") return null;
   const filters = parseProductFilters(params);
   const rows = [
@@ -22,5 +28,5 @@ export function readCatalogInquiryScope(params: URLSearchParams): string | null 
     filters.interface !== "all" ? `Charger connector / interface: ${labels.interface[filters.interface]}` : "",
     filters.workflow !== "all" ? `Test workflow: ${labels.workflow[filters.workflow]}` : "",
   ].filter(Boolean);
-  return rows.length ? `I would like equipment recommendations for these requirements.\n\n${rows.join("\n")}\nVoltage / current range:\nRequired tests:` : null;
+  return rows.length ? rows.join("\n") : null;
 }

@@ -18,7 +18,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> { c
 
 export default async function ResourcePage({ params }: Props) {
   const resource = getResource((await params).slug); if (!resource) notFound();
-  const inquiryHref = `/contact?context=${encodeURIComponent(`Guide inquiry: ${resource.title}`)}#inquiry-form`;
+  const inquiryParams = new URLSearchParams({ context: `Guide inquiry: ${resource.title}`, sourcePage: `/resources/${resource.slug}` });
+  const inquiryHref = `/contact?${inquiryParams}#inquiry-form`;
   const related = getRelatedResources(resource);
   const relatedProducts = resource.relatedProductSlugs.flatMap((slug) => products.find((product) => product.slug === slug) ?? []);
   const representativeProduct = resource.decisionTable ? relatedProducts[0] : undefined;

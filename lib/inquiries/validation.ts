@@ -69,7 +69,13 @@ export function parseInquiry(input: unknown, now = Date.now()): InquiryParseResu
     ? { firstTouch: cleanUtmValues(attribution.firstTouch), latestTouch: cleanUtmValues(attribution.latestTouch) }
     : undefined;
   if (Object.keys(fieldErrors).length > 0) return errorResult(fieldErrors);
-  const value = { name, email, company, country, message, context, privacyAccepted: true as const };
+  const sourcePage = clean(record.sourcePage, 200);
+  const configuration = clean(record.configuration, 600);
+  const value = {
+    name, email, company, country, message, context, privacyAccepted: true as const,
+    ...(/^\/(?:resources|products)(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?$/.test(sourcePage) ? { sourcePage } : {}),
+    ...(configuration ? { configuration } : {}),
+  };
   return safeAttribution ? { ok: true, isBot: false, value: { ...value, attribution: safeAttribution } } : { ok: true, isBot: false, value };
 }
 

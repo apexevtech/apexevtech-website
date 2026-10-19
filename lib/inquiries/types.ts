@@ -20,6 +20,8 @@ export type InquirySubmission = {
   context: string;
   privacyAccepted: true;
   attribution?: UtmAttribution;
+  sourcePage?: string;
+  configuration?: string;
 };
 
 export type InquiryFieldErrors = Partial<Record<InquiryField | "form", string>>;

@@ -13,6 +13,13 @@ const inquiry: InquirySubmission = {
 };
 
 describe("buildInquiryEmail", () => {
+  it("includes source and selected configuration even when the buyer edits their message", () => {
+    const email = buildInquiryEmail({ ...inquiry, sourcePage: "/resources/ccs2-dc-fast-charger-testing", configuration: "DC chargers\nCCS2 <test>", message: "Please send a quotation." });
+    expect(email.text).toContain("Source page: /resources/ccs2-dc-fast-charger-testing");
+    expect(email.text).toContain("Selected configuration: DC chargers\nCCS2 <test>");
+    expect(email.html).toContain("CCS2 &lt;test&gt;");
+    expect(email.html).not.toContain("<test>");
+  });
   it("builds a reply-ready subject and escaped text/html bodies", () => {
     const email = buildInquiryEmail(inquiry);
 

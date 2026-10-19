@@ -14,6 +14,16 @@ const validInput = {
 };
 
 describe("parseInquiry", () => {
+  it("keeps bounded inquiry details and excludes full URLs or query strings", () => {
+    expect(parseInquiry({ ...validInput, sourcePage: "/resources/ccs2-dc-fast-charger-testing", configuration: " DC chargers " })).toMatchObject({
+      value: { sourcePage: "/resources/ccs2-dc-fast-charger-testing", configuration: "DC chargers" },
+    });
+    for (const sourcePage of ["https://external.test/products", "/products?email=private@example.com", "/resources/../contact", "//external.test/products"]) {
+      const result = parseInquiry({ ...validInput, sourcePage, configuration: "x".repeat(700) });
+      expect(result.ok && !result.isBot && result.value.sourcePage).toBeUndefined();
+      expect(result.ok && !result.isBot && result.value.configuration?.length).toBe(600);
+    }
+  });
   it("normalizes a valid inquiry", () => {
     expect(parseInquiry(validInput)).toEqual({
       ok: true,
