@@ -17,6 +17,7 @@ import { buildPageMetadata } from "@/lib/seo/page-metadata";
 import { ProductViewEvent } from "@/components/ProductViewEvent";
 import { getProductApplications } from "@/data/applications";
 import { getProductInterfaceTopics } from "@/data/interface-topics";
+import { getProductConfiguration } from "@/lib/products/configuration";
 
 type ProductDetailPageProps = {
   params: Promise<{
@@ -54,6 +55,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   const relatedApplications = getProductApplications(product.slug);
   const relatedInterfaceTopics = getProductInterfaceTopics(product.slug);
   const seo = getProductSeo(product.slug);
+  const configuration = getProductConfiguration(product);
   const breadcrumbData = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -71,27 +73,47 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
       {seo ? <StructuredData data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: seo.faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } })) }} /> : null}
       <PageHero compact eyebrow={product.category} title={product.model} subtitle={product.title} description={product.shortDescription} />
 
+      <nav aria-label="Product page sections" className="border-b border-slate-200 bg-white px-5 py-3 lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-wrap gap-x-6 gap-y-1 text-sm font-bold text-[#1268a8]">
+          <Link href="#product-configuration" className="py-2 hover:underline">Configuration</Link>
+          <Link href="#key-features" className="py-2 hover:underline">Features</Link>
+          <Link href="#technical-specifications" className="py-2 hover:underline">Specifications</Link>
+          <Link href="#product-inquiry" className="py-2 hover:underline">Request a quote</Link>
+        </div>
+      </nav>
+
       <section className="px-5 py-16 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="relative aspect-[4/3] self-start overflow-hidden rounded-md border border-slate-200 bg-[#eef4f7]">
             <Image src={product.image} alt={`${product.model} ${product.title} for EV charger testing`} fill priority sizes="(min-width: 1280px) 550px, (min-width: 1024px) calc(47vw - 56px), calc(100vw - 40px)" className="object-contain p-5 sm:p-8" />
           </div>
-          <div>
-            <SectionHeading eyebrow="Product Overview" title={product.title} description={product.overview} />
-            {seo ? <p className="mb-6 leading-7 text-[#526b7d]">{seo.intro}</p> : null}
-            <div className="grid gap-3 sm:grid-cols-2">
-              {product.highlights.map((highlight) => (
-                <div key={highlight} className="rounded-md border border-slate-200 bg-white p-4 font-extrabold text-slate-900">
-                  {highlight}
-                </div>
-              ))}
-            </div>
+          <div id="product-configuration">
+            <h2 className="text-2xl font-black text-[#12263a]">Configuration at a glance</h2>
+            <dl className="mt-5 divide-y divide-slate-200 rounded-md border border-slate-200 bg-white px-5">
+              {[
+                ["Charging interface", configuration.interface],
+                ["Electrical coverage", configuration.electricalRange],
+                ["Load arrangement", configuration.loadArrangement],
+                ["Options and accessories", configuration.options],
+              ].map(([label, value]) => <div key={label} className="py-4"><dt className="text-sm font-extrabold text-[#12263a]">{label}</dt><dd className="mt-1 text-sm leading-6 text-[#526b7d]">{value}</dd></div>)}
+            </dl>
+            <p className="mt-4 text-xs leading-5 text-[#526b7d]">Socket, measurement and load limits are different specifications. Confirm the complete test circuit and included options before ordering.</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href="#product-inquiry" className="rounded-md bg-[#1479c9] px-5 py-3 font-extrabold text-white hover:bg-[#0f5f9f]">
                 Request a quote
               </Link>
               {product.document ? <ProductDocumentDownload href={product.document} model={product.model} /> : null}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 pb-12 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading eyebrow="Product Overview" title={product.title} description={product.overview} />
+          {seo ? <p className="mb-6 max-w-4xl leading-7 text-[#526b7d]">{seo.intro}</p> : null}
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {product.highlights.map((highlight) => <div key={highlight} className="rounded-md border border-slate-200 bg-white p-4 font-extrabold text-slate-900">{highlight}</div>)}
           </div>
         </div>
       </section>
@@ -144,7 +166,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
       <section className="bg-slate-50 px-5 py-12 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">
-          <div>
+          <div id="key-features">
             <SectionHeading compact eyebrow="Key Features" title="Designed for reliable EV charger validation." />
             <div className="rounded-md border border-slate-200 bg-white p-5 sm:p-6">
               <ul className="divide-y divide-slate-100">
@@ -159,7 +181,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
               </ul>
             </div>
           </div>
-          <div>
+          <div id="technical-specifications">
             <SectionHeading compact eyebrow="Technical Specifications" title="Core specifications" />
             <SpecTable specs={product.specs} />
             <div className="mt-5 rounded-md border-l-4 border-[#00a6c7] bg-white p-5">

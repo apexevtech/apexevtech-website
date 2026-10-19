@@ -4,12 +4,16 @@ import { company } from "@/data/site";
 import { TrackedLink } from "@/components/TrackedLink";
 import Link from "next/link";
 import type { FormEvent } from "react";
-import { useEffect, useRef, useState } from "react";
-import type { InquiryApiResponse, InquiryField, InquiryFieldErrors } from "@/lib/inquiries/types";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { InquiryField, InquiryFieldErrors } from "@/lib/inquiries/types";
+import { requestInquiry } from "@/lib/inquiries/request";
 import { clearAttribution, readAttribution } from "@/lib/attribution/utm";
 import { trackEvent } from "@/lib/analytics/events";
 import { products } from "@/data/site";
-import { getComparedProducts } from "@/lib/products/comparison";
+import { InquiryRequirementsAssistant } from "@/components/InquiryRequirementsAssistant";
+import { addInquiryRequirements } from "@/lib/inquiries/requirements";
+import { resolveInquiryPrefill, shouldReplaceInquiryPrefill } from "@/lib/inquiries/prefill";
+import { QueryStateSync } from "@/components/QueryStateSync";
 
 type InquiryFormProps = {
   compact?: boolean;
@@ -38,6 +42,10 @@ export function InquiryForm({ compact = false, context = "General website inquir
   const interactionTracked = useRef(false);
   const invalidTracked = useRef(false);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+  const previousPrefill = useRef("");
+  const formRef = useRef<HTMLFormElement>(null);
+  const feedbackRef = useRef<HTMLDivElement>(null);
+  const focusField = useRef<string | null>(null);
   const analyticsParameters = {
     form_id: "equipment_inquiry",
     form_context: resolvedContext,
@@ -50,42 +58,23 @@ export function InquiryForm({ compact = false, context = "General website inquir
   }, []);
 
   useEffect(() => {
-    if (!prefillProductsFromQuery) return;
-    const comparedProducts = getComparedProducts(new URLSearchParams(window.location.search).get("products"), products);
-    if (!comparedProducts.length) return;
+    if (submitting || !message) return;
+    const control = focusField.current ? formRef.current?.elements.namedItem(focusField.current) : null;
+    if (control instanceof HTMLElement) control.focus();
+    else feedbackRef.current?.focus();
+    focusField.current = null;
+  }, [message, submitting]);
 
-    const models = comparedProducts.map((product) => product.model);
-    const frame = window.requestAnimationFrame(() => {
-      setResolvedContext(`Product comparison inquiry: ${models.join(", ")}`);
-      setRelatedProductModels(models.join(", "));
-      if (messageRef.current && !messageRef.current.value) {
-        messageRef.current.value = `I would like help comparing ${models.join(" and ")}.
-
-Application / charger interface:
-Voltage and current range:
-Required standards and tests:`;
-      }
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [prefillProductsFromQuery]);
-
-  useEffect(() => {
-    if (!prefillContextFromQuery) return;
-    const queryContext = new URLSearchParams(window.location.search).get("context")?.trim().slice(0, 200);
-    if (!queryContext?.startsWith("Guide inquiry: ")) return;
-
-    const frame = window.requestAnimationFrame(() => {
-      setResolvedContext(queryContext);
-      if (messageRef.current && !messageRef.current.value) {
-        messageRef.current.value = `I would like equipment recommendations for this guide.
-
-Charger connector / interface:
-Voltage and current range:
-Required standards and test workflow:`;
-      }
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [prefillContextFromQuery]);
+  const syncInquiryContext = useCallback((params: URLSearchParams) => {
+    const prefill = resolveInquiryPrefill(params, { context, prefillProductsFromQuery, prefillContextFromQuery }, products);
+    setResolvedContext(prefill.context);
+    setRelatedProductModels(prefill.productModels);
+    const textarea = messageRef.current;
+    if (textarea && shouldReplaceInquiryPrefill(textarea.value, previousPrefill.current)) {
+      textarea.value = prefill.message;
+    }
+    previousPrefill.current = prefill.message;
+  }, [context, prefillProductsFromQuery, prefillContextFromQuery]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -94,6 +83,7 @@ Required standards and test workflow:`;
     setSubmitting(true);
     setMessage(null);
     setFieldErrors({});
+    focusField.current = null;
 
     const form = event.currentTarget;
     const formData = new FormData(form);
@@ -112,21 +102,14 @@ Required standards and test workflow:`;
     trackEvent("inquiry_submit", analyticsParameters);
 
     try {
-      const response = await fetch("/api/inquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const result = (await response.json()) as InquiryApiResponse;
+      const { response, result } = await requestInquiry(payload);
 
       if (!response.ok || !result.ok) {
         setFieldErrors(!result.ok ? result.fieldErrors ?? {} : {});
         setMessage({ type: "error", text: result.ok ? "Please try again." : result.message });
         trackEvent("inquiry_error", { ...analyticsParameters, reason: result.ok ? "HTTP_ERROR" : result.code });
         if (!result.ok && result.fieldErrors) {
-          const field = Object.keys(result.fieldErrors)[0];
-          const control = field ? form.elements.namedItem(field) : null;
-          if (control instanceof HTMLElement) requestAnimationFrame(() => control.focus());
+          focusField.current = Object.keys(result.fieldErrors).find((field) => form.elements.namedItem(field) instanceof HTMLElement) ?? null;
         }
         return;
       }
@@ -137,9 +120,10 @@ Required standards and test workflow:`;
       interactionTracked.current = false;
       clearAttribution();
       setMessage({ type: "success", text: result.message });
-    } catch {
-      trackEvent("inquiry_error", { ...analyticsParameters, reason: "NETWORK_ERROR" });
-      setMessage({ type: "error", text: "We could not send your inquiry. Please email us directly instead." });
+    } catch (error) {
+      const timedOut = error instanceof DOMException && error.name === "TimeoutError";
+      trackEvent("inquiry_error", { ...analyticsParameters, reason: timedOut ? "TIMEOUT" : "NETWORK_ERROR" });
+      setMessage({ type: "error", text: "We could not confirm delivery. Your inquiry may have reached us. Your entries are still here; please contact us by email to confirm before sending again." });
     } finally {
       inFlight.current = false;
       setSubmitting(false);
@@ -155,7 +139,7 @@ Required standards and test workflow:`;
   }
 
   return (
-    <form aria-label="Equipment inquiry" aria-busy={submitting} className="inquiry-form relative grid gap-5 rounded-md border border-slate-200 bg-white p-6 shadow-[0_12px_36px_rgba(18,38,58,0.07)] sm:p-8" onSubmit={handleSubmit} onInvalid={() => {
+    <form ref={formRef} aria-label="Equipment inquiry" aria-busy={submitting} className="inquiry-form relative grid gap-5 rounded-md border border-slate-200 bg-white p-6 shadow-[0_12px_36px_rgba(18,38,58,0.07)] sm:p-8" onSubmit={handleSubmit} onInvalid={() => {
       if (!invalidTracked.current) {
         invalidTracked.current = true;
         trackEvent("inquiry_error", { ...analyticsParameters, reason: "CLIENT_VALIDATION" });
@@ -163,6 +147,13 @@ Required standards and test workflow:`;
     }} onChange={(event) => {
       const target = event.target;
       if (target instanceof HTMLInputElement && target.name === "website") return;
+      if ((target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) && target.name in fieldErrors) {
+        setFieldErrors((previous) => {
+          const next = { ...previous };
+          delete next[target.name as InquiryField];
+          return next;
+        });
+      }
       invalidTracked.current = false;
       if (!startedAt.current) startedAt.current = Date.now();
       if (!interactionTracked.current) {
@@ -170,8 +161,10 @@ Required standards and test workflow:`;
         trackEvent("inquiry_start", analyticsParameters);
       }
     }}>
+      <QueryStateSync onChange={syncInquiryContext} />
       <div className="border-b border-slate-200 pb-5">
         <p className="font-black text-[#12263a]">Tell us about your test requirements</p>
+        {relatedProductModels ? <p className="mt-3 break-words rounded-md border border-sky-100 bg-sky-50 px-3 py-2 text-sm leading-6 text-[#385064]"><span className="font-bold">Equipment of interest: </span>{relatedProductModels}</p> : null}
         <p className="mt-2 text-sm leading-6 text-[#526b7d]">Company and country are optional. Prefer a direct conversation?</p>
         <div className="mt-3 flex flex-wrap gap-3 text-sm">
           <TrackedLink href={whatsappHref} target="_blank" rel="noopener noreferrer" eventName="whatsapp_click" location="inquiry-direct" eventParameters={analyticsParameters} className="inline-flex min-h-11 items-center rounded-md bg-[#15803d] px-4 font-bold text-white">Ask on WhatsApp</TrackedLink>
@@ -198,6 +191,17 @@ Required standards and test workflow:`;
           </label>
         ))}
       </div>
+
+      <InquiryRequirementsAssistant disabled={submitting} onApply={(summary) => {
+        const textarea = messageRef.current;
+        if (!textarea) return false;
+        const combined = addInquiryRequirements(textarea.value, summary);
+        if (combined === null) return false;
+        textarea.value = combined;
+        setFieldErrors((previous) => ({ ...previous, message: undefined }));
+        textarea.focus();
+        return true;
+      }} />
 
       <label className="grid gap-2 text-sm font-bold text-[#385064]">
         Message *
@@ -234,7 +238,7 @@ Required standards and test workflow:`;
       </div>
 
       {message?.type === "success" ? (
-        <div className="grid gap-4 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-5 text-sm text-emerald-900" role="status" aria-live="polite">
+        <div ref={feedbackRef} tabIndex={-1} className="grid gap-4 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-5 text-sm text-emerald-900" role="status" aria-live="polite">
           <p className="font-bold">{message.text}</p>
           <div className="flex flex-wrap gap-3">
             <TrackedLink href={whatsappHref} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded-md bg-[#15803d] px-4 py-2 font-bold text-white" eventName="whatsapp_click" location="inquiry-success" eventParameters={analyticsParameters}>Continue on WhatsApp</TrackedLink>
@@ -243,10 +247,10 @@ Required standards and test workflow:`;
           </div>
         </div>
       ) : message?.type === "error" ? (
-        <p className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700" role="alert">
+        <div ref={feedbackRef} tabIndex={-1} className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700" role="alert">
           {message.text}
           <TrackedLink href={`mailto:${company.email}?subject=${encodeURIComponent(resolvedContext)}`} eventName="email_click" location="inquiry-error" eventParameters={analyticsParameters} className="mt-2 block min-h-11 py-2 font-bold underline">Email {company.email}</TrackedLink>
-        </p>
+        </div>
       ) : null}
 
       <button className="rounded-md bg-[#1479c9] px-5 py-3 font-extrabold text-white transition hover:bg-[#0f5f9f] disabled:cursor-wait disabled:opacity-60" type="submit" disabled={submitting}>

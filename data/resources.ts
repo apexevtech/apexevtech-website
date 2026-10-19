@@ -26,7 +26,7 @@ export const resources: Resource[] = [
     description: "Compare AC and DC EV charger test systems by connector, protocol, voltage and current range, load path, test environment and required evidence.",
     topic: "EV charger test system selection",
     intent: "selection",
-    publishedAt, modifiedAt: "2026-10-10",
+    publishedAt, modifiedAt: "2026-10-19",
     summaryAnswer: "Choose an EV charger test system by defining the connector, communication standard, voltage and current range, test environment and required evidence before comparing equipment. The correct platform is the one that reproduces the target charging workflow and records the measurements your team must review.",
     sections: [
       { heading: "Define the charger and target market", paragraphs: [
@@ -321,7 +321,7 @@ export const resources: Resource[] = [
     topic: "CCS2 DC fast charger testing",
     intent: "technical",
     publishedAt: "2026-09-21",
-    modifiedAt: "2026-10-08",
+    modifiedAt: "2026-10-19",
     summaryAnswer: "A CCS2 DC fast charger test setup must combine the correct Combo 2 interface, control-pilot behavior, PLC communication, charger output measurement and a power-absorption path. Confirm the required ISO 15118 or DIN communication version, maximum voltage and current, load arrangement and evidence format before selecting the tester.",
     sections: [
       { heading: "Define the CCS2 charger and communication scope", paragraphs: [
@@ -720,7 +720,7 @@ export const resources: Resource[] = [
     topic: "SAE J3400 and NACS testing",
     intent: "technical",
     publishedAt: "2026-10-08",
-    modifiedAt: "2026-10-10",
+    modifiedAt: "2026-10-19",
     summaryAnswer: "An SAE J3400 or NACS test plan must explicitly state whether it addresses AC charging, DC charging or both. Match the coupler and cable ratings, pilot and communication functions, power path, measurements and approved abnormal cases to the selected standard edition; the shared connector family does not make AC and DC test coverage interchangeable.",
     sections: [
       { heading: "State the AC or DC scope first", paragraphs: [
@@ -741,7 +741,7 @@ export const resources: Resource[] = [
       { question: "Does one NACS tester automatically cover AC and DC?", answer: "No. Confirm AC and DC electrical paths, pilot or communication functions, ratings and test cases separately." },
       { question: "What should be included in an SAE J3400 equipment request?", answer: "Provide the standard edition, AC or DC scope, charger and coupler ratings, pilot and communication cases, measurements, faults, workflow and required evidence." },
     ],
-    relatedProductSlugs: ["st-hcac-ea-ua-na", "st-6680ua-ac", "ast-9000"],
+    relatedProductSlugs: ["st-hcac-ea-ua-na"],
     relatedResourceSlugs: ["nacs-ac-evse-testing", "ac-vs-dc-evse-testing", "evse-test-plan-checklist"],
   },
 ];

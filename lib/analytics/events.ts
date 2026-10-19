@@ -9,8 +9,11 @@ export type AnalyticsEventName =
   | "phone_click"
   | "catalog_download"
   | "guide_print"
+  | "guide_equipment_click"
+  | "guide_inquiry_click"
   | "product_compare"
   | "product_filter"
+  | "catalog_inquiry_click"
   | "comparison_inquiry_click";
 
 declare global {

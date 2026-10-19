@@ -9,8 +9,8 @@ describe("product catalog filter initialization", () => {
 
     expect(pageSource).not.toContain("searchParams");
     expect(source).toContain("useState<ProductFilters>(defaults)");
-    expect(source).toContain("parseProductFilters(new URLSearchParams(window.location.search))");
-    expect(source).toContain('window.addEventListener("popstate", sync)');
+    expect(source).toContain("parseProductFilters(params)");
+    expect(source).toContain("<QueryStateSync onChange={syncFilters} />");
     expect(source).toContain('window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`)');
     expect(source).toContain('updateFilter("interface"');
     expect(source).toContain('updateFilter("workflow"');

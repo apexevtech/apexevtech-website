@@ -1,4 +1,5 @@
 import type { Product } from "@/data/site";
+import { getProductConfiguration } from "@/lib/products/configuration";
 
 function matchingSpecs(product: Product, pattern: RegExp, limit: number) {
   return product.specs
@@ -9,11 +10,12 @@ function matchingSpecs(product: Product, pattern: RegExp, limit: number) {
 }
 
 export function getProductComparisonDetails(product: Product) {
+  const configuration = getProductConfiguration(product);
   return {
     type: product.category,
-    interface: matchingSpecs(product, /connector|socket|supported interfaces|test object/i, 2) || "Confirm the required interface with APEX.",
-    electricalRange: matchingSpecs(product, /voltage|current|socket rating|energy acquisition/i, 2) || "Configured for the target charger and test scope.",
-    loadArrangement: matchingSpecs(product, /external load|system configuration|installation/i, 2) || "Confirm the load arrangement with APEX.",
+    interface: configuration.interface,
+    electricalRange: configuration.electricalRange,
+    loadArrangement: configuration.loadArrangement,
     standards: matchingSpecs(product, /standard|protocol|reference/i, 2) || product.highlights.filter((item) => /IEC|GB\/T|SAE|ISO|DIN|CHAdeMO|NACS/i.test(item)).slice(0, 3).join(" · ") || "Confirm the exact standards and editions with APEX.",
     capabilities: product.highlights.slice(0, 4).join(" · "),
     applications: product.applications.slice(0, 3).join(" · "),

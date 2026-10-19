@@ -47,6 +47,13 @@ const process = [
   ["03", "Validate and commission", "The configured system is checked before delivery, followed by documentation, onboarding and technical support."],
 ];
 
+const testingPaths = [
+  { title: "DC charger testing", description: "Compare DC testers, BMS simulation and load options.", href: "/products?type=dc#equipment" },
+  { title: "AC charger testing", description: "Explore pilot signals, metering and AC interfaces.", href: "/products?type=ac#equipment" },
+  { title: "Laboratory validation", description: "Plan an integrated bench and repeatable test evidence.", href: "/applications/integrated-ev-charger-validation-laboratory" },
+  { title: "Field commissioning", description: "Define portable testing for installation and maintenance.", href: "/applications/mobile-ev-charger-commissioning-workflow" },
+];
+
 const markets = ["EV charger manufacturers", "Certification laboratories", "Utilities and operators", "Field service teams"];
 
 export default function HomePage() {
@@ -105,6 +112,40 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section aria-labelledby="test-path-heading" className="bg-white px-5 py-10 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+            <h2 id="test-path-heading" className="text-2xl font-black text-[#12263a]">Find your testing starting point</h2>
+            <p className="text-sm text-[#526b7d]">Choose by charger type or test environment.</p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {testingPaths.map((path) => (
+              <Link key={path.title} href={path.href} className="group rounded-md border border-slate-200 bg-[#f7fafc] p-5 transition-colors hover:border-[#1479c9] hover:bg-[#edf6fc]">
+                <span className="flex items-center justify-between gap-3 text-base font-extrabold text-[#12263a]">
+                  {path.title}<span aria-hidden="true" className="text-[#1268a8]">→</span>
+                </span>
+                <span className="mt-2 block text-sm leading-6 text-[#526b7d]">{path.description}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-slate-200 bg-[#f3f6f8] px-5 py-16 lg:px-8 lg:py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-wrap items-end justify-between gap-5">
+            <SectionHeading eyebrow="Product portfolio" title="Systems for laboratory, production and field validation" />
+            <div className="mb-10 flex flex-wrap gap-x-6 gap-y-3">
+              <Link href="/applications" className="border-b-2 border-[#1479c9] pb-1 text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">View application architectures →</Link>
+              <Link href="/products" className="border-b-2 border-[#1479c9] pb-1 text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">View all equipment →</Link>
+            </div>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {products.slice(0, 3).map((product) => <ProductCard key={product.slug} product={product} sizes="(min-width: 1280px) 350px, (min-width: 1024px) calc(33vw - 62px), (min-width: 768px) calc(50vw - 72px), calc(100vw - 82px)" />)}
+          </div>
+        </div>
+      </section>
+
       <section className="bg-white px-5 py-16 lg:px-8 lg:py-20">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
@@ -160,21 +201,6 @@ export default function HomePage() {
             <Link href="/resources" className="inline-flex rounded-md border border-[#1479c9] px-5 py-3 text-sm font-extrabold text-[#1268a8]">View all resources</Link>
             <Link href="/resources/ev-charger-testing-guide" className="text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">EV charger testing guide →</Link>
             <Link href="/resources/dc-fast-charger-testing-guide" className="text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">DC fast charger testing guide →</Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-slate-200 bg-[#f3f6f8] px-5 py-16 lg:px-8 lg:py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-wrap items-end justify-between gap-5">
-            <SectionHeading eyebrow="Product portfolio" title="Systems for laboratory, production and field validation" />
-            <div className="mb-10 flex flex-wrap gap-x-6 gap-y-3">
-              <Link href="/applications" className="border-b-2 border-[#1479c9] pb-1 text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">View application architectures →</Link>
-              <Link href="/products" className="border-b-2 border-[#1479c9] pb-1 text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">View all equipment →</Link>
-            </div>
-          </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {products.slice(0, 3).map((product) => <ProductCard key={product.slug} product={product} sizes="(min-width: 1280px) 350px, (min-width: 1024px) calc(33vw - 62px), (min-width: 768px) calc(50vw - 72px), calc(100vw - 82px)" />)}
           </div>
         </div>
       </section>

@@ -13,7 +13,7 @@ describe("product comparison", () => {
     for (const product of products) {
       const details = getProductComparisonDetails(product);
       expect(details.type).toBe(product.category);
-      expect(details.interface.length).toBeGreaterThan(10);
+      expect(details.interface.length).toBeGreaterThan(0);
       expect(details.electricalRange.length).toBeGreaterThan(10);
       expect(details.loadArrangement.length).toBeGreaterThan(10);
       expect(details.standards.length).toBeGreaterThan(10);

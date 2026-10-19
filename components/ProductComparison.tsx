@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { QueryStateSync } from "@/components/QueryStateSync";
 import type { Product } from "@/data/site";
 import { getProductComparisonDetails, parseComparedProductSlugs } from "@/lib/products/comparison";
 import { trackEvent } from "@/lib/analytics/events";
@@ -14,14 +15,8 @@ export function ProductComparison({ products }: { products: Product[] }) {
     return product ? [product] : [];
   });
 
-  useEffect(() => {
-    const syncWithUrl = () => {
-      setSelectedSlugs(parseComparedProductSlugs(new URLSearchParams(window.location.search).get("compare"), products));
-    };
-
-    syncWithUrl();
-    window.addEventListener("popstate", syncWithUrl);
-    return () => window.removeEventListener("popstate", syncWithUrl);
+  const syncSelection = useCallback((params: URLSearchParams) => {
+    setSelectedSlugs(parseComparedProductSlugs(params.get("compare"), products));
   }, [products]);
 
   function updateSelection(index: number, slug: string) {
@@ -67,6 +62,7 @@ export function ProductComparison({ products }: { products: Product[] }) {
 
   return (
     <section id="compare" className="scroll-mt-28 border-y border-slate-200 bg-[#f3f6f8] px-5 py-14 lg:px-8">
+      <QueryStateSync onChange={syncSelection} />
       <div className="mx-auto max-w-7xl">
         <p className="text-sm font-black uppercase text-[#1268a8]">Product comparison</p>
         <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
@@ -91,16 +87,18 @@ export function ProductComparison({ products }: { products: Product[] }) {
 
         {selectedProducts.length ? (
           <>
-            <div className="mt-8 overflow-x-auto rounded-md border border-slate-200 bg-white">
+            <p id="comparison-scroll-help" className="mt-6 text-xs leading-5 text-[#526b7d]">On smaller screens, scroll the table horizontally to see every model.</p>
+            <div role="region" aria-label="Selected test system specifications" aria-describedby="comparison-scroll-help" tabIndex={0} className="mt-3 overflow-x-auto rounded-md border border-slate-200 bg-white">
               <table className="w-full min-w-[760px] border-collapse text-left text-sm">
+                <caption className="sr-only">Specifications for {selectedProducts.map((product) => product.model).join(", ")}</caption>
                 <thead>
                   <tr className="bg-[#102a43] text-white">
-                    <th className="w-44 px-4 py-4 font-black">Compare</th>
-                    {selectedProducts.map((product) => <th key={product.slug} className="min-w-60 px-4 py-4"><Link href={`/products/${product.slug}`} className="font-black hover:underline">{product.model} ↗</Link><span className="mt-1 block text-xs font-normal text-slate-300">{product.title}</span></th>)}
+                    <th scope="col" className="w-44 px-4 py-4 font-black">Compare</th>
+                    {selectedProducts.map((product) => <th scope="col" key={product.slug} className="min-w-60 px-4 py-4"><Link href={`/products/${product.slug}`} className="font-black hover:underline">{product.model} ↗</Link><span className="mt-1 block text-xs font-normal text-slate-300">{product.title}</span></th>)}
                   </tr>
                 </thead>
                 <tbody>
-                  {rows.map(([label, key]) => <tr key={key} className="border-t border-slate-200 align-top"><th className="bg-slate-50 px-4 py-4 font-black text-[#12263a]">{label}</th>{selectedProducts.map((product) => <td key={product.slug} className="px-4 py-4 leading-6 text-[#526b7d]">{getProductComparisonDetails(product)[key]}</td>)}</tr>)}
+                  {rows.map(([label, key]) => <tr key={key} className="border-t border-slate-200 align-top"><th scope="row" className="bg-slate-50 px-4 py-4 font-black text-[#12263a]">{label}</th>{selectedProducts.map((product) => <td key={product.slug} className="px-4 py-4 leading-6 text-[#526b7d]">{getProductComparisonDetails(product)[key]}</td>)}</tr>)}
                 </tbody>
               </table>
             </div>

@@ -1,14 +1,15 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { Product } from "@/data/site";
 import type { ResourceDecisionTable } from "@/data/resources";
+import { TrackedLink } from "@/components/TrackedLink";
 
 type ResourceDecisionSupportProps = {
   decisionTable: ResourceDecisionTable;
   representativeProduct?: Product;
+  resourceSlug: string;
 };
 
-export function ResourceDecisionSupport({ decisionTable, representativeProduct }: ResourceDecisionSupportProps) {
+export function ResourceDecisionSupport({ decisionTable, representativeProduct, resourceSlug }: ResourceDecisionSupportProps) {
   return (
     <section className="mt-12 border-t border-slate-200 pt-8">
       <p className="text-sm font-black uppercase tracking-wide text-[#1268a8]">{decisionTable.eyebrow}</p>
@@ -16,7 +17,7 @@ export function ResourceDecisionSupport({ decisionTable, representativeProduct }
       <p className="mt-3 leading-7 text-[#526b7d]">{decisionTable.description}</p>
 
       {representativeProduct ? (
-        <Link href={`/products/${representativeProduct.slug}`} className="mt-6 grid overflow-hidden rounded-md border border-slate-200 bg-[#f4f8fa] sm:grid-cols-[220px_1fr]">
+        <TrackedLink href={`/products/${representativeProduct.slug}`} eventName="guide_equipment_click" location="guide-worksheet" eventParameters={{ resource_slug: resourceSlug, product_model: representativeProduct.model }} className="mt-6 grid overflow-hidden rounded-md border border-slate-200 bg-[#f4f8fa] sm:grid-cols-[220px_1fr]">
           <div className="relative min-h-48 bg-white">
             <Image src={representativeProduct.image} alt={`${representativeProduct.model} ${representativeProduct.title}`} fill sizes="(min-width: 640px) 220px, calc(100vw - 42px)" className="object-contain p-5" />
           </div>
@@ -26,7 +27,7 @@ export function ResourceDecisionSupport({ decisionTable, representativeProduct }
             <p className="mt-2 text-sm leading-6 text-[#526b7d]">{representativeProduct.shortDescription}</p>
             <span className="mt-4 inline-flex text-sm font-black text-[#1268a8]">Review published specifications →</span>
           </div>
-        </Link>
+        </TrackedLink>
       ) : null}
 
       <div className="resource-decision-mobile mt-6 grid gap-3 sm:hidden">

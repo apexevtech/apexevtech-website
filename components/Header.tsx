@@ -2,13 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { company, navItems } from "@/data/site";
 
 export function Header() {
   const headerRef = useRef<HTMLElement>(null);
+  const mobileToggleRef = useRef<HTMLButtonElement>(null);
+  const productsToggleRef = useRef<HTMLButtonElement>(null);
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const isActive = (href: string) => href === "/" ? pathname === "/" : pathname.startsWith(`${href}/`) || pathname === href;
+  const navClass = (href: string) => `text-sm font-semibold transition-colors hover:text-[#1268a8] ${isActive(href) ? "text-[#1268a8] underline decoration-2 underline-offset-8" : "text-[#385064]"}`;
 
   useEffect(() => {
     if (!productsOpen && !open) return;
@@ -39,7 +45,11 @@ export function Header() {
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
         onKeyDown={(event) => {
-          if (event.key === "Escape") closeMobileMenu();
+          if (event.key === "Escape" && (open || productsOpen)) {
+            event.preventDefault();
+            (open ? mobileToggleRef : productsToggleRef).current?.focus();
+            closeMobileMenu();
+          }
         }}
       >
         <div className="flex h-[76px] items-center justify-between">
@@ -58,18 +68,18 @@ export function Header() {
           <div className="hidden items-center gap-5 xl:flex">
             {navItems.map((item) => item.label === "Products" ? (
               <div key={item.href} className="relative">
-                <button type="button" onClick={() => setProductsOpen((value) => !value)} aria-expanded={productsOpen} className="flex items-center gap-1 text-sm font-semibold text-[#385064] transition-colors hover:text-[#1268a8]">
+                <button ref={productsToggleRef} type="button" onClick={() => setProductsOpen((value) => !value)} aria-expanded={productsOpen} aria-controls="desktop-product-navigation" className={`flex items-center gap-1 ${navClass(item.href)}`}>
                   Products <span aria-hidden="true" className="text-[10px]">{productsOpen ? "▲" : "▼"}</span>
                 </button>
                 {productsOpen && (
-                  <div className="absolute left-1/2 top-full mt-4 w-52 -translate-x-1/2 rounded-md border border-slate-200 bg-white py-2 shadow-xl shadow-slate-900/10">
+                  <div id="desktop-product-navigation" className="absolute left-1/2 top-full mt-4 w-52 -translate-x-1/2 rounded-md border border-slate-200 bg-white py-2 shadow-xl shadow-slate-900/10">
                     {productChildren.map((child) => <Link key={child.href} href={child.href} onClick={() => setProductsOpen(false)} className="block px-4 py-2.5 text-sm text-[#385064] hover:bg-slate-50 hover:text-[#1268a8]">{child.label}</Link>)}
                     <Link href={item.href} onClick={() => setProductsOpen(false)} className="block border-t border-slate-100 px-4 py-2.5 text-sm font-bold text-[#1268a8]">All Products</Link>
                   </div>
                 )}
               </div>
             ) : (
-              <Link key={item.href} href={item.href} className="text-sm font-semibold text-[#385064] transition-colors hover:text-[#1268a8]">{item.label}</Link>
+              <Link key={item.href} href={item.href} aria-current={pathname === item.href ? "page" : undefined} className={navClass(item.href)}>{item.label}</Link>
             ))}
           </div>
 
@@ -78,6 +88,7 @@ export function Header() {
           </Link>
 
           <button
+            ref={mobileToggleRef}
             type="button"
             className="flex h-10 w-10 items-center justify-center text-2xl text-[#12263a] xl:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -93,10 +104,10 @@ export function Header() {
           <div id="mobile-navigation" className="max-h-[calc(100dvh-77px)] overflow-y-auto overscroll-contain border-t border-slate-200 py-3 xl:hidden">
             {navItems.map((item) => item.label === "Products" ? (
               <div key={item.href}>
-                <button type="button" onClick={() => setProductsOpen((value) => !value)} aria-expanded={productsOpen} className="flex w-full items-center justify-between py-2.5 text-left text-sm font-semibold text-[#385064]">Products <span aria-hidden="true">{productsOpen ? "▲" : "▼"}</span></button>
-                {productsOpen && <div className="border-l-2 border-[#00a6c7] pl-4">{productChildren.map((child) => <Link key={child.href} href={child.href} onClick={closeMobileMenu} className="block py-2 text-sm text-slate-600">{child.label}</Link>)}<Link href={item.href} onClick={closeMobileMenu} className="block py-2 text-sm font-bold text-[#1268a8]">All Products</Link></div>}
+                <button type="button" onClick={() => setProductsOpen((value) => !value)} aria-expanded={productsOpen} aria-controls="mobile-product-navigation" className={`flex w-full items-center justify-between py-2.5 text-left ${navClass(item.href)}`}>Products <span aria-hidden="true">{productsOpen ? "▲" : "▼"}</span></button>
+                {productsOpen && <div id="mobile-product-navigation" className="border-l-2 border-[#00a6c7] pl-4">{productChildren.map((child) => <Link key={child.href} href={child.href} onClick={closeMobileMenu} className="block py-3 text-sm text-slate-600">{child.label}</Link>)}<Link href={item.href} aria-current={pathname === item.href ? "page" : undefined} onClick={closeMobileMenu} className="block py-3 text-sm font-bold text-[#1268a8]">All Products</Link></div>}
               </div>
-            ) : <Link key={item.href} href={item.href} onClick={closeMobileMenu} className="block py-2.5 text-sm font-semibold text-[#385064]">{item.label}</Link>)}
+            ) : <Link key={item.href} href={item.href} aria-current={pathname === item.href ? "page" : undefined} onClick={closeMobileMenu} className={`block py-3 ${navClass(item.href)}`}>{item.label}</Link>)}
             <Link href="/contact#inquiry-form" onClick={closeMobileMenu} className="mt-2 inline-flex rounded-md bg-[#1479c9] px-5 py-2.5 text-sm font-bold text-white">
               Talk to an engineer
             </Link>

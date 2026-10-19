@@ -1,4 +1,11 @@
+export type ProductCapabilities = {
+  chargerTypes: Array<"ac" | "dc">;
+  interfaces: Array<"gbt" | "ccs2" | "chademo" | "type1" | "type2" | "nacs">;
+  workflows: Array<"portable" | "laboratory" | "production" | "field">;
+};
+
 export type Product = {
+  capabilities: ProductCapabilities;
   seoTitle?: string;
   slug: string;
   category: string;
@@ -35,6 +42,7 @@ export const navItems = [
 export const products: Product[] = [
   {
     slug: "st-hcdc-hpc",
+    capabilities: { chargerTypes: ["dc"], interfaces: ["gbt"], workflows: ["portable", "laboratory", "production", "field"] },
     category: "DC Charger Testing / Laboratory Testing / Field Service",
     model: "ST-HCDC-HPC",
     title: "High-Power DC EV Charger Comprehensive Tester",
@@ -63,6 +71,8 @@ export const products: Product[] = [
     ],
     specs: [
       ["Test Object", "Non-vehicle conductive DC charger"],
+      ["Connector Standard", "GB/T DC; confirm the required edition and socket configuration"],
+      ["Battery Voltage Simulation", "DC 0-1100 V, continuously adjustable; maximum output 20 mA"],
       ["Connector Socket Count", "1"],
       ["R4 Equivalent Resistance", "200-11,000 ohm, 1 ohm step"],
       ["Voltage / Current Sampling", "±0.5% RD; voltage 200-1000 V; current 10-300 A"],
@@ -83,6 +93,7 @@ export const products: Product[] = [
   },
   {
     slug: "st-hcac-gb-ua-ea",
+    capabilities: { chargerTypes: ["ac"], interfaces: ["gbt", "type1", "type2"], workflows: ["portable", "laboratory", "production", "field"] },
     category: "AC Charger Testing / Field Service / Laboratory Testing",
     model: "ST-HCAC-GB / UA / EA",
     title: "Three-Standard AC EV Charger Comprehensive Tester",
@@ -129,6 +140,8 @@ export const products: Product[] = [
   },
   {
     slug: "ast-9000",
+    // Regional variants are configurable; do not infer an exact connector from IEC/SAE references.
+    capabilities: { chargerTypes: ["dc"], interfaces: ["gbt"], workflows: ["laboratory", "production"] },
     category: "DC Charger Testing / Laboratory Testing",
     model: "AST-9000",
     title: "Multi-Standard DC EV Charger R&D Test System",
@@ -155,6 +168,7 @@ export const products: Product[] = [
       "System software communicates with all configured instruments, supports coordinated control and automatic test execution, and produces a report with recorded test data.",
     ],
     specs: [
+      ["Supported Interfaces", "Configured GB, European and North American DC interfaces; confirm exact connectors and protocol versions"],
       ["System Configuration", "AST-9000 test system, programmable resistance load, programmable AC source and control software"],
       ["Battery Voltage Simulation", "DC 0-1100 V"],
       ["Communication / Capture", "BMS simulation, CAN message capture, export and parsing"],
@@ -170,6 +184,7 @@ export const products: Product[] = [
   },
   {
     slug: "st-9980ea-hpc",
+    capabilities: { chargerTypes: ["dc"], interfaces: ["ccs2"], workflows: ["portable", "laboratory", "field"] },
     category: "DC Charger Testing / Field Service / Laboratory Testing",
     model: "ST-9980EA-HPC",
     title: "European DC EV Charger High-Power Comprehensive Tester",
@@ -215,6 +230,7 @@ export const products: Product[] = [
   },
   {
     slug: "st-6680b-plus",
+    capabilities: { chargerTypes: ["ac"], interfaces: ["gbt"], workflows: ["portable", "laboratory", "production", "field"] },
     seoTitle: "ST-6680B+ Portable GB/T AC EV Charger Tester",
     category: "AC Charger Testing / Field Service",
     model: "ST-6680B+",
@@ -267,6 +283,7 @@ export const products: Product[] = [
   },
   {
     slug: "st-6680ca-dc",
+    capabilities: { chargerTypes: ["dc"], interfaces: ["chademo"], workflows: ["portable", "laboratory", "production", "field"] },
     category: "DC Charger Testing / Field Service",
     model: "ST-6680CA-DC",
     title: "CHAdeMO DC EV Charger Tester",
@@ -314,6 +331,7 @@ export const products: Product[] = [
   },
   {
     slug: "st-6680ea-ac",
+    capabilities: { chargerTypes: ["ac"], interfaces: ["type2"], workflows: ["portable", "laboratory", "production", "field"] },
     category: "AC Charger Testing / Field Service",
     model: "ST-6680EA-AC",
     title: "Type 2 AC EV Charger Tester",
@@ -363,6 +381,7 @@ export const products: Product[] = [
   },
   {
     slug: "st-6680ea-dc",
+    capabilities: { chargerTypes: ["dc"], interfaces: ["ccs2"], workflows: ["portable", "laboratory", "production", "field"] },
     category: "DC Charger Testing / Field Service",
     model: "ST-6680EA-DC",
     title: "CCS2 DC EV Charger Tester",
@@ -413,6 +432,7 @@ export const products: Product[] = [
   },
   {
     slug: "st-6680ua-ac",
+    capabilities: { chargerTypes: ["ac"], interfaces: ["type1"], workflows: ["portable", "laboratory", "production", "field"] },
     category: "AC Charger Testing / Field Service",
     model: "ST-6680UA-AC",
     title: "SAE J1772 AC EV Charger Tester",
@@ -463,6 +483,8 @@ export const products: Product[] = [
   },
   {
     slug: "st-6680ua-dc",
+    // The published regional DC interface does not establish Type 1 AC, CCS2 or NACS coverage.
+    capabilities: { chargerTypes: ["dc"], interfaces: [], workflows: ["portable", "laboratory", "production", "field"] },
     category: "DC Charger Testing / Field Service",
     model: "ST-6680UA-DC",
     title: "North American DC EV Charger Tester",
@@ -510,6 +532,7 @@ export const products: Product[] = [
   },
   {
     slug: "st-9980a-pro",
+    capabilities: { chargerTypes: ["dc"], interfaces: ["gbt"], workflows: ["portable", "laboratory", "production", "field"] },
     category: "DC Charger Testing / Field Service / Laboratory Testing",
     model: "ST-9980A+ Pro",
     title: "DC EV Charger Comprehensive Tester",
@@ -561,6 +584,7 @@ export const products: Product[] = [
   },
   {
     slug: "st-hcac-ea-ua-na",
+    capabilities: { chargerTypes: ["ac"], interfaces: ["type1", "type2", "nacs"], workflows: ["laboratory", "production"] },
     category: "AC Charger Testing / Laboratory Testing / Field Service",
     model: "ST-HCAC-EA / UA / NA",
     title: "Type 1 / Type 2 / NACS AC EV Charger Tester",
