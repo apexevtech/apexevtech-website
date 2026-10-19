@@ -2,16 +2,17 @@
 
 import { whatsappButtonClassName, whatsappIconPath } from "@/components/WhatsAppButton.styles";
 import { trackEvent } from "@/lib/analytics/events";
+import { usePathname } from "next/navigation";
+import { buildWhatsAppInquiryHref } from "@/lib/inquiries/whatsapp";
 
 export { whatsappIconPath } from "@/components/WhatsAppButton.styles";
 
 export function WhatsAppButton() {
-  const whatsappNumber = "8617714412321";
-  const message = encodeURIComponent("Hello, I would like to learn more about your EV charger testing systems.");
+  const pathname = usePathname();
 
   return (
     <a
-      href={`https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${message}`}
+      href={buildWhatsAppInquiryHref(pathname)}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contact APEX on WhatsApp"
