@@ -35,8 +35,8 @@ export const interfaceTopics: InterfaceTopic[] = [
       { question: "Can connector compatibility prove ISO 15118 coverage?", answer: "No. Confirm communication hardware, software, protocol editions and test cases separately from the physical Combo 2 connection." },
     ],
     relatedProductSlugs: ["st-9980ea-hpc", "st-6680ea-dc", "ast-9000"],
-    relatedResourceSlugs: ["iso-15118-din-70121-testing", "ccs2-dc-fast-charger-testing", "ev-charging-protocol-testing", "regenerative-load-considerations"],
-    publishedAt, modifiedAt,
+    relatedResourceSlugs: ["choose-ev-charger-test-system", "ev-charger-testing-guide", "iso-15118-din-70121-testing", "ccs2-dc-fast-charger-testing", "ev-charging-protocol-testing", "regenerative-load-considerations"],
+    publishedAt, modifiedAt: "2026-10-19",
   },
   {
     slug: "gbt-ev-charger-testing",
@@ -56,8 +56,8 @@ export const interfaceTopics: InterfaceTopic[] = [
       { question: "Which GB/T revision should be selected?", answer: "Use the exact editions required by the target market, charger firmware, customer specification and test procedure; do not assume automatic coverage across revisions." },
     ],
     relatedProductSlugs: ["st-9980a-pro", "st-hcdc-hpc", "st-6680b-plus", "st-hcac-gb-ua-ea", "ast-9000"],
-    relatedResourceSlugs: ["gbt-27930-2-charger-testing", "gbt-dc-charger-conformance-testing", "ev-charging-protocol-testing", "evse-end-of-line-testing"],
-    publishedAt, modifiedAt,
+    relatedResourceSlugs: ["choose-ev-charger-test-system", "ev-charger-testing-guide", "gbt-27930-2-charger-testing", "gbt-dc-charger-conformance-testing", "ev-charging-protocol-testing", "evse-end-of-line-testing"],
+    publishedAt, modifiedAt: "2026-10-19",
   },
   {
     slug: "nacs-evse-testing",
@@ -77,8 +77,8 @@ export const interfaceTopics: InterfaceTopic[] = [
       { question: "What information is needed for a NACS AC quotation?", answer: "Provide the SAE J3400 revision, voltage, current, phase, required pilot and fault cases, metering or waveform needs and test environment." },
     ],
     relatedProductSlugs: ["st-hcac-ea-ua-na"],
-    relatedResourceSlugs: ["sae-j3400-nacs-testing", "nacs-ac-evse-testing", "ac-vs-dc-evse-testing", "evse-test-plan-checklist"],
-    publishedAt, modifiedAt,
+    relatedResourceSlugs: ["choose-ev-charger-test-system", "ev-charger-testing-guide", "sae-j3400-nacs-testing", "nacs-ac-evse-testing", "ac-vs-dc-evse-testing", "evse-test-plan-checklist"],
+    publishedAt, modifiedAt: "2026-10-19",
   },
   {
     slug: "type-2-evse-testing",

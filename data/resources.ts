@@ -40,6 +40,11 @@ export const resources: Resource[] = [
       { heading: "Validate the proposed configuration", paragraphs: [
         "Before ordering, review a configuration against one representative charger and one representative test case. Confirm connector ratings, communication versions, measurement accuracy, included software, report formats and external-load requirements. This acceptance review is more reliable than comparing model names alone and gives both the supplier and engineering team a measurable boundary for delivery.",
       ], checklist: ["Review one representative test sequence", "Confirm included and optional modules", "Agree on evidence and export formats"] },
+      { heading: "Worked example: specifying a CCS2 DC charger test system", paragraphs: [
+        "Consider a planning requirement for a CCS2 charger with a maximum test point of 1000 V and 300 A. The vehicle-interface tester must support the required Combo 2 connection, pilot sequence and exact DIN SPEC 70121 or ISO 15118 edition. Its voltage and current connection limits must be checked independently from its measurement range and the external load rating.",
+        "If the approved test actually requires 1000 V and 300 A at the same time, the power-absorption path must handle 300 kW at that operating point for the specified duration. A 300 kW nameplate alone is insufficient: check the load's voltage-current operating envelope, continuous-duty rating, cooling, cabling and facility requirements. Lower-power communication diagnosis is a separate test scope.",
+        "A reviewable quotation therefore separates the interface tester, PLC and capture options, voltage/current measurement, load and power equipment, rated cables, protection, software and reports. Request one normal charging sequence and one approved termination case as acceptance examples. This is a configuration-planning example, not a measured APEX test result or a claim of certification coverage.",
+      ], checklist: ["Define the simultaneous voltage-current operating point", "Specify load duration and cooling", "Confirm protocol edition and evidence exports", "Agree an acceptance sequence before purchase"] },
     ],
     decisionTable: {
       eyebrow: "Configuration worksheet",
@@ -549,7 +554,7 @@ export const resources: Resource[] = [
     topic: "EV charger testing workflow",
     intent: "process",
     publishedAt: "2026-09-23",
-    modifiedAt: "2026-09-23",
+    modifiedAt: "2026-10-19",
     summaryAnswer: "EV charger testing should define the charger interface, applicable standard, electrical range, test environment and required evidence before equipment is connected. A useful workflow verifies preconditions, reproduces the vehicle-side charging sequence, compares requested and measured values, checks controlled abnormal responses and saves enough context to repeat the result.",
     sections: [
       { heading: "Define the EV charger testing scope", paragraphs: [
@@ -573,6 +578,20 @@ export const resources: Resource[] = [
         "Repeat failed cases after corrective action with the same controlled setup. For production or commissioning, distinguish a confirmed charger failure from an incomplete test caused by supply, network, load or access limits. This makes the record useful for engineering escalation and later comparison.",
       ] },
     ],
+    decisionTable: {
+      eyebrow: "EV charger test record",
+      title: "A practical test-case and evidence matrix",
+      description: "Use these record fields to turn a charging session into a repeatable engineering review. Set numerical limits from the selected standard edition, charger specification and approved procedure.",
+      columns: ["Test case", "What to define before the test", "Evidence to retain"],
+      rows: [
+        ["Connection and readiness", "Connector, cable rating, pilot states and expected initial charger state", "Asset ID, tester setup, observed pilot state and readiness timestamp"],
+        ["Communication startup", "Exact CAN or PLC protocol edition and expected sequence", "Raw message capture, firmware versions and first unexpected state if startup fails"],
+        ["Energy transfer", "Requested values, test operating point, duration and compatible load envelope", "Time-aligned requested and measured voltage/current, instrument identity and result limits"],
+        ["Controlled stop", "Approved stop trigger, expected output response and end state", "Command or pilot transition, output decay record and final charger state"],
+        ["Approved abnormal case", "One injected condition, expected response, safe boundary and recovery rule", "Before/during/after capture, charger alarm, observed response and final disposition"],
+      ],
+      note: "This is a planning template, not a completed test report or a universal compliance checklist. Record site or setup limitations and distinguish an inconclusive test from a confirmed charger fault.",
+    },
     faqs: [
       { question: "What equipment is needed for EV charger testing?", answer: "The minimum set depends on the charger. It normally includes a vehicle-interface simulator or EVSE tester, suitable cables and adapters, electrical measurement, and a defined load path; protocol capture, waveform acquisition and fault simulation may be added for the required cases." },
       { question: "Can one EV charger testing system cover every connector?", answer: "An integrated platform can combine several interface modules, but each connector, protocol, voltage and current range still needs a confirmed configuration and acceptance boundary." },
