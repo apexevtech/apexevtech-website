@@ -11,6 +11,7 @@ type TrackedLinkProps = LinkProps & {
   className?: string;
   target?: string;
   rel?: string;
+  download?: boolean;
   eventParameters?: Record<string, string>;
 };
 

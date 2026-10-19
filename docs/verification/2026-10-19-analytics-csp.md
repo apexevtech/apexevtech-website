@@ -20,3 +20,11 @@ Reference: [Microsoft Clarity CSP guidance](https://learn.microsoft.com/en-us/cl
 ## Remaining acceptance criterion
 
 Verify an actual incoming GA4 debug event from a network that can reach Google's collection services. Removing a CSP block does not prove network delivery or GA4 ingestion.
+
+## Follow-up browser verification
+
+- GA4 DebugView subsequently displayed two `page_view` events; one inspected event had `debug_mode=1` and `page_location=https://www.link-jl.com/?ga_debug=1`. This confirms ingestion of page events, not the entire conversion funnel.
+- An isolated, non-translated production browser successfully downloaded the ST-9980EA-HPC Word file (HTTP 200) and opened the inquiry form with DC / CCS2 scope prefilled. No additional inquiry was submitted.
+- Actual GA requests contained `catalog_download` with the guide slug and model, and `guide_inquiry_click` with the guide slug. Both failed with `ERR_CONNECTION_CLOSED` at the primary collection host on this computer; successful custom-event ingestion remains unverified.
+- The GA fallback endpoint returned HTTP 204 for page events. Clarity collection also returned HTTP 204, without the previous script CSP block.
+- Next Link attempted RSC prefetches for Word files, causing unnecessary 404s even though the actual document returned 200. The new guide document links now disable prefetch and use the native download attribute while retaining click tracking.
