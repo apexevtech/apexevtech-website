@@ -2,6 +2,10 @@
 
 Reviewed: 2026-10-19
 
+Release status: the changes below were deployed on 2026-10-19 from commit
+`258a5e1e23b83228c515e3c35110e426adf42dcb`. Earlier references to local-only work
+describe the pre-release checks. The release verification at the end is current.
+
 ## Measurement baseline
 
 Search Console property: `https://www.link-jl.com/`. The selected period was
@@ -96,3 +100,37 @@ dates reflect the visible additions.
 All 110 tests passed. Browser checks confirmed the NACS DC draft includes both
 DC and NACS / SAE J3400, and the CCS2 page has no horizontal overflow at 390px.
 These changes remain local pending deployment.
+
+## Production release verification
+
+- Pushed the reviewed changes to `main` as `258a5e1`; the existing interface
+  crawl-path commit `fd44e32` was included in the same push.
+- Both Vercel production projects reported successful deployment. The primary
+  deployment is `86YMVdX18FpNULPPHAAx1Ke4H8FC` in `ape-x1/apexevtech-website`.
+- GitHub Quality checks run `39218652553` passed, including lint, tests,
+  TypeScript and production build.
+- Production audit passed for 53 sitemap pages and 103 internal link targets;
+  all 12 linked downloads retain `noindex`.
+- A production CCS2 guide visit showed the new equipment paths and current
+  modification date. Google tag `G-EPSJV6EMLC` and Clarity `yas565j4eq` loaded.
+- Submitted exactly one authorized inquiry marked
+  `APEX-QA-20261019-258a5e1`, explicitly requesting no quote or sales follow-up.
+  The production form displayed successful delivery confirmation.
+- Resend message `01a15325-8932-72e8-bd27-d185d9c8b5d1` shows `sent` and
+  `delivered` at 15:52 Asia/Shanghai, to the configured business mailbox. The
+  preview contains the matching unique marker. Final inbox versus junk-folder
+  placement still requires the mailbox owner's confirmation.
+
+### Remaining analytics limitation
+
+The consented production visit, a guide equipment click and the inquiry form
+test did not appear in GA4 Realtime during this check. The only displayed data
+filter, Internal Traffic, is in Testing state; no filter settings were changed.
+Both `www.google-analytics.com/g/collect` and
+`region1.google-analytics.com/g/collect` failed TLS connection checks from the
+execution host. This confirms a network limitation for this verification but
+does not prove why last week's visitors were unrecorded.
+
+Repeat the consented debug visit from a network that reaches Google's collection
+endpoints before declaring analytics fixed. The test submission is an internal
+QA event and must not be counted as a customer lead in the next review.
