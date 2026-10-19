@@ -54,4 +54,5 @@ The user reported not yet receiving the prior test message. Resend's delivered
 event for `01a15325-8932-72e8-bd27-d185d9c8b5d1` shows SMTP response
 `250 Ok: queued as`. This proves recipient-server acceptance, not inbox
 placement. No duplicate test was sent; mailbox filtering, junk placement and
-quarantine remain to be confirmed.
+quarantine initially remained to be confirmed. The user subsequently confirmed
+receipt on 2026-10-19; the end-to-end delivery check is complete.

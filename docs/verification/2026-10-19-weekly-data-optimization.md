@@ -118,8 +118,9 @@ These changes remain local pending deployment.
   The production form displayed successful delivery confirmation.
 - Resend message `01a15325-8932-72e8-bd27-d185d9c8b5d1` shows `sent` and
   `delivered` at 15:52 Asia/Shanghai, to the configured business mailbox. The
-  preview contains the matching unique marker. Final inbox versus junk-folder
-  placement still requires the mailbox owner's confirmation.
+  preview contains the matching unique marker. The mailbox owner subsequently
+  confirmed receipt on 2026-10-19, completing the inquiry delivery check. This
+  internal QA message is excluded from customer lead counts.
 
 ### Remaining analytics limitation
 

@@ -2,6 +2,32 @@
 
 Prepared: 2026-10-12
 
+## 2026-10-19 asset inventory
+
+Existing public specifications can be used immediately; they are already linked
+from product pages. The selection, CCS2 and NACS guides now also provide direct
+links beside the relevant equipment. Downloads use the existing
+`catalog_download` event with the guide slug and model, allowing future reports
+to distinguish specification interest from general navigation.
+
+| Priority | Product / workflow | Available now | Missing for an evidence example |
+| --- | --- | --- | --- |
+| 1 | ST-9980EA-HPC / CCS2 diagnosis | Public specification and equipment image | Approved software capture, anonymized time-aligned protocol/electrical export, test conditions and publication permission |
+| 2 | ST-HCAC-EA / UA / NA / NACS AC | Public specification and equipment image | Approved pilot-state or measurement screenshot, exact tested AC configuration, software version and publication permission |
+| 3 | AST-9000 / laboratory validation | Public specification and equipment image | Approved test sequence and anonymized result export, configured interface/modules, software version and publication permission |
+| 4 | EVSE production end-of-line workflow | Existing planning content | An approved unit-result record with limits, disposition and retest history removed or anonymized as required |
+
+Read-only archive inspection of the CCS2 and NACS AC specification documents
+found no embedded media, so those files do not supply software screenshots.
+Do not create screenshots or report results that imply completed testing.
+
+For each missing asset, collect the original file, product/configuration,
+workflow and date, an explanation of what it demonstrates, confidentiality
+redactions and explicit permission to publish. Keep customer/site identity,
+serial numbers, access details and private measurement limits out of the public
+version. A submitted asset is not ready for publication until this review is
+complete.
+
 ## Priority asset
 
 Prepare one anonymized **EVSE end-of-line test record example** to support the highest-opportunity query cluster. The public version should demonstrate how a production test result is made reviewable without identifying a customer or claiming certification.

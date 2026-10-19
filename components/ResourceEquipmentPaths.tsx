@@ -21,7 +21,10 @@ export function ResourceEquipmentPaths({ resourceSlug }: { resourceSlug: string 
               </div>
               <h3 className="mt-3 font-black text-[#12263a]">{path.title}</h3>
               <p className="mb-4 mt-2 text-sm leading-6 text-[#526b7d]">{path.scope}</p>
-              <TrackedLink href={path.href} eventName="guide_equipment_click" location="guide-selection-path" eventParameters={{ resource_slug: resourceSlug, product_model: product.model }} className="mt-auto inline-flex min-h-11 items-center py-2 text-sm font-bold text-[#1268a8] hover:underline">{path.label}</TrackedLink>
+              <div className="mt-auto grid gap-1">
+                <TrackedLink href={path.href} eventName="guide_equipment_click" location="guide-selection-path" eventParameters={{ resource_slug: resourceSlug, product_model: product.model }} className="inline-flex min-h-11 items-center py-2 text-sm font-bold text-[#1268a8] hover:underline">{path.label}</TrackedLink>
+                {product.document ? <TrackedLink href={product.document} eventName="catalog_download" location="guide-original-specifications" eventParameters={{ resource_slug: resourceSlug, model: product.model }} className="inline-flex min-h-11 items-center py-2 text-sm text-[#385064] underline underline-offset-4">Original specifications (Word)</TrackedLink> : null}
+              </div>
             </article>
           );
         })}
