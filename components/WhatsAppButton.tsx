@@ -15,10 +15,11 @@ export function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contact APEX on WhatsApp"
+      title="Contact APEX on WhatsApp"
       className={whatsappButtonClassName}
       onClick={() => trackEvent("whatsapp_click", { location: "floating" })}
     >
-      <svg aria-hidden="true" className="h-5 w-5 shrink-0 fill-current" viewBox="0 0 24 24">
+      <svg aria-hidden="true" className="h-6 w-6 shrink-0 fill-current" viewBox="0 0 24 24">
         <path d={whatsappIconPath} />
       </svg>
       <span className="sr-only sm:not-sr-only">WhatsApp</span>

@@ -80,7 +80,8 @@ button {
 }
 
 @media (max-width: 639px) {
-  body:has(.inquiry-form:focus-within) .whatsapp-floating {
+  body:has(.inquiry-form:focus-within) .whatsapp-floating,
+  body:has([role="dialog"][aria-label="Cookie preferences"]) .whatsapp-floating {
     visibility: hidden;
   }
 }
