@@ -4,11 +4,11 @@ const contentSecurityPolicy = [
   "form-action 'self'",
   "frame-ancestors 'none'",
   "object-src 'none'",
-  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://scripts.clarity.ms",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://www.google-analytics.com https://*.clarity.ms https://*.bing.com",
   "font-src 'self' data:",
-  "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://*.clarity.ms https://*.bing.com",
+  "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://www.google.com/g/collect https://*.clarity.ms https://*.bing.com",
   "upgrade-insecure-requests",
 ].join("; ");
 
