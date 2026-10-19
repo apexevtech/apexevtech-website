@@ -28,3 +28,7 @@ Verify an actual incoming GA4 debug event from a network that can reach Google's
 - Actual GA requests contained `catalog_download` with the guide slug and model, and `guide_inquiry_click` with the guide slug. Both failed with `ERR_CONNECTION_CLOSED` at the primary collection host on this computer; successful custom-event ingestion remains unverified.
 - The GA fallback endpoint returned HTTP 204 for page events. Clarity collection also returned HTTP 204, without the previous script CSP block.
 - Next Link attempted RSC prefetches for Word files, causing unnecessary 404s even though the actual document returned 200. The new guide document links now disable prefetch and use the native download attribute while retaining click tracking.
+
+## Final ingestion check
+
+After the collection delay, GA4 DebugView showed seven events: four `page_view`, one `catalog_download`, one `guide_inquiry_click`, and one `scroll`. The inspected `guide_inquiry_click` had `resource_slug=ccs2-dc-fast-charger-testing`. This supersedes the pending custom-event ingestion status above. These are QA interactions, not genuine customer leads; no form submission was performed in this follow-up test.
