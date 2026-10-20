@@ -7,6 +7,7 @@ import { resources } from "@/lib/resources/catalog";
 describe("internal navigation", () => {
   it("exposes Resources and keeps records connected", () => {
     expect(navItems).toContainEqual({ label: "Resources", href: "/resources" });
+    expect(navItems).toContainEqual({ label: "Library", href: "/library" });
     for (const resource of resources) {
       expect(resource.relatedProductSlugs.length).toBeGreaterThan(0);
       expect(resource.relatedResourceSlugs.length).toBeGreaterThanOrEqual(2);

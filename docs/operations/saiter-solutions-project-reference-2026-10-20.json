@@ -1,0 +1,251 @@
+{
+  "reviewed_at": "2026-10-20",
+  "source_publisher": "深圳市赛特新能科技有限公司 SAITER",
+  "solutions_index": "https://www.saiter.cn/jjfn.html",
+  "cases_index": "https://www.saiter.cn/case/1689164677525954560.html",
+  "publication_status": "internal_reference_only",
+  "media_reuse_permission": "pending",
+  "claim_status": "supplier_published_not_independently_verified",
+  "apex_project_attribution": false,
+  "collection_method": "提取分类、标题、页面日期、明确型号和来源链接；介绍采用原创摘要，不复制全文或图片。",
+  "date_note": "page_date 仅表示源页面显示日期，不代表合同、交付、验收或试验日期。",
+  "common_evidence_gaps": ["未核实交付日期", "未获得原始实测报告", "未核实量化结果", "未获得客户案例及图片发布许可"],
+  "solutions": [
+    {
+      "id": "solution-evse",
+      "title": "充电桩测试",
+      "source_url": "https://www.saiter.cn/jjfn_1/1689151344388562944.html",
+      "summary": "以实验室场景模拟为主题，涉及充电功能、车型适应性和异常条件检查。",
+      "quality": "generic_description",
+      "limitations": ["未给设备配置和标准版本", "未给出测试条件、原始数据或完整结果", "正文结尾不完整"]
+    },
+    {
+      "id": "solution-vehicle",
+      "title": "新能源汽车充电测试",
+      "source_url": "https://www.saiter.cn/jjfn_1/2.html",
+      "summary": "讨论车辆充电效率、充电时间及设施布局问题，未形成可执行的测试方案。",
+      "quality": "generic_description",
+      "limitations": ["未给研究来源或样本", "未给型号、测试流程和实测数值"]
+    },
+    {
+      "id": "solution-pv-storage",
+      "title": "光伏储能测试",
+      "source_url": "https://www.saiter.cn/jjfn_1/3.html",
+      "summary": "介绍光伏发电与电池储能的基本关系，未披露具体测试系统或项目。",
+      "quality": "generic_description",
+      "limitations": ["效率提升说法缺少数值及试验条件", "正文存在泛化表述和内容衔接异常"]
+    },
+    {
+      "id": "solution-battery",
+      "title": "电池测试",
+      "source_url": "https://www.saiter.cn/jjfn_1/4.html",
+      "summary": "列举循环寿命、环境稳定性和充电速度等测试方向，没有提供具体电池或数据集。",
+      "quality": "generic_description",
+      "limitations": ["未给样本、循环条件或评价方法", "未给数据及报告来源"]
+    },
+    {
+      "id": "solution-maintenance",
+      "title": "运维检测",
+      "source_url": "https://www.saiter.cn/jjfn_1/5.html",
+      "summary": "可读正文主要讨论网络安全、漏洞扫描与渗透测试，不是明确的充电设施运维方案。",
+      "quality": "topic_mismatch",
+      "limitations": ["不宜作为充电桩运维技术资料使用", "只能保留分类名称作为目录线索"]
+    },
+    {
+      "id": "solution-other",
+      "title": "其他类测试",
+      "source_url": "https://www.saiter.cn/jjfn_1/6.html",
+      "summary": "混合充电设施背景与网络安全内容，未明确测试对象和交付范围。",
+      "quality": "topic_mismatch",
+      "limitations": ["主题与技术范围不明确", "不直接转用正文作为 APEX 产品能力"]
+    }
+  ],
+  "case_categories": [
+    {"id": "vehicle", "title": "车企", "source_url": "https://www.saiter.cn/case/1689164757767184384.html", "case_ids": [15, 16]},
+    {"id": "certification", "title": "认证机构", "source_url": "https://www.saiter.cn/case/1689164731391180800.html", "case_ids": [4, 5, 6, 7, 8, 9, 10, 11, 12, 13]},
+    {"id": "government", "title": "政府机构", "source_url": "https://www.saiter.cn/case/1689164797584740352.html", "case_ids": [2, 3]},
+    {"id": "charger_manufacturer", "title": "桩企", "source_url": "https://www.saiter.cn/case/1689164778844590080.html", "case_ids": [1, 14, 17, 18]}
+  ],
+  "cases": [
+    {
+      "id": 1,
+      "title": "CCS充电桩综合测试系统应用",
+      "category_id": "charger_manufacturer",
+      "source_url": "https://www.saiter.cn/case_detail/1.html",
+      "page_date": "2023-08-10",
+      "models": [],
+      "summary": "围绕 CCS 设备的实验室验证，概述供电、功率、通信和保护功能检查。",
+      "evidence_note": "无明确客户、硬件配置和实测记录；描述重复，不能据此认定项目成效。"
+    },
+    {
+      "id": 2,
+      "title": "地方中汽研测现场测试|车桩充电诊断装置",
+      "category_id": "government",
+      "source_url": "https://www.saiter.cn/case_detail/2.html",
+      "page_date": "2023-09-04",
+      "models": [],
+      "summary": "介绍现场诊断的数据采集、故障分析和告警用途，没有展开该机构的项目实施过程。",
+      "evidence_note": "标题仅有简称且表述疑似有误，不擅自校正或还原客户；无配置及量化结果。"
+    },
+    {
+      "id": 3,
+      "title": "地方中汽研车辆互操作性测试系统ST-9980X",
+      "category_id": "government",
+      "source_url": "https://www.saiter.cn/case_detail/3.html",
+      "page_date": "2023-09-04",
+      "models": ["ST-9980X"],
+      "summary": "以模拟不同充电设施和交互场景检查通信与兼容性，型号仅在标题中出现。",
+      "evidence_note": "客户全称、具体配置及结果未核实；正文对车辆互连与车桩交互的范围表述不一致。"
+    },
+    {
+      "id": 4,
+      "title": "许昌某研究院|欧标充电桩综合测试",
+      "category_id": "certification",
+      "source_url": "https://www.saiter.cn/case_detail/4.html",
+      "page_date": "2023-09-04",
+      "models": [],
+      "summary": "按安全、基础功能和兼容性介绍欧标充电设备检查，没有呈现项目实测记录。",
+      "evidence_note": "客户匿名，标准版本和配置未列；不能改写为认证通过或合规业绩。"
+    },
+    {
+      "id": 5,
+      "title": "上海某科学研究所（集团）有限公司|充电桩综合测试仪",
+      "category_id": "certification",
+      "source_url": "https://www.saiter.cn/case_detail/5.html",
+      "page_date": "2023-09-04",
+      "models": [],
+      "summary": "标题关联上海一匿名科研机构与充电桩测试仪，缺少可读项目正文。",
+      "evidence_note": "无法进一步确认设备、测试范围、客户身份或实施效果。"
+    },
+    {
+      "id": 6,
+      "title": "电力科学研究院|充电功率模拟",
+      "category_id": "certification",
+      "source_url": "https://www.saiter.cn/case_detail/6.html",
+      "page_date": "2023-09-04",
+      "models": [],
+      "summary": "围绕充电需求和能耗开展建模仿真，用于讨论设备布局与调度。",
+      "evidence_note": "正文出现机构名称，但无独立项目凭证、模型参数或效率改善数值。"
+    },
+    {
+      "id": 7,
+      "title": "中国质量认证中心超级充电设施测试",
+      "category_id": "certification",
+      "source_url": "https://www.saiter.cn/case_detail/7.html",
+      "page_date": "2023-09-04",
+      "models": ["ST-HCDC-800A"],
+      "summary": "以第三方直流充电机现场检定为场景，介绍模拟车辆测试的用途。",
+      "evidence_note": "原文涉及旧版本标准且有字符疑误，未核对现行适用性；型号数字不是本项目实测结果。"
+    },
+    {
+      "id": 8,
+      "title": "中国检验认证集团|充电桩（机）综合测试仪",
+      "category_id": "certification",
+      "source_url": "https://www.saiter.cn/case_detail/8.html",
+      "page_date": "2023-09-04",
+      "models": [],
+      "summary": "标题关联检验认证机构与测试仪，正文为概括性应用说明。",
+      "evidence_note": "未列设备型号、配置、报告、验收结果或量化数据；不能视作 APEX 合作证明。"
+    },
+    {
+      "id": 9,
+      "title": "中国建材检验认证集团|直流充电桩测试系统",
+      "category_id": "certification",
+      "source_url": "https://www.saiter.cn/case_detail/9.html",
+      "page_date": "2023-09-04",
+      "models": [],
+      "summary": "介绍直流桩电压、电流、功率及安全稳定性等检测方向。",
+      "evidence_note": "机构使用设备是来源自述，未提供独立证明、型号、标准版本或实测记录。"
+    },
+    {
+      "id": 10,
+      "title": "中检集团某公司|非车载充电机协议一致性测试",
+      "category_id": "certification",
+      "source_url": "https://www.saiter.cn/case_detail/10.html",
+      "page_date": "2023-09-04",
+      "models": [],
+      "summary": "概述通信数据、协议完整性和稳定性验证，没有给出具体测试用例和执行结果。",
+      "evidence_note": "保留标题匿名方式，不从正文还原主体；协议版本、测试拓扑和判定依据需核实。"
+    },
+    {
+      "id": 11,
+      "title": "江苏某单位定制充电桩测试设备|充电桩交/直流测试检定装置",
+      "category_id": "certification",
+      "source_url": "https://www.saiter.cn/case_detail/11.html",
+      "page_date": "2023-09-04",
+      "models": [],
+      "summary": "介绍交流、直流装置用于输出参数测量和软件分析的定制方向。",
+      "evidence_note": "客户匿名；未提供定制配置、准确度、原始结果或验收凭证。"
+    },
+    {
+      "id": 12,
+      "title": "深圳一第三方检测公司现场|充电桩场站充电设施测试设备",
+      "category_id": "certification",
+      "source_url": "https://www.saiter.cn/case_detail/12.html",
+      "page_date": "2023-09-04",
+      "models": [],
+      "summary": "概述场站设施的电气参数、充电性能和运维故障检查用途。",
+      "evidence_note": "客户匿名，缺少场站条件、设备型号及对应项目的实测记录。"
+    },
+    {
+      "id": 13,
+      "title": "深圳市某第三方检测机构定制设备|直流充电桩测试设备",
+      "category_id": "certification",
+      "source_url": "https://www.saiter.cn/case_detail/13.html",
+      "page_date": "2023-09-04",
+      "models": [],
+      "summary": "面向第三方检测，介绍直流桩电气性能和安全项目，没有披露定制配置和实测结果。",
+      "evidence_note": "客户、实施条件、测试记录及验收结果均需补充核实。"
+    },
+    {
+      "id": 14,
+      "title": "区域型客户|充电桩智造中心“产线嵌入式”充电桩测试系统",
+      "category_id": "charger_manufacturer",
+      "source_url": "https://www.saiter.cn/case_detail/14.html",
+      "page_date": "2023-09-19",
+      "models": [],
+      "summary": "介绍嵌入生产线的测试和身份追溯思路，提及批次与序列号记录。",
+      "evidence_note": "无节拍、准确度或落地验收数据；AI 与物联网仅为来源表述，不作为已证实能力。"
+    },
+    {
+      "id": 15,
+      "title": "电动汽车车辆互操作性测试系统",
+      "category_id": "vehicle",
+      "source_url": "https://www.saiter.cn/case_detail/15.html",
+      "page_date": "2023-09-19",
+      "models": [],
+      "summary": "概述车辆侧交流、直流充电时序和故障模拟，面向互操作及验收用途。",
+      "evidence_note": "缺具体客户、协议版本、配置和试验结果；不采用无边界的兼容性保证。"
+    },
+    {
+      "id": 16,
+      "title": "区域型客户|电动汽车通讯协议一致性测试：确保高标准的性能和可靠性",
+      "category_id": "vehicle",
+      "source_url": "https://www.saiter.cn/case_detail/16.html",
+      "page_date": "2023-09-20",
+      "models": [],
+      "summary": "围绕车辆通信兼容，概述数据格式、指令解析和错误处理验证。",
+      "evidence_note": "缺客户身份、协议版本、用例、判定依据及执行结果。"
+    },
+    {
+      "id": 17,
+      "title": "区域型客户|直流充电设施自动化产线全功能测试系统",
+      "category_id": "charger_manufacturer",
+      "source_url": "https://www.saiter.cn/case_detail/17.html",
+      "page_date": "2023-09-20",
+      "models": [],
+      "summary": "概述直流产线的功率、电压、电流检查及报告生成用途。",
+      "evidence_note": "缺客户、系统配置、节拍和量化成效；自动调节功能及实现范围需进一步核实。"
+    },
+    {
+      "id": 18,
+      "title": "常熟企业定制|直流超充充电桩测试系统",
+      "category_id": "charger_manufacturer",
+      "source_url": "https://www.saiter.cn/case_detail/18.html",
+      "page_date": "2023-09-21",
+      "models": [],
+      "summary": "围绕匿名企业的超充测试场景，介绍仪表、控制器、电源和分析软件组成。",
+      "evidence_note": "缺额定功率、量程、实际拓扑、客户实名和测试结果。"
+    }
+  ]
+}

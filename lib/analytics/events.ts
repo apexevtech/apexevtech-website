@@ -14,7 +14,8 @@ export type AnalyticsEventName =
   | "product_compare"
   | "product_filter"
   | "catalog_inquiry_click"
-  | "comparison_inquiry_click";
+  | "comparison_inquiry_click"
+  | "library_material_click";
 
 declare global {
   interface Window {

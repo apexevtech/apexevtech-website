@@ -79,6 +79,11 @@ button {
   }
 }
 
+body:has([data-library-controls-visible="true"]) .whatsapp-floating {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 @media (max-width: 639px) {
   body:has(.inquiry-form:focus-within) .whatsapp-floating,
   body:has([role="dialog"][aria-label="Cookie preferences"]) .whatsapp-floating {

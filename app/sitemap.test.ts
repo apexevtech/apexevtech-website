@@ -26,6 +26,8 @@ describe("sitemap", () => {
       .toEqual(new Date("2026-10-10T00:00:00.000Z"));
     expect(entries.find((entry) => entry.url === `${siteUrl}/products`)?.lastModified)
       .toEqual(new Date("2026-10-08T00:00:00.000Z"));
+    expect(entries.find((entry) => entry.url === `${siteUrl}/library`)?.lastModified)
+      .toEqual(new Date("2026-10-20T00:00:00.000Z"));
     for (const route of ["/resources", "/privacy-policy"]) {
       expect(entries.find((entry) => entry.url === `${siteUrl}${route}`)?.lastModified)
         .toEqual(new Date("2026-10-09T00:00:00.000Z"));
