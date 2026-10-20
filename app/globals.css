@@ -79,7 +79,7 @@ button {
   }
 }
 
-body:has([data-library-controls-visible="true"]) .whatsapp-floating {
+body:has([data-floating-controls-visible="true"]) .whatsapp-floating {
   visibility: hidden;
   pointer-events: none;
 }

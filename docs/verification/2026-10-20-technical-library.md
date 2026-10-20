@@ -2,6 +2,8 @@
 
 Date: 2026-10-20
 
+This records the first library release. The subsequent source-linked and paginated revision is documented in [sourced pagination verification](./2026-10-20-sourced-pagination.md).
+
 ## Public content boundary
 
 The user requested a standalone category interface under the APEX brand rather than a separate supplier-reference section. The new `/library` contains six original solution-planning briefs and eighteen original application-planning scenarios. It does not republish the supplier's customer cases as APEX deliveries.

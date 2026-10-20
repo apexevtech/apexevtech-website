@@ -41,9 +41,9 @@ describe("WhatsAppButton", () => {
     expect(css).toContain('body:has([role="dialog"][aria-label="Cookie preferences"]) .whatsapp-floating');
   });
 
-  it("does not obstruct the library filters while they are visible", async () => {
+  it("does not obstruct catalog filters while they are visible", async () => {
     const { readFile } = await import("node:fs/promises");
     const css = await readFile("app/globals.css", "utf8");
-    expect(css).toContain('body:has([data-library-controls-visible="true"]) .whatsapp-floating');
+    expect(css).toContain('body:has([data-floating-controls-visible="true"]) .whatsapp-floating');
   });
 });

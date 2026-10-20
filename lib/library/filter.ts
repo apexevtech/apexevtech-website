@@ -6,17 +6,20 @@ import {
   type TechnicalLibraryCategory,
   type TechnicalLibraryEntry,
 } from "@/data/technical-library";
+import { paginate, parsePageNumber } from "@/lib/navigation/pagination";
 
 export type LibraryFilters = {
   view: "all" | "solutions" | "scenarios";
   category: string;
   query: string;
+  page: number;
 };
 
 export const defaultLibraryFilters: LibraryFilters = {
   view: "all",
   category: "all",
   query: "",
+  page: 1,
 };
 
 export function getLibraryCategories(view: LibraryFilters["view"]): TechnicalLibraryCategory[] {
@@ -41,6 +44,7 @@ export function parseLibraryFilters(params: URLSearchParams): LibraryFilters {
     view,
     category,
     query: (params.get("q") || "").trim().slice(0, 120),
+    page: parsePageNumber(params.get("page")),
   };
 }
 
@@ -50,6 +54,8 @@ export function serializeLibraryFilters(filters: LibraryFilters, existing = new 
     if (!value || (key !== "q" && value === "all")) params.delete(key);
     else params.set(key, value);
   }
+  if (filters.page > 1) params.set("page", String(filters.page));
+  else params.delete("page");
   return params;
 }
 
@@ -61,7 +67,7 @@ export function filterLibraryEntries(filters: LibraryFilters): {
   const matches = (entry: TechnicalLibraryEntry, categories: TechnicalLibraryCategory[]) => {
     if (filters.category !== "all" && entry.categoryId !== filters.category) return false;
     const categoryLabel = categories.find((category) => category.id === entry.categoryId)?.label || "";
-    const searchableText = [entry.title, entry.summary, ...entry.requirements, categoryLabel, entry.reviewOutput]
+    const searchableText = [entry.title, entry.summary, ...entry.requirements, categoryLabel, entry.reviewOutput, entry.source.publisher, entry.source.title, entry.source.summary]
       .join(" ")
       .toLowerCase();
     return !query || searchableText.includes(query);
@@ -70,5 +76,16 @@ export function filterLibraryEntries(filters: LibraryFilters): {
   return {
     solutions: filters.view === "scenarios" ? [] : solutionBriefs.filter((entry) => matches(entry, solutionBriefCategories)),
     scenarios: filters.view === "solutions" ? [] : applicationScenarios.filter((entry) => matches(entry, applicationScenarioCategories)),
+  };
+}
+
+export function getLibraryPage(filters: LibraryFilters) {
+  const { solutions, scenarios } = filterLibraryEntries(filters);
+  const result = paginate([...solutions, ...scenarios], filters.page);
+  const solutionIds = new Set(solutions.map((entry) => entry.id));
+  return {
+    ...result,
+    solutions: result.items.filter((entry) => solutionIds.has(entry.id)),
+    scenarios: result.items.filter((entry) => !solutionIds.has(entry.id)),
   };
 }

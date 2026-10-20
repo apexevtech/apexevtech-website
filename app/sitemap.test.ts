@@ -28,7 +28,9 @@ describe("sitemap", () => {
       .toEqual(new Date("2026-10-08T00:00:00.000Z"));
     expect(entries.find((entry) => entry.url === `${siteUrl}/library`)?.lastModified)
       .toEqual(new Date("2026-10-20T00:00:00.000Z"));
-    for (const route of ["/resources", "/privacy-policy"]) {
+    expect(entries.find((entry) => entry.url === `${siteUrl}/resources`)?.lastModified)
+      .toEqual(new Date("2026-10-20T00:00:00.000Z"));
+    for (const route of ["/privacy-policy"]) {
       expect(entries.find((entry) => entry.url === `${siteUrl}${route}`)?.lastModified)
         .toEqual(new Date("2026-10-09T00:00:00.000Z"));
     }
@@ -43,7 +45,7 @@ describe("sitemap", () => {
     const paths = [...navItems.map((item) => item.href), "/interfaces", ...products.map((item) => `/products/${item.slug}`), ...resources.map((item) => `/resources/${item.slug}`), ...applicationExamples.map((item) => `/applications/${item.slug}`), ...interfaceTopics.map((item) => `/interfaces/${item.slug}`)];
     for (const path of paths) expect(urls).toContain(new URL(path, siteUrl).toString().replace(/\/$/, ""));
     const index = sitemap().find((entry) => entry.url === `${siteUrl}/resources`);
-    expect(index?.lastModified).toEqual(new Date("2026-10-09T00:00:00.000Z"));
+    expect(index?.lastModified).toEqual(new Date("2026-10-20T00:00:00.000Z"));
   });
 
   it("publishes crawlable product and application images", () => {

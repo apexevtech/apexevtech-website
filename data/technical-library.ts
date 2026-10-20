@@ -3,6 +3,14 @@ export type TechnicalLibraryCategory = {
   label: string;
 };
 
+export type TechnicalLibrarySource = {
+  publisher: "SAITER";
+  title: string;
+  href: string;
+  summary: string;
+  scopeNote: string;
+};
+
 export type TechnicalLibraryEntry = {
   id: string;
   categoryId: string;
@@ -13,6 +21,7 @@ export type TechnicalLibraryEntry = {
   planningNote: string;
   relatedHref: string;
   relatedLabel: string;
+  source: TechnicalLibrarySource;
 };
 
 export const solutionBriefCategories: TechnicalLibraryCategory[] = [
@@ -46,6 +55,13 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     planningNote: "Equipment selection and test coverage require configuration review; this brief does not establish laboratory accreditation or a conformity result.",
     relatedHref: "/applications/integrated-ev-charger-validation-laboratory",
     relatedLabel: "Laboratory reference architecture",
+    source: {
+      publisher: "SAITER",
+      title: "EV charger testing",
+      href: "https://www.saiter.cn/jjfn_1/1689151344388562944.html",
+      summary: "SAITER describes a simulated laboratory setting for investigating charger functions, vehicle interaction and abnormal conditions. The page outlines topics rather than publishing a reproducible test procedure or a complete results record.",
+      scopeNote: "Third-party overview, not evidence of an APEX delivery. Equipment configuration, standards editions and raw results are not provided.",
+    },
   },
   {
     id: "vehicle-charger-interaction-planning",
@@ -61,6 +77,13 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     planningNote: "A selected test matrix cannot establish compatibility with every vehicle or charger; supported implementations require separate confirmation.",
     relatedHref: "/resources/ev-charging-protocol-testing",
     relatedLabel: "Charging protocol planning guide",
+    source: {
+      publisher: "SAITER",
+      title: "New energy vehicle charging tests",
+      href: "https://www.saiter.cn/jjfn_1/2.html",
+      summary: "SAITER discusses differences in charging efficiency, charging time and access to infrastructure. The article frames general vehicle-charging questions but does not identify a study sample, equipment setup or measured dataset.",
+      scopeNote: "Third-party overview, not evidence of an APEX delivery. Charging-time and efficiency observations are not independently verified results.",
+    },
   },
   {
     id: "pv-storage-integration-planning",
@@ -76,6 +99,13 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     planningNote: "This is an integration-planning boundary, not a claim that any particular PV, storage or bidirectional configuration is included.",
     relatedHref: "/applications/pv-storage-ev-charging-test-architecture",
     relatedLabel: "Energy integration reference architecture",
+    source: {
+      publisher: "SAITER",
+      title: "Photovoltaic and energy storage testing",
+      href: "https://www.saiter.cn/jjfn_1/3.html",
+      summary: "SAITER introduces the relationship between photovoltaic generation and battery storage, including storing energy for later use. The page discusses the integration topic without documenting a specific test system, project configuration or measured performance.",
+      scopeNote: "Third-party overview, not evidence of an APEX delivery. No quantified efficiency result or defined test conditions are available.",
+    },
   },
   {
     id: "battery-power-interface-planning",
@@ -91,6 +121,13 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     planningNote: "This brief does not offer a battery test system or establish cell, pack, cycling or environmental test capability.",
     relatedHref: "/resources/choose-ev-charger-test-system",
     relatedLabel: "Test system selection guide",
+    source: {
+      publisher: "SAITER",
+      title: "Battery testing",
+      href: "https://www.saiter.cn/jjfn_1/4.html",
+      summary: "SAITER outlines battery assessment topics such as repeated charging cycles, environmental exposure and charging speed. Its general comparisons do not identify battery samples, cycling conditions, evaluation methods or an underlying data report.",
+      scopeNote: "Third-party topic reference, not an APEX battery-test offering or delivery record. The APEX brief remains limited to charger-project interfaces.",
+    },
   },
   {
     id: "field-diagnostics-planning",
@@ -106,6 +143,13 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     planningNote: "Permitted work depends on site controls and the selected equipment; a diagnostic plan is not an inspection certificate.",
     relatedHref: "/applications/mobile-ev-charger-commissioning-workflow",
     relatedLabel: "Mobile commissioning reference workflow",
+    source: {
+      publisher: "SAITER",
+      title: "Operations and maintenance inspection",
+      href: "https://www.saiter.cn/jjfn_1/5.html",
+      summary: "SAITER lists operations and maintenance inspection as a solution category. The readable article concerns internet-platform security, vulnerability scanning and penetration testing rather than a defined charger field-diagnostics method.",
+      scopeNote: "Category reference only: the source body has a topic mismatch and does not substantiate the APEX charger workflow or a delivery.",
+    },
   },
   {
     id: "custom-test-integration-planning",
@@ -121,6 +165,13 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     planningNote: "Custom functions and external-system connections remain subject to engineering review rather than implied standard product capability.",
     relatedHref: "/resources/evse-test-plan-checklist",
     relatedLabel: "EVSE test plan checklist",
+    source: {
+      publisher: "SAITER",
+      title: "Other testing categories",
+      href: "https://www.saiter.cn/jjfn_1/6.html",
+      summary: "SAITER includes an other-testing category alongside its main solution topics. The article combines a general charger introduction with internet-security testing language, without defining a custom charger-test system or integration boundary.",
+      scopeNote: "Category reference only: the source body has a topic mismatch and does not substantiate APEX custom functions or a delivery.",
+    },
   },
 ];
 
@@ -139,6 +190,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "Interface simulation alone does not establish sustained full-power operation or complete standards coverage.",
     relatedHref: "/resources/ccs2-dc-fast-charger-testing",
     relatedLabel: "CCS2 charger testing guide",
+    source: {
+      publisher: "SAITER",
+      title: "CCS charger test system application",
+      href: "https://www.saiter.cn/case_detail/1.html",
+      summary: "SAITER presents CCS charger laboratory testing as an application, discussing supply behavior, charging power, communication and protective functions. The article describes simulated operating conditions without identifying a customer, equipment configuration or retained measurement records.",
+      scopeNote: "Supplier-published case, not evidence of an APEX delivery. No independently verified project result or complete setup is supplied.",
+    },
   },
   {
     id: "site-fault-diagnosis",
@@ -154,6 +212,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "A field investigation records the conditions checked; it does not establish fault-free operation outside that scope.",
     relatedHref: "/resources/field-commissioning-test-equipment",
     relatedLabel: "Field equipment planning guide",
+    source: {
+      publisher: "SAITER",
+      title: "Field testing with a vehicle-charger diagnostic device",
+      href: "https://www.saiter.cn/case_detail/2.html",
+      summary: "SAITER introduces a diagnostic device for collecting charging information, examining faults and alerting maintenance staff. Its case page offers a general product-use description rather than documenting the named site's investigation or measured repair outcome.",
+      scopeNote: "Supplier-published case, not evidence of an APEX delivery. Customer identity, setup and claimed maintenance benefits are not independently verified.",
+    },
   },
   {
     id: "interoperability-scope-review",
@@ -169,6 +234,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "Coverage applies only to the configurations and cases selected for review; no universal interoperability outcome is implied.",
     relatedHref: "/resources/ev-charging-protocol-testing",
     relatedLabel: "Protocol scope planning guide",
+    source: {
+      publisher: "SAITER",
+      title: "Vehicle interoperability test system ST-9980X",
+      href: "https://www.saiter.cn/case_detail/3.html",
+      summary: "SAITER describes simulating charging facilities to examine communication, data exchange and vehicle-charger interaction. ST-9980X appears in the page title, while the article does not specify an implemented configuration, test matrix or results.",
+      scopeNote: "Supplier-published case, not evidence of an APEX delivery. The source mixes interaction terminology; system scope and outcomes need confirmation.",
+    },
   },
   {
     id: "european-interface-evaluation",
@@ -184,6 +256,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "An interface designation is not a conformity result; formal assessment scope requires separate agreement.",
     relatedHref: "/resources/prepare-ev-charger-standards-validation",
     relatedLabel: "Standards validation preparation guide",
+    source: {
+      publisher: "SAITER",
+      title: "European-standard charger testing at an unnamed institute",
+      href: "https://www.saiter.cn/case_detail/4.html",
+      summary: "SAITER organizes European-standard charger assessment into safety, basic operation and compatibility topics. The case identifies an unnamed research institute but does not publish applicable standard editions, equipment details or the project's test records.",
+      scopeNote: "Supplier-published case, not evidence of an APEX delivery or certification. Standards coverage and assessment outcomes are not independently verified.",
+    },
   },
   {
     id: "third-party-measurement-plan",
@@ -199,6 +278,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "The plan does not assert laboratory accreditation, measurement accuracy or a completed verification result.",
     relatedHref: "/resources/evse-test-plan-checklist",
     relatedLabel: "Measurement and evidence checklist",
+    source: {
+      publisher: "SAITER",
+      title: "Charger tester at an unnamed Shanghai research institute",
+      href: "https://www.saiter.cn/case_detail/5.html",
+      summary: "SAITER's case title associates a charger tester with an unnamed Shanghai research organization. The readable page does not include a project narrative, leaving the test setup, requested measurements and implementation outcome unspecified.",
+      scopeNote: "Title-level third-party reference only, not evidence of an APEX delivery. No readable project detail or measurement report is supplied.",
+    },
   },
   {
     id: "charging-power-scenario-plan",
@@ -214,6 +300,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "Scenario planning does not establish energy savings, charging-time improvements or sustained power capability.",
     relatedHref: "/resources/regenerative-load-considerations",
     relatedLabel: "Load and energy-path planning guide",
+    source: {
+      publisher: "SAITER",
+      title: "Charging power simulation for a power research institute",
+      href: "https://www.saiter.cn/case_detail/6.html",
+      summary: "SAITER describes mathematical modeling and simulation of charging demand and energy consumption for layout and scheduling discussions. The article does not provide model inputs, validation records or numerical support for its claimed efficiency benefits.",
+      scopeNote: "Supplier-published case, not evidence of an APEX delivery. Claimed efficiency improvements are not independently verified measured results.",
+    },
   },
   {
     id: "high-power-duty-review",
@@ -229,6 +322,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "A model name or connector rating is not evidence of full-power test operation; the complete setup requires confirmation.",
     relatedHref: "/resources/dc-fast-charger-testing-guide",
     relatedLabel: "DC fast charger planning guide",
+    source: {
+      publisher: "SAITER",
+      title: "Supercharging facility testing associated with CQC",
+      href: "https://www.saiter.cn/case_detail/7.html",
+      summary: "SAITER's case page names China Quality Certification Centre and introduces ST-HCDC-800A for third-party DC charger field checks using simulated vehicle behavior. It lists standards references but does not include project measurements or a verified operating envelope.",
+      scopeNote: "Supplier-published case, not an APEX delivery or endorsement. Historical standards references and model naming do not prove current coverage or tested power.",
+    },
   },
   {
     id: "integrated-measurement-plan",
@@ -244,6 +344,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "Time alignment and software integration depend on the selected tools and interfaces; automatic synchronization is not assumed.",
     relatedHref: "/applications/integrated-ev-charger-validation-laboratory",
     relatedLabel: "Integrated laboratory reference architecture",
+    source: {
+      publisher: "SAITER",
+      title: "Charger tester associated with China Inspection and Certification Group",
+      href: "https://www.saiter.cn/case_detail/8.html",
+      summary: "SAITER associates a charger tester with China Inspection and Certification Group in a brief case description. The page does not identify the equipment model, installed configuration, measurement workflow, acceptance record or quantified project outcome.",
+      scopeNote: "Supplier-published case, not evidence of an APEX delivery or institutional endorsement. The association is not independently verified.",
+    },
   },
   {
     id: "dc-charger-validation-plan",
@@ -259,6 +366,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "A validation plan is not a completed test report or proof that all applicable safety requirements are satisfied.",
     relatedHref: "/resources/dc-fast-charger-testing-guide",
     relatedLabel: "DC charger validation planning guide",
+    source: {
+      publisher: "SAITER",
+      title: "DC charger testing associated with a building-materials inspection group",
+      href: "https://www.saiter.cn/case_detail/9.html",
+      summary: "SAITER describes a DC charger test system associated with China Building Material Test and Certification Group, covering current, voltage, power and protective behavior. The article does not supply configuration details, standards editions or raw project results.",
+      scopeNote: "Supplier-published case, not an APEX delivery or conformity result. Equipment use and outcomes are not independently verified.",
+    },
   },
   {
     id: "protocol-suite-planning",
@@ -274,6 +388,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "Protocol coverage and automation require review against the selected implementation; no certification or complete suite coverage is implied.",
     relatedHref: "/resources/ev-charging-protocol-testing",
     relatedLabel: "Protocol test planning guide",
+    source: {
+      publisher: "SAITER",
+      title: "Off-board charger protocol consistency testing",
+      href: "https://www.saiter.cn/case_detail/10.html",
+      summary: "SAITER outlines communication-data checks and protocol behavior for off-board charging equipment in an unnamed certification-company case. The description discusses completeness and stability without publishing protocol editions, executed cases or assessment evidence.",
+      scopeNote: "Supplier-published case, not an APEX delivery or conformance result. Test topology, verdict criteria and implementation details require confirmation.",
+    },
   },
   {
     id: "ac-dc-measurement-station",
@@ -289,6 +410,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "A combined station concept does not establish that one tester covers every interface, measurement or accuracy requirement.",
     relatedHref: "/resources/ac-vs-dc-evse-testing",
     relatedLabel: "AC and DC testing comparison",
+    source: {
+      publisher: "SAITER",
+      title: "Customized AC/DC charger test equipment for an unnamed organization",
+      href: "https://www.saiter.cn/case_detail/11.html",
+      summary: "SAITER introduces customized AC and DC charger test equipment associated with an unnamed Jiangsu organization. The article discusses electrical measurements and software analysis, without documenting the delivered configuration, instrument accuracy or acceptance results.",
+      scopeNote: "Supplier-published case, not evidence of an APEX delivery. Custom configuration, measurement performance and acceptance records are not independently verified.",
+    },
   },
   {
     id: "charging-site-inspection-plan",
@@ -304,6 +432,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "The inspection plan does not replace site safety procedures or establish acceptance of assets that are not checked.",
     relatedHref: "/resources/post-installation-evse-testing",
     relatedLabel: "Post-installation testing guide",
+    source: {
+      publisher: "SAITER",
+      title: "Charging-site test equipment for an unnamed inspection company",
+      href: "https://www.saiter.cn/case_detail/12.html",
+      summary: "SAITER describes charging-site equipment in an unnamed third-party inspection-company case, covering electrical quantities, charging behavior and maintenance faults. The source does not detail the site conditions, chosen instruments or records from a specific inspection.",
+      scopeNote: "Supplier-published case, not an APEX delivery or inspection certificate. Customer identity, site scope and measured results remain unverified.",
+    },
   },
   {
     id: "custom-dc-test-scope",
@@ -319,6 +454,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "Requested custom functions remain proposals until engineering review confirms the configuration and scope.",
     relatedHref: "/resources/choose-ev-charger-test-system",
     relatedLabel: "Test system configuration guide",
+    source: {
+      publisher: "SAITER",
+      title: "Customized DC charger equipment for an unnamed testing organization",
+      href: "https://www.saiter.cn/case_detail/13.html",
+      summary: "SAITER presents customized DC charger equipment for an unnamed third-party testing organization. Its description covers electrical behavior and safety checks at a general level, without disclosing the custom arrangement, executed procedures or measured outcomes.",
+      scopeNote: "Supplier-published case, not evidence of an APEX delivery. Implementation conditions, customer details and acceptance evidence are not independently verified.",
+    },
   },
   {
     id: "embedded-end-of-line-planning",
@@ -334,6 +476,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "Cycle time, data-system integration and automatic operation are project requirements to review, not demonstrated production results.",
     relatedHref: "/applications/evse-production-end-of-line-architecture",
     relatedLabel: "Production test reference architecture",
+    source: {
+      publisher: "SAITER",
+      title: "Production-line embedded charger test system",
+      href: "https://www.saiter.cn/case_detail/14.html",
+      summary: "SAITER describes embedding charger checks within a manufacturing line and linking records to batches or serial numbers. The article discusses traceability and integration concepts but does not report a measured cycle time, accuracy or acceptance outcome.",
+      scopeNote: "Supplier-published case, not an APEX delivery. Automation, AI and data-system claims are not independently verified production capabilities.",
+    },
   },
   {
     id: "vehicle-interaction-session-plan",
@@ -349,6 +498,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "The plan does not establish a vehicle development system offering or compatibility with unreviewed implementations.",
     relatedHref: "/resources/ev-charging-protocol-testing",
     relatedLabel: "Vehicle-charger protocol planning guide",
+    source: {
+      publisher: "SAITER",
+      title: "Electric vehicle interoperability test system",
+      href: "https://www.saiter.cn/case_detail/15.html",
+      summary: "SAITER outlines vehicle-side AC and DC charging sequences and controlled fault simulation for interoperability assessment. The description does not identify a specific customer, protocol revision, installed equipment configuration or executed test results.",
+      scopeNote: "Supplier-published application, not an APEX delivery or universal compatibility guarantee. Supported implementations and evidence require separate confirmation.",
+    },
   },
   {
     id: "message-validation-planning",
@@ -364,6 +520,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "Message checks cover the selected cases only; they do not establish complete protocol conformance or vehicle reliability.",
     relatedHref: "/resources/ev-charging-protocol-testing",
     relatedLabel: "Communication test planning guide",
+    source: {
+      publisher: "SAITER",
+      title: "Electric vehicle communication protocol consistency testing",
+      href: "https://www.saiter.cn/case_detail/16.html",
+      summary: "SAITER discusses checking charging-message formats, instruction handling and error responses for vehicle communication. The unnamed-customer article describes testing aims without publishing a protocol edition, case list, verdict rules or execution records.",
+      scopeNote: "Supplier-published case, not an APEX delivery or proven reliability outcome. Protocol scope and actual results are not independently verified.",
+    },
   },
   {
     id: "automatic-dc-production-planning",
@@ -379,6 +542,13 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "Automatic adjustment, cycle time and manufacturing-system interfaces require separate configuration and acceptance review.",
     relatedHref: "/resources/evse-end-of-line-testing",
     relatedLabel: "End-of-line testing planning guide",
+    source: {
+      publisher: "SAITER",
+      title: "Automated full-function DC charging production-line testing",
+      href: "https://www.saiter.cn/case_detail/17.html",
+      summary: "SAITER describes automated DC charger production checks involving voltage, current, power and report generation. The unnamed-customer page does not specify a delivered station configuration, measured line throughput or quantitative improvement supported by execution records.",
+      scopeNote: "Supplier-published case, not an APEX delivery. Automatic adjustment, throughput and integration scope require independent configuration and outcome confirmation.",
+    },
   },
   {
     id: "ultrafast-charging-load-planning",
@@ -394,5 +564,12 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     planningNote: "Ultrafast is a planning context, not a claimed power rating or an observed test result; the complete energy path needs review.",
     relatedHref: "/resources/regenerative-load-considerations",
     relatedLabel: "High-power load planning guide",
+    source: {
+      publisher: "SAITER",
+      title: "Customized DC supercharging test system for an unnamed enterprise",
+      href: "https://www.saiter.cn/case_detail/18.html",
+      summary: "SAITER introduces a customized supercharging test arrangement associated with an unnamed Changshu enterprise, mentioning instruments, controllers, power equipment and analysis software. The description does not establish its actual topology, rated duty or measured results.",
+      scopeNote: "Supplier-published case, not an APEX delivery or claimed power capability. Equipment ratings, operating conditions and acceptance evidence are not independently verified.",
+    },
   },
 ];

@@ -55,8 +55,8 @@ describe("APEX technical planning library", () => {
     }
   });
 
-  it("contains no customer case attribution, supplier media or delivery dates", () => {
-    const content = JSON.stringify(allEntries);
+  it("keeps original planning content free of customer case attribution, supplier media or delivery dates", () => {
+    const content = JSON.stringify(allEntries.map((entry) => ({ ...entry, source: undefined })));
     expect(content).not.toMatch(/SAITER|saiter\.cn|case_detail|Shenzhen|Shanghai|Jiangsu|Changshu|Xuchang|China Quality|CCIC/i);
     expect(content).not.toMatch(/\b20\d{2}-\d{2}-\d{2}\b/);
     expect(content).not.toMatch(/customer testimonial|delivered to|certification achieved|measured improvement|proven results/i);
@@ -68,6 +68,49 @@ describe("APEX technical planning library", () => {
       expect(entry).not.toHaveProperty("image");
       expect(entry).not.toHaveProperty("deliveryDate");
       expect(entry).not.toHaveProperty("testResult");
+    }
+  });
+
+  it("cites each of the six solution pages and eighteen project pages exactly once", () => {
+    const solutionPaths = [
+      "/jjfn_1/1689151344388562944.html",
+      "/jjfn_1/2.html",
+      "/jjfn_1/3.html",
+      "/jjfn_1/4.html",
+      "/jjfn_1/5.html",
+      "/jjfn_1/6.html",
+    ];
+    expect(solutionBriefs.map((entry) => new URL(entry.source.href).pathname)).toEqual(solutionPaths);
+    expect(applicationScenarios.map((entry) => new URL(entry.source.href).pathname)).toEqual(
+      Array.from({ length: 18 }, (_, index) => `/case_detail/${index + 1}.html`),
+    );
+    expect(new Set(allEntries.map((entry) => entry.source.href)).size).toBe(24);
+    for (const { source } of allEntries) {
+      expect(new URL(source.href).origin).toBe("https://www.saiter.cn");
+      expect(source.publisher).toBe("SAITER");
+      expect(source.title.length).toBeGreaterThan(10);
+      expect(source.summary.trim().split(/\s+/).length).toBeGreaterThanOrEqual(25);
+      expect(source.summary.trim().split(/\s+/).length).toBeLessThanOrEqual(45);
+      expect(source.scopeNote).toMatch(/APEX/);
+      expect(source.scopeNote).toMatch(/not|does not/);
+      expect(Object.keys(source).sort()).toEqual(["href", "publisher", "scopeNote", "summary", "title"]);
+    }
+  });
+
+  it("marks unsupported source topics and missing project evidence explicitly", () => {
+    for (const id of ["field-diagnostics-planning", "custom-test-integration-planning"]) {
+      const entry = solutionBriefs.find((item) => item.id === id);
+      expect(entry?.source.scopeNote).toContain("Category reference only");
+      expect(entry?.source.scopeNote).toContain("topic mismatch");
+      expect(entry?.source.scopeNote).toContain("does not substantiate");
+    }
+    const sparseCase = applicationScenarios.find((entry) => entry.id === "third-party-measurement-plan");
+    expect(sparseCase?.source.scopeNote).toContain("Title-level");
+    expect(sparseCase?.source.summary).toContain("does not include a project narrative");
+    for (const entry of applicationScenarios) {
+      expect(entry.source.scopeNote).toMatch(/not (an? |evidence of an )APEX delivery/);
+      expect(entry.source).not.toHaveProperty("customer");
+      expect(entry.source).not.toHaveProperty("testResult");
     }
   });
 

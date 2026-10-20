@@ -9,6 +9,7 @@ import {
   defaultLibraryFilters,
   filterLibraryEntries,
   getLibraryCategories,
+  getLibraryPage,
   parseLibraryFilters,
   serializeLibraryFilters,
 } from "@/lib/library/filter";
@@ -50,7 +51,7 @@ describe("technical library filters", () => {
   it("normalizes URL filters and rejects categories outside the selected view", () => {
     const category = solutionBriefCategories[0].id;
     expect(parseLibraryFilters(new URLSearchParams({ view: " SOLUTIONS ", category: ` ${category.toUpperCase()} `, q: " CCS2 " })))
-      .toEqual({ view: "solutions", category, query: "CCS2" });
+      .toEqual({ view: "solutions", category, query: "CCS2", page: 1 });
     expect(parseLibraryFilters(new URLSearchParams({ view: "solutions", category: applicationScenarioCategories[0].id })).category).toBe("all");
     expect(parseLibraryFilters(new URLSearchParams({ view: "scenarios", category })).category).toBe("all");
     expect(parseLibraryFilters(new URLSearchParams({ view: "unknown", category: "unknown" })))
@@ -84,12 +85,24 @@ describe("technical library filters", () => {
     expect(parseLibraryFilters(new URLSearchParams({ view: "__proto__", category: "constructor" })))
       .toEqual(defaultLibraryFilters);
     const filters = parseLibraryFilters(new URLSearchParams({ view: "<script>", category: "../products", q: "<script>alert(1)</script>" }));
-    expect(filters).toEqual({ view: "all", category: "all", query: "<script>alert(1)</script>" });
+    expect(filters).toEqual({ view: "all", category: "all", query: "<script>alert(1)</script>", page: 1 });
     expect(filterLibraryEntries(filters)).toEqual({ solutions: [], scenarios: [] });
   });
 
   it("returns empty sections for an unmatched query", () => {
     expect(filterLibraryEntries({ ...defaultLibraryFilters, query: "unmatched-example-987654321" }))
       .toEqual({ solutions: [], scenarios: [] });
+  });
+
+  it("paginates all materials without missing or repeated records", () => {
+    const pages = [1, 2, 3, 4].map((page) => getLibraryPage({ ...defaultLibraryFilters, page }));
+    expect(pages.map((page) => page.items.length)).toEqual([6, 6, 6, 6]);
+    expect(new Set(pages.flatMap((page) => page.items.map((entry) => entry.id))).size).toBe(24);
+    expect(pages[0].solutions).toHaveLength(6);
+    expect(pages[1].scenarios).toHaveLength(6);
+    expect(getLibraryPage({ ...defaultLibraryFilters, view: "solutions", page: 4 }).page).toBe(1);
+    expect(parseLibraryFilters(new URLSearchParams("page=-3")).page).toBe(1);
+    expect(serializeLibraryFilters({ ...defaultLibraryFilters, page: 2 }).get("page")).toBe("2");
+    expect(filterLibraryEntries({ ...defaultLibraryFilters, query: "SAITER" }).solutions).toHaveLength(6);
   });
 });
