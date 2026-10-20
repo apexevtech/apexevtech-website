@@ -136,7 +136,7 @@ export default function HomePage() {
           <div className="flex flex-wrap items-end justify-between gap-5">
             <SectionHeading eyebrow="Product portfolio" title="Systems for laboratory, production and field validation" />
             <div className="mb-10 flex flex-wrap gap-x-6 gap-y-3">
-              <Link href="/applications" className="border-b-2 border-[#1479c9] pb-1 text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">View application architectures →</Link>
+              <Link href="/solutions#application-architectures" className="border-b-2 border-[#1479c9] pb-1 text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">View solution architectures →</Link>
               <Link href="/products" className="border-b-2 border-[#1479c9] pb-1 text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">View all equipment →</Link>
             </div>
           </div>

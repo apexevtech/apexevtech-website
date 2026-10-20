@@ -32,4 +32,22 @@ describe("on-site source material display", () => {
       expect(html).not.toMatch(/<figcaption\b|Source reference image/i);
     }
   });
+
+  it("supports a flat list presentation with text before the thumbnail", () => {
+    const source = solutionBriefs[0].source;
+    const html = renderToStaticMarkup(createElement(SourceCitation, { source, presentation: "list", headingLevel: "h3" }));
+    expect(html).toContain("md:grid-cols-[minmax(0,1fr)_240px]");
+    expect(html).toContain("text-lg leading-7");
+    expect(html).not.toMatch(/border-l-2|order-first/);
+    expect(html.indexOf("<h3")).toBeLessThan(html.indexOf("<figure"));
+  });
+
+  it("can retain technical context without repeating a title or image", () => {
+    const source = solutionBriefs[0].source;
+    const html = renderToStaticMarkup(createElement(SourceCitation, { source, compact: true, showImage: false, showTitle: false }));
+    expect(html).toContain(source.summary.replaceAll("&", "&amp;"));
+    expect(html).toContain(source.scopeNote.replaceAll("&", "&amp;"));
+    expect(html).not.toContain(source.title.replaceAll("&", "&amp;"));
+    expect(html).not.toMatch(/<img\b|<figure\b/);
+  });
 });

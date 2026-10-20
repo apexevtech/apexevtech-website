@@ -10,12 +10,14 @@ describe("application structured data", () => {
     expect(articleData["@type"]).toBe("TechArticle");
     expect(articleData.mainEntityOfPage).toBe(url);
     expect(articleData.dateModified).toBe(application.modifiedAt);
-    expect(breadcrumbData.itemListElement.map((item) => item.item)).toEqual(["https://example.com/", "https://example.com/applications", url]);
+    expect(breadcrumbData.itemListElement.map((item) => item.item)).toEqual(["https://example.com/", "https://example.com/solutions", url]);
+    expect(breadcrumbData.itemListElement[1].name).toBe("Solutions");
   });
 
   it("lists every application once on the index", () => {
     const data = buildApplicationIndexStructuredData(applicationExamples, "https://example.com/");
     expect(data.numberOfItems).toBe(applicationExamples.length);
+    expect(data.url).toBe("https://example.com/solutions#application-architectures");
     expect(data.itemListElement.map((item) => item.position)).toEqual([1, 2, 3, 4]);
     expect(new Set(data.itemListElement.map((item) => item.url)).size).toBe(applicationExamples.length);
   });

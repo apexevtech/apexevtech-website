@@ -34,7 +34,7 @@ export default async function ApplicationPage({ params }: Props) {
     <StructuredData data={breadcrumbData} />
     <article>
       <div className="mx-auto max-w-7xl px-5 py-12 lg:px-8">
-        <nav aria-label="Breadcrumb" className="text-sm text-[#1268a8]"><Link href="/">Home</Link> / <Link href="/applications">Applications</Link> / <span aria-current="page">{application.title}</span></nav>
+        <nav aria-label="Breadcrumb" className="text-sm text-[#1268a8]"><Link href="/">Home</Link> / <Link href="/solutions#application-architectures">Solutions</Link> / <span aria-current="page">{application.title}</span></nav>
         <div className="mt-9 grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <p className="text-sm font-black uppercase tracking-wide text-[#1268a8]">{application.category}</p>

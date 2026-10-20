@@ -24,7 +24,7 @@ export function buildApplicationStructuredData(application: ApplicationExample, 
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: new URL("/", baseUrl).toString() },
-        { "@type": "ListItem", position: 2, name: "Applications", item: new URL("/applications", baseUrl).toString() },
+        { "@type": "ListItem", position: 2, name: "Solutions", item: new URL("/solutions", baseUrl).toString() },
         { "@type": "ListItem", position: 3, name: application.title, item: url },
       ],
     },
@@ -35,8 +35,8 @@ export function buildApplicationIndexStructuredData(applications: ApplicationExa
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "EV Charger Test Application Architectures",
-    url: new URL("/applications", baseUrl).toString(),
+    name: "EV Charger Testing Solution Architectures",
+    url: new URL("/solutions#application-architectures", baseUrl).toString(),
     numberOfItems: applications.length,
     itemListElement: applications.map((application, index) => ({
       "@type": "ListItem",

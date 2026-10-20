@@ -11,8 +11,7 @@ const staticPageUpdates: Record<string, string> = {
   "/products": "2026-10-08T00:00:00.000Z",
   "/about": "2026-09-22T00:00:00.000Z",
   "/contact": "2026-09-22T00:00:00.000Z",
-  "/solutions": "2026-09-22T00:00:00.000Z",
-  "/applications": "2026-09-22T00:00:00.000Z",
+  "/solutions": "2026-10-20T00:00:00.000Z",
   "/interfaces": "2026-09-22T00:00:00.000Z",
   "/resources": "2026-10-20T00:00:00.000Z",
   "/library": "2026-10-20T00:00:00.000Z",
@@ -26,7 +25,7 @@ const productPageUpdates: Record<string, string> = {
 const staticPageImages: Record<string, string[]> = {
   "": ["/assets/hero/test-lab-systems.webp"],
   "/products": products.map((product) => product.image),
-  "/applications": applicationExamples.map((application) => application.image),
+  "/solutions": applicationExamples.map((application) => application.image),
 };
 
 function absoluteImageUrls(paths: string[] | undefined) {

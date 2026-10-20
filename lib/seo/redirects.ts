@@ -1,4 +1,5 @@
 export const legacyRedirects = [
+  { source: "/applications", destination: "/solutions#application-architectures", permanent: true },
   { source: "/&", destination: "/", permanent: true },
   { source: "/$", destination: "/", permanent: true },
   { source: "/product-documents/AST-9000.docx", destination: "/downloads/ast-9000-specifications.docx", permanent: true },

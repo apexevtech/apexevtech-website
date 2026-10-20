@@ -5,6 +5,11 @@ import { navItems } from "@/data/site";
 import { resources } from "@/lib/resources/catalog";
 
 describe("internal navigation", () => {
+  it("uses one Solutions entry for solution and application workflows", () => {
+    expect(navItems.filter((item) => item.href === "/solutions")).toEqual([{ label: "Solutions", href: "/solutions" }]);
+    expect(navItems.some((item) => item.href.startsWith("/applications"))).toBe(false);
+  });
+
   it("exposes Resources and keeps records connected", () => {
     expect(navItems).toContainEqual({ label: "Resources", href: "/resources" });
     expect(navItems).toContainEqual({ label: "Library", href: "/library" });

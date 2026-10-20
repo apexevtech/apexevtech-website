@@ -17,7 +17,7 @@ describe("sitemap", () => {
 
   it("updates changed static pages while preserving unchanged dates", () => {
     const entries = sitemap();
-    const unchanged = ["/about", "/contact", "/solutions", "/applications", "/interfaces"];
+    const unchanged = ["/about", "/contact", "/interfaces"];
     for (const route of unchanged) {
       expect(entries.find((entry) => entry.url === `${siteUrl}${route}`)?.lastModified)
         .toEqual(new Date("2026-09-22T00:00:00.000Z"));
@@ -30,6 +30,9 @@ describe("sitemap", () => {
       .toEqual(new Date("2026-10-20T00:00:00.000Z"));
     expect(entries.find((entry) => entry.url === `${siteUrl}/resources`)?.lastModified)
       .toEqual(new Date("2026-10-20T00:00:00.000Z"));
+    expect(entries.find((entry) => entry.url === `${siteUrl}/solutions`)?.lastModified)
+      .toEqual(new Date("2026-10-20T00:00:00.000Z"));
+    expect(entries.some((entry) => entry.url === `${siteUrl}/applications`)).toBe(false);
     for (const route of ["/privacy-policy"]) {
       expect(entries.find((entry) => entry.url === `${siteUrl}${route}`)?.lastModified)
         .toEqual(new Date("2026-10-09T00:00:00.000Z"));
@@ -50,6 +53,8 @@ describe("sitemap", () => {
 
   it("publishes crawlable product and application images", () => {
     const entries = sitemap();
+    expect(entries.find((entry) => entry.url === `${siteUrl}/solutions`)?.images)
+      .toEqual(applicationExamples.map((application) => new URL(application.image, siteUrl).toString()));
     for (const product of products) {
       expect(entries.find((entry) => entry.url === `${siteUrl}/products/${product.slug}`)?.images)
         .toEqual([new URL(product.image, siteUrl).toString()]);

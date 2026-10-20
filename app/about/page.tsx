@@ -19,7 +19,7 @@ const evidenceLinks = [
   { value: products.length, label: "published equipment configurations", href: "/products" },
   { value: interfaceTopics.length, label: "interface planning guides", href: "/interfaces" },
   { value: resources.length, label: "engineering resources", href: "/resources" },
-  { value: applicationExamples.length, label: "reference project architectures", href: "/applications" },
+  { value: applicationExamples.length, label: "reference project architectures", href: "/solutions#application-architectures" },
   { value: 1, label: "direct engineering inquiry route", href: "/contact#inquiry-form" },
 ];
 

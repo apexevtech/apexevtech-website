@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { products } from "@/data/site";
+import { applicationExamples } from "@/data/applications";
 
 describe("product image assets", () => {
   it("uses optimized WebP source images that are present in the public directory", () => {
@@ -19,18 +20,14 @@ describe("product image assets", () => {
   });
 
   it("uses optimized WebP assets for the high-traffic about and solutions pages", () => {
-    const pageSources = [
-      readFileSync(join(process.cwd(), "app", "about", "page.tsx"), "utf8"),
-      readFileSync(join(process.cwd(), "app", "solutions", "page.tsx"), "utf8"),
-    ].join("\n");
-    const optimizedAssets = [
-      "/assets/products/AST-9000x-fitted.webp",
-      "/assets/products/evse-field-commissioning.webp",
-      "/assets/products/ev-charger-test-laboratory.webp",
-    ];
+    const aboutSource = readFileSync(join(process.cwd(), "app", "about", "page.tsx"), "utf8");
+    const solutionsSource = readFileSync(join(process.cwd(), "app", "solutions", "page.tsx"), "utf8");
+    expect(aboutSource).toContain('src="/assets/products/AST-9000x-fitted.webp"');
+    expect(solutionsSource).toContain("src={application.image}");
+    const optimizedAssets = ["/assets/products/AST-9000x-fitted.webp", ...applicationExamples.map((application) => application.image)];
 
     for (const asset of optimizedAssets) {
-      expect(pageSources).toContain(asset);
+      expect(asset).toMatch(/\.webp$/);
       expect(existsSync(join(process.cwd(), "public", asset))).toBe(true);
     }
   });

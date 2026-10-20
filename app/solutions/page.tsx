@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { PageHero } from "@/components/PageHero";
-import { SectionHeading } from "@/components/SectionHeading";
+import { ArrowRight, BatteryCharging, ChevronDown, ChevronRight, Factory, FlaskConical, Wrench } from "lucide-react";
+import { StructuredData } from "@/components/StructuredData";
 import { solutions, products } from "@/data/site";
 import { applicationExamples } from "@/data/applications";
-import { ApplicationCard } from "@/components/ApplicationCard";
 import { solutionLinks } from "@/data/solution-links";
 import { resources } from "@/lib/resources/catalog";
+import { buildApplicationIndexStructuredData } from "@/lib/seo/application-structured-data";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
+import { siteUrl } from "@/lib/seo/site-urls";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "EV Charger Testing Solutions for Labs & Field Teams",
@@ -16,109 +17,106 @@ export const metadata: Metadata = buildPageMetadata({
   path: "/solutions",
 });
 
+const workflows = [
+  { label: "Laboratory validation", solutionSlug: "ev-charger-manufacturing-testing", applicationSlug: "integrated-ev-charger-validation-laboratory", icon: FlaskConical },
+  { label: "Field commissioning", solutionSlug: "charger-operations-maintenance", applicationSlug: "mobile-ev-charger-commissioning-workflow", icon: Wrench },
+  { label: "Production testing", solutionSlug: "production-line-testing-and-aging", applicationSlug: "evse-production-end-of-line-architecture", icon: Factory },
+  { label: "Energy integration", solutionSlug: "pv-storage-charging-testing", applicationSlug: "pv-storage-ev-charging-test-architecture", icon: BatteryCharging },
+];
+
 export default function SolutionsPage() {
   return (
     <>
-      <PageHero
-        eyebrow="Solutions"
-        title="EV charger test solutions for every validation workflow."
-        description="APEX helps charger manufacturers, certification laboratories, testing institutions and field service teams build repeatable test workflows."
-      />
-      <section className="bg-white px-5 py-16 lg:px-8">
+      <StructuredData data={buildApplicationIndexStructuredData(applicationExamples, siteUrl)} />
+      <section className="border-b border-slate-200 bg-white px-5 pb-6 pt-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <SectionHeading eyebrow="Applications" title="Testing systems built for field and laboratory workflows" />
-          <div className="grid gap-8 lg:grid-cols-2">
-            <article>
-              <div className="group relative aspect-[16/9] overflow-hidden rounded-lg bg-slate-100 shadow-lg shadow-slate-900/10">
-                <Image
-                  src="/assets/products/evse-field-commissioning.webp"
-                  alt="Engineers conducting an EV charger system field test"
-                  fill
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="object-cover contrast-[1.04] saturate-[1.08] transition-transform duration-500 group-hover:scale-[1.02]"
-                />
-              </div>
-              <h2 className="mt-5 text-2xl font-black text-slate-950">On-site Charger Commissioning</h2>
-              <p className="mt-3 leading-7 text-slate-600">
-                Portable test systems support charger commissioning, interoperability checks, fault diagnosis and metering verification directly at the charging site.
-              </p>
-            </article>
-            <article>
-              <div className="group relative aspect-[16/9] overflow-hidden rounded-lg bg-slate-100 shadow-lg shadow-slate-900/10">
-                <Image
-                  src="/assets/products/ev-charger-test-laboratory.webp"
-                  alt="EV charger interface and waveform testing laboratory"
-                  fill
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="object-cover contrast-[1.03] saturate-[1.05] transition-transform duration-500 group-hover:scale-[1.02]"
-                />
-              </div>
-              <h2 className="mt-5 text-2xl font-black text-slate-950">Protocol &amp; Waveform Analysis</h2>
-              <p className="mt-3 leading-7 text-slate-600">
-                Laboratory instrumentation captures charging signals, protocol messages and electrical waveforms for compliance investigation and engineering validation.
-              </p>
-            </article>
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-[#526b7d]">
+            <Link href="/" className="hover:text-[#1268a8]">Home</Link>
+            <ChevronRight aria-hidden="true" className="h-3.5 w-3.5 shrink-0" />
+            <span aria-current="page">Solutions</span>
+          </nav>
+          <div className="mt-5 flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
+            <div className="max-w-3xl">
+              <h1 className="text-2xl font-black leading-tight text-[#12263a] md:text-3xl">EV charger testing solutions</h1>
+              <p className="mt-3 leading-7 text-[#526b7d]">Match your laboratory, field, production or energy-system workflow to a reference architecture and the equipment it needs.</p>
+            </div>
+            <Link href="/contact#inquiry-form" className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#1268a8] hover:underline">
+              Discuss your test scope <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </Link>
           </div>
+          <nav aria-label="Testing workflows" className="mt-6 grid grid-cols-2 gap-x-5 gap-y-1 sm:grid-cols-4 sm:gap-x-6">
+            {workflows.map(({ label, solutionSlug, icon: Icon }) => (
+              <Link key={solutionSlug} href={`#${solutionSlug}`} className="group flex min-h-14 min-w-0 items-center gap-2.5 border-b-2 border-slate-200 py-2 text-sm font-bold leading-5 text-[#385064] transition-colors hover:border-[#1479c9] hover:text-[#1268a8]">
+                <Icon aria-hidden="true" className="h-5 w-5 shrink-0 text-[#1268a8]" />
+                <span className="min-w-0">{label}</span>
+              </Link>
+            ))}
+          </nav>
         </div>
       </section>
-      <section className="px-5 py-16 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading eyebrow="Solution Portfolio" title="Solutions derived from real charger testing workflows" />
-          <div className="grid gap-6 md:grid-cols-2">
-            {solutions.map((solution) => (
-              <article id={solution.slug} key={solution.slug} className="scroll-mt-28 rounded-md border border-slate-200 bg-white p-7">
-                <h2 className="text-2xl font-black text-slate-950">{solution.title}</h2>
-                <p className="mt-3 leading-7 text-slate-600">{solution.overview}</p>
-                <div className="mt-6 grid gap-5 md:grid-cols-2">
-                  <div>
-                    <p className="font-black text-apex-blue">Benefits</p>
-                    <ul className="mt-3 grid gap-2 text-sm text-slate-600">
-                      {solution.benefits.map((item) => (
-                        <li key={item}>• {item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="font-black text-apex-blue">Equipment Used</p>
-                    <ul className="mt-3 grid gap-2 text-sm text-slate-600">
-                      {solution.equipment.map((item) => (
-                        <li key={item}>• {item}</li>
-                      ))}
-                    </ul>
-                  </div>
+
+      <section id="application-architectures" aria-label="Application architectures" className="scroll-mt-24 bg-white px-5 lg:px-8">
+        <div className="mx-auto max-w-7xl divide-y divide-slate-200">
+          {workflows.map((workflow, index) => {
+            const solution = solutions.find((item) => item.slug === workflow.solutionSlug);
+            const application = applicationExamples.find((item) => item.slug === workflow.applicationSlug);
+            if (!solution || !application) return null;
+            const links = solutionLinks[solution.slug];
+            const equipment = links.productSlugs.map((slug) => products.find((product) => product.slug === slug)).filter((product) => product !== undefined);
+            const guides = links.resourceSlugs.map((slug) => resources.find((resource) => resource.slug === slug)).filter((resource) => resource !== undefined);
+
+            return (
+              <article id={solution.slug} key={solution.slug} className="grid scroll-mt-24 gap-6 py-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)] lg:gap-10 lg:py-10">
+                <div className="min-w-0">
+                  <Link href={`/applications/${application.slug}`} aria-label={`View ${application.title}`} className="relative block aspect-[16/10] overflow-hidden bg-[#f6f8fa]">
+                    <Image src={application.image} alt={application.imageAlt} fill preload={index === 0} sizes="(min-width: 1280px) 455px, (min-width: 1024px) 38vw, 100vw" className="object-contain p-3 sm:p-5" />
+                  </Link>
                 </div>
-                <p className="mt-6 border-l-4 border-[#00a6c7] bg-[#f3f8fa] p-4 text-sm font-semibold text-slate-700">{solution.value}</p>
-                <div className="mt-6 border-t border-slate-200 pt-5">
-                  <h3 className="font-black text-[#12263a]">Compare equipment configurations</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">Review the interface and options for your project.</p>
-                  <ul className="mt-3 grid gap-3 text-sm">
-                    {products.filter((product) => solutionLinks[solution.slug]?.productSlugs.includes(product.slug)).map((product) => (
-                      <li key={product.slug}><Link href={`/products/${product.slug}`} className="font-bold text-[#1268a8] hover:underline">{product.model}: {product.title} →</Link></li>
-                    ))}
-                  </ul>
-                  <h3 className="mt-5 font-black text-[#12263a]">Plan the test workflow</h3>
-                  <ul className="mt-3 grid gap-3 text-sm">
-                    {resources.filter((resource) => solutionLinks[solution.slug]?.resourceSlugs.includes(resource.slug)).map((resource) => (
-                      <li key={resource.slug}><Link href={`/resources/${resource.slug}`} className="font-bold text-[#1268a8] hover:underline">{resource.title} →</Link></li>
-                    ))}
-                  </ul>
+                <div className="min-w-0">
+                  <p className="text-xs font-bold uppercase leading-5 text-[#1268a8]">{String(index + 1).padStart(2, "0")} / {workflow.label}</p>
+                  <h2 className="mt-2 text-2xl font-black leading-tight text-[#12263a]">{solution.title}</h2>
+                  <p className="mt-3 text-sm leading-6 text-[#526b7d]">{application.description}</p>
+
+                  <dl className="mt-5 grid gap-4 border-y border-slate-200 py-4 sm:grid-cols-2 sm:gap-6">
+                    <div className="min-w-0"><dt className="text-xs font-bold uppercase text-[#385064]">Confirm the scope</dt><dd className="mt-1.5 text-sm leading-6 text-[#526b7d]">{application.confirmBeforeProject[0]}</dd></div>
+                    <div className="min-w-0"><dt className="text-xs font-bold uppercase text-[#385064]">Engineering objective</dt><dd className="mt-1.5 text-sm leading-6 text-[#526b7d]">{application.objectives[0]}</dd></div>
+                  </dl>
+
+                  <div className="mt-4 grid gap-4 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] sm:gap-6">
+                    <div className="min-w-0">
+                      <h3 className="text-xs font-bold uppercase text-[#385064]">Equipment</h3>
+                      <ul className="mt-1">
+                        {equipment.slice(0, 3).map((product) => <li key={product.slug}><Link href={`/products/${product.slug}`} title={product.title} aria-label={`${product.model}: ${product.title}`} className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#1268a8] hover:underline">{product.model}<ArrowRight aria-hidden="true" className="h-3.5 w-3.5 shrink-0" /></Link></li>)}
+                      </ul>
+                      {equipment.length > 3 && (
+                        <details className="group/equipment mt-1">
+                          <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 text-sm font-semibold text-[#526b7d] hover:text-[#1268a8] [&::-webkit-details-marker]:hidden">More equipment ({equipment.length - 3})<ChevronDown aria-hidden="true" className="h-4 w-4 shrink-0 transition-transform group-open/equipment:rotate-180" /></summary>
+                          <ul>{equipment.slice(3).map((product) => <li key={product.slug}><Link href={`/products/${product.slug}`} title={product.title} aria-label={`${product.model}: ${product.title}`} className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#1268a8] hover:underline">{product.model}<ArrowRight aria-hidden="true" className="h-3.5 w-3.5 shrink-0" /></Link></li>)}</ul>
+                        </details>
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="text-xs font-bold uppercase text-[#385064]">Planning guides</h3>
+                      <ul className="mt-1 grid gap-1">
+                        {guides.slice(0, 2).map((guide) => <li key={guide.slug}><Link href={`/resources/${guide.slug}`} className="inline-flex min-h-11 items-center py-2 text-sm leading-6 text-[#1268a8] hover:underline">{guide.title}</Link></li>)}
+                      </ul>
+                    </div>
+                  </div>
+                  <Link href={`/applications/${application.slug}`} className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#1268a8] underline underline-offset-4">View architecture<ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0" /></Link>
                 </div>
               </article>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </section>
-      <section className="bg-[#f8fafc] px-5 py-16 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="Application Architectures"
-            title="Reference configurations for laboratory, factory and field operations"
-            description="Use these examples to prepare a project scope. Final equipment, ratings and evidence depend on the actual charger and test plan."
-          />
-          <div className="grid gap-8 md:grid-cols-2">
-            {applicationExamples.map((application) => <ApplicationCard key={application.slug} application={application} headingLevel="h3" />)}
+
+      <section className="border-y border-slate-200 bg-[#f3f6f8] px-5 py-8 lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6">
+          <div className="max-w-3xl">
+            <h2 className="text-xl font-bold text-[#12263a]">Define the configuration before the test</h2>
+            <p className="mt-2 text-sm leading-6 text-[#526b7d]">These reference architectures are planning materials, not named customer deliveries or certification claims. Final equipment, ratings and evidence depend on the charger, facility and agreed test plan.</p>
           </div>
-          <div className="mt-8 text-center"><Link href="/applications" className="inline-flex rounded-md border border-[#1479c9] px-5 py-3 text-sm font-black text-[#1268a8] hover:bg-[#1479c9] hover:text-white">View all application architectures</Link></div>
+          <Link href="/contact#inquiry-form" className="inline-flex min-h-11 items-center gap-2 rounded-md bg-[#1479c9] px-5 py-3 text-sm font-bold text-white hover:bg-[#0f5f9f]">Discuss a configuration<ArrowRight aria-hidden="true" className="h-4 w-4" /></Link>
         </div>
       </section>
     </>

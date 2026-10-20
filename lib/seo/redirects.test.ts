@@ -2,6 +2,13 @@ import { describe, expect, it } from "vitest";
 import { legacyRedirects } from "@/lib/seo/redirects";
 
 describe("legacy redirects", () => {
+  it("merges only the application index while preserving detail routes", () => {
+    expect(legacyRedirects.find(({ source }) => source === "/applications")).toEqual({
+      source: "/applications", destination: "/solutions#application-architectures", permanent: true,
+    });
+    expect(legacyRedirects.filter(({ source }) => source.startsWith("/applications"))).toHaveLength(1);
+  });
+
   it("permanently maps every legacy product document to a clean download URL", () => {
     const documentRedirects = legacyRedirects.filter(({ source }) => source.startsWith("/product-documents/"));
     expect(documentRedirects).toHaveLength(12);

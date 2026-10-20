@@ -13,7 +13,7 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
-  const isActive = (href: string) => href === "/" ? pathname === "/" : pathname.startsWith(`${href}/`) || pathname === href;
+  const isActive = (href: string) => href === "/" ? pathname === "/" : pathname.startsWith(`${href}/`) || pathname === href || (href === "/solutions" && pathname.startsWith("/applications/"));
   const navClass = (href: string) => `text-sm font-semibold transition-colors hover:text-[#1268a8] ${isActive(href) ? "text-[#1268a8] underline decoration-2 underline-offset-8" : "text-[#385064]"}`;
 
   useEffect(() => {
