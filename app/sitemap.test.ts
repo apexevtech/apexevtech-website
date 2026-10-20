@@ -26,8 +26,7 @@ describe("sitemap", () => {
       .toEqual(new Date("2026-10-10T00:00:00.000Z"));
     expect(entries.find((entry) => entry.url === `${siteUrl}/products`)?.lastModified)
       .toEqual(new Date("2026-10-08T00:00:00.000Z"));
-    expect(entries.find((entry) => entry.url === `${siteUrl}/library`)?.lastModified)
-      .toEqual(new Date("2026-10-20T00:00:00.000Z"));
+    expect(entries.some((entry) => entry.url === `${siteUrl}/library`)).toBe(false);
     expect(entries.find((entry) => entry.url === `${siteUrl}/resources`)?.lastModified)
       .toEqual(new Date("2026-10-20T00:00:00.000Z"));
     expect(entries.find((entry) => entry.url === `${siteUrl}/solutions`)?.lastModified)

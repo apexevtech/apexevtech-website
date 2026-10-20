@@ -12,7 +12,8 @@ describe("internal navigation", () => {
 
   it("exposes Resources and keeps records connected", () => {
     expect(navItems).toContainEqual({ label: "Resources", href: "/resources" });
-    expect(navItems).toContainEqual({ label: "Library", href: "/library" });
+    expect(navItems.filter((item) => item.href === "/resources")).toHaveLength(1);
+    expect(navItems.some((item) => item.href === "/library")).toBe(false);
     for (const resource of resources) {
       expect(resource.relatedProductSlugs.length).toBeGreaterThan(0);
       expect(resource.relatedResourceSlugs.length).toBeGreaterThanOrEqual(2);
