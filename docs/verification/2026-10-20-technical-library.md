@@ -30,4 +30,12 @@ The historical supplier directory remains an internal source record under `docs/
 - Screenshots reviewed at 320x568, 390x844, 768x1024, 1280x900 and 1440x1000. No horizontal overflow or header navigation overlap; logo loaded. Library navigation appeared in mobile and desktop menus. The compact 320-pixel layout exposes the material-type controls within the initial viewport.
 - WhatsApp was hidden while filter controls were visible, then restored after they scrolled away at all five widths. Mobile checklist expansion had no horizontal overflow.
 
-Screenshots are local verification artifacts under `output/playwright/library-*.png`, not public site assets. Production deployment and live site audit are recorded after release.
+Screenshots are local verification artifacts under `output/playwright/library-*.png`, not public site assets.
+
+## Production release
+
+- Runtime commit: `2f9b509`. GitHub Quality checks run `39378706174` passed; both Vercel projects reported successful deployment.
+- `https://www.link-jl.com/library` returned HTTP 200 and the complete 24-record initial list. Live desktop navigation from the home page and the mobile Library menu entry worked.
+- Live solution filtering returned six records; the literal `all` search survived a reload. The charger-manufacturing application category returned four records and persisted after reload. The filtered URL retained the root library canonical and had no mobile horizontal overflow.
+- `npm run audit:site` against production passed: 54 sitemap pages, 106 internal link targets and 12 linked downloads checked. No broken links, orphan pages, duplicate metadata, canonical, H1 or alt errors; all linked downloads retained `noindex`.
+- Live screenshots: `output/playwright/library-live-desktop.png` and `output/playwright/library-live-mobile.png`. Live browser checks did not submit an inquiry or accept optional analytics.
