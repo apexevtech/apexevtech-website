@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import SolutionsPage from "./page";
 import { applicationExamples } from "@/data/applications";
-import { solutions } from "@/data/site";
+import { products, solutions } from "@/data/site";
 import { solutionLinks } from "@/data/solution-links";
 
 describe("combined solutions hub", () => {
@@ -15,9 +15,16 @@ describe("combined solutions hub", () => {
     for (const solution of solutions) {
       expect(html).toContain(`id="${solution.slug}"`);
       expect(html).toContain(`href="#${solution.slug}"`);
-      for (const slug of solutionLinks[solution.slug].productSlugs) expect(html).toContain(`href="/products/${slug}"`);
       for (const slug of solutionLinks[solution.slug].resourceSlugs) expect(html).toContain(`href="/resources/${slug}"`);
     }
+    expect(html.match(/href="\/resources\//g)).toHaveLength(8);
+  });
+
+  it("keeps product models and equipment lists out of the solutions hub", () => {
+    const html = renderToStaticMarkup(createElement(SolutionsPage));
+    expect(html).not.toContain('href="/products/');
+    expect(html).not.toMatch(/>Equipment<|More equipment/);
+    for (const product of products) expect(html).not.toContain(product.model);
   });
 
   it("keeps the original architecture detail links, local images and scope boundary", () => {

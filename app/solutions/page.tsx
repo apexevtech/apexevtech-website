@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BatteryCharging, ChevronDown, ChevronRight, Factory, FlaskConical, Wrench } from "lucide-react";
+import { ArrowRight, BatteryCharging, ChevronRight, Factory, FlaskConical, Wrench } from "lucide-react";
 import { StructuredData } from "@/components/StructuredData";
-import { solutions, products } from "@/data/site";
+import { solutions } from "@/data/site";
 import { applicationExamples } from "@/data/applications";
 import { solutionLinks } from "@/data/solution-links";
 import { resources } from "@/lib/resources/catalog";
@@ -62,7 +62,6 @@ export default function SolutionsPage() {
             const application = applicationExamples.find((item) => item.slug === workflow.applicationSlug);
             if (!solution || !application) return null;
             const links = solutionLinks[solution.slug];
-            const equipment = links.productSlugs.map((slug) => products.find((product) => product.slug === slug)).filter((product) => product !== undefined);
             const guides = links.resourceSlugs.map((slug) => resources.find((resource) => resource.slug === slug)).filter((resource) => resource !== undefined);
 
             return (
@@ -82,25 +81,11 @@ export default function SolutionsPage() {
                     <div className="min-w-0"><dt className="text-xs font-bold uppercase text-[#385064]">Engineering objective</dt><dd className="mt-1.5 text-sm leading-6 text-[#526b7d]">{application.objectives[0]}</dd></div>
                   </dl>
 
-                  <div className="mt-4 grid gap-4 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] sm:gap-6">
-                    <div className="min-w-0">
-                      <h3 className="text-xs font-bold uppercase text-[#385064]">Equipment</h3>
-                      <ul className="mt-1">
-                        {equipment.slice(0, 3).map((product) => <li key={product.slug}><Link href={`/products/${product.slug}`} title={product.title} aria-label={`${product.model}: ${product.title}`} className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#1268a8] hover:underline">{product.model}<ArrowRight aria-hidden="true" className="h-3.5 w-3.5 shrink-0" /></Link></li>)}
-                      </ul>
-                      {equipment.length > 3 && (
-                        <details className="group/equipment mt-1">
-                          <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 text-sm font-semibold text-[#526b7d] hover:text-[#1268a8] [&::-webkit-details-marker]:hidden">More equipment ({equipment.length - 3})<ChevronDown aria-hidden="true" className="h-4 w-4 shrink-0 transition-transform group-open/equipment:rotate-180" /></summary>
-                          <ul>{equipment.slice(3).map((product) => <li key={product.slug}><Link href={`/products/${product.slug}`} title={product.title} aria-label={`${product.model}: ${product.title}`} className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#1268a8] hover:underline">{product.model}<ArrowRight aria-hidden="true" className="h-3.5 w-3.5 shrink-0" /></Link></li>)}</ul>
-                        </details>
-                      )}
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="text-xs font-bold uppercase text-[#385064]">Planning guides</h3>
-                      <ul className="mt-1 grid gap-1">
-                        {guides.slice(0, 2).map((guide) => <li key={guide.slug}><Link href={`/resources/${guide.slug}`} className="inline-flex min-h-11 items-center py-2 text-sm leading-6 text-[#1268a8] hover:underline">{guide.title}</Link></li>)}
-                      </ul>
-                    </div>
+                  <div className="mt-4 min-w-0">
+                    <h3 className="text-xs font-bold uppercase text-[#385064]">Planning guides</h3>
+                    <ul className="mt-1 grid gap-1 sm:grid-cols-2 sm:gap-x-6">
+                      {guides.slice(0, 2).map((guide) => <li key={guide.slug}><Link href={`/resources/${guide.slug}`} className="inline-flex min-h-11 items-center py-2 text-sm leading-6 text-[#1268a8] hover:underline">{guide.title}</Link></li>)}
+                    </ul>
                   </div>
                   <Link href={`/applications/${application.slug}`} className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#1268a8] underline underline-offset-4">View architecture<ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0" /></Link>
                 </div>
