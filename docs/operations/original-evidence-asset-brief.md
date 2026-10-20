@@ -2,6 +2,18 @@
 
 Prepared: 2026-10-12
 
+## 2026-10-20 follow-up
+
+Read-only ZIP archive inventory of all 12 public specification documents found
+zero `word/media/` entries. The specifications therefore do not supply embedded
+software screenshots or photographed report pages. Do not represent the new
+CCS2, commissioning or EOL planning matrices as measured evidence.
+
+Still needed from the engineering team: approved original screenshots or
+redacted measured reports, configuration/software revision, executed procedure,
+explanation of the result and permission to publish. The website's automated
+tests validate web behavior, not charger hardware, measurements or compliance.
+
 ## 2026-10-19 asset inventory
 
 Existing public specifications can be used immediately; they are already linked
