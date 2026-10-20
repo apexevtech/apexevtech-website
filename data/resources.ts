@@ -177,7 +177,7 @@ export const resources: Resource[] = [
     description: "Plan EVSE testing after installation: select portable AC/DC charger equipment, confirm the external load and record commissioning and acceptance evidence.",
     topic: "EV charger field commissioning",
     intent: "selection",
-    publishedAt, modifiedAt,
+    publishedAt, modifiedAt: "2026-10-20",
     summaryAnswer: "Field commissioning equipment should safely reproduce a vehicle connection, show the charging sequence, measure the values needed for acceptance and preserve evidence that can be reviewed later. Portability matters, but connector coverage, environmental protection, setup checks and a defined external-load plan matter more than case size alone.",
     sections: [
       { heading: "Prepare the site and test boundary", paragraphs: [
@@ -204,8 +204,21 @@ export const resources: Resource[] = [
       { question: "Does a portable charger tester include a power load?", answer: "Not necessarily. Many portable testers provide the vehicle interface and measurement functions but require a separate load for sustained power tests. Confirm the exact configuration." },
       { question: "What is the minimum useful field record?", answer: "Record site and charger identity, test configuration, measured values, result limits, relevant logs and any conditions that prevented completion." },
     ],
+    decisionTable: {
+      eyebrow: "Site acceptance planning",
+      title: "Define what the commissioning visit can prove",
+      description: "Use this planning matrix to agree the visit scope before dispatch. It is not a completed site report or a substitute for an approved safety procedure.",
+      columns: ["Acceptance question", "Equipment and preconditions", "Record for handover"],
+      rows: [
+        ["Does each connector complete the intended session?", "Match the AC/DC tester, connector and communication configuration to the charger; confirm site access and authorized operators.", "Connector ID, charger firmware, sequence result, tester configuration and procedure revision."],
+        ["Was the required output actually exercised?", "Specify the load path, simultaneous voltage/current, duration, cable ratings and available supply. A communication-only session is not a full-power test.", "Requested and measured values, duration, load identity and any untested operating points."],
+        ["Are readings suitable for the agreed metering check?", "Confirm measurement options, reference instrument, calibration status and the project's comparison method.", "Reference and charger readings, operating point, instrument identity and agreed limits."],
+        ["Can the service team reproduce a reported fault?", "Retain a normal baseline and use only approved fault stimuli within the site procedure.", "Last completed state, relevant trace, electrical measurements and corrective-action retest."],
+      ],
+      note: "Mark cases that lack a required load, supply, instrument or authorization as not executed. Do not report partial coverage as full acceptance or certification.",
+    },
     relatedProductSlugs: ["st-9980a-pro", "st-9980ea-hpc", "st-6680b-plus", "st-6680ca-dc", "st-6680ea-ac", "st-6680ua-ac", "st-6680ua-dc"],
-    relatedResourceSlugs: ["integrated-vs-portable-test-systems", "evse-test-plan-checklist", "regenerative-load-considerations", "post-installation-evse-testing", "type-2-ac-evse-testing"],
+    relatedResourceSlugs: ["integrated-vs-portable-test-systems", "evse-test-plan-checklist", "regenerative-load-considerations", "post-installation-evse-testing", "type-2-ac-evse-testing", "ccs2-dc-fast-charger-testing"],
   },
   {
     slug: "prepare-ev-charger-standards-validation",
@@ -326,7 +339,7 @@ export const resources: Resource[] = [
     topic: "CCS2 DC fast charger testing",
     intent: "technical",
     publishedAt: "2026-09-21",
-    modifiedAt: "2026-10-19",
+    modifiedAt: "2026-10-20",
     summaryAnswer: "A CCS2 DC fast charger test setup must combine the correct Combo 2 interface, control-pilot behavior, PLC communication, charger output measurement and a power-absorption path. Confirm the required ISO 15118 or DIN communication version, maximum voltage and current, load arrangement and evidence format before selecting the tester.",
     sections: [
       { heading: "Define the CCS2 charger and communication scope", paragraphs: [
@@ -346,8 +359,21 @@ export const resources: Resource[] = [
       { question: "Does a CCS2 tester include a full-power load?", answer: "Not necessarily. Portable testers commonly simulate the vehicle interface and connect to a separate load. Confirm both the tester connection limit and the external load specification." },
       { question: "Is ISO 15118 testing the same as CCS2 connector testing?", answer: "No. The connector and electrical interface are only part of the scope. ISO 15118 testing addresses defined communication behavior and requires compatible communication hardware, software and test cases." },
     ],
+    decisionTable: {
+      eyebrow: "CCS2 configuration review",
+      title: "Compare the complete setup, not only the tester rating",
+      description: "Send these inputs with a CCS protocol tester enquiry so the quotation can distinguish included functions, options and external equipment.",
+      columns: ["Decision", "Specify before quotation", "Evidence to request"],
+      rows: [
+        ["Communication coverage", "Charger firmware, DIN or ISO protocol part/edition, required normal and abnormal cases, and any optional functions.", "Written hardware/software configuration and a case-coverage list; connector compatibility alone does not establish protocol coverage."],
+        ["Electrical operating envelope", "Simultaneous voltage/current points, test duration and cooling, not just separate maximum ratings.", "Tester, cable and external-load ratings, continuous-duty limits and facility requirements for the proposed combination."],
+        ["Diagnostic evidence", "Required PLC trace, pilot state and voltage/current timing; identify which measurements must be synchronized.", "An approved sample export with channel definitions, timestamps, configuration identity and documented limitations."],
+        ["Acceptance scope", "Field diagnosis, R&D regression or a defined conformance programme; list the cases that will actually be executed.", "Agreed acceptance procedure, result limits, software revision and responsibility for any additional instruments."],
+      ],
+      note: "This is a procurement checklist, not a claim that every model includes all functions. Request an approved sample report; no measured customer result is represented here.",
+    },
     relatedProductSlugs: ["st-9980ea-hpc", "st-6680ea-dc", "ast-9000"],
-    relatedResourceSlugs: ["dc-fast-charger-testing-guide", "ev-charging-protocol-testing", "regenerative-load-considerations", "evse-test-plan-checklist"],
+    relatedResourceSlugs: ["dc-fast-charger-testing-guide", "ev-charging-protocol-testing", "regenerative-load-considerations", "evse-test-plan-checklist", "field-commissioning-test-equipment"],
   },
   {
     slug: "gbt-dc-charger-conformance-testing",
@@ -446,7 +472,7 @@ export const resources: Resource[] = [
     topic: "EVSE end-of-line testing",
     intent: "process",
     publishedAt: "2026-09-21",
-    modifiedAt: "2026-10-08",
+    modifiedAt: "2026-10-20",
     summaryAnswer: "An EVSE end-of-line test should confirm unit identity, configuration, essential safety checks, interface states, charging communication, measured output and required fault responses within a controlled cycle time. Automate stable pass or fail limits and store results against the charger serial number while routing deeper diagnosis outside the main production station.",
     sections: [
       { heading: "Convert product requirements into station limits", paragraphs: [
@@ -466,8 +492,22 @@ export const resources: Resource[] = [
       { question: "Should end-of-line testing repeat every laboratory validation case?", answer: "Usually no. Select production-relevant checks with stable limits and short cycle time, then use laboratory or diagnostic stations for deeper investigation and boundary testing." },
       { question: "What data should an EVSE production test retain?", answer: "Retain unit identity, configuration, test-program version, instrument or fixture identity, measured values, limits, result, timestamp and any authorized retest or override." },
     ],
+    decisionTable: {
+      eyebrow: "Production station acceptance",
+      title: "Turn the EOL checklist into a station acceptance plan",
+      description: "Agree measurable acceptance conditions for the configured station. This template does not establish a universal cycle time or an included factory-integration package.",
+      columns: ["Station requirement", "Define with the supplier", "Acceptance evidence"],
+      rows: [
+        ["Variant and fixture control", "Supported charger variants, connector fixtures, recipe selection and mismatch handling.", "A controlled variant changeover with the unit, fixture and recipe identities retained in the result."],
+        ["Safety and energized tests", "Which checks use separate safety instruments, interlocks, communication simulation and a load; assign connection responsibility.", "Approved preconditions and defined responses to failed checks before energized testing proceeds."],
+        ["Cycle time and coverage", "Case list, load settling, operator steps, result transfer and the units used for the timing trial.", "Measured full-cycle timings across agreed representative units; keep aging and deeper diagnosis separate unless explicitly included."],
+        ["Results and factory integration", "Export fields, serial-number handling, optional MES interface, offline behaviour and retry rules.", "A sample result record and agreed integration test, including duplicate serial numbers or interrupted transfer."],
+        ["Repair and retest", "Retest authorization, links to the original failure and handling of limits or software changes.", "A retained initial failure, repair reason and retest result without overwriting the first record."],
+      ],
+      note: "Production-capable tester functions do not by themselves constitute a turnkey EOL station. Confirm fixtures, safety equipment, load, automation and factory integration as separate quotation items.",
+    },
     relatedProductSlugs: ["ast-9000", "st-hcdc-hpc", "st-hcac-gb-ua-ea", "st-9980a-pro"],
-    relatedResourceSlugs: ["production-vs-laboratory-validation", "evse-test-plan-checklist", "choose-ev-charger-test-system"],
+    relatedResourceSlugs: ["production-vs-laboratory-validation", "evse-test-plan-checklist", "choose-ev-charger-test-system", "ev-charging-protocol-testing"],
   },
   {
     slug: "post-installation-evse-testing",

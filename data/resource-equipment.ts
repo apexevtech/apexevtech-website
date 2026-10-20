@@ -1,9 +1,29 @@
 import type { ProductFilters } from "@/lib/products/filter";
 
 type EquipmentPath = { title: string; slug: string; scope: string; href: string; label: string };
-type EquipmentPaths = { paths: EquipmentPath[]; note?: string; inquiryFilters?: ProductFilters };
+type EquipmentPaths = { paths: EquipmentPath[]; note?: string; inquiryFilters?: ProductFilters; inquiryLabel?: string };
 
 export const resourceEquipmentPaths: Record<string, EquipmentPaths> = {
+  "field-commissioning-test-equipment": {
+    paths: [
+      { title: "AC field acceptance", slug: "st-hcac-gb-ua-ea", scope: "Compare the AC platform for the installed connector and site checks. Confirm regional interfaces, measurement options and load arrangement.", href: "/products/st-hcac-gb-ua-ea", label: "Review AC field equipment" },
+      { title: "CCS2 DC site testing", slug: "st-9980ea-hpc", scope: "Review the CCS2 platform for charging-sequence and output diagnosis. Specify the external load, continuous duty and site supply separately.", href: "/products/st-9980ea-hpc", label: "Review CCS2 field equipment" },
+      { title: "GB/T DC site testing", slug: "st-9980a-pro", scope: "Review the GB/T portable platform. It has no built-in load; confirm the external-load connection and required communication configuration.", href: "/products/st-9980a-pro", label: "Review GB/T field equipment" },
+    ],
+    note: "These are starting configurations, not a complete list of connector options. Confirm installed interfaces and the permitted site test scope before dispatch.",
+    inquiryFilters: { type: "all", interface: "all", workflow: "field" },
+    inquiryLabel: "Review my site acceptance setup",
+  },
+  "evse-end-of-line-testing": {
+    paths: [
+      { title: "AC production checks", slug: "st-hcac-gb-ua-ea", scope: "Review the AC test platform for the required regional interface and production checks. Confirm fixtures, automation and separate safety instruments.", href: "/products/st-hcac-gb-ua-ea", label: "Review AC production equipment" },
+      { title: "GB/T DC production checks", slug: "st-hcdc-hpc", scope: "Review the GB/T DC platform for communication, output and metering functions. Confirm external loading and the exact test sequence.", href: "/products/st-hcdc-hpc", label: "Review GB/T DC equipment" },
+      { title: "CCS2 DC production checks", slug: "st-6680ea-dc", scope: "Review the CCS2 DC platform against the proposed production recipe. Confirm communication scope, load path and result-export requirements.", href: "/products/st-6680ea-dc", label: "Review CCS2 DC equipment" },
+    ],
+    note: "A tester is only one part of the station. Fixtures, interlocks, safety instruments, load, cycle-time validation and MES integration require a separate configuration review.",
+    inquiryFilters: { type: "all", interface: "all", workflow: "production" },
+    inquiryLabel: "Review my EOL station requirements",
+  },
   "choose-ev-charger-test-system": {
     paths: [
       { title: "AC charger testing", slug: "st-hcac-gb-ua-ea", scope: "Pilot states, charging sequences and metering checks. Confirm the connector and regional configuration.", href: "/products?type=ac#equipment", label: "Compare AC testers" },
