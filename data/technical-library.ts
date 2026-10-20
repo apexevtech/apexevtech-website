@@ -3,12 +3,19 @@ export type TechnicalLibraryCategory = {
   label: string;
 };
 
+export type TechnicalLibraryImage = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+};
+
 export type TechnicalLibrarySource = {
   publisher: "SAITER";
   title: string;
-  href: string;
   summary: string;
   scopeNote: string;
+  image?: TechnicalLibraryImage;
 };
 
 export type TechnicalLibraryEntry = {
@@ -58,7 +65,7 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "EV charger testing",
-      href: "https://www.saiter.cn/jjfn_1/1689151344388562944.html",
+      image: { src: "/assets/library/solution-evse.jpg", alt: "AC charging station shown in the charger-testing source illustration", width: 617, height: 399 },
       summary: "SAITER describes a simulated laboratory setting for investigating charger functions, vehicle interaction and abnormal conditions. The page outlines topics rather than publishing a reproducible test procedure or a complete results record.",
       scopeNote: "Third-party overview, not evidence of an APEX delivery. Equipment configuration, standards editions and raw results are not provided.",
     },
@@ -80,7 +87,7 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "New energy vehicle charging tests",
-      href: "https://www.saiter.cn/jjfn_1/2.html",
+      image: { src: "/assets/library/solution-vehicle.jpg", alt: "Illustration of an electric vehicle connected to a charging station", width: 1920, height: 960 },
       summary: "SAITER discusses differences in charging efficiency, charging time and access to infrastructure. The article frames general vehicle-charging questions but does not identify a study sample, equipment setup or measured dataset.",
       scopeNote: "Third-party overview, not evidence of an APEX delivery. Charging-time and efficiency observations are not independently verified results.",
     },
@@ -102,7 +109,7 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Photovoltaic and energy storage testing",
-      href: "https://www.saiter.cn/jjfn_1/3.html",
+      image: { src: "/assets/library/solution-pv-storage.webp", alt: "Photovoltaic panel array used to illustrate the energy-storage source topic", width: 1920, height: 960 },
       summary: "SAITER introduces the relationship between photovoltaic generation and battery storage, including storing energy for later use. The page discusses the integration topic without documenting a specific test system, project configuration or measured performance.",
       scopeNote: "Third-party overview, not evidence of an APEX delivery. No quantified efficiency result or defined test conditions are available.",
     },
@@ -124,7 +131,7 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Battery testing",
-      href: "https://www.saiter.cn/jjfn_1/4.html",
+      image: { src: "/assets/library/solution-battery.jpg", alt: "Battery pack illustration supplied with the battery-testing source topic", width: 1920, height: 960 },
       summary: "SAITER outlines battery assessment topics such as repeated charging cycles, environmental exposure and charging speed. Its general comparisons do not identify battery samples, cycling conditions, evaluation methods or an underlying data report.",
       scopeNote: "Third-party topic reference, not an APEX battery-test offering or delivery record. The APEX brief remains limited to charger-project interfaces.",
     },
@@ -146,7 +153,7 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Operations and maintenance inspection",
-      href: "https://www.saiter.cn/jjfn_1/5.html",
+      image: { src: "/assets/library/solution-maintenance.jpg", alt: "A charging connector held beside a vehicle in the maintenance source illustration", width: 1920, height: 960 },
       summary: "SAITER lists operations and maintenance inspection as a solution category. The readable article concerns internet-platform security, vulnerability scanning and penetration testing rather than a defined charger field-diagnostics method.",
       scopeNote: "Category reference only: the source body has a topic mismatch and does not substantiate the APEX charger workflow or a delivery.",
     },
@@ -168,7 +175,7 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Other testing categories",
-      href: "https://www.saiter.cn/jjfn_1/6.html",
+      image: { src: "/assets/library/solution-other.jpg", alt: "Electrical substation used as the other-testing source illustration", width: 1920, height: 960 },
       summary: "SAITER includes an other-testing category alongside its main solution topics. The article combines a general charger introduction with internet-security testing language, without defining a custom charger-test system or integration boundary.",
       scopeNote: "Category reference only: the source body has a topic mismatch and does not substantiate APEX custom functions or a delivery.",
     },
@@ -193,7 +200,7 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "CCS charger test system application",
-      href: "https://www.saiter.cn/case_detail/1.html",
+      image: { src: "/assets/library/case-1-system.png", alt: "Charging-test cabinets pictured in the CCS application source material", width: 865, height: 548 },
       summary: "SAITER presents CCS charger laboratory testing as an application, discussing supply behavior, charging power, communication and protective functions. The article describes simulated operating conditions without identifying a customer, equipment configuration or retained measurement records.",
       scopeNote: "Supplier-published case, not evidence of an APEX delivery. No independently verified project result or complete setup is supplied.",
     },
@@ -215,7 +222,6 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Field testing with a vehicle-charger diagnostic device",
-      href: "https://www.saiter.cn/case_detail/2.html",
       summary: "SAITER introduces a diagnostic device for collecting charging information, examining faults and alerting maintenance staff. Its case page offers a general product-use description rather than documenting the named site's investigation or measured repair outcome.",
       scopeNote: "Supplier-published case, not evidence of an APEX delivery. Customer identity, setup and claimed maintenance benefits are not independently verified.",
     },
@@ -237,7 +243,6 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Vehicle interoperability test system ST-9980X",
-      href: "https://www.saiter.cn/case_detail/3.html",
       summary: "SAITER describes simulating charging facilities to examine communication, data exchange and vehicle-charger interaction. ST-9980X appears in the page title, while the article does not specify an implemented configuration, test matrix or results.",
       scopeNote: "Supplier-published case, not evidence of an APEX delivery. The source mixes interaction terminology; system scope and outcomes need confirmation.",
     },
@@ -259,7 +264,6 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "European-standard charger testing at an unnamed institute",
-      href: "https://www.saiter.cn/case_detail/4.html",
       summary: "SAITER organizes European-standard charger assessment into safety, basic operation and compatibility topics. The case identifies an unnamed research institute but does not publish applicable standard editions, equipment details or the project's test records.",
       scopeNote: "Supplier-published case, not evidence of an APEX delivery or certification. Standards coverage and assessment outcomes are not independently verified.",
     },
@@ -281,7 +285,6 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Charger tester at an unnamed Shanghai research institute",
-      href: "https://www.saiter.cn/case_detail/5.html",
       summary: "SAITER's case title associates a charger tester with an unnamed Shanghai research organization. The readable page does not include a project narrative, leaving the test setup, requested measurements and implementation outcome unspecified.",
       scopeNote: "Title-level third-party reference only, not evidence of an APEX delivery. No readable project detail or measurement report is supplied.",
     },
@@ -303,7 +306,6 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Charging power simulation for a power research institute",
-      href: "https://www.saiter.cn/case_detail/6.html",
       summary: "SAITER describes mathematical modeling and simulation of charging demand and energy consumption for layout and scheduling discussions. The article does not provide model inputs, validation records or numerical support for its claimed efficiency benefits.",
       scopeNote: "Supplier-published case, not evidence of an APEX delivery. Claimed efficiency improvements are not independently verified measured results.",
     },
@@ -325,7 +327,6 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Supercharging facility testing associated with CQC",
-      href: "https://www.saiter.cn/case_detail/7.html",
       summary: "SAITER's case page names China Quality Certification Centre and introduces ST-HCDC-800A for third-party DC charger field checks using simulated vehicle behavior. It lists standards references but does not include project measurements or a verified operating envelope.",
       scopeNote: "Supplier-published case, not an APEX delivery or endorsement. Historical standards references and model naming do not prove current coverage or tested power.",
     },
@@ -347,7 +348,6 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Charger tester associated with China Inspection and Certification Group",
-      href: "https://www.saiter.cn/case_detail/8.html",
       summary: "SAITER associates a charger tester with China Inspection and Certification Group in a brief case description. The page does not identify the equipment model, installed configuration, measurement workflow, acceptance record or quantified project outcome.",
       scopeNote: "Supplier-published case, not evidence of an APEX delivery or institutional endorsement. The association is not independently verified.",
     },
@@ -369,7 +369,6 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "DC charger testing associated with a building-materials inspection group",
-      href: "https://www.saiter.cn/case_detail/9.html",
       summary: "SAITER describes a DC charger test system associated with China Building Material Test and Certification Group, covering current, voltage, power and protective behavior. The article does not supply configuration details, standards editions or raw project results.",
       scopeNote: "Supplier-published case, not an APEX delivery or conformity result. Equipment use and outcomes are not independently verified.",
     },
@@ -391,7 +390,6 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Off-board charger protocol consistency testing",
-      href: "https://www.saiter.cn/case_detail/10.html",
       summary: "SAITER outlines communication-data checks and protocol behavior for off-board charging equipment in an unnamed certification-company case. The description discusses completeness and stability without publishing protocol editions, executed cases or assessment evidence.",
       scopeNote: "Supplier-published case, not an APEX delivery or conformance result. Test topology, verdict criteria and implementation details require confirmation.",
     },
@@ -413,7 +411,7 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Customized AC/DC charger test equipment for an unnamed organization",
-      href: "https://www.saiter.cn/case_detail/11.html",
+      image: { src: "/assets/library/case-11-system.jpg", alt: "Vehicle carrying portable charging-test instruments, loads and a laptop", width: 1000, height: 626 },
       summary: "SAITER introduces customized AC and DC charger test equipment associated with an unnamed Jiangsu organization. The article discusses electrical measurements and software analysis, without documenting the delivered configuration, instrument accuracy or acceptance results.",
       scopeNote: "Supplier-published case, not evidence of an APEX delivery. Custom configuration, measurement performance and acceptance records are not independently verified.",
     },
@@ -435,7 +433,6 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Charging-site test equipment for an unnamed inspection company",
-      href: "https://www.saiter.cn/case_detail/12.html",
       summary: "SAITER describes charging-site equipment in an unnamed third-party inspection-company case, covering electrical quantities, charging behavior and maintenance faults. The source does not detail the site conditions, chosen instruments or records from a specific inspection.",
       scopeNote: "Supplier-published case, not an APEX delivery or inspection certificate. Customer identity, site scope and measured results remain unverified.",
     },
@@ -457,7 +454,6 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Customized DC charger equipment for an unnamed testing organization",
-      href: "https://www.saiter.cn/case_detail/13.html",
       summary: "SAITER presents customized DC charger equipment for an unnamed third-party testing organization. Its description covers electrical behavior and safety checks at a general level, without disclosing the custom arrangement, executed procedures or measured outcomes.",
       scopeNote: "Supplier-published case, not evidence of an APEX delivery. Implementation conditions, customer details and acceptance evidence are not independently verified.",
     },
@@ -479,7 +475,7 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Production-line embedded charger test system",
-      href: "https://www.saiter.cn/case_detail/14.html",
+      image: { src: "/assets/library/case-14-system.png", alt: "Assembly-line test stations pictured in the production-testing source material", width: 1000, height: 626 },
       summary: "SAITER describes embedding charger checks within a manufacturing line and linking records to batches or serial numbers. The article discusses traceability and integration concepts but does not report a measured cycle time, accuracy or acceptance outcome.",
       scopeNote: "Supplier-published case, not an APEX delivery. Automation, AI and data-system claims are not independently verified production capabilities.",
     },
@@ -501,7 +497,6 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Electric vehicle interoperability test system",
-      href: "https://www.saiter.cn/case_detail/15.html",
       summary: "SAITER outlines vehicle-side AC and DC charging sequences and controlled fault simulation for interoperability assessment. The description does not identify a specific customer, protocol revision, installed equipment configuration or executed test results.",
       scopeNote: "Supplier-published application, not an APEX delivery or universal compatibility guarantee. Supported implementations and evidence require separate confirmation.",
     },
@@ -523,7 +518,6 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Electric vehicle communication protocol consistency testing",
-      href: "https://www.saiter.cn/case_detail/16.html",
       summary: "SAITER discusses checking charging-message formats, instruction handling and error responses for vehicle communication. The unnamed-customer article describes testing aims without publishing a protocol edition, case list, verdict rules or execution records.",
       scopeNote: "Supplier-published case, not an APEX delivery or proven reliability outcome. Protocol scope and actual results are not independently verified.",
     },
@@ -545,7 +539,6 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Automated full-function DC charging production-line testing",
-      href: "https://www.saiter.cn/case_detail/17.html",
       summary: "SAITER describes automated DC charger production checks involving voltage, current, power and report generation. The unnamed-customer page does not specify a delivered station configuration, measured line throughput or quantitative improvement supported by execution records.",
       scopeNote: "Supplier-published case, not an APEX delivery. Automatic adjustment, throughput and integration scope require independent configuration and outcome confirmation.",
     },
@@ -567,7 +560,6 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Customized DC supercharging test system for an unnamed enterprise",
-      href: "https://www.saiter.cn/case_detail/18.html",
       summary: "SAITER introduces a customized supercharging test arrangement associated with an unnamed Changshu enterprise, mentioning instruments, controllers, power equipment and analysis software. The description does not establish its actual topology, rated duty or measured results.",
       scopeNote: "Supplier-published case, not an APEX delivery or claimed power capability. Equipment ratings, operating conditions and acceptance evidence are not independently verified.",
     },

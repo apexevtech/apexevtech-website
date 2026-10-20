@@ -2,6 +2,8 @@
 
 Date: 2026-10-20
 
+This records the initial source-linked release. The later removal of public source links and addition of authorized local images is recorded in [on-site source media verification](./2026-10-20-on-site-source-media.md).
+
 ## Content
 
 The user requested direct references to SAITER solution and engineering materials inside the existing APEX Library and Resources, with page switching rather than one continuous list.

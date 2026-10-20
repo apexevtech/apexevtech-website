@@ -1,3 +1,5 @@
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   applicationScenarioCategories,
@@ -71,7 +73,26 @@ describe("APEX technical planning library", () => {
     }
   });
 
-  it("cites each of the six solution pages and eighteen project pages exactly once", () => {
+  it("retains twenty-four distinct source summaries without outbound source URLs", () => {
+    expect(new Set(allEntries.map((entry) => entry.source.title)).size).toBe(24);
+    expect(JSON.stringify(allEntries.map((entry) => entry.source))).not.toMatch(/https?:|saiter\.cn/i);
+    for (const { source } of allEntries) {
+      expect(source).not.toHaveProperty("href");
+      expect(source.publisher).toBe("SAITER");
+      expect(source.title.length).toBeGreaterThan(10);
+      expect(source.summary.trim().split(/\s+/).length).toBeGreaterThanOrEqual(25);
+      expect(source.summary.trim().split(/\s+/).length).toBeLessThanOrEqual(45);
+      expect(source.scopeNote).toMatch(/APEX/);
+      expect(source.scopeNote).toMatch(/not|does not/);
+      expect(Object.keys(source).filter((key) => key !== "image").sort()).toEqual(["publisher", "scopeNote", "summary", "title"]);
+    }
+  });
+
+  it("keeps source URLs in the internal research archive rather than the public data module", () => {
+    const researchArchive = JSON.parse(readFileSync(
+      join(process.cwd(), "docs/operations/saiter-solutions-project-reference-2026-10-20.json"),
+      "utf8",
+    )) as { solutions: { source_url: string }[]; cases: { source_url: string }[] };
     const solutionPaths = [
       "/jjfn_1/1689151344388562944.html",
       "/jjfn_1/2.html",
@@ -80,20 +101,39 @@ describe("APEX technical planning library", () => {
       "/jjfn_1/5.html",
       "/jjfn_1/6.html",
     ];
-    expect(solutionBriefs.map((entry) => new URL(entry.source.href).pathname)).toEqual(solutionPaths);
-    expect(applicationScenarios.map((entry) => new URL(entry.source.href).pathname)).toEqual(
+    expect(researchArchive.solutions.map((entry) => new URL(entry.source_url).pathname)).toEqual(solutionPaths);
+    expect(researchArchive.cases.map((entry) => new URL(entry.source_url).pathname)).toEqual(
       Array.from({ length: 18 }, (_, index) => `/case_detail/${index + 1}.html`),
     );
-    expect(new Set(allEntries.map((entry) => entry.source.href)).size).toBe(24);
+    const archivedEntries = [...researchArchive.solutions, ...researchArchive.cases];
+    expect(new Set(archivedEntries.map((entry) => entry.source_url)).size).toBe(24);
+    for (const entry of archivedEntries) {
+      expect(new URL(entry.source_url).origin).toBe("https://www.saiter.cn");
+    }
+    const publicModule = readFileSync(join(process.cwd(), "data/technical-library.ts"), "utf8");
+    expect(publicModule).not.toMatch(/https?:|saiter\.cn|docs\/operations|\.json["']/i);
+  });
+
+  it("only publishes source images from the local library asset directory", async () => {
+    const { default: sharp } = await import("sharp");
+    expect(allEntries.filter((entry) => entry.source.image).map((entry) => entry.id)).toEqual([
+      "evse-laboratory-planning", "vehicle-charger-interaction-planning", "pv-storage-integration-planning",
+      "battery-power-interface-planning", "field-diagnostics-planning", "custom-test-integration-planning",
+      "ccs2-laboratory-scope", "ac-dc-measurement-station", "embedded-end-of-line-planning",
+    ]);
     for (const { source } of allEntries) {
-      expect(new URL(source.href).origin).toBe("https://www.saiter.cn");
-      expect(source.publisher).toBe("SAITER");
-      expect(source.title.length).toBeGreaterThan(10);
-      expect(source.summary.trim().split(/\s+/).length).toBeGreaterThanOrEqual(25);
-      expect(source.summary.trim().split(/\s+/).length).toBeLessThanOrEqual(45);
-      expect(source.scopeNote).toMatch(/APEX/);
-      expect(source.scopeNote).toMatch(/not|does not/);
-      expect(Object.keys(source).sort()).toEqual(["href", "publisher", "scopeNote", "summary", "title"]);
+      if (!source.image) continue;
+      expect(source.image.src).toMatch(/^\/assets\/library\/[a-z0-9-]+\.(webp|png|jpg|jpeg)$/);
+      expect(source.image.src).not.toMatch(/https?:|\/\//i);
+      expect(existsSync(join(process.cwd(), "public", source.image.src))).toBe(true);
+      expect(source.image.alt.trim().length).toBeGreaterThan(10);
+      expect(Number.isInteger(source.image.width)).toBe(true);
+      expect(Number.isInteger(source.image.height)).toBe(true);
+      expect(source.image.width).toBeGreaterThan(0);
+      expect(source.image.height).toBeGreaterThan(0);
+      const metadata = await sharp(join(process.cwd(), "public", source.image.src)).metadata();
+      expect(metadata.width).toBe(source.image.width);
+      expect(metadata.height).toBe(source.image.height);
     }
   });
 

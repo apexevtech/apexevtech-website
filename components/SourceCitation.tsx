@@ -1,12 +1,20 @@
-import { ExternalLink } from "lucide-react";
+import Image from "next/image";
 import type { TechnicalLibrarySource } from "@/data/technical-library";
 
 export function SourceCitation({ source, compact = false, headingLevel }: { source: TechnicalLibrarySource; compact?: boolean; headingLevel?: "h2" | "h3" }) {
   const Heading = headingLevel || "p";
   return <aside aria-label="Source reference" className={`${compact ? "mt-3" : "mt-5 border-l-2 border-[#00a6c7] pl-4"} min-w-0 text-sm`}>
-    <p className="text-xs font-bold uppercase text-[#15803d]">Source: {source.publisher}</p>
-    <Heading className={headingLevel ? "text-xl font-black leading-7" : undefined}><a href={source.href} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex min-h-11 max-w-full items-center gap-2 break-words font-bold text-[#1268a8] underline underline-offset-4"><span className="min-w-0">{source.title}</span><ExternalLink size={15} className="shrink-0" aria-hidden="true" /><span className="sr-only"> (opens in a new tab)</span></a></Heading>
-    <p className="mt-1 leading-6 text-[#526b7d]">{source.summary}</p>
-    <p className="mt-2 text-xs leading-5 text-[#526b7d]">{source.scopeNote}</p>
+    <div className={source.image ? `grid gap-4 ${compact ? "" : "lg:grid-cols-[minmax(0,1fr)_240px]"}` : undefined}>
+      <div className="min-w-0">
+        <p className="text-xs font-bold uppercase text-[#15803d]">Source: {source.publisher}</p>
+        <Heading className={`mt-2 break-words font-bold text-[#12263a] ${headingLevel ? "text-xl leading-7" : "text-base leading-6"}`}>{source.title}</Heading>
+        <p className="mt-2 leading-6 text-[#526b7d]">{source.summary}</p>
+        <p className="mt-2 text-xs leading-5 text-[#526b7d]">{source.scopeNote}</p>
+      </div>
+      {source.image ? <figure className={`min-w-0 order-first ${compact ? "" : "lg:order-last"}`}>
+        <div className="aspect-[16/9] overflow-hidden rounded-md border border-slate-200 bg-white"><Image src={source.image.src} alt={source.image.alt} width={source.image.width} height={source.image.height} sizes={compact ? "(min-width: 1280px) 592px, (min-width: 768px) 45vw, calc(100vw - 40px)" : "(min-width: 1024px) 240px, calc(100vw - 60px)"} className="h-full w-full object-contain" /></div>
+        <figcaption className="mt-1 text-xs leading-5 text-[#526b7d]">Source reference image</figcaption>
+      </figure> : null}
+    </div>
   </aside>;
 }
