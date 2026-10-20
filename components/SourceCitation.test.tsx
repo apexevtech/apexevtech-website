@@ -11,7 +11,8 @@ describe("on-site source material display", () => {
     for (const { source } of entries) {
       const html = renderToStaticMarkup(createElement(SourceCitation, { source, headingLevel: "h3" }));
       expect(html).toContain(source.title.replaceAll("&", "&amp;"));
-      expect(html).toContain("Source: ");
+      expect(html).toContain('aria-label="Material details"');
+      expect(html).not.toMatch(/Source:|Source reference image|aria-label="Source reference"/i);
       expect(html).not.toMatch(/<a\b|target=|saiter\.cn|opens in a new tab|lucide-external-link/i);
     }
   });
@@ -28,7 +29,7 @@ describe("on-site source material display", () => {
       expect(html).toContain(source.image!.alt);
       expect(html).toContain("%2Fassets%2Flibrary%2F");
       expect(html).not.toMatch(/<a\b|https?:\/\/|saiter\.cn/i);
-      expect(html).toContain("Source reference image");
+      expect(html).not.toMatch(/<figcaption\b|Source reference image/i);
     }
   });
 });

@@ -65,7 +65,7 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "EV charger testing",
-      image: { src: "/assets/library/solution-evse.jpg", alt: "AC charging station shown in the charger-testing source illustration", width: 617, height: 399 },
+      image: { src: "/assets/library/solution-evse.jpg", alt: "AC charging stations with connected charging cables", width: 617, height: 399 },
       summary: "SAITER describes a simulated laboratory setting for investigating charger functions, vehicle interaction and abnormal conditions. The page outlines topics rather than publishing a reproducible test procedure or a complete results record.",
       scopeNote: "Third-party overview, not evidence of an APEX delivery. Equipment configuration, standards editions and raw results are not provided.",
     },
@@ -109,7 +109,7 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Photovoltaic and energy storage testing",
-      image: { src: "/assets/library/solution-pv-storage.webp", alt: "Photovoltaic panel array used to illustrate the energy-storage source topic", width: 1920, height: 960 },
+      image: { src: "/assets/library/solution-pv-storage.webp", alt: "Photovoltaic panel array", width: 1920, height: 960 },
       summary: "SAITER introduces the relationship between photovoltaic generation and battery storage, including storing energy for later use. The page discusses the integration topic without documenting a specific test system, project configuration or measured performance.",
       scopeNote: "Third-party overview, not evidence of an APEX delivery. No quantified efficiency result or defined test conditions are available.",
     },
@@ -131,7 +131,7 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Battery testing",
-      image: { src: "/assets/library/solution-battery.jpg", alt: "Battery pack illustration supplied with the battery-testing source topic", width: 1920, height: 960 },
+      image: { src: "/assets/library/solution-battery.jpg", alt: "Illustration of an open battery pack", width: 1920, height: 960 },
       summary: "SAITER outlines battery assessment topics such as repeated charging cycles, environmental exposure and charging speed. Its general comparisons do not identify battery samples, cycling conditions, evaluation methods or an underlying data report.",
       scopeNote: "Third-party topic reference, not an APEX battery-test offering or delivery record. The APEX brief remains limited to charger-project interfaces.",
     },
@@ -153,7 +153,7 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Operations and maintenance inspection",
-      image: { src: "/assets/library/solution-maintenance.jpg", alt: "A charging connector held beside a vehicle in the maintenance source illustration", width: 1920, height: 960 },
+      image: { src: "/assets/library/solution-maintenance.jpg", alt: "A charging connector held beside an electric vehicle", width: 1920, height: 960 },
       summary: "SAITER lists operations and maintenance inspection as a solution category. The readable article concerns internet-platform security, vulnerability scanning and penetration testing rather than a defined charger field-diagnostics method.",
       scopeNote: "Category reference only: the source body has a topic mismatch and does not substantiate the APEX charger workflow or a delivery.",
     },
@@ -175,7 +175,7 @@ export const solutionBriefs: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Other testing categories",
-      image: { src: "/assets/library/solution-other.jpg", alt: "Electrical substation used as the other-testing source illustration", width: 1920, height: 960 },
+      image: { src: "/assets/library/solution-other.jpg", alt: "Electrical substation equipment", width: 1920, height: 960 },
       summary: "SAITER includes an other-testing category alongside its main solution topics. The article combines a general charger introduction with internet-security testing language, without defining a custom charger-test system or integration boundary.",
       scopeNote: "Category reference only: the source body has a topic mismatch and does not substantiate APEX custom functions or a delivery.",
     },
@@ -200,7 +200,7 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "CCS charger test system application",
-      image: { src: "/assets/library/case-1-system.png", alt: "Charging-test cabinets pictured in the CCS application source material", width: 865, height: 548 },
+      image: { src: "/assets/library/case-1-system.png", alt: "Multiple charging-test cabinets", width: 865, height: 548 },
       summary: "SAITER presents CCS charger laboratory testing as an application, discussing supply behavior, charging power, communication and protective functions. The article describes simulated operating conditions without identifying a customer, equipment configuration or retained measurement records.",
       scopeNote: "Supplier-published case, not evidence of an APEX delivery. No independently verified project result or complete setup is supplied.",
     },
@@ -475,7 +475,7 @@ export const applicationScenarios: TechnicalLibraryEntry[] = [
     source: {
       publisher: "SAITER",
       title: "Production-line embedded charger test system",
-      image: { src: "/assets/library/case-14-system.png", alt: "Assembly-line test stations pictured in the production-testing source material", width: 1000, height: 626 },
+      image: { src: "/assets/library/case-14-system.png", alt: "Test stations arranged along an assembly line", width: 1000, height: 626 },
       summary: "SAITER describes embedding charger checks within a manufacturing line and linking records to batches or serial numbers. The article discusses traceability and integration concepts but does not report a measured cycle time, accuracy or acceptance outcome.",
       scopeNote: "Supplier-published case, not an APEX delivery. Automation, AI and data-system claims are not independently verified production capabilities.",
     },

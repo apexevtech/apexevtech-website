@@ -24,7 +24,7 @@ export default async function ResourcesPage({ searchParams }: ResourcesPageProps
       <div className="mx-auto max-w-7xl">
         <p className="text-sm font-bold text-[#1268a8]"><Link href="/" className="hover:underline">Home</Link><span className="mx-2 text-slate-400">/</span>Resources</p>
         <h1 className="mt-4 text-2xl font-black leading-tight text-[#12263a] sm:text-4xl">EV charger testing resources</h1>
-        <p className="mt-3 max-w-3xl leading-7 text-[#526b7d]">APEX testing guides and cited SAITER solution materials.</p>
+        <p className="mt-3 max-w-3xl leading-7 text-[#526b7d]">Technical guides and solution briefs for EV charger testing.</p>
         <details className="mt-4 border-t border-slate-200 pt-2 sm:hidden"><summary className="min-h-11 cursor-pointer py-2.5 text-sm font-bold text-[#1268a8]">Charging interfaces</summary><nav aria-label="Charging interfaces" className="flex flex-wrap gap-x-5 gap-y-1">{interfaceTopics.map((topic) => <Link key={topic.slug} href={`/interfaces/${topic.slug}`} className="inline-flex min-h-11 items-center text-sm font-bold text-[#1268a8] underline underline-offset-4">{topic.name}</Link>)}</nav></details>
         <nav aria-label="Charging interfaces" className="mt-5 hidden flex-wrap items-center gap-x-5 gap-y-2 border-t border-slate-200 pt-3 sm:flex">
           <span className="text-xs font-bold uppercase text-[#526b7d]">Interfaces</span>

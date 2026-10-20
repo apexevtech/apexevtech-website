@@ -23,3 +23,9 @@ Remove every public link to SAITER while retaining source content and pictures i
 - Local production-build audit passed for 54 sitemap pages, 113 internal targets and 12 noindex downloads. No broken links, orphan pages, duplicate root metadata, canonical, H1 or alt errors were found.
 
 No live inquiry was submitted or optional analytics accepted during QA.
+
+## Label follow-up
+
+At the user's request, the visible publisher badge, image source caption and source-focused page introductions were removed. The Resources material-type label is now `Solutions`; its existing `type=sources` deep link is preserved. Accessibility labels and image alt text describe the material rather than its origin. Factual third-party attribution inside the summaries and the distinction from APEX delivery evidence were not rewritten as APEX project claims.
+
+The same 161 tests, ESLint and production build passed. An isolated browser checked Resources solution filtering and Library pages one and four, confirming the removed labels, retained local images, no outbound source anchors and no horizontal overflow at 390 and 1440 pixels.

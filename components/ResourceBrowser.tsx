@@ -17,7 +17,7 @@ import { getCatalogMetadataState, resourceIndexTitle } from "@/lib/seo/catalog-m
 const materialTypes: Array<{ value: ResourceBrowserFilters["type"]; label: string }> = [
   { value: "all", label: "All materials" },
   { value: "guides", label: "APEX guides" },
-  { value: "sources", label: "Source materials" },
+  { value: "sources", label: "Solutions" },
 ];
 
 export function ResourceBrowser({ initialFilters }: { initialFilters: ResourceBrowserFilters }) {
@@ -66,7 +66,7 @@ export function ResourceBrowser({ initialFilters }: { initialFilters: ResourceBr
           </label>)}
         </fieldset>
         <div className="mt-4 grid gap-4 sm:grid-cols-[minmax(0,1fr)_minmax(220px,320px)]">
-          <label className="grid min-w-0 gap-2 text-sm font-bold text-[#385064]">Search materials<input type="search" value={filters.query} maxLength={120} onChange={(event) => updateFilters({ query: event.target.value }, true)} placeholder="Interface, workflow or source" className="min-h-12 w-full min-w-0 rounded-md border border-slate-300 bg-white px-3 font-normal outline-none focus:border-[#1479c9] focus:ring-1 focus:ring-[#1479c9]" /></label>
+          <label className="grid min-w-0 gap-2 text-sm font-bold text-[#385064]">Search materials<input type="search" value={filters.query} maxLength={120} onChange={(event) => updateFilters({ query: event.target.value }, true)} placeholder="Interface, workflow or topic" className="min-h-12 w-full min-w-0 rounded-md border border-slate-300 bg-white px-3 font-normal outline-none focus:border-[#1479c9] focus:ring-1 focus:ring-[#1479c9]" /></label>
           <label className="grid min-w-0 gap-2 text-sm font-bold text-[#385064]">Category<select value={filters.category} onChange={(event) => updateFilters({ category: event.target.value })} className="min-h-12 w-full min-w-0 rounded-md border border-slate-300 bg-white px-3 font-normal outline-none focus:border-[#1479c9] focus:ring-1 focus:ring-[#1479c9]"><option value="all">All categories</option>{getResourceBrowserCategories(filters.type).map((category) => <option key={category.id} value={category.id}>{category.label}</option>)}</select></label>
         </div>
         <div className="mt-3 flex min-h-11 flex-wrap items-center justify-between gap-3">
