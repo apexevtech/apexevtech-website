@@ -28,12 +28,12 @@ describe("sitemap", () => {
     expect(entries.find((entry) => entry.url === `${siteUrl}/products`)?.lastModified)
       .toEqual(new Date("2026-10-08T00:00:00.000Z"));
     expect(entries.some((entry) => entry.url === `${siteUrl}/library`)).toBe(false);
-    expect(entries.find((entry) => entry.url === `${siteUrl}/resources`)?.lastModified)
-      .toEqual(new Date("2026-10-20T00:00:00.000Z"));
+    expect(entries.some((entry) => entry.url === `${siteUrl}/resources`)).toBe(false);
     expect(entries.find((entry) => entry.url === `${siteUrl}/solutions`)?.lastModified)
       .toEqual(new Date("2026-10-20T00:00:00.000Z"));
-    expect(entries.find((entry) => entry.url === `${siteUrl}/engineering-cases`)?.lastModified)
+    expect(entries.find((entry) => entry.url === `${siteUrl}/project-cases`)?.lastModified)
       .toEqual(new Date("2026-10-21T00:00:00.000Z"));
+    expect(entries.some((entry) => entry.url === `${siteUrl}/engineering-cases`)).toBe(false);
     expect(entries.some((entry) => entry.url === `${siteUrl}/applications`)).toBe(false);
     for (const route of ["/privacy-policy"]) {
       expect(entries.find((entry) => entry.url === `${siteUrl}${route}`)?.lastModified)
@@ -49,15 +49,15 @@ describe("sitemap", () => {
     const urls = sitemap().map((entry) => entry.url);
     const paths = [...navItems.map((item) => item.href), "/interfaces", ...products.map((item) => `/products/${item.slug}`), ...resources.map((item) => `/resources/${item.slug}`), ...applicationExamples.map((item) => `/applications/${item.slug}`), ...interfaceTopics.map((item) => `/interfaces/${item.slug}`)];
     for (const path of paths) expect(urls).toContain(new URL(path, siteUrl).toString().replace(/\/$/, ""));
-    const index = sitemap().find((entry) => entry.url === `${siteUrl}/resources`);
-    expect(index?.lastModified).toEqual(new Date("2026-10-20T00:00:00.000Z"));
+    const index = sitemap().find((entry) => entry.url === `${siteUrl}/project-cases`);
+    expect(index?.lastModified).toEqual(new Date("2026-10-21T00:00:00.000Z"));
   });
 
   it("publishes crawlable product and application images", () => {
     const entries = sitemap();
     expect(entries.find((entry) => entry.url === `${siteUrl}/solutions`)?.images)
       .toEqual(applicationExamples.map((application) => new URL(application.image, siteUrl).toString()));
-    const engineeringCaseImages = entries.find((entry) => entry.url === `${siteUrl}/engineering-cases`)?.images;
+    const engineeringCaseImages = entries.find((entry) => entry.url === `${siteUrl}/project-cases`)?.images;
     expect(engineeringCaseImages).toHaveLength(6);
     expect(new Set(engineeringCaseImages).size).toBe(6);
     expect(engineeringCaseImages)

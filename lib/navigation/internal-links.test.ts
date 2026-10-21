@@ -5,9 +5,10 @@ import { navItems } from "@/data/site";
 import { resources } from "@/lib/resources/catalog";
 
 describe("internal navigation", () => {
-  it("exposes an independent engineering case interface", () => {
-    expect(navItems.filter((item) => item.href === "/engineering-cases"))
-      .toEqual([{ label: "Engineering Cases", href: "/engineering-cases" }]);
+  it("combines engineering cases and resources in one Project Cases interface", () => {
+    expect(navItems.filter((item) => item.href === "/project-cases"))
+      .toEqual([{ label: "Project Cases", href: "/project-cases" }]);
+    expect(navItems.some((item) => item.href === "/engineering-cases" || item.href === "/resources")).toBe(false);
   });
 
   it("uses one Solutions entry for solution and application workflows", () => {
@@ -15,9 +16,8 @@ describe("internal navigation", () => {
     expect(navItems.some((item) => item.href.startsWith("/applications"))).toBe(false);
   });
 
-  it("exposes Resources and keeps records connected", () => {
-    expect(navItems).toContainEqual({ label: "Resources", href: "/resources" });
-    expect(navItems.filter((item) => item.href === "/resources")).toHaveLength(1);
+  it("keeps resource records connected under Project Cases", () => {
+    expect(navItems).toContainEqual({ label: "Project Cases", href: "/project-cases" });
     expect(navItems.some((item) => item.href === "/library")).toBe(false);
     for (const resource of resources) {
       expect(resource.relatedProductSlugs.length).toBeGreaterThan(0);

@@ -10,9 +10,9 @@ import { Pagination } from "@/components/Pagination";
 import { QueryStateSync } from "@/components/QueryStateSync";
 import { StructuredData } from "@/components/StructuredData";
 import { engineeringCaseCategories, engineeringCases } from "@/data/engineering-cases";
-import { defaultEngineeringCaseFilters, engineeringCaseIndexTitle, getEngineeringCasePage, parseEngineeringCaseFilters, serializeEngineeringCaseFilters, type EngineeringCaseFilters } from "@/lib/engineering-cases/filter";
+import { defaultEngineeringCaseFilters, getEngineeringCasePage, parseEngineeringCaseFilters, serializeEngineeringCaseFilters, type EngineeringCaseFilters } from "@/lib/engineering-cases/filter";
 import { buildPageHref } from "@/lib/navigation/pagination";
-import { getCatalogMetadataState } from "@/lib/seo/catalog-metadata";
+import { getCatalogMetadataState, projectCasesIndexTitle } from "@/lib/seo/catalog-metadata";
 import { siteUrl } from "@/lib/seo/site-urls";
 
 const categories = engineeringCaseCategories.map((category) => ({ ...category, count: engineeringCases.filter((entry) => entry.categoryId === category.id).length }));
@@ -20,6 +20,7 @@ const categories = engineeringCaseCategories.map((category) => ({ ...category, c
 export function EngineeringCaseBrowser({ initialFilters }: { initialFilters: EngineeringCaseFilters }) {
   const [filters, setFilters] = useState(initialFilters);
   const syncFilters = useCallback((params: URLSearchParams) => {
+    if (params.get("section") === "resources") return;
     const parsed = parseEngineeringCaseFilters(params);
     setFilters((current) => current.category === parsed.category && current.page === parsed.page && current.query.trim() === parsed.query
       ? { ...parsed, query: current.query }
@@ -51,30 +52,30 @@ export function EngineeringCaseBrowser({ initialFilters }: { initialFilters: Eng
   const page = getEngineeringCasePage(filters);
   const hasFilters = filters.category !== "all" || Boolean(filters.query);
   const params = serializeEngineeringCaseFilters(filters);
-  const pageHref = buildPageHref("/engineering-cases", params, page.page, "engineering-case-results");
+  const pageHref = buildPageHref("/project-cases", params, page.page, "engineering-case-results");
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: engineeringCaseIndexTitle,
+    name: projectCasesIndexTitle,
     url: new URL(pageHref, siteUrl).href,
     numberOfItems: page.items.length,
     itemListElement: page.items.map((entry, index) => ({
       "@type": "ListItem",
       position: index + 1,
       name: entry.title,
-      url: new URL(buildPageHref("/engineering-cases", params, page.page, entry.slug), siteUrl).href,
+      url: new URL(buildPageHref("/project-cases", params, page.page, entry.slug), siteUrl).href,
     })),
   };
 
   return <section className="bg-white" aria-label="Engineering case references">
     <QueryStateSync onChange={syncFilters} />
-    <CatalogMetadataSync {...getCatalogMetadataState("/engineering-cases", engineeringCaseIndexTitle, page.page, hasFilters)} />
+    <CatalogMetadataSync {...getCatalogMetadataState("/project-cases", projectCasesIndexTitle, page.page, hasFilters)} />
     <StructuredData data={structuredData} />
     <CatalogControls className="bg-[#f3f4f5] px-6 lg:px-11">
       <div className="mx-auto flex min-h-[72px] max-w-[1448px] items-center justify-between gap-3 sm:gap-5">
         <nav aria-label="Breadcrumb" className="flex shrink-0 items-center gap-2 text-xs leading-5 text-[#64737e]">
           <Link href="/" title="Home" className="flex min-h-11 min-w-8 items-center hover:text-[#1268a8]"><Home size={16} strokeWidth={1.5} aria-hidden="true" /><span className="sr-only">Home</span></Link>
-          <ChevronRight size={12} aria-hidden="true" /><span aria-current="page" className="hidden sm:inline">Engineering cases</span>
+          <ChevronRight size={12} aria-hidden="true" /><span aria-current="page" className="hidden sm:inline">Engineering references</span>
         </nav>
         <label className="flex min-w-0 items-center gap-3 text-sm text-[#526b7d] xl:hidden">
           <span className="sr-only">Engineering case category</span>
@@ -104,7 +105,7 @@ export function EngineeringCaseBrowser({ initialFilters }: { initialFilters: Eng
         <h2 className="sr-only">Engineering reference results</h2>
         {page.totalItems ? <div className="grid items-start gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-14">{page.items.map((entry) => <EngineeringCaseCard key={entry.id} entry={entry} />)}</div> : <div className="py-14 text-center"><h3 className="text-xl font-bold text-[#12263a]">No matching references</h3><p className="mt-3 text-sm text-[#526b7d]">No engineering reference matches this search and category.</p><button type="button" onClick={() => updateFilters(defaultEngineeringCaseFilters)} className="mt-4 min-h-11 text-sm font-bold text-[#1268a8] underline underline-offset-4">Reset filters</button></div>}
       </div>
-      <div className="mt-10 [&_nav]:border-0 [&_nav]:pb-0 [&_nav]:pt-2 [&_nav>a]:rounded-none [&_nav>span]:rounded-none"><Pagination page={page.page} totalPages={page.totalPages} hrefForPage={(number) => buildPageHref("/engineering-cases", params, number, "engineering-case-results")} /></div>
+      <div className="mt-10 [&_nav]:border-0 [&_nav]:pb-0 [&_nav]:pt-2 [&_nav>a]:rounded-none [&_nav>span]:rounded-none"><Pagination page={page.page} totalPages={page.totalPages} hrefForPage={(number) => buildPageHref("/project-cases", params, number, "engineering-case-results")} /></div>
     </div>
   </section>;
 }

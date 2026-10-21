@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Header } from "./Header";
 import { company, navItems } from "@/data/site";
 
-const navigation = vi.hoisted(() => ({ pathname: "/resources" }));
+const navigation = vi.hoisted(() => ({ pathname: "/project-cases" }));
 
 vi.mock("next/navigation", () => ({
   usePathname: () => navigation.pathname,
@@ -16,10 +16,10 @@ function navigationAttributes(html: string, label: string) {
 
 describe("main navigation emphasis", () => {
   beforeEach(() => {
-    navigation.pathname = "/resources";
+    navigation.pathname = "/project-cases";
   });
 
-  it("keeps the original brand, destinations, inquiry action and header height", () => {
+  it("keeps the original brand, inquiry action and header height with one combined project entry", () => {
     const html = renderToStaticMarkup(createElement(Header));
     expect(html).toContain('aria-label="Main navigation"');
     expect(html).toContain(`aria-label="${company.name} home"`);
@@ -33,23 +33,30 @@ describe("main navigation emphasis", () => {
     expect(html).toContain("Talk to an engineer");
     expect(html).toContain("2xl:max-w-[1440px]");
     expect(html).toContain("shrink-0 items-center gap-4");
+    expect(navItems.filter((item) => item.href === "/project-cases")).toEqual([{ label: "Project Cases", href: "/project-cases" }]);
+    expect(html).not.toContain('href="/resources"');
+    expect(html).not.toContain('href="/engineering-cases"');
   });
 
   it("makes the current page distinct without reducing inactive text contrast", () => {
     const html = renderToStaticMarkup(createElement(Header));
-    const active = navigationAttributes(html, "Resources");
+    const active = navigationAttributes(html, "Project Cases");
     expect(active).toContain('aria-current="page"');
     for (const style of ["text-base", "font-bold", "2xl:text-lg", "text-[#1268a8]", "decoration-[3px]", "underline-offset-8"]) {
       expect(active).toContain(style);
     }
-    const inactive = navigationAttributes(html, "Engineering Cases");
+    const inactive = navigationAttributes(html, "Solutions");
     expect(inactive).toContain("text-[#12263a]");
     expect(inactive).not.toContain("underline");
   });
 
   it.each([
-    ["/resources/ccs2-testing-guide", "Resources"],
-    ["/engineering-cases/reference", "Engineering Cases"],
+    ["/project-cases", "Project Cases"],
+    ["/resources/ccs2-testing-guide", "Project Cases"],
+    ["/resources", "Project Cases"],
+    ["/engineering-cases/reference", "Project Cases"],
+    ["/engineering-cases", "Project Cases"],
+    ["/library", "Project Cases"],
     ["/products/st-hcdc-hpc", "Products"],
     ["/applications/ccs2-lab", "Solutions"],
     ["/solutions/evse-lab", "Solutions"],

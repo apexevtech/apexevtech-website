@@ -1,6 +1,6 @@
 import type { Resource } from "@/data/resources";
 
-export function buildResourceIndexStructuredData(resources: Resource[], baseUrl: string, path = "/resources") {
+export function buildResourceIndexStructuredData(resources: Resource[], baseUrl: string, path = "/project-cases?section=resources") {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",

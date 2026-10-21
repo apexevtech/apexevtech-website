@@ -24,7 +24,7 @@ export function buildResourceStructuredData(resource: Resource, baseUrl: string)
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: new URL("/", baseUrl).toString() },
-        { "@type": "ListItem", position: 2, name: "Resources", item: new URL("/resources", baseUrl).toString() },
+        { "@type": "ListItem", position: 2, name: "Project Cases", item: new URL("/project-cases", baseUrl).toString() },
         { "@type": "ListItem", position: 3, name: resource.title, item: url },
       ],
     },

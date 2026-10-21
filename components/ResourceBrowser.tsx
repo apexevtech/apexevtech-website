@@ -26,6 +26,7 @@ const materialTypes = [
 export function ResourceBrowser({ initialFilters }: { initialFilters: ResourceBrowserFilters }) {
   const [filters, setFilters] = useState(initialFilters);
   const syncFilters = useCallback((params: URLSearchParams) => {
+    if (params.get("section") !== "resources") return;
     const parsed = parseResourceBrowserFilters(params);
     setFilters((current) => current.type === parsed.type && current.category === parsed.category && current.page === parsed.page && current.query.trim() === parsed.query
       ? { ...parsed, query: current.query }
@@ -58,8 +59,8 @@ export function ResourceBrowser({ initialFilters }: { initialFilters: ResourceBr
 
   const page = getResourceBrowserPage(filters);
   const hasFilters = filters.type !== "all" || filters.category !== "all" || Boolean(filters.query);
-  const params = serializeResourceBrowserFilters(filters);
-  const pageHref = buildPageHref("/resources", params, page.page, "resource-results");
+  const params = serializeResourceBrowserFilters(filters, new URLSearchParams({ section: "resources" }));
+  const pageHref = buildPageHref("/project-cases", params, page.page, "resource-results");
   const visibleGuides = page.items.flatMap((entry) => entry.kind === "guide" ? [entry.resource] : []);
   const selectedType = filters.type === "materials" ? "all" : filters.type;
   const SelectedTypeIcon = materialTypes.find((type) => type.value === selectedType)?.icon ?? Layers3;
@@ -69,13 +70,13 @@ export function ResourceBrowser({ initialFilters }: { initialFilters: ResourceBr
   return <section className="bg-white" aria-label="Resource materials">
     <QueryStateSync onChange={syncFilters} />
     <ResourceHashNavigation filters={filters} />
-    <CatalogMetadataSync {...getCatalogMetadataState("/resources", resourceIndexTitle, page.page, hasFilters)} />
+    <CatalogMetadataSync {...getCatalogMetadataState("/project-cases?section=resources", resourceIndexTitle, page.page, hasFilters)} />
     <StructuredData data={buildResourceIndexStructuredData(visibleGuides, siteUrl, pageHref)} />
     <CatalogControls className="bg-[#f3f4f5] px-6 lg:px-11">
       <div className="mx-auto flex min-h-[72px] max-w-[1448px] items-center justify-between gap-3 sm:gap-5">
         <nav aria-label="Breadcrumb" className="flex shrink-0 items-center gap-2 text-xs leading-5 text-[#64737e]">
           <Link href="/" title="Home" className="flex min-h-11 min-w-8 items-center hover:text-[#1268a8]"><Home size={16} strokeWidth={1.5} aria-hidden="true" /><span className="sr-only">Home</span></Link>
-          <ChevronRight size={12} aria-hidden="true" /><span aria-current="page" className="hidden sm:inline">Resources</span>
+          <ChevronRight size={12} aria-hidden="true" /><span aria-current="page" className="hidden sm:inline">Technical materials</span>
         </nav>
         <label className="flex min-w-0 items-center gap-2 text-[#1268a8] lg:hidden">
           <span className="sr-only">Material type</span>
@@ -115,7 +116,7 @@ export function ResourceBrowser({ initialFilters }: { initialFilters: ResourceBr
         {page.totalItems ? <div className="grid items-start gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-14">{page.items.map((entry) => <ResourceMaterial key={entry.id} entry={entry} category={getResourceBrowserCategoryLabel(entry.categoryId)} />)}</div>
           : <div className="py-14 text-center"><h3 className="text-xl font-bold text-[#12263a]">No matching materials</h3><p className="mt-3 text-sm text-[#526b7d]">No material matches this search and category.</p><button type="button" onClick={() => updateFilters(defaultResourceBrowserFilters)} className="mt-4 min-h-11 text-sm font-bold text-[#1268a8] underline underline-offset-4">Reset filters</button></div>}
       </div>
-      <div className="mt-10 [&_nav]:border-0 [&_nav]:pb-0 [&_nav]:pt-2 [&_nav>a]:rounded-none [&_nav>span]:rounded-none"><Pagination page={page.page} totalPages={page.totalPages} hrefForPage={(number) => buildPageHref("/resources", params, number, "resource-results")} /></div>
+      <div className="mt-10 [&_nav]:border-0 [&_nav]:pb-0 [&_nav]:pt-2 [&_nav>a]:rounded-none [&_nav>span]:rounded-none"><Pagination page={page.page} totalPages={page.totalPages} hrefForPage={(number) => buildPageHref("/project-cases", params, number, "resource-results")} /></div>
     </div>
   </section>;
 }

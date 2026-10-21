@@ -2,9 +2,11 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { ResourceBrowser } from "./ResourceBrowser";
-import ResourcesPage from "@/app/resources/page";
+import ProjectCasesPage, { generateMetadata } from "@/app/project-cases/page";
 import { defaultResourceBrowserFilters, getResourceBrowserPage } from "@/lib/resources/browser";
 import { resourceGroups } from "@/lib/resources/groups";
+import { getResourceMaterialImage } from "@/lib/resources/images";
+import { resourceIndexTitle } from "@/lib/seo/catalog-metadata";
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ refresh: vi.fn() }),
@@ -102,7 +104,7 @@ describe("resource browser presentation", () => {
     expect(html).toContain("7-12 of 22 materials");
     expect(html).not.toContain('data-material-type="source"');
     expect(html).not.toContain('data-material-type="scenario"');
-    expect(html).toContain("type=guides&amp;page=3#resource-results");
+    expect(html).toContain("/project-cases?section=resources&amp;type=guides&amp;page=3#resource-results");
     expect(structuredData.numberOfItems).toBe(6);
     expect(structuredData.itemListElement.map((item: { name: string }) => item.name)).toEqual(page.items.flatMap((entry) => entry.kind === "guide" ? [entry.resource.title] : []));
   });
@@ -135,7 +137,7 @@ describe("resource browser presentation", () => {
     expect(html).toContain("7-12 of 18 materials");
     expect(html.match(/data-material-type="scenario"/g)).toHaveLength(6);
     expect(html.match(/<img\b/g)).toHaveLength(6);
-    expect(html).toContain("type=scenarios&amp;page=3#resource-results");
+    expect(html).toContain("/project-cases?section=resources&amp;type=scenarios&amp;page=3#resource-results");
     const selected = html.match(/<input[^>]+>/g)!.filter((tag) => tag.includes('checked=""'));
     expect(selected).toHaveLength(1);
     expect(selected[0]).toContain('value="scenarios"');
@@ -169,15 +171,25 @@ describe("resource browser presentation", () => {
     expect(html).not.toContain('aria-label="Pagination"');
   });
 
-  it("renders a compact resource heading without a banner while retaining the illustrated directory", async () => {
-    const html = renderToStaticMarkup(await ResourcesPage({ searchParams: Promise.resolve({}) }));
+  it("renders technical materials beneath the compact project heading and shared collection navigation", async () => {
+    const html = renderToStaticMarkup(await ProjectCasesPage({ searchParams: Promise.resolve({ section: "resources" }) }));
     expect(html.match(/<h1\b/g)).toHaveLength(1);
-    expect(html).toMatch(/<h1\b[^>]*>Resource Center<\/h1>/);
+    expect(html).toMatch(/<h1\b[^>]*>Project Cases<\/h1>/);
     const heading = html.match(/<section\b[^>]*>[\s\S]*?<\/section>/)![0];
     expect(heading).toContain("bg-white");
     expect(heading).not.toMatch(/<img\b|(?:^|\s)(?:\w+:)*(?:h-|min-h-|max-h-|aspect-)|absolute|inset-0/);
-    expect(heading).toContain("Technical guides, solution briefs and application planning for laboratory, production and field testing.");
+    expect(heading).toContain("Engineering references, technical guides and application planning for EV charging test projects.");
+    const collections = html.match(/<nav aria-label="Project case collections"[^>]*>[\s\S]*?<\/nav>/)![0];
+    expect(collections).toContain('href="/project-cases"');
+    expect(collections).toContain("Engineering references</span>");
+    expect(collections).toContain(">18</span>");
+    expect(collections.match(/<a\b[^>]*href="\/project-cases\?section=resources"[^>]*>/)![0]).toContain('aria-current="page"');
+    expect(collections).toContain("Technical materials</span>");
+    expect(collections).toContain(">46</span>");
     expect(html.match(/<img\b/g)).toHaveLength(6);
+    for (const entry of getResourceBrowserPage(defaultResourceBrowserFilters).items) {
+      expect(html).toContain(encodeURIComponent(getResourceMaterialImage(entry).src));
+    }
     expect(html.match(/data-material-type=/g)).toHaveLength(6);
     expect(html.match(/name="resource-type"/g)).toHaveLength(4);
     expect(html).toContain('<legend class="sr-only">Material type</legend>');
@@ -189,15 +201,30 @@ describe("resource browser presentation", () => {
   });
 
   it("keeps all guide links and legacy topic anchors in the collapsed directory", async () => {
-    const html = renderToStaticMarkup(await ResourcesPage({ searchParams: Promise.resolve({}) }));
-    expect(html).toContain("Resource Center");
+    const html = renderToStaticMarkup(await ProjectCasesPage({ searchParams: Promise.resolve({ section: "resources" }) }));
+    expect(html).toContain("Project Cases");
     expect(html).not.toContain('href="/library"');
-    const directory = html.slice(html.indexOf('<details class="group/directory"'));
-    expect(directory).not.toContain('<details class="group/directory" open');
+    const directory = html.slice(html.indexOf('<details class="group/directory'));
+    expect(directory.match(/^<details\b[^>]*>/)![0]).not.toMatch(/\sopen(?:=|\s|>)/);
     expect(directory.match(/href="\/resources\//g)).toHaveLength(22);
     for (const group of resourceGroups) {
       expect(directory).toContain(`id="${group.id}"`);
       for (const guide of group.resources) expect(directory).toContain(`href="/resources/${guide.slug}"`);
     }
+  });
+
+  it("retains the material section in metadata and crawlable pagination", async () => {
+    const pageTwo = await generateMetadata({ searchParams: Promise.resolve({ section: "resources", page: "2" }) });
+    expect(pageTwo.title).toBe(`${resourceIndexTitle} - Page 2`);
+    expect(pageTwo.alternates?.canonical).toBe("/project-cases?section=resources&page=2");
+    const filtered = await generateMetadata({ searchParams: Promise.resolve({ section: "resources", type: "guides", page: "2" }) });
+    expect(filtered.title).toBe(resourceIndexTitle);
+    expect(filtered.alternates?.canonical).toBe("/project-cases?section=resources");
+    const invalid = await generateMetadata({ searchParams: Promise.resolve({ section: "resources", page: "999" }) });
+    expect(invalid.alternates?.canonical).toBe("/project-cases?section=resources&page=8");
+    const html = renderToStaticMarkup(await ProjectCasesPage({ searchParams: Promise.resolve({ section: "resources", page: "2" }) }));
+    expect(html).toContain("7-12 of 46 materials");
+    expect(html).toContain('href="/project-cases?section=resources&amp;page=3#resource-results"');
+    expect(html).not.toContain('href="/resources?page=');
   });
 });

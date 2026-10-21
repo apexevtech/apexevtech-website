@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 const destinations = [
   { href: "/products", title: "Test equipment", description: "Compare AC, DC, portable and integrated EV charger test systems." },
   { href: "/interfaces", title: "Interface guides", description: "Plan testing for CCS2, CHAdeMO, GB/T, NACS, Type 1 and Type 2." },
-  { href: "/resources", title: "Engineering resources", description: "Review equipment selection, protocol, commissioning and validation guides." },
+  { href: "/project-cases?section=resources", title: "Technical resources", description: "Review equipment selection, protocol, commissioning and validation guides." },
 ];
 
 export default function NotFound() {

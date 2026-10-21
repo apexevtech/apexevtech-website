@@ -13,8 +13,9 @@ describe("resource structured data", () => {
     expect(articleData.author).toEqual(articleData.publisher);
     expect(articleData.author.url).toBe("https://example.com/");
     expect(breadcrumbData.itemListElement.map((item) => item.item)).toEqual([
-      "https://example.com/", "https://example.com/resources", url,
+      "https://example.com/", "https://example.com/project-cases", url,
     ]);
+    expect(breadcrumbData.itemListElement[1].name).toBe("Project Cases");
     expect(breadcrumbData.itemListElement.map((item) => item.position)).toEqual([1, 2, 3]);
   });
 });

@@ -1,9 +1,10 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
-import EngineeringCasesPage, { generateMetadata } from "@/app/engineering-cases/page";
+import ProjectCasesPage, { generateMetadata } from "@/app/project-cases/page";
 import { engineeringCaseCategories } from "@/data/engineering-cases";
-import { defaultEngineeringCaseFilters, engineeringCaseIndexTitle, getEngineeringCasePage } from "@/lib/engineering-cases/filter";
+import { defaultEngineeringCaseFilters, getEngineeringCasePage } from "@/lib/engineering-cases/filter";
+import { projectCasesIndexTitle } from "@/lib/seo/catalog-metadata";
 import { EngineeringCaseBrowser } from "./EngineeringCaseBrowser";
 
 vi.mock("next/navigation", () => ({
@@ -54,7 +55,7 @@ describe("engineering case browser", () => {
     const data = JSON.parse(html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/)![1]);
     expect(data.numberOfItems).toBe(6);
     expect(data.itemListElement.map((item: { name: string }) => item.name)).toEqual(page.items.map((entry) => entry.title));
-    expect(data.itemListElement.map((item: { url: string }) => item.url)).toEqual(page.items.map((entry) => `https://www.link-jl.com/engineering-cases?page=2#${entry.slug}`));
+    expect(data.itemListElement.map((item: { url: string }) => item.url)).toEqual(page.items.map((entry) => `https://www.link-jl.com/project-cases?page=2#${entry.slug}`));
     expect(JSON.stringify(data)).not.toMatch(/author|customer|review|rating/);
   });
 
@@ -72,37 +73,43 @@ describe("engineering case browser", () => {
     expect(empty).not.toContain('aria-label="Pagination"');
   });
 
-  it("renders the requested server page with one H1 and an explicit reference boundary", async () => {
-    const html = renderToStaticMarkup(await EngineeringCasesPage({ searchParams: Promise.resolve({ page: "3" }) }));
+  it("renders engineering references beneath a compact shared heading without a banner", async () => {
+    const html = renderToStaticMarkup(await ProjectCasesPage({ searchParams: Promise.resolve({ page: "3" }) }));
     expect(html.match(/<h1\b/g)).toHaveLength(1);
-    expect(html).toMatch(/<h1\b[^>]*>Engineering Cases<\/h1>/);
-    const heroSection = html.match(/<section\b[^>]*>/)![0];
-    expect(heroSection).not.toMatch(/(?:^|\s)(?:\w+:)*(?:h-|min-h-|max-h-|aspect-)/);
-    const hero = html.match(/<section\b[^>]*>([\s\S]*?)<\/section>/)![1];
-    expect(hero).toContain("%2Fassets%2Fengineering-cases%2Fcases-banner.webp");
-    expect(hero).toContain('sizes="100vw"');
-    expect(hero).toContain('width="1587"');
-    expect(hero).toContain('height="895"');
-    expect(hero).toContain('class="block h-auto w-full"');
-    expect(hero).not.toMatch(/data-nimg="fill"|object-cover|object-contain|object-\[/);
+    expect(html).toMatch(/<h1\b[^>]*>Project Cases<\/h1>/);
+    const heading = html.match(/<section\b[^>]*>[\s\S]*?<\/section>/)![0];
+    expect(heading).toContain("bg-white");
+    expect(heading).not.toMatch(/<img\b|(?:^|\s)(?:\w+:)*(?:h-|min-h-|max-h-|aspect-)|absolute|inset-0/);
+    const collections = html.match(/<nav aria-label="Project case collections"[^>]*>[\s\S]*?<\/nav>/)![0];
+    expect(collections.match(/<a\b[^>]*href="\/project-cases"[^>]*>/)![0]).toContain('aria-current="page"');
+    expect(collections).toContain("Engineering references</span>");
+    expect(collections).toContain(">18</span>");
+    expect(collections).toContain('href="/project-cases?section=resources"');
+    expect(collections).toContain("Technical materials</span>");
+    expect(collections).toContain(">46</span>");
+    expect(html.match(/<img\b/g)).toHaveLength(6);
+    for (const entry of getEngineeringCasePage({ ...defaultEngineeringCaseFilters, page: 3 }).items) {
+      expect(html).toContain(encodeURIComponent(entry.image!.src));
+    }
+    expect(html).not.toContain("cases-banner.webp");
     const imagePreloads = html.match(/<link\b[^>]+rel="preload"[^>]*>/g) ?? [];
-    expect(imagePreloads.some((link) => link.includes('as="image"') && link.includes("%2Fassets%2Fengineering-cases%2Fcases-banner.webp"))).toBe(true);
-    expect(hero).toContain("Engineering Cases");
+    expect(imagePreloads.filter((link) => link.includes('as="image"'))).toHaveLength(0);
     expect(html).toContain("Partner-published technical references; not verified APEX delivery records.");
     expect(html).toContain("13-18 of 18 references");
     expect(html).toContain('href="/solutions"');
-    expect(html).toContain('href="/resources"');
+    expect(html).toContain('href="/project-cases?section=resources"');
+    expect(html).not.toContain('class="group/directory');
     expect(html).not.toContain('href="https://www.saiter.cn');
   });
 
   it("self-canonicalizes unfiltered pages while filtered searches canonicalize to the index", async () => {
     const pageTwo = await generateMetadata({ searchParams: Promise.resolve({ page: "2" }) });
-    expect(pageTwo.title).toBe(`${engineeringCaseIndexTitle} - Page 2`);
-    expect(pageTwo.alternates?.canonical).toBe("/engineering-cases?page=2");
+    expect(pageTwo.title).toBe(`${projectCasesIndexTitle} - Page 2`);
+    expect(pageTwo.alternates?.canonical).toBe("/project-cases?page=2");
     const filtered = await generateMetadata({ searchParams: Promise.resolve({ category: engineeringCaseCategories[0].id, page: "2" }) });
-    expect(filtered.title).toBe(engineeringCaseIndexTitle);
-    expect(filtered.alternates?.canonical).toBe("/engineering-cases");
+    expect(filtered.title).toBe(projectCasesIndexTitle);
+    expect(filtered.alternates?.canonical).toBe("/project-cases");
     const invalid = await generateMetadata({ searchParams: Promise.resolve({ page: "999" }) });
-    expect(invalid.alternates?.canonical).toBe("/engineering-cases?page=3");
+    expect(invalid.alternates?.canonical).toBe("/project-cases?page=3");
   });
 });

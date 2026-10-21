@@ -13,9 +13,8 @@ const staticPageUpdates: Record<string, string> = {
   "/about": "2026-09-22T00:00:00.000Z",
   "/contact": "2026-09-22T00:00:00.000Z",
   "/solutions": "2026-10-20T00:00:00.000Z",
-  "/engineering-cases": "2026-10-21T00:00:00.000Z",
+  "/project-cases": "2026-10-21T00:00:00.000Z",
   "/interfaces": "2026-09-22T00:00:00.000Z",
-  "/resources": "2026-10-20T00:00:00.000Z",
   "/privacy-policy": "2026-10-09T00:00:00.000Z",
 };
 const productContentLastModified = "2026-10-08T00:00:00.000Z";
@@ -27,7 +26,7 @@ const staticPageImages: Record<string, string[]> = {
   "": ["/assets/hero/test-lab-systems.webp"],
   "/products": products.map((product) => product.image),
   "/solutions": applicationExamples.map((application) => application.image),
-  "/engineering-cases": getEngineeringCasePage(defaultEngineeringCaseFilters).items.flatMap((entry) => entry.image ? [entry.image.src] : []),
+  "/project-cases": getEngineeringCasePage(defaultEngineeringCaseFilters).items.flatMap((entry) => entry.image ? [entry.image.src] : []),
 };
 
 function absoluteImageUrls(paths: string[] | undefined) {

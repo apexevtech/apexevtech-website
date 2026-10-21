@@ -198,7 +198,7 @@ export default function HomePage() {
             {resources.filter((resource) => ["choose-ev-charger-test-system", "ev-charging-protocol-testing", "post-installation-evse-testing"].includes(resource.slug)).map((resource) => <article key={resource.slug} className="border-t border-slate-300 py-5"><h2 className="font-black text-[#12263a]"><Link href={`/resources/${resource.slug}`} className="hover:text-[#1268a8]">{resource.title}</Link></h2><p className="mt-2 text-sm leading-6 text-[#526b7d]">{resource.description}</p></article>)}
           </div>
           <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3">
-            <Link href="/resources" className="inline-flex rounded-md border border-[#1479c9] px-5 py-3 text-sm font-extrabold text-[#1268a8]">View all resources</Link>
+            <Link href="/project-cases?section=resources" className="inline-flex rounded-md border border-[#1479c9] px-5 py-3 text-sm font-extrabold text-[#1268a8]">View all resources</Link>
             <Link href="/resources/ev-charger-testing-guide" className="text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">EV charger testing guide →</Link>
             <Link href="/resources/dc-fast-charger-testing-guide" className="text-sm font-extrabold text-[#1268a8] hover:text-[#0f5f9f]">DC fast charger testing guide →</Link>
           </div>
