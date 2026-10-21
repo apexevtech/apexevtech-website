@@ -40,6 +40,58 @@ describe("resource browser presentation", () => {
     expect(html).not.toMatch(/saiter\.cn|Source:|Source reference image/);
   });
 
+  it("emphasizes each material type with a larger labeled icon and a distinct selected state", () => {
+    const types = [
+      { value: "all", label: "All materials", count: 46 },
+      { value: "guides", label: "Guides", count: 22 },
+      { value: "sources", label: "Solution briefs", count: 6 },
+      { value: "scenarios", label: "Applications", count: 18 },
+    ] as const;
+
+    for (const selectedType of types) {
+      const html = renderToStaticMarkup(createElement(ResourceBrowser, {
+        initialFilters: { ...defaultResourceBrowserFilters, type: selectedType.value },
+      }));
+      const fieldset = html.match(/<fieldset\b[^>]*>([\s\S]*?)<\/fieldset>/)![1];
+      expect(fieldset).toContain('<legend class="sr-only">Material type</legend>');
+      const labels = [...fieldset.matchAll(/<label\b[^>]*>([\s\S]*?)<\/label>/g)].map((match) => match[1]);
+      expect(labels).toHaveLength(4);
+
+      for (const [index, type] of types.entries()) {
+        const label = labels[index];
+        const input = label.match(/<input\b[^>]*>/)![0];
+        expect(input).toContain('type="radio"');
+        expect(input).toContain('name="resource-type"');
+        expect(input).toContain(`value="${type.value}"`);
+        expect(input.includes('checked=""')).toBe(type.value === selectedType.value);
+        expect(label).toMatch(new RegExp(`<span\\b[^>]*>${type.label}</span>`));
+        expect(label).toContain(`>${type.count}</span>`);
+
+        const emphasis = label.match(/<span\b[^>]*>/)![0];
+        for (const style of ["text-lg", "font-semibold", "border-b-4", "peer-checked:bg-[#e7f1fb]", "peer-focus-visible:outline"]) {
+          expect(emphasis).toContain(style);
+        }
+        const icon = label.match(/<svg\b[^>]*>/)![0];
+        for (const attribute of ['width="24"', 'height="24"', 'stroke-width="2"', 'aria-hidden="true"']) {
+          expect(icon).toContain(attribute);
+        }
+      }
+
+      const mobile = [...html.slice(0, html.indexOf("<fieldset")).matchAll(/<label\b[^>]*>([\s\S]*?)<\/label>/g)].at(-1)![1];
+      expect(mobile).toContain('<span class="sr-only">Material type</span>');
+      expect(mobile).toContain(`<option value="${selectedType.value}" selected="">${selectedType.label} (${selectedType.count})</option>`);
+      const mobileSelect = mobile.match(/<select\b[^>]*>/)![0];
+      expect(mobileSelect).toContain("text-sm");
+      expect(mobileSelect).toContain("font-semibold");
+      const mobileIcon = mobile.match(/<svg\b[^>]*>([\s\S]*?)<\/svg>/)!;
+      for (const attribute of ['width="22"', 'height="22"', 'stroke-width="2"', 'aria-hidden="true"']) {
+        expect(mobileIcon[0]).toContain(attribute);
+      }
+      const selectedIcon = labels[types.indexOf(selectedType)].match(/<svg\b[^>]*>([\s\S]*?)<\/svg>/)![1];
+      expect(mobileIcon[1]).toBe(selectedIcon);
+    }
+  });
+
   it("keeps guide-only pagination and structured data aligned with the visible guide cards", () => {
     const filters = { ...defaultResourceBrowserFilters, type: "guides" as const, page: 2 };
     const html = renderToStaticMarkup(createElement(ResourceBrowser, { initialFilters: filters }));

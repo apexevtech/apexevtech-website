@@ -62,6 +62,7 @@ export function ResourceBrowser({ initialFilters }: { initialFilters: ResourceBr
   const pageHref = buildPageHref("/resources", params, page.page, "resource-results");
   const visibleGuides = page.items.flatMap((entry) => entry.kind === "guide" ? [entry.resource] : []);
   const selectedType = filters.type === "materials" ? "all" : filters.type;
+  const SelectedTypeIcon = materialTypes.find((type) => type.value === selectedType)?.icon ?? Layers3;
   const currentCategories = getResourceBrowserCategories(filters.type);
   const legacyCategory = filters.category !== "all" && !currentCategories.some((category) => category.id === filters.category);
 
@@ -76,9 +77,10 @@ export function ResourceBrowser({ initialFilters }: { initialFilters: ResourceBr
           <Link href="/" title="Home" className="flex min-h-11 min-w-8 items-center hover:text-[#1268a8]"><Home size={16} strokeWidth={1.5} aria-hidden="true" /><span className="sr-only">Home</span></Link>
           <ChevronRight size={12} aria-hidden="true" /><span aria-current="page" className="hidden sm:inline">Resources</span>
         </nav>
-        <label className="flex min-w-0 items-center text-sm text-[#526b7d] lg:hidden">
+        <label className="flex min-w-0 items-center gap-2 text-[#1268a8] lg:hidden">
           <span className="sr-only">Material type</span>
-          <select value={filters.type} onChange={(event) => updateFilters({ type: event.target.value as ResourceBrowserFilters["type"] })} className="min-h-11 min-w-0 max-w-full border-0 bg-transparent py-2 pl-1 pr-6 text-xs font-medium text-[#385064] outline-offset-2 focus-visible:outline-[#1268a8] sm:text-sm">
+          <SelectedTypeIcon size={22} strokeWidth={2} aria-hidden="true" className="shrink-0" />
+          <select value={filters.type} onChange={(event) => updateFilters({ type: event.target.value as ResourceBrowserFilters["type"] })} className="min-h-11 min-w-0 max-w-full border-0 bg-transparent py-2 pl-1 pr-6 text-sm font-semibold text-[#1268a8] outline-offset-2 focus-visible:outline-[#1268a8]">
             {filters.type === "materials" ? <option value="materials">Planning materials (24)</option> : null}
             {materialTypes.map((type) => <option key={type.value} value={type.value}>{type.label} ({type.count})</option>)}
           </select>
@@ -87,7 +89,7 @@ export function ResourceBrowser({ initialFilters }: { initialFilters: ResourceBr
           <legend className="sr-only">Material type</legend>
           {materialTypes.map((type) => <label key={type.value} className="relative min-w-0 cursor-pointer">
             <input type="radio" name="resource-type" value={type.value} checked={selectedType === type.value} onChange={() => updateFilters({ type: type.value })} onClick={() => { if (filters.type === "materials" && type.value === "all") updateFilters({ type: "all" }); }} className="peer sr-only" />
-            <span className="flex h-full min-h-[72px] items-center justify-center gap-2 border-b-2 border-transparent px-4 py-3 text-center text-sm font-medium leading-5 text-[#526b7d] transition-colors hover:text-[#1268a8] peer-checked:border-[#1268a8] peer-checked:text-[#1268a8] peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-[-3px] peer-focus-visible:outline-[#1479c9]"><type.icon size={15} strokeWidth={1.5} aria-hidden="true" className="shrink-0" /><span>{type.label}</span><span aria-hidden="true" className="text-[11px] font-normal tabular-nums text-[#7a8993]">{type.count}</span></span>
+            <span className="flex h-full min-h-[72px] items-center justify-center gap-2 border-b-4 border-transparent px-4 py-3 text-center text-lg font-semibold leading-6 text-[#385064] transition-colors hover:bg-[#eaf0f5] hover:text-[#1268a8] peer-checked:border-[#1268a8] peer-checked:bg-[#e7f1fb] peer-checked:text-[#1268a8] peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-[-3px] peer-focus-visible:outline-[#1479c9]"><type.icon size={24} strokeWidth={2} aria-hidden="true" className="shrink-0" /><span className="whitespace-nowrap">{type.label}</span><span aria-hidden="true" className="text-xs font-medium tabular-nums text-[#64737e]">{type.count}</span></span>
           </label>)}
         </fieldset>
       </div>
