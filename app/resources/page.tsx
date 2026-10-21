@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { ArrowRight, BookOpen, ChevronDown } from "lucide-react";
 import { ResourceBrowser } from "@/components/ResourceBrowser";
 import { searchParamsFromRecord } from "@/lib/navigation/pagination";
 import { parseResourceBrowserFilters } from "@/lib/resources/browser";
 import { resourceGroups } from "@/lib/resources/groups";
-import { resourceBannerImage } from "@/lib/resources/images";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 import Link from "next/link";
 import { interfaceTopics } from "@/data/interface-topics";
@@ -17,20 +15,16 @@ const description = "Technical guides for EV charger test equipment, DC fast cha
 export async function generateMetadata({ searchParams }: ResourcesPageProps): Promise<Metadata> {
   const filters = parseResourceBrowserFilters(searchParamsFromRecord(await searchParams));
   const hasFilters = filters.type !== "all" || filters.category !== "all" || Boolean(filters.query);
-  return buildPageMetadata({ ...getCatalogMetadataState("/resources", resourceIndexTitle, filters.page, hasFilters), description, image: resourceBannerImage.src });
+  return buildPageMetadata({ ...getCatalogMetadataState("/resources", resourceIndexTitle, filters.page, hasFilters), description, image: "/assets/social/resources.png" });
 }
 
 export default async function ResourcesPage({ searchParams }: ResourcesPageProps) {
   const filters = parseResourceBrowserFilters(searchParamsFromRecord(await searchParams));
   return <>
-    <section className="relative isolate bg-white">
-      <Image src={resourceBannerImage.src} alt={resourceBannerImage.alt} width={resourceBannerImage.width} height={resourceBannerImage.height} preload sizes="100vw" className="block h-auto w-full" />
-      <div className="absolute inset-0 bg-black/25" aria-hidden="true" />
-      <div className="absolute inset-0 flex items-center justify-center px-5 text-center">
-        <div className="max-w-3xl text-white">
-          <h1 className="text-3xl font-semibold leading-tight sm:text-4xl lg:text-[40px]">Resource Center</h1>
-          <p className="mt-3 text-sm font-normal leading-6 sm:mt-4 sm:text-lg">Technical guides, solution briefs and application planning for laboratory, production and field testing.</p>
-        </div>
+    <section className="border-b border-[#e8edef] bg-white px-6 py-6 sm:py-7 lg:px-11">
+      <div className="mx-auto max-w-[1448px]">
+        <h1 className="text-2xl font-bold leading-tight text-[#12263a] sm:text-3xl">Resource Center</h1>
+        <p className="mt-2 max-w-3xl text-sm leading-6 text-[#526b7d]">Technical guides, solution briefs and application planning for laboratory, production and field testing.</p>
       </div>
     </section>
 

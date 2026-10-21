@@ -2,13 +2,6 @@ import { engineeringCases } from "@/data/engineering-cases";
 import type { TechnicalLibraryImage } from "@/data/technical-library";
 import type { ResourceBrowserEntry } from "@/lib/resources/browser";
 
-export const resourceBannerImage: TechnicalLibraryImage = {
-  src: "/assets/engineering-cases/cases-banner.webp",
-  alt: "Charging-test cabinets arranged in a laboratory",
-  width: 1587,
-  height: 895,
-};
-
 // Each planning document and engineering reference describe the same source case.
 const scenarioCaseIds: Record<string, string> = {
   "ccs2-laboratory-scope": "case-1",

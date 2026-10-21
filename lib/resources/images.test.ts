@@ -5,7 +5,7 @@ import { engineeringCases } from "@/data/engineering-cases";
 import { products } from "@/data/site";
 import { applicationScenarios, solutionBriefs } from "@/data/technical-library";
 import { resourceBrowserEntries } from "@/lib/resources/browser";
-import { getResourceMaterialImage, resourceBannerImage } from "@/lib/resources/images";
+import { getResourceMaterialImage } from "@/lib/resources/images";
 
 describe("resource gallery images", () => {
   it("gives all 46 materials local images with accurate intrinsic dimensions", async () => {
@@ -65,11 +65,7 @@ describe("resource gallery images", () => {
     expect(() => getResourceMaterialImage({ ...entry, resource: { ...entry.resource, relatedProductSlugs: [] } })).toThrow("Missing related equipment image");
   });
 
-  it("uses a real, accurately sized shared laboratory banner without client filesystem dependencies", async () => {
-    const { default: sharp } = await import("sharp");
-    const metadata = await sharp(join(process.cwd(), "public", resourceBannerImage.src)).metadata();
-    expect(resourceBannerImage.src).toBe("/assets/engineering-cases/cases-banner.webp");
-    expect({ width: resourceBannerImage.width, height: resourceBannerImage.height }).toEqual({ width: metadata.width, height: metadata.height });
+  it("keeps image selection free of client filesystem and heavy data dependencies", () => {
     const source = readFileSync(join(process.cwd(), "lib/resources/images.ts"), "utf8");
     expect(source).not.toMatch(/node:fs|node:path|from ["']sharp|@\/data\/site|https?:|placeholder/);
     expect(source).toContain('import type { ResourceBrowserEntry }');

@@ -169,22 +169,23 @@ describe("resource browser presentation", () => {
     expect(html).not.toContain('aria-label="Pagination"');
   });
 
-  it("renders a naturally full-width resource banner with its original title and subtitle", async () => {
+  it("renders a compact resource heading without a banner while retaining the illustrated directory", async () => {
     const html = renderToStaticMarkup(await ResourcesPage({ searchParams: Promise.resolve({}) }));
     expect(html.match(/<h1\b/g)).toHaveLength(1);
     expect(html).toMatch(/<h1\b[^>]*>Resource Center<\/h1>/);
-    const heroSection = html.match(/<section\b[^>]*>/)![0];
-    expect(heroSection).not.toMatch(/(?:^|\s)(?:\w+:)*(?:h-|min-h-|max-h-|aspect-)/);
-    const hero = html.match(/<section\b[^>]*>([\s\S]*?)<\/section>/)![1];
-    expect(hero).toContain("%2Fassets%2Fengineering-cases%2Fcases-banner.webp");
-    expect(hero).toContain('sizes="100vw"');
-    expect(hero).toContain('width="1587"');
-    expect(hero).toContain('height="895"');
-    expect(hero).toContain('class="block h-auto w-full"');
-    expect(hero).not.toMatch(/data-nimg="fill"|object-cover|object-contain|object-\[/);
-    expect(hero).toContain("Technical guides, solution briefs and application planning for laboratory, production and field testing.");
+    const heading = html.match(/<section\b[^>]*>[\s\S]*?<\/section>/)![0];
+    expect(heading).toContain("bg-white");
+    expect(heading).not.toMatch(/<img\b|(?:^|\s)(?:\w+:)*(?:h-|min-h-|max-h-|aspect-)|absolute|inset-0/);
+    expect(heading).toContain("Technical guides, solution briefs and application planning for laboratory, production and field testing.");
+    expect(html.match(/<img\b/g)).toHaveLength(6);
+    expect(html.match(/data-material-type=/g)).toHaveLength(6);
+    expect(html.match(/name="resource-type"/g)).toHaveLength(4);
+    expect(html).toContain('<legend class="sr-only">Material type</legend>');
+    expect(html).toContain("Search materials");
+    expect(html).toContain('aria-label="Pagination"');
+    expect(html).not.toContain("cases-banner.webp");
     const imagePreloads = html.match(/<link\b[^>]+rel="preload"[^>]*>/g) ?? [];
-    expect(imagePreloads.some((link) => link.includes('as="image"') && link.includes("%2Fassets%2Fengineering-cases%2Fcases-banner.webp"))).toBe(true);
+    expect(imagePreloads.filter((link) => link.includes('as="image"'))).toHaveLength(0);
   });
 
   it("keeps all guide links and legacy topic anchors in the collapsed directory", async () => {
