@@ -76,10 +76,18 @@ describe("engineering case browser", () => {
     const html = renderToStaticMarkup(await EngineeringCasesPage({ searchParams: Promise.resolve({ page: "3" }) }));
     expect(html.match(/<h1\b/g)).toHaveLength(1);
     expect(html).toMatch(/<h1\b[^>]*>Engineering Cases<\/h1>/);
+    const heroSection = html.match(/<section\b[^>]*>/)![0];
+    expect(heroSection).toContain("aspect-[1587/895]");
+    expect(heroSection).toContain("min-h-[180px]");
+    expect(heroSection).toContain("sm:aspect-auto");
     const hero = html.match(/<section\b[^>]*>([\s\S]*?)<\/section>/)![1];
     expect(hero).toContain("%2Fassets%2Fengineering-cases%2Fcases-banner.webp");
     expect(hero).toContain('sizes="100vw"');
     expect(hero).toContain('data-nimg="fill"');
+    expect(hero).toContain("object-contain object-center");
+    expect(hero).not.toMatch(/object-cover|object-\[/);
+    const imagePreloads = html.match(/<link\b[^>]+rel="preload"[^>]*>/g) ?? [];
+    expect(imagePreloads.some((link) => link.includes('as="image"') && link.includes("%2Fassets%2Fengineering-cases%2Fcases-banner.webp"))).toBe(true);
     expect(hero).toContain("Engineering Cases");
     expect(html).toContain("Partner-published technical references; not verified APEX delivery records.");
     expect(html).toContain("13-18 of 18 references");

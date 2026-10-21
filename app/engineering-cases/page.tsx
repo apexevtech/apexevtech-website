@@ -20,8 +20,8 @@ export async function generateMetadata({ searchParams }: EngineeringCasesPagePro
 export default async function EngineeringCasesPage({ searchParams }: EngineeringCasesPageProps) {
   const filters = parseEngineeringCaseFilters(searchParamsFromRecord(await searchParams));
   return <>
-    <section className="relative isolate flex h-[180px] items-center justify-center overflow-hidden bg-[#5c7377] px-5 text-center sm:h-[300px] lg:h-[min(54vh,560px)]">
-      <Image src="/assets/engineering-cases/cases-banner.webp" alt="Partner laboratory reference with EV charging test cabinets and measurement equipment" fill preload sizes="100vw" className="-z-20 object-cover object-[center_52%]" />
+    <section className="relative isolate flex aspect-[1587/895] min-h-[180px] items-center justify-center overflow-hidden bg-[#e8edef] px-5 text-center sm:aspect-auto sm:h-[300px] lg:h-[min(54vh,560px)]">
+      <Image src="/assets/engineering-cases/cases-banner.webp" alt="Partner laboratory reference with EV charging test cabinets and measurement equipment" fill preload sizes="100vw" className="-z-20 object-contain object-center" />
       <div className="absolute inset-0 -z-10 bg-black/25" aria-hidden="true" />
       <div className="max-w-3xl text-white">
         <h1 className="text-3xl font-semibold leading-tight sm:text-4xl lg:text-[40px]">Engineering Cases</h1>
