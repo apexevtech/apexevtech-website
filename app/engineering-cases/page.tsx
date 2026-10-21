@@ -20,12 +20,14 @@ export async function generateMetadata({ searchParams }: EngineeringCasesPagePro
 export default async function EngineeringCasesPage({ searchParams }: EngineeringCasesPageProps) {
   const filters = parseEngineeringCaseFilters(searchParamsFromRecord(await searchParams));
   return <>
-    <section className="relative isolate flex aspect-[1587/895] min-h-[180px] items-center justify-center overflow-hidden bg-[#e8edef] px-5 text-center sm:aspect-auto sm:h-[300px] lg:h-[min(54vh,560px)]">
-      <Image src="/assets/engineering-cases/cases-banner.webp" alt="Partner laboratory reference with EV charging test cabinets and measurement equipment" fill preload sizes="100vw" className="-z-20 object-contain object-center" />
-      <div className="absolute inset-0 -z-10 bg-black/25" aria-hidden="true" />
-      <div className="max-w-3xl text-white">
-        <h1 className="text-3xl font-semibold leading-tight sm:text-4xl lg:text-[40px]">Engineering Cases</h1>
-        <p className="mt-3 text-sm font-normal leading-6 sm:mt-4 sm:text-lg">Laboratory, production and field testing</p>
+    <section className="relative isolate bg-white">
+      <Image src="/assets/engineering-cases/cases-banner.webp" alt="Partner laboratory reference with EV charging test cabinets and measurement equipment" width={1587} height={895} preload sizes="100vw" className="block h-auto w-full" />
+      <div className="absolute inset-0 bg-black/25" aria-hidden="true" />
+      <div className="absolute inset-0 flex items-center justify-center px-5 text-center">
+        <div className="max-w-3xl text-white">
+          <h1 className="text-3xl font-semibold leading-tight sm:text-4xl lg:text-[40px]">Engineering Cases</h1>
+          <p className="mt-3 text-sm font-normal leading-6 sm:mt-4 sm:text-lg">Laboratory, production and field testing</p>
+        </div>
       </div>
     </section>
     <EngineeringCaseBrowser initialFilters={filters} />
