@@ -5,6 +5,11 @@ import { navItems } from "@/data/site";
 import { resources } from "@/lib/resources/catalog";
 
 describe("internal navigation", () => {
+  it("exposes an independent engineering case interface", () => {
+    expect(navItems.filter((item) => item.href === "/engineering-cases"))
+      .toEqual([{ label: "Engineering Cases", href: "/engineering-cases" }]);
+  });
+
   it("uses one Solutions entry for solution and application workflows", () => {
     expect(navItems.filter((item) => item.href === "/solutions")).toEqual([{ label: "Solutions", href: "/solutions" }]);
     expect(navItems.some((item) => item.href.startsWith("/applications"))).toBe(false);

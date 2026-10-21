@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { generateMetadata as resourceMetadata } from "@/app/resources/page";
+import { generateMetadata as caseMetadata } from "@/app/engineering-cases/page";
 
 describe("paginated catalog metadata", () => {
   it("preserves the original Resources title and canonical after consolidation", async () => {
@@ -21,6 +22,25 @@ describe("paginated catalog metadata", () => {
       const metadata = await resourceMetadata({ searchParams: Promise.resolve({ ...filters, page: "2" }) });
       expect(metadata.alternates?.canonical).toBe("/resources");
       expect(metadata.title).toBe("EV Charger Test Equipment & Testing Guides");
+    }
+  });
+
+  it("publishes the independent engineering case index and its valid pages", async () => {
+    const root = await caseMetadata({ searchParams: Promise.resolve({}) });
+    expect(root.alternates?.canonical).toBe("/engineering-cases");
+    expect(root.title).toBe("EV Charger Engineering Case References");
+    const second = await caseMetadata({ searchParams: Promise.resolve({ page: "2" }) });
+    expect(second.alternates?.canonical).toBe("/engineering-cases?page=2");
+    expect(second.title).toContain("Page 2");
+    const last = await caseMetadata({ searchParams: Promise.resolve({ page: "999" }) });
+    expect(last.alternates?.canonical).toBe("/engineering-cases?page=3");
+  });
+
+  it("consolidates filtered engineering case variants to their own index", async () => {
+    for (const filters of [{ category: "independent-testing" }, { q: "charging" }]) {
+      const metadata = await caseMetadata({ searchParams: Promise.resolve({ ...filters, page: "2" }) });
+      expect(metadata.alternates?.canonical).toBe("/engineering-cases");
+      expect(metadata.title).toBe("EV Charger Engineering Case References");
     }
   });
 });

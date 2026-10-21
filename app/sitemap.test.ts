@@ -7,6 +7,7 @@ import { siteUrl } from "@/lib/seo/site-urls";
 import sitemap from "@/app/sitemap";
 import { applicationExamples } from "@/data/applications";
 import { interfaceTopics } from "@/data/interface-topics";
+import { engineeringCases } from "@/data/engineering-cases";
 
 describe("sitemap", () => {
   it("contains unique canonical URLs with stable dates", () => {
@@ -31,6 +32,8 @@ describe("sitemap", () => {
       .toEqual(new Date("2026-10-20T00:00:00.000Z"));
     expect(entries.find((entry) => entry.url === `${siteUrl}/solutions`)?.lastModified)
       .toEqual(new Date("2026-10-20T00:00:00.000Z"));
+    expect(entries.find((entry) => entry.url === `${siteUrl}/engineering-cases`)?.lastModified)
+      .toEqual(new Date("2026-10-21T00:00:00.000Z"));
     expect(entries.some((entry) => entry.url === `${siteUrl}/applications`)).toBe(false);
     for (const route of ["/privacy-policy"]) {
       expect(entries.find((entry) => entry.url === `${siteUrl}${route}`)?.lastModified)
@@ -54,6 +57,8 @@ describe("sitemap", () => {
     const entries = sitemap();
     expect(entries.find((entry) => entry.url === `${siteUrl}/solutions`)?.images)
       .toEqual(applicationExamples.map((application) => new URL(application.image, siteUrl).toString()));
+    expect(entries.find((entry) => entry.url === `${siteUrl}/engineering-cases`)?.images)
+      .toEqual(engineeringCases.slice(0, 6).flatMap((entry) => entry.image ? [new URL(entry.image.src, siteUrl).toString()] : []));
     for (const product of products) {
       expect(entries.find((entry) => entry.url === `${siteUrl}/products/${product.slug}`)?.images)
         .toEqual([new URL(product.image, siteUrl).toString()]);
