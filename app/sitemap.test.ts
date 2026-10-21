@@ -57,8 +57,11 @@ describe("sitemap", () => {
     const entries = sitemap();
     expect(entries.find((entry) => entry.url === `${siteUrl}/solutions`)?.images)
       .toEqual(applicationExamples.map((application) => new URL(application.image, siteUrl).toString()));
-    expect(entries.find((entry) => entry.url === `${siteUrl}/engineering-cases`)?.images)
-      .toEqual(engineeringCases.slice(0, 6).flatMap((entry) => entry.image ? [new URL(entry.image.src, siteUrl).toString()] : []));
+    const engineeringCaseImages = entries.find((entry) => entry.url === `${siteUrl}/engineering-cases`)?.images;
+    expect(engineeringCaseImages).toHaveLength(6);
+    expect(new Set(engineeringCaseImages).size).toBe(6);
+    expect(engineeringCaseImages)
+      .toEqual(engineeringCases.slice(0, 6).map((entry) => new URL(entry.image!.src, siteUrl).toString()));
     for (const product of products) {
       expect(entries.find((entry) => entry.url === `${siteUrl}/products/${product.slug}`)?.images)
         .toEqual([new URL(product.image, siteUrl).toString()]);

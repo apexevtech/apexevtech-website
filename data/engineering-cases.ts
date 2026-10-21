@@ -19,10 +19,10 @@ export const engineeringCaseCategories: {
   id: EngineeringCaseCategoryId;
   label: string;
 }[] = [
-  { id: "vehicle-engineering", label: "Vehicle Engineering" },
-  { id: "independent-testing", label: "Independent Testing" },
-  { id: "public-inspection", label: "Public Inspection" },
-  { id: "charger-manufacturing", label: "Charger Manufacturing" },
+  { id: "vehicle-engineering", label: "Vehicle Manufacturers" },
+  { id: "independent-testing", label: "Certification Bodies" },
+  { id: "public-inspection", label: "Government Agencies" },
+  { id: "charger-manufacturing", label: "Charger Manufacturers" },
 ];
 
 export const engineeringCases: EngineeringCase[] = [
@@ -63,6 +63,12 @@ export const engineeringCases: EngineeringCase[] = [
     title: "Simulated Charging Interoperability Testing",
     summary: "This interoperability reference describes simulated charging-facility behavior for examining vehicle communication and data exchange, focusing on interaction between the vehicle-side implementation and charging equipment during compatibility checks.",
     technicalFocus: ["Charging-facility simulation", "Vehicle communication", "Compatibility checks"],
+    image: {
+      src: "/assets/engineering-cases/case-3-system.webp",
+      alt: "Portable charging test instrument connected between a white electric vehicle and a charging station",
+      width: 1000,
+      height: 625,
+    },
     relatedResourceSlug: "ev-charging-protocol-testing",
   },
   {
@@ -72,6 +78,12 @@ export const engineeringCases: EngineeringCase[] = [
     title: "European-Interface Charger Assessment",
     summary: "This research-institute reference describes European-standard charger evaluation, grouping the technical discussion into electrical safety, basic charging operation and compatibility between charging equipment and the connected vehicle.",
     technicalFocus: ["Electrical safety", "Charging operation", "Interface compatibility"],
+    image: {
+      src: "/assets/engineering-cases/case-4-system.webp",
+      alt: "Technicians examining a portable charging test instrument in a laboratory",
+      width: 1000,
+      height: 625,
+    },
     relatedResourceSlug: "prepare-ev-charger-standards-validation",
   },
   {
@@ -96,6 +108,12 @@ export const engineeringCases: EngineeringCase[] = [
     title: "Charging Demand and Power Simulation",
     summary: "This power-research reference focuses on modeling charging demand and energy consumption. The technical discussion connects simulation with equipment layout, charging schedules and the planning of charging-facility power requirements.",
     technicalFocus: ["Charging-demand modeling", "Energy-consumption simulation", "Layout and scheduling"],
+    image: {
+      src: "/assets/engineering-cases/case-6-system.webp",
+      alt: "Technicians examining charging test equipment beside an electric vehicle and charging station",
+      width: 1000,
+      height: 625,
+    },
     relatedResourceSlug: "regenerative-load-considerations",
   },
   {
@@ -105,6 +123,12 @@ export const engineeringCases: EngineeringCase[] = [
     title: "DC Supercharging Field Inspection",
     summary: "This third-party inspection reference describes simulated vehicle behavior for field checks of off-board DC chargers. Its historical standards references provide context for the described application, not current conformity coverage.",
     technicalFocus: ["Vehicle-behavior simulation", "Off-board DC charging", "Field inspection"],
+    image: {
+      src: "/assets/engineering-cases/case-7-system.webp",
+      alt: "Two technicians operating portable charging test instruments in a laboratory",
+      width: 1000,
+      height: 625,
+    },
     relatedResourceSlug: "dc-fast-charger-testing-guide",
   },
   {
@@ -114,6 +138,12 @@ export const engineeringCases: EngineeringCase[] = [
     title: "Inspection-Sector Charger Instrumentation",
     summary: "This inspection-sector reference introduces charger test instrumentation within an independent-assessment context. The published description is brief, so no completed testing outcome is inferred beyond the instrumentation topic.",
     technicalFocus: ["Charger test instrumentation", "Independent assessment context"],
+    image: {
+      src: "/assets/engineering-cases/case-8-system.webp",
+      alt: "Two portable charging test instruments and two load units arranged on a laboratory workbench",
+      width: 1000,
+      height: 625,
+    },
     relatedResourceSlug: "ev-charger-test-equipment-guide",
   },
   {
@@ -123,6 +153,12 @@ export const engineeringCases: EngineeringCase[] = [
     title: "DC Charger Output and Protection Evaluation",
     summary: "This DC charger reference focuses on evaluating output voltage, current and power alongside protective behavior, bringing electrical-performance measurements and safety-related observations into the same charger-testing context.",
     technicalFocus: ["Voltage and current", "Charging power", "Protective behavior"],
+    image: {
+      src: "/assets/engineering-cases/case-9-system.webp",
+      alt: "Technicians operating charging test equipment beside DC chargers at a sheltered charging station",
+      width: 1000,
+      height: 625,
+    },
     relatedResourceSlug: "dc-fast-charger-testing-guide",
   },
   {
@@ -132,6 +168,12 @@ export const engineeringCases: EngineeringCase[] = [
     title: "Off-Board Charger Protocol Assessment",
     summary: "This off-board charger reference describes communication-data checks and protocol behavior, with attention to completeness and communication stability as topics for an unnamed inspection company's technical assessment.",
     technicalFocus: ["Communication-data checks", "Protocol behavior", "Communication stability"],
+    image: {
+      src: "/assets/engineering-cases/case-10-system.webp",
+      alt: "Portable charging test instrument and wheeled load unit connected to a DC charger",
+      width: 1000,
+      height: 626,
+    },
     relatedResourceSlug: "ev-charging-protocol-testing",
   },
   {
@@ -156,6 +198,12 @@ export const engineeringCases: EngineeringCase[] = [
     title: "Charging-Station Field Evaluation",
     summary: "This independent-testing reference describes charging-station checks involving electrical parameters, charging performance and maintenance diagnosis, connecting field observations with the technical questions encountered during charging-facility inspection and troubleshooting.",
     technicalFocus: ["Electrical parameters", "Charging performance", "Maintenance diagnosis"],
+    image: {
+      src: "/assets/engineering-cases/case-12-system.webp",
+      alt: "Portable charging test instrument and stacked load units beside an open charging cabinet",
+      width: 1000,
+      height: 625,
+    },
     relatedResourceSlug: "post-installation-evse-testing",
   },
   {
@@ -165,6 +213,12 @@ export const engineeringCases: EngineeringCase[] = [
     title: "Custom DC Charger Test Arrangement",
     summary: "This custom-equipment reference focuses on DC charger electrical performance and safety checks for an unnamed third-party laboratory, presenting specialized test instrumentation as the technical context for independent evaluation.",
     technicalFocus: ["DC electrical performance", "Safety checks", "Custom test equipment"],
+    image: {
+      src: "/assets/engineering-cases/case-13-system.webp",
+      alt: "Portable charging test instrument, laptop and measurement unit arranged on a workbench",
+      width: 1000,
+      height: 625,
+    },
     relatedResourceSlug: "evse-test-plan-checklist",
   },
   {
@@ -189,6 +243,12 @@ export const engineeringCases: EngineeringCase[] = [
     title: "Vehicle AC/DC Charging Interoperability",
     summary: "This vehicle-side reference describes AC and DC charging sequences with controlled fault simulation, focusing on the interaction between vehicle charging behavior and charging equipment during an interoperability assessment.",
     technicalFocus: ["AC and DC charging sequences", "Vehicle-side interaction", "Controlled fault simulation"],
+    image: {
+      src: "/assets/engineering-cases/case-15-system.webp",
+      alt: "Portable test instrument and oscilloscope connected to an electric vehicle",
+      width: 1000,
+      height: 626,
+    },
     relatedResourceSlug: "ev-charging-protocol-testing",
   },
   {
@@ -198,6 +258,12 @@ export const engineeringCases: EngineeringCase[] = [
     title: "Vehicle Charging Message Consistency",
     summary: "This vehicle-engineering reference describes checking charging-message formats, instruction handling and error responses, focusing on communication consistency as a technical topic when different vehicle implementations interact with charging equipment.",
     technicalFocus: ["Message formats", "Instruction handling", "Error responses"],
+    image: {
+      src: "/assets/engineering-cases/case-16-system.webp",
+      alt: "Portable charging test instrument and laptop beside an electric vehicle with its hood open",
+      width: 1000,
+      height: 626,
+    },
     relatedResourceSlug: "ev-charging-protocol-testing",
   },
   {
@@ -207,6 +273,12 @@ export const engineeringCases: EngineeringCase[] = [
     title: "Automated DC Charger Production Testing",
     summary: "This DC charger manufacturing reference describes automated checks of voltage, current and power with report generation, connecting electrical measurements and test reporting within a production-line testing application.",
     technicalFocus: ["Automated production checks", "Voltage, current and power", "Report generation"],
+    image: {
+      src: "/assets/engineering-cases/case-17-system.webp",
+      alt: "Automated test stations arranged along a roller conveyor in an industrial hall",
+      width: 1000,
+      height: 626,
+    },
     relatedResourceSlug: "evse-end-of-line-testing",
   },
   {
@@ -216,6 +288,12 @@ export const engineeringCases: EngineeringCase[] = [
     title: "Custom DC Supercharging Test System",
     summary: "This customized supercharging reference describes an arrangement of measurement instruments, controllers, power equipment and analysis software, focusing on the system building blocks used to discuss a DC charging-test application.",
     technicalFocus: ["Measurement instruments", "Control and power equipment", "Analysis software"],
+    image: {
+      src: "/assets/engineering-cases/case-18-system.webp",
+      alt: "DC charger connected to measurement cabinets by charging cables",
+      width: 1000,
+      height: 626,
+    },
     relatedResourceSlug: "regenerative-load-considerations",
   },
 ];

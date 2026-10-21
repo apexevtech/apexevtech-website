@@ -9,7 +9,7 @@ import { getCatalogMetadataState } from "@/lib/seo/catalog-metadata";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 type EngineeringCasesPageProps = { searchParams: Promise<Record<string, string | string[] | undefined>> };
-const description = "Explore partner-published EV charger engineering references for vehicle engineering, independent testing, public inspection and charger manufacturing.";
+const description = "Explore partner-published EV charger engineering references for vehicle manufacturers, certification bodies, government agencies and charger manufacturers.";
 
 export async function generateMetadata({ searchParams }: EngineeringCasesPageProps): Promise<Metadata> {
   const filters = parseEngineeringCaseFilters(searchParamsFromRecord(await searchParams));

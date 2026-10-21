@@ -10,7 +10,9 @@ The current request is to make a separate engineering-case interface. The source
 
 All 21 body images were downloaded to ignored `output/research/saiter/engineering-cases-2026-10-21/` and individually inspected with `view_image`. Every candidate was under 1 MiB. No image was generated, cropped, retouched, blurred, relabeled or re-encoded. Existing blurring in some source originals was not treated as evidence of permission. This internal document and the ignored manifest retain provenance; source URLs are not needed in public website data or links.
 
-## Assets Approved for the New Interface
+## Initial Equipment-Only Selection
+
+This section records the initial five-image implementation. It is superseded by the complete eighteen-image coverage recorded below; the earlier exclusions were conservative editorial choices, not a finding that the user's confirmed publication permission was invalid.
 
 These assets must remain associated with their actual case IDs. Do not substitute an approved photograph for an unrelated case without a photograph. Neutral equipment descriptions do not represent proof that APEX delivered the photographed project.
 
@@ -29,7 +31,7 @@ The new files were copied byte-for-byte from the extracted source assets. Althou
 | `case-2-portable-system.webp` | `20a2e4d644e77cc8219c4544b3da4e8dae6b225f3701e2c04dbff7f435bc8a65` |
 | `case-5-laboratory-system.webp` | `3c3aa859d682b179834439043be329d1b8876aa5f2c2eda30ae0dc9bbd04d69c` |
 
-## Primary Image Review by Case
+## Initial Primary Image Review by Case
 
 Detail pages follow `https://www.saiter.cn/case_detail/{case_id}.html`. The asset URL below is the actual body image extracted from that case, not an image from its category or a neighboring entry.
 
@@ -62,7 +64,7 @@ Detail pages follow `https://www.saiter.cn/case_detail/{case_id}.html`. The asse
 | 14 | https://www.saiter.cn/__external/img-a/v/main1/cms/image/2436af77-8be6-4752-adcb-ec66ca35fc2e.jpg | Not added: a second view of the same production line is unnecessary for a one-image-per-case interface. Keep the already approved image. |
 | 17 | https://www.saiter.cn/__external/img-a/v/main1/cms/image/8575b923-1f54-4b1f-a909-eeeba0dc9871.jpg | Not published: visible person operating the equipment. |
 
-No source photographs from the About page, customer logo wall, team portraits or honors section were copied. Case entries with no approved photograph should retain a text-led presentation rather than receive an unrelated illustration.
+No source photographs from the About page, customer logo wall, team portraits or honors section were copied. The initial release used text-led placeholders for thirteen cases. The completion update below replaces those placeholders with each case's own original photograph, never an unrelated illustration.
 
 ## Engineering Cases Banner
 
@@ -75,3 +77,27 @@ The subsequent interface-redesign request asked to follow the source website's p
 The downloaded payload was verified with `file` as WebP and visually inspected with `view_image`. It shows a row of blue-and-white test cabinets inside a laboratory. No person, vehicle plate, customer logo or identified customer premises is visible. Original equipment SAITER markings remain unchanged. The bytes were copied unchanged, with no cropping, retouching, relabeling or re-encoding; the `.webp` extension matches the actual payload despite the source URL's `.jpg` suffix.
 
 This use relies on the user's previously confirmed publication permission for source-site images. The banner is a generic partner laboratory equipment illustration, not an additional engineering case, not evidence of any of the 18 listed case deliveries, and not a representation of an APEX-owned factory or laboratory. Descriptions and alt text must not claim that the photographed premises belong to APEX.
+
+## Complete Case Image Coverage
+
+The user reported the missing photographs and requested the four source audience categories: vehicle manufacturers, certification bodies, government agencies and charger manufacturers. All eighteen references now have their own corresponding local case photograph. The thirteen additions below were independently checked against the body image on their original `case_detail/{id}.html` pages and visually inspected again. The original five paths and all case IDs, category assignments and public URLs remain unchanged.
+
+The additional images are used under the user's existing confirmation of source-site image publication permission. Public testing scenes containing people or original equipment branding are not automatically excluded. This does not establish personal-image rights, customer endorsement or APEX delivery attribution; none of those are asserted in the case data. Original people, markings, watermarks and any pre-existing blur remain unchanged. No image has been cropped, relabeled, retouched or re-encoded. Alt text describes the visible equipment and activity without naming people or claiming an APEX-owned site. The page retains its partner-reference boundary.
+
+All paths below begin with `/assets/engineering-cases/`. Source URLs are the matching case rows in the primary-image table above, not neighboring case images. Each public file is byte-identical to the first image in that case's archived manifest entry. Every new file decodes as WebP.
+
+| Case | Public filename | Dimensions | SHA-256 |
+| --- | --- | --- | --- |
+| 3 | `case-3-system.webp` | 1000x625 | `af2b03245197a444c84c4bd5dcf5087169bcbc9c4b87a0755843d003b4046c30` |
+| 4 | `case-4-system.webp` | 1000x625 | `31c3e8403d53ffde8215d39f4838047ae3bf0b277e9f7a7a3be8fda61df7bd64` |
+| 6 | `case-6-system.webp` | 1000x625 | `5fff232e8c01604a63ef649c16d6b408b57366ed6aff1e6e33aa550cfc674884` |
+| 7 | `case-7-system.webp` | 1000x625 | `3cfa523aebbd9bd6947881a844d983b0f5dc46140effa00db9f75babcc65f83e` |
+| 8 | `case-8-system.webp` | 1000x625 | `3fa14661b8b70d07779144b69780a44cda1f8d2b456cf945553493f555a5f15e` |
+| 9 | `case-9-system.webp` | 1000x625 | `7472e9b13e61089f5cbdb2110603d1509b5f511ba3131ebc39f26fdf21b30a10` |
+| 10 | `case-10-system.webp` | 1000x626 | `122979351b9f3c10f05360173bb4a85fb32fea2253de4617038aa1989c8bced2` |
+| 12 | `case-12-system.webp` | 1000x625 | `9771a78fc690277c05b11d3aa221da2d9477793c500e4af80cc0487c19e3459d` |
+| 13 | `case-13-system.webp` | 1000x625 | `073e40340284ea169faf01f00aff3feafbe488efcc6a8260cb76c7e2bad51144` |
+| 15 | `case-15-system.webp` | 1000x626 | `cf0d9b2a5cd9469ded26bcaab4d6d3cc520de452b1bc023313e61ae7c284c220` |
+| 16 | `case-16-system.webp` | 1000x626 | `4f0a46db43d996ab5743a8a6311dc873969829f1881f3a9f58beec075bed5b51` |
+| 17 | `case-17-system.webp` | 1000x626 | `f1c1957865ec758a3c11a480dad10fabc0b80906d57fb2dd5c2cd44b37fce0cf` |
+| 18 | `case-18-system.webp` | 1000x626 | `1085e7886aca9f81b55a9312d6bffe9c2fde4527e97291a8c6ba2e7770f197f8` |

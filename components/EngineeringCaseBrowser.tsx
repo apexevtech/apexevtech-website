@@ -15,10 +15,7 @@ import { buildPageHref } from "@/lib/navigation/pagination";
 import { getCatalogMetadataState } from "@/lib/seo/catalog-metadata";
 import { siteUrl } from "@/lib/seo/site-urls";
 
-const categories = [
-  { id: "all" as const, label: "All references", count: engineeringCases.length },
-  ...engineeringCaseCategories.map((category) => ({ ...category, count: engineeringCases.filter((entry) => entry.categoryId === category.id).length })),
-];
+const categories = engineeringCaseCategories.map((category) => ({ ...category, count: engineeringCases.filter((entry) => entry.categoryId === category.id).length }));
 
 export function EngineeringCaseBrowser({ initialFilters }: { initialFilters: EngineeringCaseFilters }) {
   const [filters, setFilters] = useState(initialFilters);
@@ -82,6 +79,7 @@ export function EngineeringCaseBrowser({ initialFilters }: { initialFilters: Eng
         <label className="flex min-w-0 items-center gap-3 text-sm text-[#526b7d] xl:hidden">
           <span className="sr-only">Engineering case category</span>
           <select value={filters.category} onChange={(event) => updateFilters({ category: event.target.value as EngineeringCaseFilters["category"] })} className="min-h-11 min-w-0 max-w-full border-0 bg-transparent py-2 pl-1 pr-6 text-xs font-medium text-[#385064] outline-offset-2 focus-visible:outline-[#1268a8] sm:text-sm">
+            <option value="all">All cases ({engineeringCases.length})</option>
             {categories.map((category) => <option key={category.id} value={category.id}>{category.label} ({category.count})</option>)}
           </select>
         </label>

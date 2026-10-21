@@ -16,9 +16,13 @@ describe("engineering case browser", () => {
     const html = renderToStaticMarkup(createElement(EngineeringCaseBrowser, { initialFilters: defaultEngineeringCaseFilters }));
     const page = getEngineeringCasePage(defaultEngineeringCaseFilters);
     expect(html.match(/<article\b/g)).toHaveLength(6);
-    expect(html.match(/name="engineering-case-category"/g)).toHaveLength(5);
+    const categoryRadios = html.match(/<input[^>]+name="engineering-case-category"[^>]*>/g) ?? [];
+    expect(categoryRadios).toHaveLength(4);
+    expect(categoryRadios.every((radio) => !radio.includes('checked=""'))).toBe(true);
     expect(html.match(/<select\b/g)).toHaveLength(1);
     expect(html.match(/<option\b/g)).toHaveLength(5);
+    expect(html).toContain("All cases");
+    for (const category of engineeringCaseCategories) expect(html).toContain(category.label);
     expect(html).toContain('aria-label="Breadcrumb"');
     expect(html).toContain("bg-[#f3f4f5]");
     expect(html).toContain("1-6 of 18 references");

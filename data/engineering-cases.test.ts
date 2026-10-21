@@ -27,6 +27,9 @@ describe("engineering case references", () => {
     expect(engineeringCaseCategories.map((category) => category.id)).toEqual([
       "vehicle-engineering", "independent-testing", "public-inspection", "charger-manufacturing",
     ]);
+    expect(engineeringCaseCategories.map((category) => category.label)).toEqual([
+      "Vehicle Manufacturers", "Certification Bodies", "Government Agencies", "Charger Manufacturers",
+    ]);
     const categoryCases = Object.fromEntries(engineeringCaseCategories.map((category) => [
       category.id,
       engineeringCases.filter((entry) => entry.categoryId === category.id).map((entry) => entry.id),
@@ -74,10 +77,20 @@ describe("engineering case references", () => {
   it("uses matching local authorized images with accurate intrinsic dimensions", async () => {
     const { default: sharp } = await import("sharp");
     const illustratedEntries = engineeringCases.filter((entry) => entry.image);
-    expect(illustratedEntries.map((entry) => entry.id)).toEqual(["case-1", "case-2", "case-5", "case-11", "case-14"]);
+    expect(illustratedEntries.map((entry) => entry.id)).toEqual(engineeringCases.map((entry) => entry.id));
+    expect(illustratedEntries).toHaveLength(18);
+    expect(new Set(illustratedEntries.map((entry) => entry.image!.src)).size).toBe(18);
+    const existingImagePaths: Record<string, string> = {
+      "case-1": "/assets/library/case-1-system.png",
+      "case-2": "/assets/engineering-cases/case-2-portable-system.webp",
+      "case-5": "/assets/engineering-cases/case-5-laboratory-system.webp",
+      "case-11": "/assets/library/case-11-system.jpg",
+      "case-14": "/assets/library/case-14-system.png",
+    };
     for (const { id, image } of illustratedEntries) {
       expect(image).toBeDefined();
       if (!image) continue;
+      expect(image.src).toBe(existingImagePaths[id] ?? `/assets/engineering-cases/${id}-system.webp`);
       expect(image.src).toMatch(new RegExp(`^/assets/(library|engineering-cases)/${id}-(?:portable-|laboratory-)?system\\.(png|jpg|webp)$`));
       expect(image.alt.length).toBeGreaterThan(15);
       expect(image.alt).not.toMatch(/APEX|customer|delivered|certified/i);

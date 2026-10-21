@@ -7,9 +7,10 @@ import { EngineeringCaseCard } from "./EngineeringCaseCard";
 const escape = (text: string) => text.replaceAll("&", "&amp;").replaceAll("'", "&#x27;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
 describe("engineering case gallery cards", () => {
-  it("renders one matched local image per illustrated reference without cropping equipment", () => {
+  it("renders one distinct matched local image for every reference without cropping equipment", () => {
     const pictured = engineeringCases.filter((entry) => entry.image);
-    expect(pictured).toHaveLength(5);
+    expect(pictured).toHaveLength(18);
+    expect(new Set(pictured.map((entry) => entry.image!.src)).size).toBe(18);
     for (const entry of pictured) {
       const html = renderToStaticMarkup(createElement(EngineeringCaseCard, { entry }));
       expect(html.match(/<img\b/g)).toHaveLength(1);
@@ -24,15 +25,14 @@ describe("engineering case gallery cards", () => {
   });
 
   it("uses actual technical focus rather than unrelated images for references without a photo", () => {
-    for (const entry of engineeringCases.filter((item) => !item.image)) {
-      const html = renderToStaticMarkup(createElement(EngineeringCaseCard, { entry }));
-      const summary = html.match(/<summary\b[^>]*>([\s\S]*?)<\/summary>/)![1];
-      expect(html).not.toMatch(/<img\b/);
-      expect(summary).toContain("Technical scope");
-      expect(summary).toContain(escape(entry.technicalFocus[0]));
-      expect(summary).toContain('class="line-clamp-2 text-sm leading-6"');
-      expect(html).not.toMatch(/image missing|loading error|placeholder image/i);
-    }
+    const entry = { ...engineeringCases[0], image: undefined };
+    const html = renderToStaticMarkup(createElement(EngineeringCaseCard, { entry }));
+    const summary = html.match(/<summary\b[^>]*>([\s\S]*?)<\/summary>/)![1];
+    expect(html).not.toMatch(/<img\b/);
+    expect(summary).toContain("Technical scope");
+    expect(summary).toContain(escape(entry.technicalFocus[0]));
+    expect(summary).toContain('class="line-clamp-2 text-sm leading-6"');
+    expect(html).not.toMatch(/image missing|loading error|placeholder image/i);
   });
 
   it("keeps complete accessible native disclosures and crawlable guide links in server markup", () => {
