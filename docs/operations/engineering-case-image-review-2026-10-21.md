@@ -63,3 +63,15 @@ Detail pages follow `https://www.saiter.cn/case_detail/{case_id}.html`. The asse
 | 17 | https://www.saiter.cn/__external/img-a/v/main1/cms/image/8575b923-1f54-4b1f-a909-eeeba0dc9871.jpg | Not published: visible person operating the equipment. |
 
 No source photographs from the About page, customer logo wall, team portraits or honors section were copied. Case entries with no approved photograph should retain a text-led presentation rather than receive an unrelated illustration.
+
+## Engineering Cases Banner
+
+The subsequent interface-redesign request asked to follow the source website's presentation. The engineering-case index banner was extracted from the actual `img` element inside `#c_banner_019_P_065-16915632850700` on `https://www.saiter.cn/case/1689164677525954560.html`, rather than from the About page's branded company-building banner.
+
+| Public local path | Original banner URL | Dimensions | Bytes | SHA-256 |
+| --- | --- | --- | --- | --- |
+| `/assets/engineering-cases/cases-banner.webp` | https://www.saiter.cn/__external/img-a/v/main1/cms/image/6bb7569c-fde8-41fd-809b-fb9bffa44708.jpg | 1587x895 | 468,004 | `68abd1dc5a40280d7865a7f8519c3d2dd56114169e5ef136189e35db3f5591b9` |
+
+The downloaded payload was verified with `file` as WebP and visually inspected with `view_image`. It shows a row of blue-and-white test cabinets inside a laboratory. No person, vehicle plate, customer logo or identified customer premises is visible. Original equipment SAITER markings remain unchanged. The bytes were copied unchanged, with no cropping, retouching, relabeling or re-encoding; the `.webp` extension matches the actual payload despite the source URL's `.jpg` suffix.
+
+This use relies on the user's previously confirmed publication permission for source-site images. The banner is a generic partner laboratory equipment illustration, not an additional engineering case, not evidence of any of the 18 listed case deliveries, and not a representation of an APEX-owned factory or laboratory. Descriptions and alt text must not claim that the photographed premises belong to APEX.

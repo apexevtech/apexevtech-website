@@ -12,20 +12,27 @@ vi.mock("next/navigation", () => ({
 }));
 
 describe("engineering case browser", () => {
-  it("prerenders six references with counted categories and complete expandable technical focus", () => {
+  it("prerenders six gallery cards with counted categories and complete expandable technical focus", () => {
     const html = renderToStaticMarkup(createElement(EngineeringCaseBrowser, { initialFilters: defaultEngineeringCaseFilters }));
     const page = getEngineeringCasePage(defaultEngineeringCaseFilters);
     expect(html.match(/<article\b/g)).toHaveLength(6);
     expect(html.match(/name="engineering-case-category"/g)).toHaveLength(5);
+    expect(html.match(/<select\b/g)).toHaveLength(1);
+    expect(html.match(/<option\b/g)).toHaveLength(5);
+    expect(html).toContain('aria-label="Breadcrumb"');
+    expect(html).toContain("bg-[#f3f4f5]");
     expect(html).toContain("1-6 of 18 references");
     expect(html).toContain('type="search"');
     expect(html).toContain('id="engineering-case-results"');
-    expect(html).toContain("grid-cols-2");
+    expect(html).toContain("sm:grid-cols-2");
+    expect(html).toContain("lg:grid-cols-3");
     expect(html.match(/<details\b/g)).toHaveLength(6);
+    expect(html.match(/<summary\b/g)).toHaveLength(6);
     expect((html.match(/<img\b/g) ?? []).length).toBe(page.items.filter((entry) => entry.image).length);
     for (const entry of page.items) {
       expect(html).toContain(`id="${entry.slug}"`);
       expect(html).toContain(entry.title.replaceAll("&", "&amp;"));
+      expect(html).toContain(`aria-label="Technical details: ${entry.title.replaceAll("&", "&amp;")}"`);
       expect(html).toContain(`href="/resources/${entry.relatedResourceSlug}"`);
       for (const focus of entry.technicalFocus) expect(html).toContain(focus.replaceAll("&", "&amp;"));
     }
@@ -33,7 +40,7 @@ describe("engineering case browser", () => {
     expect(html).not.toMatch(/href="https:\/\/[^\"]*saiter|Source reference image|APEX customers|verified APEX projects/);
   });
 
-  it("keeps page two rows, crawlable pagination and structured data in sync", () => {
+  it("keeps page two cards, crawlable pagination and structured data in sync", () => {
     const filters = { ...defaultEngineeringCaseFilters, page: 2 };
     const page = getEngineeringCasePage(filters);
     const html = renderToStaticMarkup(createElement(EngineeringCaseBrowser, { initialFilters: filters }));
@@ -53,6 +60,7 @@ describe("engineering case browser", () => {
     const selected = html.match(/<input[^>]+>/g)!.filter((tag) => tag.includes('checked=""'));
     expect(selected).toHaveLength(1);
     expect(selected[0]).toContain(`value="${category}"`);
+    expect(html).toContain(`<option value="${category}" selected="">`);
     const empty = renderToStaticMarkup(createElement(EngineeringCaseBrowser, { initialFilters: { ...defaultEngineeringCaseFilters, query: "no-matching-reference-258" } }));
     expect(empty).toContain("No matching references");
     expect(empty).toContain("Reset filters");
@@ -63,7 +71,12 @@ describe("engineering case browser", () => {
   it("renders the requested server page with one H1 and an explicit reference boundary", async () => {
     const html = renderToStaticMarkup(await EngineeringCasesPage({ searchParams: Promise.resolve({ page: "3" }) }));
     expect(html.match(/<h1\b/g)).toHaveLength(1);
-    expect(html).toContain("Engineering case references");
+    expect(html).toMatch(/<h1\b[^>]*>Engineering Cases<\/h1>/);
+    const hero = html.match(/<section\b[^>]*>([\s\S]*?)<\/section>/)![1];
+    expect(hero).toContain("%2Fassets%2Fengineering-cases%2Fcases-banner.webp");
+    expect(hero).toContain('sizes="100vw"');
+    expect(hero).toContain('data-nimg="fill"');
+    expect(hero).toContain("Engineering Cases");
     expect(html).toContain("Partner-published technical references; not verified APEX delivery records.");
     expect(html).toContain("13-18 of 18 references");
     expect(html).toContain('href="/solutions"');
