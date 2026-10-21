@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { ArrowRight, BookOpen, ChevronDown, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, BookOpen, ChevronDown } from "lucide-react";
 import { ResourceBrowser } from "@/components/ResourceBrowser";
 import { searchParamsFromRecord } from "@/lib/navigation/pagination";
 import { parseResourceBrowserFilters } from "@/lib/resources/browser";
 import { resourceGroups } from "@/lib/resources/groups";
+import { resourceBannerImage } from "@/lib/resources/images";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 import Link from "next/link";
 import { interfaceTopics } from "@/data/interface-topics";
@@ -15,31 +17,31 @@ const description = "Technical guides for EV charger test equipment, DC fast cha
 export async function generateMetadata({ searchParams }: ResourcesPageProps): Promise<Metadata> {
   const filters = parseResourceBrowserFilters(searchParamsFromRecord(await searchParams));
   const hasFilters = filters.type !== "all" || filters.category !== "all" || Boolean(filters.query);
-  return buildPageMetadata({ ...getCatalogMetadataState("/resources", resourceIndexTitle, filters.page, hasFilters), description, image: "/assets/social/resources.png" });
+  return buildPageMetadata({ ...getCatalogMetadataState("/resources", resourceIndexTitle, filters.page, hasFilters), description, image: resourceBannerImage.src });
 }
 
 export default async function ResourcesPage({ searchParams }: ResourcesPageProps) {
   const filters = parseResourceBrowserFilters(searchParamsFromRecord(await searchParams));
   return <>
-    <section className="border-b border-slate-200 bg-white px-5 pb-7 pt-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-[#526b7d]">
-          <Link href="/" className="inline-flex min-h-8 items-center hover:text-[#1268a8]">Home</Link><ChevronRight size={13} aria-hidden="true" /><span aria-current="page">Resources</span>
-        </nav>
-        <div className="mt-3 flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-end">
-          <div className="min-w-0">
-            <h1 className="text-2xl font-black leading-tight text-[#12263a] sm:text-3xl">EV charger testing resource center</h1>
-            <p className="mt-3 max-w-3xl text-sm leading-6 text-[#526b7d]">Technical guides, solution briefs and application planning for laboratory, production and field testing.</p>
-          </div>
-          <Link href="/solutions" className="inline-flex min-h-11 shrink-0 items-center gap-2 text-sm font-bold text-[#1268a8] hover:underline">Explore solutions<ArrowRight size={16} aria-hidden="true" /></Link>
+    <section className="relative isolate bg-white">
+      <Image src={resourceBannerImage.src} alt={resourceBannerImage.alt} width={resourceBannerImage.width} height={resourceBannerImage.height} preload sizes="100vw" className="block h-auto w-full" />
+      <div className="absolute inset-0 bg-black/25" aria-hidden="true" />
+      <div className="absolute inset-0 flex items-center justify-center px-5 text-center">
+        <div className="max-w-3xl text-white">
+          <h1 className="text-3xl font-semibold leading-tight sm:text-4xl lg:text-[40px]">Resource Center</h1>
+          <p className="mt-3 text-sm font-normal leading-6 sm:mt-4 sm:text-lg">Technical guides, solution briefs and application planning for laboratory, production and field testing.</p>
         </div>
       </div>
     </section>
 
     <ResourceBrowser initialFilters={filters} />
 
-    <section className="border-t border-slate-200 bg-[#f3f8fa] px-5 py-6 lg:px-8" aria-labelledby="guide-directory-heading">
-      <div className="mx-auto max-w-7xl">
+    <section className="border-t border-[#e8edef] bg-[#f5f7f8] px-6 py-8 lg:px-11" aria-labelledby="guide-directory-heading">
+      <div className="mx-auto max-w-[1448px]">
+        <div className="mb-4 flex flex-wrap gap-x-8 gap-y-2">
+          <Link href="/engineering-cases" className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#1268a8] hover:underline">Engineering cases<ArrowRight size={16} aria-hidden="true" /></Link>
+          <Link href="/solutions" className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#1268a8] hover:underline">Testing solutions<ArrowRight size={16} aria-hidden="true" /></Link>
+        </div>
         <details className="group/directory">
           <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden"><h2 id="guide-directory-heading" className="flex items-center gap-2 text-base font-bold text-[#12263a]"><BookOpen size={18} aria-hidden="true" />Guide directory</h2><ChevronDown size={18} aria-hidden="true" className="shrink-0 text-[#526b7d] transition-transform group-open/directory:rotate-180" /></summary>
           <div className="mt-3 border-t border-slate-200 pt-3">

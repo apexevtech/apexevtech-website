@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { BookOpen, FileText, Layers3, RotateCcw, Search, Workflow, X } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
+import { BookOpen, ChevronRight, FileText, Home, Layers3, RotateCcw, Search, Workflow, X } from "lucide-react";
 import { CatalogControls } from "@/components/CatalogControls";
 import { CatalogMetadataSync } from "@/components/CatalogMetadataSync";
 import { Pagination } from "@/components/Pagination";
@@ -35,6 +36,13 @@ export function ResourceBrowser({ initialFilters }: { initialFilters: ResourceBr
     }
   }, []);
 
+  useEffect(() => {
+    // Keep rapid back/forward navigation aligned with the visible filters.
+    const syncHistory = () => syncFilters(new URLSearchParams(window.location.search));
+    window.addEventListener("popstate", syncHistory);
+    return () => window.removeEventListener("popstate", syncHistory);
+  }, [syncFilters]);
+
   function updateFilters(changes: Partial<ResourceBrowserFilters>, replace = false) {
     const next = { ...filters, ...changes, page: changes.page ?? 1 };
     if (changes.type) next.category = parseResourceBrowserFilters(serializeResourceBrowserFilters(next)).category;
@@ -57,28 +65,43 @@ export function ResourceBrowser({ initialFilters }: { initialFilters: ResourceBr
   const currentCategories = getResourceBrowserCategories(filters.type);
   const legacyCategory = filters.category !== "all" && !currentCategories.some((category) => category.id === filters.category);
 
-  return <section className="px-5 pb-8 pt-2 lg:px-8" aria-label="Resource materials">
+  return <section className="bg-white" aria-label="Resource materials">
     <QueryStateSync onChange={syncFilters} />
     <ResourceHashNavigation filters={filters} />
     <CatalogMetadataSync {...getCatalogMetadataState("/resources", resourceIndexTitle, page.page, hasFilters)} />
     <StructuredData data={buildResourceIndexStructuredData(visibleGuides, siteUrl, pageHref)} />
-    <div className="mx-auto max-w-7xl">
-      <CatalogControls className="border-b border-slate-200 pb-1">
-        <fieldset className="grid grid-cols-2 border-b border-slate-200 sm:grid-cols-4">
+    <CatalogControls className="bg-[#f3f4f5] px-6 lg:px-11">
+      <div className="mx-auto flex min-h-[72px] max-w-[1448px] items-center justify-between gap-3 sm:gap-5">
+        <nav aria-label="Breadcrumb" className="flex shrink-0 items-center gap-2 text-xs leading-5 text-[#64737e]">
+          <Link href="/" title="Home" className="flex min-h-11 min-w-8 items-center hover:text-[#1268a8]"><Home size={16} strokeWidth={1.5} aria-hidden="true" /><span className="sr-only">Home</span></Link>
+          <ChevronRight size={12} aria-hidden="true" /><span aria-current="page" className="hidden sm:inline">Resources</span>
+        </nav>
+        <label className="flex min-w-0 items-center text-sm text-[#526b7d] lg:hidden">
+          <span className="sr-only">Material type</span>
+          <select value={filters.type} onChange={(event) => updateFilters({ type: event.target.value as ResourceBrowserFilters["type"] })} className="min-h-11 min-w-0 max-w-full border-0 bg-transparent py-2 pl-1 pr-6 text-xs font-medium text-[#385064] outline-offset-2 focus-visible:outline-[#1268a8] sm:text-sm">
+            {filters.type === "materials" ? <option value="materials">Planning materials (24)</option> : null}
+            {materialTypes.map((type) => <option key={type.value} value={type.value}>{type.label} ({type.count})</option>)}
+          </select>
+        </label>
+        <fieldset className="hidden self-stretch lg:flex">
           <legend className="sr-only">Material type</legend>
-          {materialTypes.map((type) => <label key={type.value} className="relative -mb-px min-w-0 cursor-pointer">
+          {materialTypes.map((type) => <label key={type.value} className="relative min-w-0 cursor-pointer">
             <input type="radio" name="resource-type" value={type.value} checked={selectedType === type.value} onChange={() => updateFilters({ type: type.value })} onClick={() => { if (filters.type === "materials" && type.value === "all") updateFilters({ type: "all" }); }} className="peer sr-only" />
-            <span className="flex min-h-12 items-center justify-center gap-2 border-b-2 border-transparent px-2 py-3 text-center text-xs font-bold text-[#526b7d] peer-checked:border-[#1268a8] peer-checked:bg-[#f2f7fb] peer-checked:text-[#1268a8] peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-[-3px] peer-focus-visible:outline-[#1479c9] sm:px-4 sm:text-sm"><type.icon size={16} aria-hidden="true" className="hidden shrink-0 lg:block" /><span>{type.label}</span><span aria-hidden="true" className="text-[11px] font-normal tabular-nums text-[#526b7d]">{type.count}</span></span>
+            <span className="flex h-full min-h-[72px] items-center justify-center gap-2 border-b-2 border-transparent px-4 py-3 text-center text-sm font-medium leading-5 text-[#526b7d] transition-colors hover:text-[#1268a8] peer-checked:border-[#1268a8] peer-checked:text-[#1268a8] peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-[-3px] peer-focus-visible:outline-[#1479c9]"><type.icon size={15} strokeWidth={1.5} aria-hidden="true" className="shrink-0" /><span>{type.label}</span><span aria-hidden="true" className="text-[11px] font-normal tabular-nums text-[#7a8993]">{type.count}</span></span>
           </label>)}
         </fieldset>
-        <div className="mt-5 grid gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(220px,320px)]">
-          <label className="grid min-w-0 gap-2 text-xs font-bold text-[#385064]">Search materials<span className="relative flex min-w-0 items-center"><Search size={18} aria-hidden="true" className="pointer-events-none absolute left-3 text-slate-400" /><input type="search" value={filters.query} maxLength={120} onChange={(event) => updateFilters({ query: event.target.value }, true)} placeholder="Interface, workflow or topic" className="min-h-11 w-full min-w-0 rounded-md border border-slate-300 bg-white py-2 pl-10 pr-3 text-sm font-normal outline-none focus:border-[#1479c9] focus:ring-1 focus:ring-[#1479c9]" /></span></label>
-          <label className="grid min-w-0 gap-2 text-xs font-bold text-[#385064]">Topic<select value={filters.category} onChange={(event) => updateFilters({ category: event.target.value })} className="min-h-11 w-full min-w-0 rounded-md border border-slate-300 bg-white px-3 text-sm font-normal outline-none focus:border-[#1479c9] focus:ring-1 focus:ring-[#1479c9]"><option value="all">All topics</option>{legacyCategory ? <option value={filters.category}>{getResourceBrowserCategoryLabel(filters.category)}</option> : null}{currentCategories.map((category) => <option key={category.id} value={category.id}>{category.label}</option>)}</select></label>
+      </div>
+    </CatalogControls>
+    <div className="mx-auto max-w-[1536px] px-6 pb-10 pt-7 sm:pt-9 lg:px-11 lg:pb-14">
+      <CatalogControls className="mb-7 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 sm:mb-10">
+        <div className="flex min-w-0 flex-wrap items-center gap-x-5 gap-y-1">
+          <p role="status" aria-live="polite" className="min-w-0 break-words text-xs leading-6 text-[#74828d]">{page.totalItems ? `${page.start}-${page.end} of ${page.totalItems} materials` : "0 materials"}{filters.query ? ` matching "${filters.query}"` : ""}</p>
+          {hasFilters ? <button type="button" onClick={() => updateFilters(defaultResourceBrowserFilters)} className="inline-flex min-h-11 items-center gap-2 text-xs font-medium text-[#1268a8] hover:underline"><RotateCcw size={14} aria-hidden="true" />Reset filters</button> : null}
+          {filters.type === "materials" ? <button type="button" aria-label="Remove planning materials filter" onClick={() => updateFilters({ type: "all" })} className="inline-flex min-h-9 max-w-full items-center gap-2 rounded border border-slate-300 px-2.5 text-xs font-medium text-[#385064]">Planning materials<X size={14} aria-hidden="true" className="shrink-0" /></button> : null}
         </div>
-        {filters.type === "materials" ? <div className="mt-3"><button type="button" aria-label="Remove planning materials filter" onClick={() => updateFilters({ type: "all" })} className="inline-flex min-h-9 max-w-full items-center gap-2 rounded border border-slate-300 bg-[#f7fafc] px-2.5 text-xs font-semibold text-[#385064]">Planning materials<X size={14} aria-hidden="true" className="shrink-0" /></button></div> : null}
-        <div className="mt-3 flex min-h-11 flex-wrap items-center justify-between gap-3">
-          <p role="status" aria-live="polite" className="min-w-0 flex-1 break-words text-sm text-[#526b7d]">{page.totalItems ? `${page.start}-${page.end} of ${page.totalItems} materials` : "0 materials"}{filters.query ? ` matching "${filters.query}"` : ""}</p>
-          {hasFilters ? <button type="button" onClick={() => updateFilters(defaultResourceBrowserFilters)} className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#1268a8] hover:underline"><RotateCcw size={15} aria-hidden="true" />Reset filters</button> : null}
+        <div className="grid w-full min-w-0 gap-x-6 gap-y-3 sm:ml-auto sm:w-[480px] sm:grid-cols-[minmax(0,200px)_minmax(0,256px)]">
+          <label className="flex min-w-0 items-center"><span className="sr-only">Topic</span><select value={filters.category} onChange={(event) => updateFilters({ category: event.target.value })} className="min-h-11 w-full min-w-0 border-0 border-b border-[#dce2e6] bg-white py-2 pl-0 pr-6 text-sm text-[#526b7d] outline-none focus:border-[#1268a8]"><option value="all">All topics</option>{legacyCategory ? <option value={filters.category}>{getResourceBrowserCategoryLabel(filters.category)}</option> : null}{currentCategories.map((category) => <option key={category.id} value={category.id}>{category.label}</option>)}</select></label>
+          <label className="relative flex min-w-0 items-center"><span className="sr-only">Search materials</span><Search size={17} strokeWidth={1.5} aria-hidden="true" className="pointer-events-none absolute left-0 text-[#74828d]" /><input type="search" value={filters.query} maxLength={120} onChange={(event) => updateFilters({ query: event.target.value }, true)} placeholder="Search materials" className="min-h-11 w-full min-w-0 border-0 border-b border-[#dce2e6] bg-white py-2 pl-7 pr-1 text-sm text-[#385064] outline-none placeholder:text-[#74828d] focus:border-[#1268a8]" /></label>
         </div>
       </CatalogControls>
 
@@ -87,10 +110,10 @@ export function ResourceBrowser({ initialFilters }: { initialFilters: ResourceBr
         <div id="solution-briefs" className="scroll-mt-28" />
         <div id="application-scenarios" className="scroll-mt-28" />
         <h2 className="sr-only">Resource results</h2>
-        {page.totalItems ? <div className="divide-y divide-slate-200">{page.items.map((entry, index) => <ResourceMaterial key={entry.id} entry={entry} category={getResourceBrowserCategoryLabel(entry.categoryId)} number={page.start + index} />)}</div>
+        {page.totalItems ? <div className="grid items-start gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-14">{page.items.map((entry) => <ResourceMaterial key={entry.id} entry={entry} category={getResourceBrowserCategoryLabel(entry.categoryId)} />)}</div>
           : <div className="py-14 text-center"><h3 className="text-xl font-bold text-[#12263a]">No matching materials</h3><p className="mt-3 text-sm text-[#526b7d]">No material matches this search and category.</p><button type="button" onClick={() => updateFilters(defaultResourceBrowserFilters)} className="mt-4 min-h-11 text-sm font-bold text-[#1268a8] underline underline-offset-4">Reset filters</button></div>}
       </div>
-      <Pagination page={page.page} totalPages={page.totalPages} hrefForPage={(number) => buildPageHref("/resources", params, number, "resource-results")} />
+      <div className="mt-10 [&_nav]:border-0 [&_nav]:pb-0 [&_nav]:pt-2 [&_nav>a]:rounded-none [&_nav>span]:rounded-none"><Pagination page={page.page} totalPages={page.totalPages} hrefForPage={(number) => buildPageHref("/resources", params, number, "resource-results")} /></div>
     </div>
   </section>;
 }
