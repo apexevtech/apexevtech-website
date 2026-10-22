@@ -27,6 +27,10 @@ describe("Chinese project case display", () => {
     expect(html).toContain(`aria-label="技术详情： ${projectMessages[entry.title]}"`);
     expect(html).toContain(`id="${entry.slug}"`);
     expect(html).toContain(`href="/resources/${entry.relatedResourceSlug}"`);
+    expect(html).toContain(`href="/contact?case=${entry.slug}#inquiry-form"`);
+    expect(html).toContain("咨询类似配置");
+    expect(html).toContain("参考场景，最终配置需经工程评审。");
+    expect(html).not.toContain("Discuss a similar configuration");
     for (const text of entry.technicalFocus) expect(html).toContain(`<li>${projectMessages[text]}</li>`);
   });
 

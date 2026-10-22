@@ -1,5 +1,6 @@
 import type { InquiryFieldErrors, InquiryParseResult } from "@/lib/inquiries/types";
 import type { UtmAttribution, UtmValues } from "@/lib/attribution/utm";
+import { isReferenceCaseInquirySourcePage } from "@/lib/inquiries/reference-case";
 
 const MIN_SUBMIT_TIME_MS = 1_200;
 const MAX_FORM_AGE_MS = 24 * 60 * 60 * 1_000;
@@ -73,7 +74,7 @@ export function parseInquiry(input: unknown, now = Date.now()): InquiryParseResu
   const configuration = clean(record.configuration, 600);
   const value = {
     name, email, company, country, message, context, privacyAccepted: true as const,
-    ...(/^\/(?:resources|products)(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?$/.test(sourcePage) ? { sourcePage } : {}),
+    ...(/^\/(?:resources|products)(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?$/.test(sourcePage) || isReferenceCaseInquirySourcePage(sourcePage) ? { sourcePage } : {}),
     ...(configuration ? { configuration } : {}),
   };
   return safeAttribution ? { ok: true, isBot: false, value: { ...value, attribution: safeAttribution } } : { ok: true, isBot: false, value };

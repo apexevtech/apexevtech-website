@@ -16,6 +16,7 @@ import { resolveInquiryPrefill, shouldReplaceInquiryPrefill } from "@/lib/inquir
 import { QueryStateSync } from "@/components/QueryStateSync";
 import { readCatalogInquiryConfiguration } from "@/lib/inquiries/catalog-scope";
 import { T, useLanguage } from "@/components/LanguageProvider";
+import type { ReferenceCaseInquiry } from "@/lib/inquiries/reference-case";
 
 type InquiryFormProps = {
   compact?: boolean;
@@ -40,12 +41,14 @@ export function InquiryForm({ compact = false, context = "General website inquir
   const [fieldErrors, setFieldErrors] = useState<InquiryFieldErrors>({});
   const [resolvedContext, setResolvedContext] = useState(context);
   const [relatedProductModels, setRelatedProductModels] = useState(context.startsWith("Product inquiry: ") ? context.slice("Product inquiry: ".length) : "");
+  const [referenceCase, setReferenceCase] = useState<ReferenceCaseInquiry | null>(null);
   const startedAt = useRef(0);
   const inFlight = useRef(false);
   const interactionTracked = useRef(false);
   const invalidTracked = useRef(false);
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const previousPrefill = useRef("");
+  const prefillEdited = useRef(false);
   const formRef = useRef<HTMLFormElement>(null);
   const feedbackRef = useRef<HTMLDivElement>(null);
   const focusField = useRef<string | null>(null);
@@ -53,6 +56,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
     form_id: "equipment_inquiry",
     form_context: resolvedContext,
     ...(relatedProductModels ? { product_models: relatedProductModels } : {}),
+    ...(referenceCase ? { reference_case: referenceCase.slug } : {}),
   };
   const whatsappHref = `https://api.whatsapp.com/send?phone=8617714412321&text=${encodeURIComponent(`Hello APEX, I need help with ${resolvedContext}.`)}`;
 
@@ -72,8 +76,9 @@ export function InquiryForm({ compact = false, context = "General website inquir
     const prefill = resolveInquiryPrefill(params, { context, prefillProductsFromQuery, prefillContextFromQuery }, products);
     setResolvedContext(prefill.context);
     setRelatedProductModels(prefill.productModels);
+    setReferenceCase(prefill.referenceCase ?? null);
     const textarea = messageRef.current;
-    if (textarea && shouldReplaceInquiryPrefill(textarea.value, previousPrefill.current)) {
+    if (textarea && shouldReplaceInquiryPrefill(textarea.value, previousPrefill.current, prefillEdited.current)) {
       textarea.value = prefill.message;
     }
     previousPrefill.current = prefill.message;
@@ -91,6 +96,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
     const form = event.currentTarget;
     const formData = new FormData(form);
     const params = new URLSearchParams(window.location.search);
+    const prefill = resolveInquiryPrefill(params, { context, prefillProductsFromQuery, prefillContextFromQuery }, products);
     const payload = {
       name: formData.get("name"),
       email: formData.get("email"),
@@ -98,7 +104,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
       country: formData.get("country"),
       message: formData.get("message"),
       context: resolvedContext,
-      sourcePage: prefillContextFromQuery ? params.get("sourcePage") : window.location.pathname,
+      sourcePage: prefill.sourcePage ?? (prefillContextFromQuery ? params.get("sourcePage") : window.location.pathname),
       configuration: prefillContextFromQuery ? readCatalogInquiryConfiguration(params) : undefined,
       privacyAccepted: formData.get("privacyAccepted") === "on",
       website: formData.get("website"),
@@ -121,6 +127,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
       }
 
       form.reset();
+      prefillEdited.current = false;
       startedAt.current = Date.now();
       if (result.leadRecorded) trackEvent("generate_lead", { ...analyticsParameters, lead_source: "website_form" });
       interactionTracked.current = false;
@@ -153,6 +160,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
     }} onChange={(event) => {
       const target = event.target;
       if (target instanceof HTMLInputElement && target.name === "website") return;
+      if (target instanceof HTMLTextAreaElement && target.name === "message") prefillEdited.current = true;
       if ((target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) && target.name in fieldErrors) {
         setFieldErrors((previous) => {
           const next = { ...previous };
@@ -171,6 +179,11 @@ export function InquiryForm({ compact = false, context = "General website inquir
       <div className="border-b border-slate-200 pb-5">
         <p className="font-black text-[#12263a]"><T>Tell us about your test requirements</T></p>
         {relatedProductModels ? <p className="mt-3 break-words rounded-md border border-sky-100 bg-sky-50 px-3 py-2 text-sm leading-6 text-[#385064]"><span className="font-bold"><T>Equipment of interest:</T> </span>{relatedProductModels}</p> : null}
+        {referenceCase ? <div className="mt-3 min-w-0 rounded-md border border-[#d8e8f4] bg-[#f1f7fb] px-3 py-3 text-sm leading-6 text-[#385064]">
+          <p className="break-words font-semibold"><T>Reference scenario:</T> {t(referenceCase.title)}</p>
+          <p className="mt-1 break-words"><T>Technical focus:</T> {referenceCase.technicalFocus.map((focus) => t(focus)).join(" / ")}</p>
+          <p className="mt-2 text-xs leading-5 text-[#526b7d]"><T>Partner-published technical reference, not a verified APEX delivery record. Your configuration requires engineering review.</T></p>
+        </div> : null}
         <p className="mt-2 text-sm leading-6 text-[#526b7d]"><T>Company and country are optional. Prefer a direct conversation?</T></p>
         <div className="mt-3 flex flex-wrap gap-3 text-sm">
           <TrackedLink href={whatsappHref} target="_blank" rel="noopener noreferrer" eventName="whatsapp_click" location="inquiry-direct" eventParameters={analyticsParameters} className="inline-flex min-h-11 items-center rounded-md bg-[#15803d] px-4 font-bold text-white"><T>Ask on WhatsApp</T></TrackedLink>
@@ -204,6 +217,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
         const combined = addInquiryRequirements(textarea.value, summary);
         if (combined === null) return false;
         textarea.value = combined;
+        prefillEdited.current = true;
         setFieldErrors((previous) => ({ ...previous, message: undefined }));
         textarea.focus();
         return true;

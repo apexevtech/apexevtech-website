@@ -2,6 +2,7 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { engineeringCases } from "@/data/engineering-cases";
+import { buildReferenceCaseInquiryHref } from "@/lib/inquiries/reference-case";
 import { EngineeringCaseCard } from "./EngineeringCaseCard";
 
 const escape = (text: string) => text.replaceAll("&", "&amp;").replaceAll("'", "&#x27;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
@@ -51,6 +52,9 @@ describe("engineering case gallery cards", () => {
       for (const focus of entry.technicalFocus) expect(html).toContain(`<li>${escape(focus)}</li>`);
       expect(html).toContain(`href="/resources/${entry.relatedResourceSlug}"`);
       expect(html).toContain("Related testing guide");
+      expect(html).toContain(`href="${buildReferenceCaseInquiryHref(entry.slug)}"`);
+      expect(html).toContain("Discuss a similar configuration");
+      expect(html).toContain("Reference scenario. Final configuration is subject to engineering review.");
       expect(html).toContain("group-open/case:line-clamp-none");
       expect(html).not.toMatch(/href="https?:|saiter\.cn|Source reference image|verified APEX projects|APEX customers/i);
       const summary = html.match(/<summary\b[^>]*>([\s\S]*?)<\/summary>/)![1];

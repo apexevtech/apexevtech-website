@@ -1,6 +1,7 @@
 import type { Product } from "@/data/site";
 import { getComparedProducts } from "@/lib/products/comparison";
 import { readCatalogInquiryScope } from "@/lib/inquiries/catalog-scope";
+import { readReferenceCaseInquiry, type ReferenceCaseInquiry } from "@/lib/inquiries/reference-case";
 
 type PrefillOptions = {
   context: string;
@@ -8,7 +9,15 @@ type PrefillOptions = {
   prefillContextFromQuery: boolean;
 };
 
-export function resolveInquiryPrefill(params: URLSearchParams, options: PrefillOptions, products: Product[]) {
+type InquiryPrefill = {
+  context: string;
+  productModels: string;
+  message: string;
+  referenceCase?: ReferenceCaseInquiry;
+  sourcePage?: string;
+};
+
+export function resolveInquiryPrefill(params: URLSearchParams, options: PrefillOptions, products: Product[]): InquiryPrefill {
   const models = options.prefillProductsFromQuery
     ? getComparedProducts(params.get("products"), products).map((product) => product.model)
     : [];
@@ -19,6 +28,14 @@ export function resolveInquiryPrefill(params: URLSearchParams, options: PrefillO
   };
 
   if (options.prefillContextFromQuery) {
+    const referenceCase = readReferenceCaseInquiry(params);
+    if (referenceCase) return {
+      context: referenceCase.context,
+      productModels: "",
+      message: referenceCase.message,
+      referenceCase,
+      sourcePage: referenceCase.sourcePage,
+    };
     const scope = readCatalogInquiryScope(params);
     if (scope) return { context: "Equipment finder configuration inquiry", productModels: "", message: scope };
     const guideContext = params.get("context")?.trim().slice(0, 200);
@@ -36,6 +53,6 @@ export function resolveInquiryPrefill(params: URLSearchParams, options: PrefillO
   };
 }
 
-export function shouldReplaceInquiryPrefill(currentMessage: string, previousPrefill: string) {
-  return !currentMessage || currentMessage === previousPrefill;
+export function shouldReplaceInquiryPrefill(currentMessage: string, previousPrefill: string, userEdited = false) {
+  return !userEdited && (!currentMessage || currentMessage === previousPrefill);
 }

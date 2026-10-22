@@ -187,6 +187,8 @@ export const projectMessages: Record<string, string> = {
   "Technical scope": "技术范围",
   "Technical focus": "技术重点",
   "Related testing guide": "相关测试指南",
+  "Discuss a similar configuration": "咨询类似配置",
+  "Reference scenario. Final configuration is subject to engineering review.": "参考场景，最终配置需经工程评审。",
   "No matching references": "未找到匹配案例",
   "No engineering reference matches this search and category.": "此搜索及分类下没有匹配的工程案例。",
   "Resource materials": "技术资料",

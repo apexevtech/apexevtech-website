@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowRight, Check, ChevronDown, ClipboardCheck, ListChecks, MessageSquare, Settings2, TableProperties } from "lucide-react";
 import { InquiryForm } from "@/components/InquiryForm";
 import { PageHero } from "@/components/PageHero";
 import { ProductDocumentDownload } from "@/components/ProductDocumentDownload";
@@ -73,116 +74,115 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
       {seo ? <StructuredData data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: seo.faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } })) }} /> : null}
       <PageHero compact eyebrow={product.category} title={product.model} subtitle={product.title} description={product.shortDescription} />
 
-      <nav aria-label="Product page sections" className="border-b border-slate-200 bg-white px-5 py-3 lg:px-8">
-        <div className="mx-auto flex max-w-7xl flex-wrap gap-x-6 gap-y-1 text-sm font-bold text-[#1268a8]">
-          <Link href="#product-configuration" className="py-2 hover:underline"><T>Configuration</T></Link>
-          <Link href="#key-features" className="py-2 hover:underline"><T>Features</T></Link>
-          <Link href="#technical-specifications" className="py-2 hover:underline"><T>Specifications</T></Link>
-          <Link href="#product-inquiry" className="py-2 hover:underline"><T>Request a quote</T></Link>
+      <nav aria-label="Product page sections" className="border-b border-slate-200 bg-white px-5 py-2 lg:px-8">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 sm:flex sm:flex-wrap sm:gap-x-8">
+          {[
+            { href: "#product-configuration", label: "Configuration", icon: Settings2 },
+            { href: "#technical-specifications", label: "Specifications", icon: TableProperties },
+            { href: "#key-features", label: "Features", icon: ListChecks },
+            { href: "#product-inquiry", label: "Request a quote", icon: MessageSquare },
+          ].map(({ href, label, icon: Icon }) => <Link key={href} href={href} className="inline-flex min-h-11 min-w-0 items-center gap-2 py-2 text-sm font-semibold leading-5 text-[#1268a8] hover:underline"><Icon size={18} aria-hidden="true" className="shrink-0" /><T>{label}</T></Link>)}
         </div>
       </nav>
 
-      <section className="px-5 py-16 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+      <section className="px-5 py-8 sm:py-10 lg:px-8 lg:py-12">
+        <div className="mx-auto grid max-w-7xl gap-7 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10">
           <div className="relative aspect-[4/3] self-start overflow-hidden rounded-md border border-slate-200 bg-[#eef4f7]">
             <Image src={product.image} alt={`${product.model} ${product.title} for EV charger testing`} fill priority sizes="(min-width: 1280px) 550px, (min-width: 1024px) calc(47vw - 56px), calc(100vw - 40px)" className="object-contain p-5 sm:p-8" />
           </div>
-          <div id="product-configuration">
-            <h2 className="text-2xl font-black text-[#12263a]"><T>Configuration at a glance</T></h2>
-            <ProductConfigurationSummary product={product} />
-            <p className="mt-4 text-xs leading-5 text-[#526b7d]"><T>Socket, measurement and load limits are different specifications. Confirm the complete test circuit and included options before ordering.</T></p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="#product-inquiry" className="rounded-md bg-[#1479c9] px-5 py-3 font-extrabold text-white hover:bg-[#0f5f9f]">
-                <T>Request a quote</T>
+          <div id="product-configuration" className="min-w-0 scroll-mt-28">
+            <h2 className="text-2xl font-bold leading-8 text-[#12263a]"><T>Configuration at a glance</T></h2>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link href="#product-inquiry" className="inline-flex min-h-11 items-center gap-2 rounded-md bg-[#1479c9] px-5 py-3 text-sm font-semibold leading-6 text-white hover:bg-[#0f5f9f]">
+                <MessageSquare size={18} aria-hidden="true" className="shrink-0" /><T>Request a quote</T>
               </Link>
               {product.document ? <ProductDocumentDownload href={product.document} model={product.model} /> : null}
             </div>
+            <ProductConfigurationSummary product={product} />
+            <p className="mt-4 text-xs leading-5 text-[#526b7d]"><T>Socket, measurement and load limits are different specifications. Confirm the complete test circuit and included options before ordering.</T></p>
           </div>
         </div>
       </section>
 
-      <section className="px-5 pb-12 lg:px-8">
+      <section className="border-y border-slate-200 bg-white px-5 py-10 lg:px-8 lg:py-12">
         <div className="mx-auto max-w-7xl">
-          <SectionHeading eyebrow="Product Overview" title={product.title} description={product.overview} />
-          {seo ? <p className="mb-6 max-w-4xl leading-7 text-[#526b7d]"><T>{seo.intro}</T></p> : null}
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {product.highlights.map((highlight) => <div key={highlight} className="rounded-md border border-slate-200 bg-white p-4 font-extrabold text-slate-900"><T>{highlight}</T></div>)}
-          </div>
-        </div>
-      </section>
-
-      {seo?.selection ? (
-        <section className="px-5 pb-12 lg:px-8">
-          <div className="mx-auto max-w-7xl rounded-md border border-slate-200 bg-white p-6 sm:p-8">
-            <h2 className="text-2xl font-black text-[#12263a]"><T>Choose the right test configuration</T></h2>
-            <div className="mt-5 grid gap-6 md:grid-cols-3">
-              {[
-                ["Interface and workflow", seo.selection.workflow],
-                ["External load and connection limits", seo.selection.load],
-                ["Options and accessories", seo.selection.options],
-              ].map(([title, text]) => (
-                <div key={title}>
-                  <h3 className="font-black text-[#12263a]"><T>{title}</T></h3>
+          <div className={`grid gap-10 ${seo?.selection ? "lg:grid-cols-2" : ""}`}>
+            <div id="technical-specifications" className="min-w-0 scroll-mt-28">
+              <SectionHeading compact eyebrow="Technical Specifications" title="Core specifications" />
+              <SpecTable specs={product.specs} />
+            </div>
+            {seo?.selection ? <div className="min-w-0">
+              <h2 className="text-2xl font-semibold leading-8 text-[#12263a]"><T>Choose the right test configuration</T></h2>
+              <div className="mt-5 divide-y divide-slate-200">
+                {[
+                  ["Interface and workflow", seo.selection.workflow],
+                  ["External load and connection limits", seo.selection.load],
+                  ["Options and accessories", seo.selection.options],
+                ].map(([title, text]) => <div key={title} className="py-4 first:pt-0">
+                  <h3 className="font-semibold leading-6 text-[#12263a]"><T>{title}</T></h3>
                   <p className="mt-2 text-sm leading-6 text-[#526b7d]"><T>{text}</T></p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-sm font-bold text-[#1268a8]">
-              {seo.selection.alternatives.map((alternative) => (
-                <Link key={alternative.slug} href={`/products/${alternative.slug}`}><T>{alternative.label}</T> →</Link>
-              ))}
-              <Link href="#product-inquiry"><T>Discuss your configuration →</T></Link>
-            </div>
+                </div>)}
+              </div>
+              <div className="mt-4 flex flex-col items-start gap-3 text-sm font-semibold leading-6 text-[#1268a8]">
+                {seo.selection.alternatives.map((alternative) => <Link key={alternative.slug} href={`/products/${alternative.slug}`} className="inline-flex min-h-11 items-center gap-2 hover:underline"><span><T>{alternative.label}</T></span><ArrowRight size={16} aria-hidden="true" className="shrink-0" /></Link>)}
+              </div>
+              <Link href="#product-inquiry" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-md bg-[#1479c9] px-5 py-3 text-sm font-bold text-white hover:bg-[#0f5f9f]"><MessageSquare size={18} aria-hidden="true" className="shrink-0" /><T>Request a configuration review</T></Link>
+            </div> : null}
           </div>
-        </section>
-      ) : null}
+          <details className="group/procurement mt-8 border-t border-slate-200">
+            <summary className="flex min-h-14 cursor-pointer list-none items-center gap-3 py-4 font-semibold leading-6 text-[#12263a] [&::-webkit-details-marker]:hidden">
+              <ClipboardCheck size={20} aria-hidden="true" className="shrink-0 text-[#1268a8]" /><span className="flex-1"><T>Procurement checklist</T></span><ChevronDown size={18} aria-hidden="true" className="shrink-0 text-[#1268a8] transition-transform group-open/procurement:rotate-180" />
+            </summary>
+            <h3 className="mt-2 text-lg font-semibold leading-7 text-[#12263a]"><T>Confirm the delivered configuration before ordering</T></h3>
+            <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {[
+                ["Interface and standards", "Confirm the connector, market, protocol and exact standard editions required by the charger and test plan."],
+                ["Electrical and load path", "Separate socket, cable and measurement ratings from the source or external load used during sustained power tests."],
+                ["Evidence and options", "List required metering accuracy, message or waveform capture, fault cases, report fields and optional modules."],
+                ["Acceptance and support", "Agree supplied accessories, software, factory acceptance checks, commissioning, training and support boundaries."],
+              ].map(([title, text]) => <div key={title} className="border-t-2 border-[#00a6c7] pt-4"><h4 className="font-semibold text-[#12263a]"><T>{title}</T></h4><p className="mt-2 text-sm leading-6 text-[#526b7d]"><T>{text}</T></p></div>)}
+            </div>
+            <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
+              <Link href="#product-inquiry" className="inline-flex min-h-11 items-center text-sm font-semibold text-[#1268a8] hover:underline"><T>Send configuration requirements</T></Link>
+              <Link href={`/products?compare=${product.slug}#compare`} className="inline-flex min-h-11 items-center text-sm font-semibold text-[#1268a8] hover:underline"><T>Compare</T> {product.model} →</Link>
+              <Link href="/resources/ev-charger-test-equipment-guide" className="inline-flex min-h-11 items-center text-sm font-semibold text-[#1268a8] hover:underline"><T>Read the equipment buying guide →</T></Link>
+            </div>
+          </details>
+        </div>
+      </section>
 
-      <section className="px-5 pb-12 lg:px-8">
-        <div className="mx-auto max-w-7xl rounded-md border border-slate-200 bg-[#f3f8fa] p-6 sm:p-8">
-          <p className="text-sm font-black uppercase tracking-wide text-[#1268a8]"><T>Procurement checklist</T></p>
-          <h2 className="mt-2 text-2xl font-black text-[#12263a]"><T>Confirm the delivered configuration before ordering</T></h2>
-          <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {[
-              ["Interface and standards", "Confirm the connector, market, protocol and exact standard editions required by the charger and test plan."],
-              ["Electrical and load path", "Separate socket, cable and measurement ratings from the source or external load used during sustained power tests."],
-              ["Evidence and options", "List required metering accuracy, message or waveform capture, fault cases, report fields and optional modules."],
-              ["Acceptance and support", "Agree supplied accessories, software, factory acceptance checks, commissioning, training and support boundaries."],
-            ].map(([title, text]) => <div key={title} className="border-t-2 border-[#00a6c7] pt-4"><h3 className="font-black text-[#12263a]"><T>{title}</T></h3><p className="mt-2 text-sm leading-6 text-[#526b7d]"><T>{text}</T></p></div>)}
+      <section className="px-5 py-10 lg:px-8 lg:py-12">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2">
+          <div className="min-w-0">
+            <SectionHeading compact eyebrow="Product Overview" title={product.title} description={product.overview} />
+            {seo ? <p className="text-sm leading-7 text-[#526b7d]"><T>{seo.intro}</T></p> : null}
+            <ul className="mt-6 grid gap-3 border-t border-slate-200 pt-5 sm:grid-cols-2">
+              {product.highlights.map((highlight) => <li key={highlight} className="flex items-start gap-2 text-sm font-semibold leading-6 text-[#12263a]"><Check size={18} aria-hidden="true" className="mt-1 shrink-0 text-[#1268a8]" /><span><T>{highlight}</T></span></li>)}
+            </ul>
           </div>
-          <div className="mt-6 flex flex-wrap items-center gap-4">
-            <Link href="#product-inquiry" className="rounded-md bg-[#1479c9] px-5 py-3 text-sm font-black text-white hover:bg-[#0f5f9f]"><T>Send configuration requirements</T></Link>
-            <Link href={`/products?compare=${product.slug}#compare`} className="text-sm font-black text-[#1268a8]"><T>Compare</T> {product.model} →</Link>
-            <Link href="/resources/ev-charger-test-equipment-guide" className="text-sm font-black text-[#1268a8]"><T>Read the equipment buying guide →</T></Link>
+          <div id="key-features" className="min-w-0 scroll-mt-28">
+            <SectionHeading compact eyebrow="Key Features" title="Designed for reliable EV charger validation." />
+            <ul className="divide-y divide-slate-200">
+              {product.features.map((feature, index) => (
+                <li key={feature} className="flex gap-3 py-3 first:pt-0 last:pb-0">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center text-xs font-semibold text-[#1268a8]">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-sm leading-6 text-slate-700"><T>{feature}</T></span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
 
-      <section className="bg-slate-50 px-5 py-12 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">
-          <div id="key-features">
-            <SectionHeading compact eyebrow="Key Features" title="Designed for reliable EV charger validation." />
-            <div className="rounded-md border border-slate-200 bg-white p-5 sm:p-6">
-              <ul className="divide-y divide-slate-100">
-                {product.features.map((feature, index) => (
-                  <li key={feature} className="flex gap-3 py-3 first:pt-0 last:pb-0">
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center bg-[#e8f7fa] text-[10px] font-black text-apex-blue">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span className="text-sm leading-6 text-slate-700"><T>{feature}</T></span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+      <section id="product-inquiry" className="scroll-mt-28 border-y border-slate-200 bg-slate-50 px-5 py-10 lg:px-8 lg:py-12">
+        <div className="mx-auto grid max-w-7xl gap-7 lg:grid-cols-[0.8fr_1.2fr] lg:gap-10">
+          <div>
+            <SectionHeading compact eyebrow="Inquiry Form" title="Request pricing, lead time or technical support." />
+            <p className="text-sm leading-7 text-slate-600"><T>Include your target standard, voltage/current range and testing environment for a faster recommendation.</T></p>
           </div>
-          <div id="technical-specifications">
-            <SectionHeading compact eyebrow="Technical Specifications" title="Core specifications" />
-            <SpecTable specs={product.specs} />
-            <div className="mt-5 rounded-md border-l-4 border-[#00a6c7] bg-white p-5">
-              <h3 className="font-black text-[#12263a]"><T>Need this model configured for your charger?</T></h3>
-              <p className="mt-2 text-sm leading-6 text-[#526b7d]"><T>Send the connector, target standard, voltage/current range and test workflow. The form below already includes</T> {product.model} <T>as the inquiry context.</T></p>
-              <Link href="#product-inquiry" className="mt-4 inline-flex rounded-md bg-[#1479c9] px-5 py-3 text-sm font-black text-white hover:bg-[#0f5f9f]"><T>Request a configuration review</T></Link>
-            </div>
-          </div>
+          <InquiryForm context={`Product inquiry: ${product.model}`} />
         </div>
       </section>
 
@@ -199,7 +199,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
         </div>
       </section>
 
-      {seo ? <section className="px-5 py-14 lg:px-8"><div className="mx-auto max-w-7xl"><SectionHeading compact eyebrow="Product FAQ" title={`Common questions about ${product.model}`} /><div className="grid gap-6 md:grid-cols-3">{seo.faqs.map((faq) => <div key={faq.question} className="border-t-2 border-[#00a6c7] pt-4"><h3 className="font-black text-[#12263a]"><T>{faq.question}</T></h3><p className="mt-2 text-sm leading-6 text-[#526b7d]"><T>{faq.answer}</T></p></div>)}</div></div></section> : null}
+      {seo ? <section className="px-5 pb-12 lg:px-8"><div className="mx-auto max-w-7xl"><SectionHeading compact eyebrow="Product FAQ" title={`Common questions about ${product.model}`} /><div className="divide-y divide-slate-200 border-y border-slate-200">{seo.faqs.map((faq) => <details key={faq.question} className="group/faq"><summary className="flex min-h-14 cursor-pointer list-none items-center gap-4 py-4 text-sm font-semibold leading-6 text-[#12263a] [&::-webkit-details-marker]:hidden"><span role="heading" aria-level={3} className="flex-1"><T>{faq.question}</T></span><ChevronDown size={18} aria-hidden="true" className="shrink-0 text-[#1268a8] transition-transform group-open/faq:rotate-180" /></summary><p className="max-w-4xl pb-5 text-sm leading-7 text-[#526b7d]"><T>{faq.answer}</T></p></details>)}</div></div></section> : null}
 
       <section className="px-5 pb-12 lg:px-8">
         <div className="mx-auto max-w-7xl">
@@ -224,16 +224,6 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             {relatedApplications.map((application) => <Link key={application.slug} href={`/applications/${application.slug}`} className="rounded-md border border-slate-200 bg-white p-5 hover:border-[#1479c9]"><h3 className="font-black text-[#1268a8]"><T>{application.title}</T> →</h3><p className="mt-2 text-sm leading-6 text-[#526b7d]"><T>{application.description}</T></p></Link>)}
           </div>
-        </div>
-      </section>
-
-      <section id="product-inquiry" className="scroll-mt-28 bg-slate-50 px-5 py-16 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-          <div>
-            <SectionHeading eyebrow="Inquiry Form" title="Request pricing, lead time or technical support." />
-            <p className="text-slate-600"><T>Include your target standard, voltage/current range and testing environment for a faster recommendation.</T></p>
-          </div>
-          <InquiryForm context={`Product inquiry: ${product.model}`} />
         </div>
       </section>
 

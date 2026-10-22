@@ -25,6 +25,13 @@ describe("trackEvent", () => {
     ]);
   });
 
+  it("supports reference scenario inquiries with only a public case slug", () => {
+    const gtag = vi.fn();
+    vi.stubGlobal("window", { gtag, location: { pathname: "/project-cases" } });
+    trackEvent("case_inquiry_click", { location: "engineering-case", reference_case: "ccs-charger-laboratory-testing" });
+    expect(gtag).toHaveBeenCalledWith("event", "case_inquiry_click", { page_path: "/project-cases", location: "engineering-case", reference_case: "ccs-charger-laboratory-testing" });
+  });
+
   it("uses only the path for page attribution and does not interrupt actions when analytics fails", () => {
     const gtag = vi.fn();
     vi.stubGlobal("window", { gtag, location: { pathname: "/products/st-6680ea-ac", search: "?email=private@example.com" } });

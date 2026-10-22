@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { products } from "@/data/site";
+import { engineeringCases } from "@/data/engineering-cases";
+import { messages } from "@/lib/i18n/zh";
+import { translateText } from "@/lib/i18n/translate";
 import { resolveInquiryPrefill, shouldReplaceInquiryPrefill } from "./prefill";
 
 const options = { context: "Website contact page", prefillProductsFromQuery: true, prefillContextFromQuery: true };
@@ -34,5 +37,38 @@ describe("inquiry URL prefill", () => {
     expect(shouldReplaceInquiryPrefill("old draft", "old draft")).toBe(true);
     expect(shouldReplaceInquiryPrefill("My charger needs 1000 V", "old draft")).toBe(false);
     expect(shouldReplaceInquiryPrefill("old draft\nMy additional requirement", "old draft")).toBe(false);
+    expect(shouldReplaceInquiryPrefill("", "old draft", true)).toBe(false);
+    expect(shouldReplaceInquiryPrefill("old draft", "old draft", true)).toBe(false);
+  });
+
+  it("resolves a reference scenario from the whitelist and keeps its source and context stable", () => {
+    const entry = engineeringCases[0];
+    const result = resolve(`case=${entry.slug}&context=Fake+project&sourcePage=https://example.com`);
+    expect(result.context).toBe(`Reference scenario inquiry: ${entry.title}`);
+    expect(result.sourcePage).toBe(`/project-cases#${entry.slug}`);
+    expect(result.referenceCase?.title).toBe(entry.title);
+    expect(result.productModels).toBe("");
+    expect(result.message).not.toMatch(/Fake project|example\.com/);
+    expect(resolve("case=unknown&context=Fake+project")).toEqual({ context: "Website contact page", productModels: "", message: "" });
+    expect(resolveInquiryPrefill(new URLSearchParams(`case=${entry.slug}`), { ...options, prefillContextFromQuery: false }, products)).toEqual({ context: "Website contact page", productModels: "", message: "" });
+  });
+
+  it("does not interfere with valid comparison or equipment-finder inquiry flows", () => {
+    expect(resolve(`case=${engineeringCases[0].slug}&products=ast-9000`).context).toBe("Product comparison inquiry: AST-9000");
+    expect(resolve("case=unknown&source=equipment-finder&type=dc").context).toBe("Equipment finder configuration inquiry");
+  });
+
+  it("translates scenario explanations without changing the message or attribution or replacing user edits", () => {
+    const query = `case=${engineeringCases[0].slug}`;
+    const english = resolve(query);
+    const chinese = resolve(query);
+    expect(translateText("Reference scenario:", "en", messages)).toBe("Reference scenario:");
+    expect(translateText("Reference scenario:", "zh", messages)).toBe("参考场景：");
+    expect(translateText(english.referenceCase!.title, "zh", messages)).toBe("CCS 充电设备实验室测试");
+    expect(translateText("Partner-published technical reference, not a verified APEX delivery record. Your configuration requires engineering review.", "zh", messages)).toContain("并非经核验的 APEX 交付记录");
+    expect(chinese).toEqual(english);
+    expect(shouldReplaceInquiryPrefill("我的充电桩需要 1000 V / 300 A", english.message)).toBe(false);
+    expect(shouldReplaceInquiryPrefill("", english.message, true)).toBe(false);
+    expect(shouldReplaceInquiryPrefill(english.message, english.message)).toBe(true);
   });
 });
