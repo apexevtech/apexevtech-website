@@ -1,4 +1,5 @@
 "use client";
+import { T } from "@/components/LanguageProvider";
 
 export function CookieSettingsButton() {
   return (
@@ -7,7 +8,7 @@ export function CookieSettingsButton() {
       className="rounded-md border border-slate-300 px-4 py-2 text-sm font-bold text-[#385064] hover:border-[#1479c9] hover:text-[#1268a8]"
       onClick={() => window.dispatchEvent(new Event("apex-cookie-settings"))}
     >
-      Review analytics choice
+      <T>Review analytics choice</T>
     </button>
   );
 }

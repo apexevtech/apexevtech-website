@@ -4,6 +4,14 @@ import { resources } from "@/lib/resources/catalog";
 import { defaultResourceBrowserFilters, filterResourceBrowserEntries, getResourceBrowserCategories, getResourceBrowserCategoryLabel, getResourceBrowserPage, parseResourceBrowserFilters, resourceBrowserEntries, serializeResourceBrowserFilters } from "@/lib/resources/browser";
 
 describe("resource browser", () => {
+  it("searches Chinese guides and planning materials with stable paginated deep links", () => {
+    expect(filterResourceBrowserEntries({ ...defaultResourceBrowserFilters, query: "光伏与储能" }).map((entry) => entry.id)).toEqual(["pv-storage-integration-planning"]);
+    expect(filterResourceBrowserEntries({ ...defaultResourceBrowserFilters, type: "guides", query: "国标" }).map((entry) => entry.id)).toEqual(["gbt-dc-charger-conformance-testing", "gbt-27930-2-charger-testing"]);
+    const filters = { ...defaultResourceBrowserFilters, query: "接口与标准", page: 2 };
+    expect(getResourceBrowserPage(filters).totalItems).toBeGreaterThan(6);
+    expect(parseResourceBrowserFilters(serializeResourceBrowserFilters(filters, new URLSearchParams("section=resources&utm_source=qa")))).toEqual(filters);
+  });
+
   it("includes every guide, solution and scenario once with all formats on page one", () => {
     expect(resourceBrowserEntries).toHaveLength(resources.length + solutionBriefs.length + applicationScenarios.length);
     expect(resourceBrowserEntries).toHaveLength(46);

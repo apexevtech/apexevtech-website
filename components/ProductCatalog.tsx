@@ -2,6 +2,7 @@
 
 import type { Product } from "@/data/site";
 import { ProductCard } from "@/components/ProductCard";
+import { T } from "@/components/LanguageProvider";
 
 type ProductCatalogProps = {
   products: Product[];
@@ -14,8 +15,8 @@ export function ProductCatalog({ products, eyebrow, title }: ProductCatalogProps
     <>
       <div className="mb-8">
         <div className="mb-1 max-w-3xl">
-          <p className="text-sm font-extrabold uppercase text-apex-blue">{eyebrow}</p>
-          <h2 className="mt-2 text-3xl font-black leading-tight text-slate-900 md:text-4xl">{title}</h2>
+          <p className="text-sm font-extrabold uppercase text-apex-blue"><T>{eyebrow}</T></p>
+          <h2 className="mt-2 text-3xl font-black leading-tight text-slate-900 md:text-4xl"><T>{title}</T></h2>
         </div>
       </div>
 

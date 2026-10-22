@@ -1,3 +1,4 @@
+import { T } from "@/components/LanguageProvider";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -65,17 +66,15 @@ export default function AboutPage() {
         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <SectionHeading eyebrow="Company Overview" title="Technology-focused partner for EV charger testing." />
-            <p className="leading-8 text-slate-600">
-              We support EV charger manufacturers, certification laboratories, charging pile testing institutions, charging station operators and field service teams with professional test systems for AC/DC chargers, EVSE interfaces and V2G-related charging equipment.
-            </p>
+            <p className="leading-8 text-slate-600"><T>{"We support EV charger manufacturers, certification laboratories, charging pile testing institutions, charging station operators and field service teams with professional test systems for AC/DC chargers, EVSE interfaces and V2G-related charging equipment."}</T></p>
             <div className="mt-8 grid gap-5 md:grid-cols-2">
               <div className="rounded-md bg-[#102a43] p-6 text-white">
-                <p className="text-sm font-extrabold text-sky-300">Mission</p>
-                <p className="mt-3 font-bold">Make EV charger testing more reliable, repeatable and field-ready.</p>
+                <p className="text-sm font-extrabold text-sky-300"><T>{"Mission"}</T></p>
+                <p className="mt-3 font-bold"><T>{"Make EV charger testing more reliable, repeatable and field-ready."}</T></p>
               </div>
               <div className="rounded-md bg-apex-blue p-6 text-white">
-                <p className="text-sm font-extrabold text-blue-100">Vision</p>
-                <p className="mt-3 font-bold">Become a trusted global provider of EV charging test solutions.</p>
+                <p className="text-sm font-extrabold text-blue-100"><T>{"Vision"}</T></p>
+                <p className="mt-3 font-bold"><T>{"Become a trusted global provider of EV charging test solutions."}</T></p>
               </div>
             </div>
           </div>
@@ -96,27 +95,21 @@ export default function AboutPage() {
           <SectionHeading eyebrow="Factory & Laboratory" title="Built around industrial production and validation workflows." />
           <div className="grid gap-6 md:grid-cols-2">
             <div className="rounded-lg border border-slate-200 bg-white p-7">
-              <h3 className="text-2xl font-black text-slate-950">Factory Introduction</h3>
-              <p className="mt-4 leading-7 text-slate-600">
-                APEX products are developed for production environments where repeatability, rugged design and clear test records matter.
-              </p>
+              <h3 className="text-2xl font-black text-slate-950"><T>{"Factory Introduction"}</T></h3>
+              <p className="mt-4 leading-7 text-slate-600"><T>{"APEX products are developed for production environments where repeatability, rugged design and clear test records matter."}</T></p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-white p-7">
-              <h3 className="text-2xl font-black text-slate-950">Laboratory Introduction</h3>
-              <p className="mt-4 leading-7 text-slate-600">
-                Our solutions support certification preparation, standards testing, protocol diagnostics and charging system analysis.
-              </p>
+              <h3 className="text-2xl font-black text-slate-950"><T>{"Laboratory Introduction"}</T></h3>
+              <p className="mt-4 leading-7 text-slate-600"><T>{"Our solutions support certification preparation, standards testing, protocol diagnostics and charging system analysis."}</T></p>
             </div>
           </div>
           <div className="mt-10 rounded-lg border border-slate-200 bg-white p-7">
-            <h3 className="text-2xl font-black text-slate-950">Supported Standards &amp; Protocols</h3>
-            <p className="mt-3 max-w-4xl leading-7 text-slate-600">
-              Our laboratory and field systems can be configured for the following charging interfaces, communication protocols, metering requirements and safety standards.
-            </p>
+            <h3 className="text-2xl font-black text-slate-950"><T>{"Supported Standards & Protocols"}</T></h3>
+            <p className="mt-3 max-w-4xl leading-7 text-slate-600"><T>{"Our laboratory and field systems can be configured for the following charging interfaces, communication protocols, metering requirements and safety standards."}</T></p>
             <div className="mt-6 flex flex-wrap gap-2">
               {supportedProtocols.map((protocol) => (
                 <span key={protocol} className="rounded-md bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-700">
-                  {protocol}
+                  <T>{protocol}</T>
                 </span>
               ))}
             </div>
@@ -124,21 +117,21 @@ export default function AboutPage() {
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {evidenceLinks.map((item) => (
               <Link key={item.label} href={item.href} className="rounded-lg border border-slate-200 bg-white p-6 transition hover:border-[#1479c9]">
-                <span className="block text-3xl font-black text-[#1268a8]">{item.value}</span>
-                <span className="mt-2 block text-sm font-bold leading-6 text-slate-700">{item.label} →</span>
+                <span className="block text-3xl font-black text-[#1268a8]"><T>{item.value}</T></span>
+                <span className="mt-2 block text-sm font-bold leading-6 text-slate-700"><T>{item.label}</T> →</span>
               </Link>
             ))}
           </div>
           <div className="mt-10 rounded-lg border border-slate-200 bg-white p-7">
-            <h3 className="text-2xl font-black text-slate-950">What to verify before ordering</h3>
-            <p className="mt-3 max-w-4xl leading-7 text-slate-600">The published pages are a configuration starting point. A project review should confirm the exact model, connector, standards editions, electrical limits, included software and external-load arrangement in the quotation.</p>
+            <h3 className="text-2xl font-black text-slate-950"><T>{"What to verify before ordering"}</T></h3>
+            <p className="mt-3 max-w-4xl leading-7 text-slate-600"><T>{"The published pages are a configuration starting point. A project review should confirm the exact model, connector, standards editions, electrical limits, included software and external-load arrangement in the quotation."}</T></p>
             <ul className="mt-5 grid gap-3 text-sm leading-6 text-slate-700 md:grid-cols-2">
-              <li className="border-l-4 border-[#00a6c7] pl-4">Ask for the model-specific specification and option list.</li>
-              <li className="border-l-4 border-[#00a6c7] pl-4">Separate tester socket ratings from continuous load ratings.</li>
-              <li className="border-l-4 border-[#00a6c7] pl-4">Name the required standards and revisions in the test plan.</li>
-              <li className="border-l-4 border-[#00a6c7] pl-4">Request calibration or conformity evidence required by your own procedure.</li>
+              <li className="border-l-4 border-[#00a6c7] pl-4"><T>{"Ask for the model-specific specification and option list."}</T></li>
+              <li className="border-l-4 border-[#00a6c7] pl-4"><T>{"Separate tester socket ratings from continuous load ratings."}</T></li>
+              <li className="border-l-4 border-[#00a6c7] pl-4"><T>{"Name the required standards and revisions in the test plan."}</T></li>
+              <li className="border-l-4 border-[#00a6c7] pl-4"><T>{"Request calibration or conformity evidence required by your own procedure."}</T></li>
             </ul>
-            <Link href="/contact#inquiry-form" className="mt-6 inline-flex rounded-md bg-[#1479c9] px-5 py-3 text-sm font-black text-white hover:bg-[#0f5f9f]">Verify a project configuration</Link>
+            <Link href="/contact#inquiry-form" className="mt-6 inline-flex rounded-md bg-[#1479c9] px-5 py-3 text-sm font-black text-white hover:bg-[#0f5f9f]"><T>{"Verify a project configuration"}</T></Link>
           </div>
         </div>
       </section>

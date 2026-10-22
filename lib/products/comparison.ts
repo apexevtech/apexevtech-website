@@ -1,24 +1,24 @@
 import type { Product } from "@/data/site";
 import { getProductConfiguration } from "@/lib/products/configuration";
 
-function matchingSpecs(product: Product, pattern: RegExp, limit: number) {
+function matchingSpecs(product: Product, pattern: RegExp, limit: number, translate: (text: string) => string) {
   return product.specs
     .filter(([name]) => pattern.test(name))
     .slice(0, limit)
-    .map(([name, value]) => `${name}: ${value}`)
+    .map(([name, value]) => `${translate(name)}: ${translate(value)}`)
     .join("; ");
 }
 
-export function getProductComparisonDetails(product: Product) {
-  const configuration = getProductConfiguration(product);
+export function getProductComparisonDetails(product: Product, translate: (text: string) => string = (text) => text) {
+  const configuration = getProductConfiguration(product, translate);
   return {
-    type: product.category,
+    type: translate(product.category),
     interface: configuration.interface,
     electricalRange: configuration.electricalRange,
     loadArrangement: configuration.loadArrangement,
-    standards: matchingSpecs(product, /standard|protocol|reference/i, 2) || product.highlights.filter((item) => /IEC|GB\/T|SAE|ISO|DIN|CHAdeMO|NACS/i.test(item)).slice(0, 3).join(" · ") || "Confirm the exact standards and editions with APEX.",
-    capabilities: product.highlights.slice(0, 4).join(" · "),
-    applications: product.applications.slice(0, 3).join(" · "),
+    standards: matchingSpecs(product, /standard|protocol|reference/i, 2, translate) || product.highlights.filter((item) => /IEC|GB\/T|SAE|ISO|DIN|CHAdeMO|NACS/i.test(item)).slice(0, 3).map(translate).join(" · ") || translate("Confirm the exact standards and editions with APEX."),
+    capabilities: product.highlights.slice(0, 4).map(translate).join(" · "),
+    applications: product.applications.slice(0, 3).map(translate).join(" · "),
   };
 }
 

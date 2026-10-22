@@ -4,10 +4,12 @@ import { whatsappButtonClassName, whatsappIconPath } from "@/components/WhatsApp
 import { trackEvent } from "@/lib/analytics/events";
 import { usePathname } from "next/navigation";
 import { buildWhatsAppInquiryHref } from "@/lib/inquiries/whatsapp";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export { whatsappIconPath } from "@/components/WhatsAppButton.styles";
 
 export function WhatsAppButton() {
+  const { t } = useLanguage();
   const pathname = usePathname();
 
   return (
@@ -15,8 +17,8 @@ export function WhatsAppButton() {
       href={buildWhatsAppInquiryHref(pathname)}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Contact APEX on WhatsApp"
-      title="Contact APEX on WhatsApp"
+      aria-label={t("Contact APEX on WhatsApp")}
+      title={t("Contact APEX on WhatsApp")}
       className={whatsappButtonClassName}
       onClick={() => trackEvent("whatsapp_click", { location: "floating" })}
     >

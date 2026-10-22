@@ -1,3 +1,4 @@
+import { T } from "@/components/LanguageProvider";
 import type { Metadata } from "next";
 import { InquiryForm } from "@/components/InquiryForm";
 import { PageHero } from "@/components/PageHero";
@@ -22,15 +23,15 @@ export default function ContactPage() {
       <section className="px-5 py-16 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="rounded-md bg-[#102a43] p-8 text-white">
-            <h2 className="text-3xl font-black">APEX Contact</h2>
+            <h2 className="text-3xl font-black"><T>{"APEX Contact"}</T></h2>
             <div className="mt-6 grid gap-4 text-slate-300">
-              <p>{company.name}</p>
-              <p>{company.location}</p>
+              <p><T>{company.name}</T></p>
+              <p><T>{company.location}</T></p>
               <TrackedLink href={`mailto:${company.email}`} eventName="email_click" location="contact-details" className="text-white hover:text-sky-300">
-                {company.email}
+                <T>{company.email}</T>
               </TrackedLink>
               <TrackedLink href={`tel:${company.phone.replaceAll(" ", "")}`} eventName="phone_click" location="contact-details" className="text-white hover:text-sky-300">
-                {company.phone}
+                <T>{company.phone}</T>
               </TrackedLink>
             </div>
           </div>

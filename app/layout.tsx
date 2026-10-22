@@ -7,6 +7,7 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { siteUrl } from "@/lib/seo/site-urls";
 import { buildStructuredData } from "@/lib/seo/structured-data";
 import { AttributionCapture } from "@/components/AttributionCapture";
+import { LanguageProvider, T } from "@/components/LanguageProvider";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -62,13 +63,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" data-scroll-behavior="smooth">
       <body className="font-sans antialiased">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-        <a href="#main-content" className="skip-link">Skip to main content</a>
-        <Header />
-        <AttributionCapture />
-        <main id="main-content" tabIndex={-1}>{children}</main>
-        <Footer />
-        <WhatsAppButton />
-        <CookieConsent />
+        <LanguageProvider>
+          <a href="#main-content" className="skip-link"><T>Skip to main content</T></a>
+          <Header />
+          <AttributionCapture />
+          <main id="main-content" tabIndex={-1}>{children}</main>
+          <Footer />
+          <WhatsAppButton />
+          <CookieConsent />
+        </LanguageProvider>
       </body>
     </html>
   );

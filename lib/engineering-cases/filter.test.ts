@@ -3,6 +3,14 @@ import { engineeringCaseCategories, engineeringCases } from "@/data/engineering-
 import { defaultEngineeringCaseFilters, filterEngineeringCases, getEngineeringCaseCategoryLabel, getEngineeringCasePage, parseEngineeringCaseFilters, serializeEngineeringCaseFilters } from "./filter";
 
 describe("engineering case filters", () => {
+  it("searches Chinese titles and technical terms without losing pagination or URL state", () => {
+    expect(filterEngineeringCases({ ...defaultEngineeringCaseFilters, query: "充电需求与功率仿真" }).map((entry) => entry.id)).toEqual(["case-6"]);
+    expect(filterEngineeringCases({ ...defaultEngineeringCaseFilters, query: "序列号追溯" }).map((entry) => entry.id)).toEqual(["case-14"]);
+    const filters = { ...defaultEngineeringCaseFilters, query: "认证机构", page: 2 };
+    expect(getEngineeringCasePage(filters).totalItems).toBe(10);
+    expect(parseEngineeringCaseFilters(serializeEngineeringCaseFilters(filters))).toEqual(filters);
+  });
+
   it("paginates all 18 references exactly once without duplicating cases", () => {
     const first = getEngineeringCasePage(defaultEngineeringCaseFilters);
     expect(first.items).toHaveLength(6);

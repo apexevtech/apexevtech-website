@@ -27,6 +27,24 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+html[lang="zh-CN"] body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
+}
+
+html[lang="zh-CN"] .home-title {
+  font-size: 2rem;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+@media (min-width: 768px) {
+  html[lang="zh-CN"] .home-title { font-size: 2.75rem; }
+}
+
+@media (min-width: 1024px) {
+  html[lang="zh-CN"] .home-title { font-size: 3.25rem; }
+}
+
 /* Keep anchor targets below the sticky navigation. */
 [id] {
   scroll-margin-top: 6rem;
@@ -86,7 +104,7 @@ body:has([data-floating-controls-visible="true"]) .whatsapp-floating {
 
 @media (max-width: 639px) {
   body:has(.inquiry-form:focus-within) .whatsapp-floating,
-  body:has([role="dialog"][aria-label="Cookie preferences"]) .whatsapp-floating {
+  body:has([data-cookie-preferences="true"]) .whatsapp-floating {
     visibility: hidden;
   }
 }

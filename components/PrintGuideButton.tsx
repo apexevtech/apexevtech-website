@@ -1,6 +1,7 @@
 "use client";
 
 import { trackEvent } from "@/lib/analytics/events";
+import { T } from "@/components/LanguageProvider";
 
 export function PrintGuideButton({ guideTitle }: { guideTitle: string }) {
   return (
@@ -12,7 +13,7 @@ export function PrintGuideButton({ guideTitle }: { guideTitle: string }) {
         window.print();
       }}
     >
-      Print or save as PDF
+      <T>Print or save as PDF</T>
     </button>
   );
 }

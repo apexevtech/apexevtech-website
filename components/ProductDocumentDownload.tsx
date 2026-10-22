@@ -2,6 +2,7 @@
 
 import { createElement } from "react";
 import { trackEvent } from "@/lib/analytics/events";
+import { T } from "@/components/LanguageProvider";
 
 type ProductDocumentDownloadProps = {
   href: string;
@@ -17,6 +18,6 @@ export function ProductDocumentDownload({ href, model }: ProductDocumentDownload
       className: "rounded-md border border-[#1479c9] px-5 py-3 font-extrabold text-[#1268a8] hover:bg-[#eef7fd]",
       onClick: () => trackEvent("catalog_download", { location: "product-detail", model }),
     },
-    "Download original specifications (Word)",
+    createElement(T, null, "Download original specifications (Word)"),
   );
 }

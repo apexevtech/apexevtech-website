@@ -27,12 +27,14 @@ describe("main navigation emphasis", () => {
     expect(html).toContain("h-[76px]");
     for (const item of navItems.filter((item) => item.label !== "Products")) {
       expect(html).toContain(`href="${item.href}"`);
-      expect(navigationAttributes(html, item.label)).toContain("text-base font-bold");
+      expect(navigationAttributes(html, item.label)).toContain("text-base font-semibold");
     }
     expect(html).toContain('href="/contact#inquiry-form"');
     expect(html).toContain("Talk to an engineer");
     expect(html).toContain("2xl:max-w-[1440px]");
-    expect(html).toContain("shrink-0 items-center gap-4");
+    expect(html).toContain("shrink-0 items-center gap-5");
+    expect(html).toContain("2xl:gap-6");
+    expect(html).toContain('aria-label="Website language / 网站语言"');
     expect(navItems.filter((item) => item.href === "/project-cases")).toEqual([{ label: "Project Cases", href: "/project-cases" }]);
     expect(html).not.toContain('href="/resources"');
     expect(html).not.toContain('href="/engineering-cases"');
@@ -42,11 +44,11 @@ describe("main navigation emphasis", () => {
     const html = renderToStaticMarkup(createElement(Header));
     const active = navigationAttributes(html, "Project Cases");
     expect(active).toContain('aria-current="page"');
-    for (const style of ["text-base", "font-bold", "2xl:text-lg", "text-[#1268a8]", "decoration-[3px]", "underline-offset-8"]) {
+    for (const style of ["text-base", "font-semibold", "2xl:text-[17px]", "text-[#1268a8]", "decoration-2", "underline-offset-[10px]"]) {
       expect(active).toContain(style);
     }
     const inactive = navigationAttributes(html, "Solutions");
-    expect(inactive).toContain("text-[#12263a]");
+    expect(inactive).toContain("text-[#34495c]");
     expect(inactive).not.toContain("underline");
   });
 
@@ -63,13 +65,13 @@ describe("main navigation emphasis", () => {
   ])("preserves the active navigation branch for %s", (pathname, label) => {
     navigation.pathname = pathname;
     const html = renderToStaticMarkup(createElement(Header));
-    expect(navigationAttributes(html, label)).toContain("text-[#1268a8] underline decoration-[3px]");
+    expect(navigationAttributes(html, label)).toContain("text-[#1268a8] underline decoration-2");
   });
 
   it("keeps interface routes outside the product-prefix active state", () => {
     navigation.pathname = "/interfaces/ccs2";
     const html = renderToStaticMarkup(createElement(Header));
-    expect(navigationAttributes(html, "Products")).toContain("text-[#12263a]");
+    expect(navigationAttributes(html, "Products")).toContain("text-[#34495c]");
     expect(navigationAttributes(html, "Products")).not.toContain("underline");
   });
 

@@ -15,6 +15,7 @@ import { addInquiryRequirements } from "@/lib/inquiries/requirements";
 import { resolveInquiryPrefill, shouldReplaceInquiryPrefill } from "@/lib/inquiries/prefill";
 import { QueryStateSync } from "@/components/QueryStateSync";
 import { readCatalogInquiryConfiguration } from "@/lib/inquiries/catalog-scope";
+import { T, useLanguage } from "@/components/LanguageProvider";
 
 type InquiryFormProps = {
   compact?: boolean;
@@ -33,6 +34,7 @@ const fieldLabels: Record<string, string> = {
 };
 
 export function InquiryForm({ compact = false, context = "General website inquiry", prefillProductsFromQuery = false, prefillContextFromQuery = false }: InquiryFormProps) {
+  const { t } = useLanguage();
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [fieldErrors, setFieldErrors] = useState<InquiryFieldErrors>({});
@@ -139,11 +141,11 @@ export function InquiryForm({ compact = false, context = "General website inquir
   }
 
   function errorFor(field: InquiryField) {
-    return fieldErrors[field] ? <span id={`${field}-error`} className="text-xs font-semibold text-red-600">{fieldErrors[field]}</span> : null;
+    return fieldErrors[field] ? <span id={`${field}-error`} className="text-xs font-semibold text-red-600">{t(fieldErrors[field] ?? "")}</span> : null;
   }
 
   return (
-    <form ref={formRef} aria-label="Equipment inquiry" aria-busy={submitting} className="inquiry-form relative grid gap-5 rounded-md border border-slate-200 bg-white p-6 shadow-[0_12px_36px_rgba(18,38,58,0.07)] sm:p-8" onSubmit={handleSubmit} onInvalid={() => {
+    <form ref={formRef} aria-label={t("Equipment inquiry")} aria-busy={submitting} className="inquiry-form relative grid gap-5 rounded-md border border-slate-200 bg-white p-6 shadow-[0_12px_36px_rgba(18,38,58,0.07)] sm:p-8" onSubmit={handleSubmit} onInvalid={() => {
       if (!invalidTracked.current) {
         invalidTracked.current = true;
         trackEvent("inquiry_error", { ...analyticsParameters, reason: "CLIENT_VALIDATION" });
@@ -167,18 +169,18 @@ export function InquiryForm({ compact = false, context = "General website inquir
     }}>
       <QueryStateSync onChange={syncInquiryContext} />
       <div className="border-b border-slate-200 pb-5">
-        <p className="font-black text-[#12263a]">Tell us about your test requirements</p>
-        {relatedProductModels ? <p className="mt-3 break-words rounded-md border border-sky-100 bg-sky-50 px-3 py-2 text-sm leading-6 text-[#385064]"><span className="font-bold">Equipment of interest: </span>{relatedProductModels}</p> : null}
-        <p className="mt-2 text-sm leading-6 text-[#526b7d]">Company and country are optional. Prefer a direct conversation?</p>
+        <p className="font-black text-[#12263a]"><T>Tell us about your test requirements</T></p>
+        {relatedProductModels ? <p className="mt-3 break-words rounded-md border border-sky-100 bg-sky-50 px-3 py-2 text-sm leading-6 text-[#385064]"><span className="font-bold"><T>Equipment of interest:</T> </span>{relatedProductModels}</p> : null}
+        <p className="mt-2 text-sm leading-6 text-[#526b7d]"><T>Company and country are optional. Prefer a direct conversation?</T></p>
         <div className="mt-3 flex flex-wrap gap-3 text-sm">
-          <TrackedLink href={whatsappHref} target="_blank" rel="noopener noreferrer" eventName="whatsapp_click" location="inquiry-direct" eventParameters={analyticsParameters} className="inline-flex min-h-11 items-center rounded-md bg-[#15803d] px-4 font-bold text-white">Ask on WhatsApp</TrackedLink>
-          <TrackedLink href={`mailto:${company.email}?subject=${encodeURIComponent(resolvedContext)}`} eventName="email_click" location="inquiry-direct" eventParameters={analyticsParameters} className="inline-flex min-h-11 items-center rounded-md border border-slate-300 px-4 font-bold text-[#1268a8]">Email an engineer</TrackedLink>
+          <TrackedLink href={whatsappHref} target="_blank" rel="noopener noreferrer" eventName="whatsapp_click" location="inquiry-direct" eventParameters={analyticsParameters} className="inline-flex min-h-11 items-center rounded-md bg-[#15803d] px-4 font-bold text-white"><T>Ask on WhatsApp</T></TrackedLink>
+          <TrackedLink href={`mailto:${company.email}?subject=${encodeURIComponent(resolvedContext)}`} eventName="email_click" location="inquiry-direct" eventParameters={analyticsParameters} className="inline-flex min-h-11 items-center rounded-md border border-slate-300 px-4 font-bold text-[#1268a8]"><T>Email an engineer</T></TrackedLink>
         </div>
       </div>
       <div className={compact ? "grid gap-4" : "grid gap-4 md:grid-cols-2"}>
         {(["name", "email", "company", "country"] as const).map((field) => (
           <label key={field} className="grid gap-2 text-sm font-bold text-[#385064]">
-            {fieldLabels[field]}{field === "name" || field === "email" ? " *" : " (optional)"}
+            {t(fieldLabels[field])}{field === "name" || field === "email" ? " *" : t(" (optional)")}
             <input
               className={inputClass(field)}
               name={field}
@@ -191,7 +193,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
               aria-invalid={Boolean(fieldErrors[field])}
               aria-describedby={fieldErrors[field] ? `${field}-error` : undefined}
             />
-            {fieldErrors[field] ? <span id={`${field}-error`} className="text-xs font-semibold text-red-600">{fieldErrors[field]}</span> : null}
+            {fieldErrors[field] ? <span id={`${field}-error`} className="text-xs font-semibold text-red-600">{t(fieldErrors[field] ?? "")}</span> : null}
           </label>
         ))}
       </div>
@@ -208,7 +210,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
       }} />
 
       <label className="grid gap-2 text-sm font-bold text-[#385064]">
-        Message *
+        <span><T>Message</T> *</span>
       <textarea
           ref={messageRef}
           className={`${inputClass("message")} min-h-32`}
@@ -217,22 +219,22 @@ export function InquiryForm({ compact = false, context = "General website inquir
           minLength={10}
           maxLength={5000}
           disabled={submitting}
-          placeholder="For example: CCS2 DC charger, 1000 V / 300 A, field commissioning and protocol diagnosis."
+          placeholder={t("For example: CCS2 DC charger, 1000 V / 300 A, field commissioning and protocol diagnosis.")}
           aria-invalid={Boolean(fieldErrors.message)}
           aria-describedby={fieldErrors.message ? "message-help message-error" : "message-help"}
         />
         {errorFor("message")}
       </label>
 
-      <p id="message-help" className="-mt-3 text-xs leading-5 text-[#526b7d]">Include your charger connector, voltage/current range and required tests (at least 10 characters).</p>
+      <p id="message-help" className="-mt-3 text-xs leading-5 text-[#526b7d]"><T>Include your charger connector, voltage/current range and required tests (at least 10 characters).</T></p>
 
       <label className="flex items-start gap-3 text-sm leading-6 text-[#526b7d]">
         <input className="mt-1 h-4 w-4 shrink-0 accent-[#1479c9]" type="checkbox" name="privacyAccepted" required disabled={submitting} aria-invalid={Boolean(fieldErrors.privacyAccepted)} aria-describedby={fieldErrors.privacyAccepted ? "privacy-error" : undefined} />
         <span>
-          I agree that APEX may use my information to respond to this inquiry. See the <a className="font-bold text-[#1268a8] underline" href="/privacy-policy">Privacy Policy</a>.
+          <T>I agree that APEX may use my information to respond to this inquiry. See the</T> <a className="font-bold text-[#1268a8] underline" href="/privacy-policy"><T>Privacy Policy</T></a>.
         </span>
       </label>
-      {fieldErrors.privacyAccepted ? <span id="privacy-error" className="text-xs font-semibold text-red-600">{fieldErrors.privacyAccepted}</span> : null}
+      {fieldErrors.privacyAccepted ? <span id="privacy-error" className="text-xs font-semibold text-red-600">{t(fieldErrors.privacyAccepted)}</span> : null}
 
       <div className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
         <label>
@@ -243,22 +245,22 @@ export function InquiryForm({ compact = false, context = "General website inquir
 
       {message?.type === "success" ? (
         <div ref={feedbackRef} tabIndex={-1} className="grid gap-4 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-5 text-sm text-emerald-900" role="status" aria-live="polite">
-          <p className="font-bold">{message.text}</p>
+          <p className="font-bold">{t(message.text)}</p>
           <div className="flex flex-wrap gap-3">
-            <TrackedLink href={whatsappHref} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded-md bg-[#15803d] px-4 py-2 font-bold text-white" eventName="whatsapp_click" location="inquiry-success" eventParameters={analyticsParameters}>Continue on WhatsApp</TrackedLink>
-            <Link href="/products" className="rounded-md border border-emerald-300 px-4 py-2 font-bold text-emerald-900">Browse products</Link>
-            <Link href="/solutions" className="rounded-md border border-emerald-300 px-4 py-2 font-bold text-emerald-900">Review solutions</Link>
+            <TrackedLink href={whatsappHref} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded-md bg-[#15803d] px-4 py-2 font-bold text-white" eventName="whatsapp_click" location="inquiry-success" eventParameters={analyticsParameters}><T>Continue on WhatsApp</T></TrackedLink>
+            <Link href="/products" className="rounded-md border border-emerald-300 px-4 py-2 font-bold text-emerald-900"><T>Browse products</T></Link>
+            <Link href="/solutions" className="rounded-md border border-emerald-300 px-4 py-2 font-bold text-emerald-900"><T>Review solutions</T></Link>
           </div>
         </div>
       ) : message?.type === "error" ? (
         <div ref={feedbackRef} tabIndex={-1} className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700" role="alert">
-          {message.text}
-          <TrackedLink href={`mailto:${company.email}?subject=${encodeURIComponent(resolvedContext)}`} eventName="email_click" location="inquiry-error" eventParameters={analyticsParameters} className="mt-2 block min-h-11 py-2 font-bold underline">Email {company.email}</TrackedLink>
+          {t(message.text)}
+          <TrackedLink href={`mailto:${company.email}?subject=${encodeURIComponent(resolvedContext)}`} eventName="email_click" location="inquiry-error" eventParameters={analyticsParameters} className="mt-2 block min-h-11 py-2 font-bold underline"><T>Email</T> {company.email}</TrackedLink>
         </div>
       ) : null}
 
       <button className="rounded-md bg-[#1479c9] px-5 py-3 font-extrabold text-white transition hover:bg-[#0f5f9f] disabled:cursor-wait disabled:opacity-60" type="submit" disabled={submitting}>
-        {submitting ? "Sending..." : "Request a quote"}
+        {t(submitting ? "Sending..." : "Request a quote")}
       </button>
     </form>
   );

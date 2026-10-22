@@ -7,6 +7,7 @@ import {
   type TechnicalLibraryEntry,
 } from "@/data/technical-library";
 import { paginate, parsePageNumber } from "@/lib/navigation/pagination";
+import { resourceSearchText } from "@/lib/i18n/search";
 
 export type LibraryFilters = {
   view: "all" | "solutions" | "scenarios";
@@ -67,7 +68,7 @@ export function filterLibraryEntries(filters: LibraryFilters): {
   const matches = (entry: TechnicalLibraryEntry, categories: TechnicalLibraryCategory[]) => {
     if (filters.category !== "all" && entry.categoryId !== filters.category) return false;
     const categoryLabel = categories.find((category) => category.id === entry.categoryId)?.label || "";
-    const searchableText = [entry.title, entry.summary, ...entry.requirements, categoryLabel, entry.reviewOutput, entry.source.publisher, entry.source.title, entry.source.summary]
+    const searchableText = [entry.title, entry.summary, ...entry.requirements, categoryLabel, entry.reviewOutput, entry.source.publisher, entry.source.title, entry.source.summary, resourceSearchText[entry.id] ?? ""]
       .join(" ")
       .toLowerCase();
     return !query || searchableText.includes(query);

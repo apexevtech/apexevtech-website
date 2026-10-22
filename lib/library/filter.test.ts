@@ -15,6 +15,15 @@ import {
 } from "@/lib/library/filter";
 
 describe("technical library filters", () => {
+  it("supports Chinese planning queries in legacy library views", () => {
+    const result = filterLibraryEntries({ ...defaultLibraryFilters, query: "光伏与储能" });
+    expect(result.solutions.map((entry) => entry.id)).toEqual(["pv-storage-integration-planning"]);
+    expect(result.scenarios).toEqual([]);
+    const filters = { ...defaultLibraryFilters, query: "接口与标准", page: 2 };
+    expect(getLibraryPage(filters).totalItems).toBeGreaterThan(6);
+    expect(parseLibraryFilters(serializeLibraryFilters(filters))).toEqual(filters);
+  });
+
   it("shows all six briefs and eighteen scenarios by default without changing entries", () => {
     expect(parseLibraryFilters(new URLSearchParams())).toEqual(defaultLibraryFilters);
     const result = filterLibraryEntries(defaultLibraryFilters);

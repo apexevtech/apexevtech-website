@@ -38,7 +38,7 @@ describe("WhatsAppButton", () => {
     const { readFile } = await import("node:fs/promises");
     const css = await readFile("app/globals.css", "utf8");
     expect(css).toContain("body:has(.inquiry-form:focus-within) .whatsapp-floating");
-    expect(css).toContain('body:has([role="dialog"][aria-label="Cookie preferences"]) .whatsapp-floating');
+    expect(css).toContain('body:has([data-cookie-preferences="true"]) .whatsapp-floating');
   });
 
   it("does not obstruct catalog filters while they are visible", async () => {

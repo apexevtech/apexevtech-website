@@ -4,13 +4,13 @@ export type InquiryRequirements = {
   electricalRange: string;
 };
 
-export function formatInquiryRequirements(requirements: InquiryRequirements) {
+export function formatInquiryRequirements(requirements: InquiryRequirements, translate: (text: string) => string = (text) => text) {
   const rows = [
     ["Test workflow", requirements.workflow],
     ["Charger connector / interface", requirements.connector],
     ["Voltage / current range", requirements.electricalRange],
-  ].flatMap(([label, value]) => value.trim() ? [`${label}: ${value.trim()}`] : []);
-  return rows.length ? `Test requirements:\n${rows.join("\n")}` : "";
+  ].flatMap(([label, value]) => value.trim() ? [`${translate(label)}: ${label === "Voltage / current range" ? value.trim() : translate(value.trim())}`] : []);
+  return rows.length ? `${translate("Test requirements:")}\n${rows.join("\n")}` : "";
 }
 
 export function addInquiryRequirements(message: string, requirements: string): string | null {

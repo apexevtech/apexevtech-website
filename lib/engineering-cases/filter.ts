@@ -1,4 +1,5 @@
 import { engineeringCaseCategories, engineeringCases, type EngineeringCaseCategoryId } from "@/data/engineering-cases";
+import { engineeringCaseSearchText } from "@/lib/i18n/search";
 import { paginate, parsePageNumber } from "@/lib/navigation/pagination";
 
 export const engineeringCaseIndexTitle = "EV Charger Engineering Case References";
@@ -24,7 +25,7 @@ export function filterEngineeringCases(filters: EngineeringCaseFilters) {
   const query = filters.query.trim().slice(0, 120).toLocaleLowerCase();
   return engineeringCases.filter((entry) => {
     if (category !== "all" && entry.categoryId !== category) return false;
-    const text = [entry.title, entry.summary, ...entry.technicalFocus, getEngineeringCaseCategoryLabel(entry.categoryId)].join(" ");
+    const text = [entry.title, entry.summary, ...entry.technicalFocus, getEngineeringCaseCategoryLabel(entry.categoryId), engineeringCaseSearchText[entry.id] ?? ""].join(" ");
     return !query || text.toLocaleLowerCase().includes(query);
   });
 }

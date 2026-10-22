@@ -2,6 +2,7 @@ import { applicationScenarioCategories, applicationScenarios, solutionBriefCateg
 import { paginate, parsePageNumber } from "@/lib/navigation/pagination";
 import { resources, type Resource } from "@/lib/resources/catalog";
 import { resourceGroups } from "@/lib/resources/groups";
+import { resourceSearchText } from "@/lib/i18n/search";
 
 export type ResourceBrowserFilters = {
   type: "all" | "guides" | "sources" | "scenarios" | "materials";
@@ -118,7 +119,7 @@ export function filterResourceBrowserEntries(filters: ResourceBrowserFilters) {
     const text = entry.kind === "guide"
       ? [entry.resource.title, entry.resource.description, entry.resource.topic, category].join(" ")
       : [entry.material.title, entry.material.summary, ...entry.material.requirements, entry.material.reviewOutput, entry.material.planningNote, entry.material.relatedLabel, entry.material.source.publisher, entry.material.source.title, entry.material.source.summary, entry.material.source.scopeNote, category].join(" ");
-    return !query || text.toLocaleLowerCase().includes(query);
+    return !query || `${text} ${resourceSearchText[entry.id] ?? ""}`.toLocaleLowerCase().includes(query);
   });
 }
 

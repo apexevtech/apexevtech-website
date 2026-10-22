@@ -1,3 +1,4 @@
+import { T } from "@/components/LanguageProvider";
 import Image from "next/image";
 import Link from "next/link";
 import type { ApplicationExample } from "@/data/applications";
@@ -10,10 +11,10 @@ export function ApplicationCard({ application, headingLevel = "h2", priority = f
       <Image src={application.image} alt={application.imageAlt} fill priority={priority} sizes="(min-width: 768px) 50vw, 100vw" className={containImage ? "object-contain p-3" : "object-cover"} />
     </Link>
     <div className="p-6">
-      <p className="text-xs font-black uppercase tracking-wide text-[#1268a8]">{application.category}</p>
-      <Heading className="mt-2 text-2xl font-black text-[#12263a]"><Link href={`/applications/${application.slug}`} className="hover:text-[#1268a8]">{application.title}</Link></Heading>
-      <p className="mt-3 leading-7 text-[#526b7d]">{application.description}</p>
-      <Link href={`/applications/${application.slug}`} className="mt-5 inline-flex text-sm font-black text-[#1268a8]">View the application architecture →</Link>
+      <p className="text-xs font-black uppercase tracking-wide text-[#1268a8]"><T>{application.category}</T></p>
+      <Heading className="mt-2 text-2xl font-black text-[#12263a]"><Link href={`/applications/${application.slug}`} className="hover:text-[#1268a8]"><T>{application.title}</T></Link></Heading>
+      <p className="mt-3 leading-7 text-[#526b7d]"><T>{application.description}</T></p>
+      <Link href={`/applications/${application.slug}`} className="mt-5 inline-flex text-sm font-black text-[#1268a8]"><T>{"View the application architecture →"}</T></Link>
     </div>
   </article>;
 }
