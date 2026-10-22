@@ -22,16 +22,16 @@ export function EngineeringCaseCard({ entry }: { entry: EngineeringCase }) {
     <details className="group/case min-w-0">
       <summary aria-label={`${t("Technical details:")} ${t(entry.title)}`} className="block min-w-0 cursor-pointer list-none outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#1268a8] [&::-webkit-details-marker]:hidden">
         <span className="block aspect-[8/5] overflow-hidden bg-[#f2f6f8]">
-          {entry.image ? <Image src={entry.image.src} alt={t(entry.image.alt)} width={entry.image.width} height={entry.image.height} sizes="(min-width: 1536px) 451px, (min-width: 1024px) calc((100vw - 184px) / 3), (min-width: 640px) calc((100vw - 80px) / 2), calc(100vw - 48px)" className="h-full w-full object-contain transition-transform duration-300 group-hover/case:scale-[1.025] motion-reduce:transition-none motion-reduce:group-hover/case:scale-100" /> : <span className="flex h-full flex-col justify-between gap-3 p-5 text-[#385064] sm:p-6">
+          {entry.image ? <Image src={entry.image.src} alt={t(entry.image.alt)} width={entry.image.width} height={entry.image.height} sizes="(min-width: 1536px) 451px, (min-width: 1024px) calc((100vw - 184px) / 3), (min-width: 640px) calc((100vw - 80px) / 2), calc(100vw - 48px)" className="h-full w-full object-contain" /> : <span className="flex h-full flex-col justify-between gap-3 p-5 text-[#385064] sm:p-6">
             <span className="flex items-center justify-between gap-4"><Icon size={32} strokeWidth={1.3} aria-hidden="true" /><span className="text-xs font-medium">{t("Technical scope")}</span></span>
             <span className="line-clamp-2 text-sm leading-6">{t(entry.technicalFocus[0])}</span>
           </span>}
         </span>
-        <span className="mt-6 flex min-h-7 items-start gap-3">
-          <span id={titleId} role="heading" aria-level={3} className="min-w-0 flex-1 line-clamp-1 text-xl font-medium leading-7 text-[#354b5d] transition-colors group-open/case:line-clamp-none group-hover/case:text-[#1268a8]">{t(entry.title)}</span>
-          <ChevronDown size={17} strokeWidth={1.5} aria-hidden="true" className="mt-1.5 shrink-0 text-[#1268a8] transition-transform group-open/case:rotate-180" />
+        <span className="mt-5 flex min-h-14 items-start gap-3">
+          <span id={titleId} role="heading" aria-level={3} className="min-h-14 min-w-0 flex-1 line-clamp-2 break-words text-lg font-semibold leading-7 text-[#12263a] transition-colors group-open/case:line-clamp-none group-hover/case:text-[#1268a8]">{t(entry.title)}</span>
+          <ChevronDown size={18} strokeWidth={2} aria-hidden="true" className="mt-1.5 shrink-0 text-[#1268a8] transition-transform group-open/case:rotate-180" />
         </span>
-        <span className="mt-3 line-clamp-2 min-h-12 text-sm leading-6 text-[#657987] group-open/case:line-clamp-none">{t(entry.summary)}</span>
+        <span className="mt-2 line-clamp-2 min-h-12 text-sm leading-6 text-[#526b7d] group-open/case:line-clamp-none">{t(entry.summary)}</span>
       </summary>
       <div className="min-w-0 pb-2 pt-3">
         <h3 className="text-sm font-semibold leading-6 text-[#12263a]">{t("Technical focus")}</h3>

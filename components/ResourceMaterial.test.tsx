@@ -37,6 +37,9 @@ describe("resource material gallery cards", () => {
       expect(html).toContain(`width="${image.width}"`);
       expect(html).toContain(`height="${image.height}"`);
       expect(html).toContain("aspect-[8/5]");
+      expect(html).toContain("min-h-14 min-w-0 flex-1 line-clamp-2");
+      expect(html).toContain("text-lg font-semibold leading-7 text-[#12263a]");
+      expect(html).not.toContain("line-clamp-1");
       expect(html).toContain('class="h-full w-full object-contain');
       expect(html).not.toMatch(/object-cover|rounded-|shadow-|saiter\.cn|Source:|Source reference image/);
     }

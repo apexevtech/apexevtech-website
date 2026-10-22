@@ -19,6 +19,9 @@ describe("engineering case gallery cards", () => {
       expect(html).toContain('class="h-full w-full object-contain');
       expect(html).toContain(`width="${entry.image!.width}"`);
       expect(html).toContain(`height="${entry.image!.height}"`);
+      expect(html).toContain("min-h-14 min-w-0 flex-1 line-clamp-2");
+      expect(html).toContain("text-lg font-semibold leading-7 text-[#12263a]");
+      expect(html).not.toMatch(/line-clamp-1|scale-\[/);
       expect(html).not.toContain("Technical scope");
       expect(html).not.toMatch(/object-cover|<figcaption\b|(?:href|src)="https?:\/\/|saiter\.cn/i);
     }

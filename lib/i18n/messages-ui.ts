@@ -1,4 +1,5 @@
 export const uiMessages: Record<string, string> = {
+  "Change language": "切换语言",
   "Home": "首页",
   "Products": "产品",
   "Solutions": "解决方案",

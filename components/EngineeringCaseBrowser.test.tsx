@@ -13,6 +13,14 @@ vi.mock("next/navigation", () => ({
 }));
 
 describe("engineering case browser", () => {
+  it("gives all four category tabs a labeled icon and a clear selected state", () => {
+    const html = renderToStaticMarkup(createElement(EngineeringCaseBrowser, { initialFilters: defaultEngineeringCaseFilters }));
+    const fieldset = html.match(/<fieldset\b[^>]*>[\s\S]*?<\/fieldset>/)![0];
+    expect(fieldset.match(/<svg\b/g)).toHaveLength(4);
+    for (const icon of ["lucide-car-front", "lucide-shield-check", "lucide-landmark", "lucide-factory"]) expect(fieldset).toContain(icon);
+    for (const style of ["text-base font-semibold", "border-b-[3px]", "peer-checked:bg-[#e7f1fb]", "peer-focus-visible:outline"]) expect(fieldset).toContain(style);
+  });
+
   it("prerenders six gallery cards with counted categories and complete expandable technical focus", () => {
     const html = renderToStaticMarkup(createElement(EngineeringCaseBrowser, { initialFilters: defaultEngineeringCaseFilters }));
     const page = getEngineeringCasePage(defaultEngineeringCaseFilters);

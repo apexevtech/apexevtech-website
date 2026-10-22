@@ -10,9 +10,16 @@ describe("language control", () => {
     expect(html).toContain('aria-label="Website language / 网站语言"');
     expect(html).toMatch(/<option\b[^>]*value="en"[^>]*selected=""/);
     expect(html).toContain('value="zh"');
-    expect(html).toContain("English");
+    expect(html).toContain('aria-label="English"');
+    expect(html).toContain(">EN</option>");
     expect(html).toContain(">中文</option>");
-    expect(html).toContain("lucide-languages");
+    expect(html).toContain("lucide-globe");
+    expect(html).toContain("lucide-chevron-down");
+    expect(html).toContain('role="tooltip"');
+    expect(html).toContain("Change language</span>");
+    expect(html).toContain("w-[100px]");
+    expect(html).not.toContain("title=");
+    expect(html).not.toContain("Change language / 切换语言");
     expect(html).not.toContain("<script");
   });
 

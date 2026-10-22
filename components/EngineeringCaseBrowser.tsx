@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronRight, Home, RotateCcw, Search } from "lucide-react";
+import { CarFront, ChevronRight, Factory, Home, Landmark, Layers3, RotateCcw, Search, ShieldCheck } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { CatalogControls } from "@/components/CatalogControls";
 import { CatalogMetadataSync } from "@/components/CatalogMetadataSync";
@@ -16,7 +16,8 @@ import { buildPageHref } from "@/lib/navigation/pagination";
 import { getCatalogMetadataState, projectCasesIndexTitle } from "@/lib/seo/catalog-metadata";
 import { siteUrl } from "@/lib/seo/site-urls";
 
-const categories = engineeringCaseCategories.map((category) => ({ ...category, count: engineeringCases.filter((entry) => entry.categoryId === category.id).length }));
+const categoryIcons = { "vehicle-engineering": CarFront, "independent-testing": ShieldCheck, "public-inspection": Landmark, "charger-manufacturing": Factory };
+const categories = engineeringCaseCategories.map((category) => ({ ...category, icon: categoryIcons[category.id], count: engineeringCases.filter((entry) => entry.categoryId === category.id).length }));
 
 export function EngineeringCaseBrowser({ initialFilters }: { initialFilters: EngineeringCaseFilters }) {
   const { t, language } = useLanguage();
@@ -52,6 +53,7 @@ export function EngineeringCaseBrowser({ initialFilters }: { initialFilters: Eng
   }
 
   const page = getEngineeringCasePage(filters);
+  const SelectedCategoryIcon = categories.find((category) => category.id === filters.category)?.icon ?? Layers3;
   const hasFilters = filters.category !== "all" || Boolean(filters.query);
   const params = serializeEngineeringCaseFilters(filters);
   const pageHref = buildPageHref("/project-cases", params, page.page, "engineering-case-results");
@@ -79,9 +81,10 @@ export function EngineeringCaseBrowser({ initialFilters }: { initialFilters: Eng
           <Link href="/" title={t("Home")} className="flex min-h-11 min-w-8 items-center hover:text-[#1268a8]"><Home size={16} strokeWidth={1.5} aria-hidden="true" /><span className="sr-only">{t("Home")}</span></Link>
           <ChevronRight size={12} aria-hidden="true" /><span aria-current="page" className="hidden sm:inline">{t("Engineering references")}</span>
         </nav>
-        <label className="flex min-w-0 items-center gap-3 text-sm text-[#526b7d] xl:hidden">
+        <label className="flex min-w-0 items-center gap-2 text-sm text-[#1268a8] xl:hidden">
           <span className="sr-only">{t("Engineering case category")}</span>
-          <select value={filters.category} onChange={(event) => updateFilters({ category: event.target.value as EngineeringCaseFilters["category"] })} className="min-h-11 min-w-0 max-w-full border-0 bg-transparent py-2 pl-1 pr-6 text-xs font-medium text-[#385064] outline-offset-2 focus-visible:outline-[#1268a8] sm:text-sm">
+          <SelectedCategoryIcon size={20} strokeWidth={2} aria-hidden="true" className="shrink-0" />
+          <select value={filters.category} onChange={(event) => updateFilters({ category: event.target.value as EngineeringCaseFilters["category"] })} className="min-h-11 min-w-0 max-w-full border-0 bg-transparent py-2 pl-1 pr-6 text-sm font-semibold text-[#1268a8] outline-offset-2 focus-visible:outline-[#1268a8]">
             <option value="all">{t("All cases")} ({engineeringCases.length})</option>
             {categories.map((category) => <option key={category.id} value={category.id}>{t(category.label)} ({category.count})</option>)}
           </select>
@@ -90,7 +93,7 @@ export function EngineeringCaseBrowser({ initialFilters }: { initialFilters: Eng
           <legend className="sr-only">{t("Engineering case category")}</legend>
           {categories.map((category) => <label key={category.id} className="relative min-w-0 cursor-pointer">
             <input type="radio" name="engineering-case-category" value={category.id} checked={filters.category === category.id} onChange={() => updateFilters({ category: category.id })} className="peer sr-only" />
-            <span className="flex h-full min-h-[72px] items-center justify-center gap-2 border-b-2 border-transparent px-4 py-3 text-center text-sm font-medium leading-5 text-[#526b7d] transition-colors hover:text-[#1268a8] peer-checked:border-[#1268a8] peer-checked:text-[#1268a8] peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-[-3px] peer-focus-visible:outline-[#1479c9]"><span>{t(category.label)}</span><span aria-hidden="true" className="text-[11px] font-normal tabular-nums text-[#7a8993]">{category.count}</span></span>
+            <span className="flex h-full min-h-[72px] items-center justify-center gap-2 border-b-[3px] border-transparent px-3 py-3 text-center text-base font-semibold leading-6 text-[#385064] transition-colors hover:bg-[#eaf0f5] hover:text-[#1268a8] peer-checked:border-[#1268a8] peer-checked:bg-[#e7f1fb] peer-checked:text-[#1268a8] peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-[-3px] peer-focus-visible:outline-[#1479c9]"><category.icon size={20} strokeWidth={2} aria-hidden="true" className="shrink-0" /><span>{t(category.label)}</span><span aria-hidden="true" className="text-xs font-medium tabular-nums text-[#64737e]">{category.count}</span></span>
           </label>)}
         </fieldset>
       </div>

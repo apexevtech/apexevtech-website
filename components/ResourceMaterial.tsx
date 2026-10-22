@@ -26,14 +26,14 @@ export function ResourceMaterial({ entry, category }: { entry: ResourceBrowserEn
   const preview = <>
     <span className="block aspect-[8/5] overflow-hidden bg-[#f2f6f8]"><Image src={image.src} alt={t(image.alt)} width={image.width} height={image.height} sizes="(min-width: 1536px) 451px, (min-width: 1024px) calc((100vw - 184px) / 3), (min-width: 640px) calc((100vw - 80px) / 2), calc(100vw - 48px)" className="h-full w-full object-contain" /></span>
     <span className="mt-5 flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 text-xs leading-5">
-      <span className="inline-flex items-center gap-1.5 font-medium text-[#1268a8]"><type.icon size={14} aria-hidden="true" />{t(type.label)}</span>
-      <span className="text-[#657987]">{t(category)}</span>
+      <span className="inline-flex items-center gap-1.5 font-semibold text-[#1268a8]"><type.icon size={15} strokeWidth={2} aria-hidden="true" />{t(type.label)}</span>
+      <span className="text-[#526b7d]">{t(category)}</span>
     </span>
-    <span className="mt-2 flex min-h-7 items-start gap-3">
-      <span id={titleId} role="heading" aria-level={3} className="min-w-0 flex-1 line-clamp-1 break-words text-xl font-medium leading-7 text-[#354b5d] transition-colors group-open/material:line-clamp-none group-hover/material:text-[#1268a8]">{t(title)}</span>
-      {entry.kind === "guide" ? <ArrowRight size={17} strokeWidth={1.5} aria-hidden="true" className="mt-1.5 shrink-0 text-[#1268a8]" /> : <ChevronDown size={17} strokeWidth={1.5} aria-hidden="true" className="mt-1.5 shrink-0 text-[#1268a8] transition-transform group-open/material:rotate-180" />}
+    <span className="mt-2 flex min-h-14 items-start gap-3">
+      <span id={titleId} role="heading" aria-level={3} className="min-h-14 min-w-0 flex-1 line-clamp-2 break-words text-lg font-semibold leading-7 text-[#12263a] transition-colors group-open/material:line-clamp-none group-hover/material:text-[#1268a8]">{t(title)}</span>
+      {entry.kind === "guide" ? <ArrowRight size={18} strokeWidth={2} aria-hidden="true" className="mt-1.5 shrink-0 text-[#1268a8]" /> : <ChevronDown size={18} strokeWidth={2} aria-hidden="true" className="mt-1.5 shrink-0 text-[#1268a8] transition-transform group-open/material:rotate-180" />}
     </span>
-    <span className="mt-3 line-clamp-2 min-h-12 text-sm leading-6 text-[#657987] group-open/material:line-clamp-none">{t(summary)}</span>
+    <span className="mt-2 line-clamp-2 min-h-12 text-sm leading-6 text-[#526b7d] group-open/material:line-clamp-none">{t(summary)}</span>
   </>;
 
   return <article id={`material-${entry.id}`} data-material-type={entry.kind} aria-labelledby={titleId} className="min-w-0 scroll-mt-28 bg-white">
