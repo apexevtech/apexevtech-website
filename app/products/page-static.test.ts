@@ -8,7 +8,7 @@ describe("products page rendering", () => {
 
     expect(source).not.toContain("searchParams");
     expect(source).not.toContain("parseProductFilter");
-    expect(source).toContain("ProductCatalogSection");
+    expect(source).toContain("ProductExplorer");
   });
 
   it("generates a stable canonical URL for filtered catalog requests", () => {

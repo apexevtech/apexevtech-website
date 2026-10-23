@@ -1,8 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { PageHero } from "@/components/PageHero";
-import { ProductCatalogSection } from "@/components/ProductCatalogSection";
-import { ProductComparison } from "@/components/ProductComparison";
+import { ProductExplorer } from "@/components/ProductExplorer";
 import { products } from "@/data/site";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 import { T } from "@/components/LanguageProvider";
@@ -36,10 +35,7 @@ export default function ProductsPage() {
           <div className="mt-6 flex flex-wrap gap-5 text-sm font-bold text-[#1268a8]"><Link href="/resources/choose-ev-charger-test-system"><T>Compare EV charger test system requirements →</T></Link><Link href="/resources/ev-charging-protocol-testing"><T>Plan CAN and PLC protocol evidence →</T></Link><Link href="/resources/post-installation-evse-testing"><T>Use the post-commissioning site checklist →</T></Link><Link href="/contact#inquiry-form"><T>Ask an engineer about your configuration →</T></Link></div>
         </div>
       </section>
-      <ProductComparison products={products} />
-      <ProductCatalogSection
-        products={products}
-      />
+      <ProductExplorer products={products} />
     </>
   );
 }
