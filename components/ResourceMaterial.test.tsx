@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { getResourceBrowserCategoryLabel, resourceBrowserEntries } from "@/lib/resources/browser";
 import { getResourceMaterialImage } from "@/lib/resources/images";
+import { projectBriefs } from "@/data/project-briefs";
 import { ResourceMaterial } from "./ResourceMaterial";
 
 vi.mock("@/components/TrackedLink", () => ({
@@ -21,6 +22,17 @@ function render(entry: (typeof resourceBrowserEntries)[number]) {
 }
 
 describe("resource material gallery cards", () => {
+  it("opens the three published scenario briefs without changing original planning destinations", () => {
+    for (const entry of resourceBrowserEntries) {
+      const html = render(entry);
+      const brief = entry.kind === "scenario" ? projectBriefs.find((item) => item.materialId === entry.id) : undefined;
+      if (brief && entry.kind === "scenario") {
+        expect(html).toContain(`href="/project-cases/${brief.caseSlug}"`);
+        expect(html).toContain("View scenario brief");
+        expect(html).toContain(`href="${entry.material.relatedHref}"`);
+      } else expect(html).not.toContain("View scenario brief");
+    }
+  });
   it("renders every material with a local uncropped image and stable gallery dimensions", () => {
     expect(resourceBrowserEntries).toHaveLength(46);
     for (const entry of resourceBrowserEntries) {

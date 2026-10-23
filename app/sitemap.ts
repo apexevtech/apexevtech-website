@@ -5,6 +5,8 @@ import { resources } from "@/lib/resources/catalog";
 import { applicationExamples } from "@/data/applications";
 import { interfaceTopics } from "@/data/interface-topics";
 import { defaultEngineeringCaseFilters, getEngineeringCasePage } from "@/lib/engineering-cases/filter";
+import { projectBriefs } from "@/data/project-briefs";
+import { getProjectBrief } from "@/lib/engineering-cases/briefs";
 
 const siteContentLastModified = "2026-10-08T00:00:00.000Z";
 const staticPageUpdates: Record<string, string> = {
@@ -13,7 +15,7 @@ const staticPageUpdates: Record<string, string> = {
   "/about": "2026-09-22T00:00:00.000Z",
   "/contact": "2026-09-22T00:00:00.000Z",
   "/solutions": "2026-10-20T00:00:00.000Z",
-  "/project-cases": "2026-10-21T00:00:00.000Z",
+  "/project-cases": "2026-10-23T00:00:00.000Z",
   "/interfaces": "2026-09-22T00:00:00.000Z",
   "/privacy-policy": "2026-10-09T00:00:00.000Z",
 };
@@ -49,6 +51,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
       images: absoluteImageUrls([product.image]),
     })),
+    ...projectBriefs.flatMap(({ caseSlug }) => {
+      const reference = getProjectBrief(caseSlug);
+      return reference ? [{
+        url: `${siteUrl}/project-cases/${caseSlug}`,
+        lastModified: new Date(`${reference.brief.modifiedAt}T00:00:00.000Z`),
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+        images: absoluteImageUrls([reference.image.src]),
+      }] : [];
+    }),
     ...resources.map((resource) => ({
       url: `${siteUrl}/resources/${resource.slug}`,
       lastModified: new Date(`${resource.modifiedAt}T00:00:00.000Z`),

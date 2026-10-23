@@ -8,6 +8,7 @@ import { SourceCitation } from "@/components/SourceCitation";
 import { TrackedLink } from "@/components/TrackedLink";
 import type { ResourceBrowserEntry } from "@/lib/resources/browser";
 import { getResourceMaterialImage } from "@/lib/resources/images";
+import { getEngineeringCaseMaterialDetailHref } from "@/lib/engineering-cases/detail-path";
 
 const materialLabels = {
   guide: { label: "Technical guide", icon: BookOpen },
@@ -19,6 +20,7 @@ export function ResourceMaterial({ entry, category }: { entry: ResourceBrowserEn
   const { t } = useLanguage();
   const type = materialLabels[entry.kind];
   const material = entry.kind === "guide" ? undefined : entry.material;
+  const scenarioHref = entry.kind === "scenario" ? getEngineeringCaseMaterialDetailHref(entry.id) : undefined;
   const image = getResourceMaterialImage(entry);
   const title = entry.kind === "guide" ? entry.resource.title : entry.material.title;
   const summary = entry.kind === "guide" ? entry.resource.description : entry.material.summary;
@@ -43,6 +45,7 @@ export function ResourceMaterial({ entry, category }: { entry: ResourceBrowserEn
     </> : <details className="group/material min-w-0">
       <summary aria-label={`${t("Material details:")} ${t(title)}`} className="block min-w-0 cursor-pointer list-none outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#1268a8] [&::-webkit-details-marker]:hidden">{preview}</summary>
       <div className="min-w-0 pb-2 pt-3">
+        {scenarioHref ? <Link href={scenarioHref} className="mb-2 inline-flex min-h-11 max-w-full items-center gap-2 text-sm font-semibold leading-6 text-[#1268a8] hover:underline"><span>{t("View scenario brief")}</span><ArrowRight size={16} aria-hidden="true" className="shrink-0" /></Link> : null}
         <TrackedLink href={entry.material.relatedHref} eventName="library_material_click" location="resources" eventParameters={{ material_id: entry.id, material_type: entry.kind === "source" ? "solution" : "application", material_category: entry.originalCategoryId }} className="inline-flex min-h-11 max-w-full items-center gap-2 text-sm font-semibold leading-6 text-[#1268a8] hover:underline"><span>{t(entry.material.relatedLabel)}</span><ArrowRight size={16} aria-hidden="true" className="shrink-0" /></TrackedLink>
         {material ? <div className="mt-3 border-t border-slate-100">
           <details className="group/checklist min-w-0">

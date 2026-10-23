@@ -8,8 +8,18 @@ import sitemap from "@/app/sitemap";
 import { applicationExamples } from "@/data/applications";
 import { interfaceTopics } from "@/data/interface-topics";
 import { engineeringCases } from "@/data/engineering-cases";
+import { projectBriefs } from "@/data/project-briefs";
 
 describe("sitemap", () => {
+  it("publishes exactly three canonical reference briefs with their existing images", () => {
+    const entries = sitemap().filter((entry) => entry.url.startsWith(`${siteUrl}/project-cases/`));
+    expect(entries).toHaveLength(3);
+    for (const brief of projectBriefs) {
+      const entry = entries.find((item) => item.url === `${siteUrl}/project-cases/${brief.caseSlug}`);
+      expect(entry?.lastModified).toEqual(new Date("2026-10-23T00:00:00.000Z"));
+      expect(entry?.images).toEqual([new URL(engineeringCases.find((item) => item.slug === brief.caseSlug)!.image!.src, siteUrl).toString()]);
+    }
+  });
   it("contains unique canonical URLs with stable dates", () => {
     const entries = sitemap();
     expect(new Set(entries.map((entry) => entry.url)).size).toBe(entries.length);
@@ -32,7 +42,7 @@ describe("sitemap", () => {
     expect(entries.find((entry) => entry.url === `${siteUrl}/solutions`)?.lastModified)
       .toEqual(new Date("2026-10-20T00:00:00.000Z"));
     expect(entries.find((entry) => entry.url === `${siteUrl}/project-cases`)?.lastModified)
-      .toEqual(new Date("2026-10-21T00:00:00.000Z"));
+      .toEqual(new Date("2026-10-23T00:00:00.000Z"));
     expect(entries.some((entry) => entry.url === `${siteUrl}/engineering-cases`)).toBe(false);
     expect(entries.some((entry) => entry.url === `${siteUrl}/applications`)).toBe(false);
     for (const route of ["/privacy-policy"]) {
@@ -50,7 +60,7 @@ describe("sitemap", () => {
     const paths = [...navItems.map((item) => item.href), "/interfaces", ...products.map((item) => `/products/${item.slug}`), ...resources.map((item) => `/resources/${item.slug}`), ...applicationExamples.map((item) => `/applications/${item.slug}`), ...interfaceTopics.map((item) => `/interfaces/${item.slug}`)];
     for (const path of paths) expect(urls).toContain(new URL(path, siteUrl).toString().replace(/\/$/, ""));
     const index = sitemap().find((entry) => entry.url === `${siteUrl}/project-cases`);
-    expect(index?.lastModified).toEqual(new Date("2026-10-21T00:00:00.000Z"));
+    expect(index?.lastModified).toEqual(new Date("2026-10-23T00:00:00.000Z"));
   });
 
   it("publishes crawlable product and application images", () => {

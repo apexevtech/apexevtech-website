@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 import { engineeringCases } from "@/data/engineering-cases";
 import { projectMessages } from "@/lib/i18n/messages-projects";
 import { defaultEngineeringCaseFilters } from "@/lib/engineering-cases/filter";
+import { getEngineeringCaseDetailHref } from "@/lib/engineering-cases/detail-path";
 import { defaultResourceBrowserFilters, resourceBrowserEntries } from "@/lib/resources/browser";
 import { EngineeringCaseBrowser } from "./EngineeringCaseBrowser";
 import { EngineeringCaseCard } from "./EngineeringCaseCard";
@@ -41,6 +42,23 @@ describe("Chinese project case display", () => {
     for (const text of [entry.material.title, entry.material.summary, ...entry.material.requirements, entry.material.reviewOutput, entry.material.planningNote, entry.material.source.summary, entry.material.source.scopeNote]) expect(html).toContain(projectMessages[text]);
     expect(html).toContain("不作为 APEX 交付证明");
     expect(html).toContain(`href="${entry.material.relatedHref}"`);
+  });
+
+  it("translates only the three published scenario brief entries without changing their destinations", () => {
+    for (const entry of engineeringCases) {
+      const html = renderToStaticMarkup(createElement(EngineeringCaseCard, { entry }));
+      const detailHref = getEngineeringCaseDetailHref(entry.slug);
+      expect(html).not.toContain("View scenario brief");
+      if (detailHref) {
+        expect(html).toContain("查看场景简介");
+        expect(html).toContain(`href="${detailHref}"`);
+      } else {
+        expect(html).not.toContain("查看场景简介");
+        expect(html).not.toContain(`href="/project-cases/${entry.slug}"`);
+      }
+      expect(html).toContain("咨询类似配置");
+      expect(html).toContain("相关测试指南");
+    }
   });
 
   it("localizes engineering filters, search and count while retaining English structured data", () => {

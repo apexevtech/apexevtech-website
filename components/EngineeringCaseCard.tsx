@@ -7,6 +7,7 @@ import type { EngineeringCase } from "@/data/engineering-cases";
 import { useLanguage } from "@/components/LanguageProvider";
 import { TrackedLink } from "@/components/TrackedLink";
 import { buildReferenceCaseInquiryHref } from "@/lib/inquiries/reference-case";
+import { getEngineeringCaseDetailHref } from "@/lib/engineering-cases/detail-path";
 
 const categoryIcons = {
   "vehicle-engineering": CarFront,
@@ -19,6 +20,7 @@ export function EngineeringCaseCard({ entry }: { entry: EngineeringCase }) {
   const { t } = useLanguage();
   const Icon = categoryIcons[entry.categoryId];
   const titleId = `${entry.slug}-title`;
+  const detailHref = getEngineeringCaseDetailHref(entry.slug);
 
   return <article id={entry.slug} aria-labelledby={titleId} className="min-w-0 scroll-mt-28 bg-white">
     <details className="group/case min-w-0">
@@ -40,6 +42,7 @@ export function EngineeringCaseCard({ entry }: { entry: EngineeringCase }) {
         <h3 className="text-sm font-semibold leading-6 text-[#12263a]">{t("Technical focus")}</h3>
         <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-6 text-[#526b7d]">{entry.technicalFocus.map((focus) => <li key={focus}>{t(focus)}</li>)}</ul>
         <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
+          {detailHref ? <Link href={detailHref} className="inline-flex min-h-11 max-w-full items-center gap-2 text-sm font-semibold leading-6 text-[#1268a8] hover:underline"><span>{t("View scenario brief")}</span><ArrowRight size={16} aria-hidden="true" className="shrink-0" /></Link> : null}
           <TrackedLink href={buildReferenceCaseInquiryHref(entry.slug)} eventName="case_inquiry_click" location="engineering-case" eventParameters={{ reference_case: entry.slug }} className="inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-md bg-[#1268a8] px-4 py-2 text-sm font-semibold leading-6 text-white transition-colors hover:bg-[#0f5f9f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1268a8]"><span>{t("Discuss a similar configuration")}</span><ArrowRight size={16} aria-hidden="true" className="shrink-0" /></TrackedLink>
           <Link href={`/resources/${entry.relatedResourceSlug}`} className="inline-flex min-h-11 max-w-full items-center gap-2 text-sm font-semibold leading-6 text-[#1268a8] hover:underline"><span>{t("Related testing guide")}</span><ArrowRight size={16} aria-hidden="true" className="shrink-0" /></Link>
         </div>

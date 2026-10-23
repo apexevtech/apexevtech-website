@@ -1,8 +1,27 @@
 import { describe, expect, it } from "vitest";
 import { engineeringCases } from "@/data/engineering-cases";
+import { engineeringCaseDetailSlugs } from "@/lib/engineering-cases/detail-path";
 import { buildReferenceCaseInquiryHref, isReferenceCaseInquirySourcePage, readReferenceCaseInquiry } from "./reference-case";
 
 describe("reference scenario inquiry links", () => {
+  it("preserves detail-page attribution only for published briefs and an exact origin flag", () => {
+    for (const slug of engineeringCaseDetailSlugs) {
+      const url = new URL(buildReferenceCaseInquiryHref(slug, "detail"), "https://www.link-jl.com");
+      expect(url.searchParams.get("caseOrigin")).toBe("detail");
+      expect(readReferenceCaseInquiry(url.searchParams)?.sourcePage).toBe(`/project-cases/${slug}`);
+      expect(isReferenceCaseInquirySourcePage(`/project-cases/${slug}`)).toBe(true);
+      for (const origin of ["", "unknown", "/project-cases/other", "https://example.com", "detail&caseOrigin=detail"]) {
+        const params = new URLSearchParams(`case=${slug}&caseOrigin=${origin}`);
+        expect(readReferenceCaseInquiry(params)?.sourcePage).toBe(`/project-cases#${slug}`);
+      }
+    }
+    const unexpanded = engineeringCases.find((entry) => !engineeringCaseDetailSlugs.some((slug) => slug === entry.slug))!;
+    const url = new URL(buildReferenceCaseInquiryHref(unexpanded.slug, "detail"), "https://www.link-jl.com");
+    expect(url.searchParams.has("caseOrigin")).toBe(false);
+    expect(readReferenceCaseInquiry(new URLSearchParams({ case: unexpanded.slug, caseOrigin: "detail" }))?.sourcePage).toBe(`/project-cases#${unexpanded.slug}`);
+    expect(isReferenceCaseInquirySourcePage(`/project-cases/${unexpanded.slug}`)).toBe(false);
+    expect(isReferenceCaseInquirySourcePage(`/project-cases/${engineeringCaseDetailSlugs[0]}?email=private@example.com`)).toBe(false);
+  });
   it("round trips every published reference using only its local slug", () => {
     for (const entry of engineeringCases) {
       const url = new URL(buildReferenceCaseInquiryHref(entry.slug), "https://www.link-jl.com");

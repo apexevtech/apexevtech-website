@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { engineeringCases } from "@/data/engineering-cases";
 import { buildReferenceCaseInquiryHref } from "@/lib/inquiries/reference-case";
+import { engineeringCaseDetailSlugs, getEngineeringCaseDetailHref } from "@/lib/engineering-cases/detail-path";
 import { EngineeringCaseCard } from "./EngineeringCaseCard";
 
 const escape = (text: string) => text.replaceAll("&", "&amp;").replaceAll("'", "&#x27;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
@@ -60,5 +61,28 @@ describe("engineering case gallery cards", () => {
       const summary = html.match(/<summary\b[^>]*>([\s\S]*?)<\/summary>/)![1];
       expect(summary).not.toMatch(/<a\b|<button\b/);
     }
+  });
+
+  it("adds crawlable scenario briefs only to the three published detail references outside the summary", () => {
+    let linkedCards = 0;
+    for (const entry of engineeringCases) {
+      const html = renderToStaticMarkup(createElement(EngineeringCaseCard, { entry }));
+      const summary = html.match(/<summary\b[^>]*>([\s\S]*?)<\/summary>/)![1];
+      const detailHref = getEngineeringCaseDetailHref(entry.slug);
+      if (detailHref) {
+        linkedCards += 1;
+        expect(html).toContain(`href="${detailHref}"`);
+        expect(html).toContain("View scenario brief");
+        expect(summary).not.toContain("View scenario brief");
+        expect(html.indexOf(`href="${detailHref}"`)).toBeGreaterThan(html.indexOf("</summary>"));
+      } else {
+        expect(html).not.toContain("View scenario brief");
+        expect(html).not.toContain(`href="/project-cases/${entry.slug}"`);
+      }
+      expect(summary).not.toMatch(/<a\b|<button\b/);
+      expect(html).toContain(`href="${buildReferenceCaseInquiryHref(entry.slug)}"`);
+      expect(html).toContain(`href="/resources/${entry.relatedResourceSlug}"`);
+    }
+    expect(linkedCards).toBe(engineeringCaseDetailSlugs.length);
   });
 });
