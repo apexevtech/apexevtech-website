@@ -3,44 +3,48 @@
 import { useEffect, useState } from "react";
 import { AnalyticsScripts } from "@/components/AnalyticsScripts";
 import { T, useLanguage } from "@/components/LanguageProvider";
-
-const STORAGE_KEY = "apex-analytics-consent";
-type Consent = "accepted" | "declined" | "unknown";
+import { applyAnalyticsConsent, chooseAnalyticsConsent, readAnalyticsConsent, syncAnalyticsConsentStorage, type AnalyticsConsent } from "@/lib/analytics/consent";
+import { readAnalyticsTrafficClass } from "@/lib/analytics/traffic-class";
 
 export function CookieConsent() {
   const { t } = useLanguage();
   const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || process.env.NEXT_PUBLIC_GA_ID;
   const clarityProjectId = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
-  const [consent, setConsent] = useState<Consent>("unknown");
+  const [consent, setConsent] = useState<AnalyticsConsent>("unknown");
 
   useEffect(() => {
-    let savedConsent: Consent = "unknown";
-    try {
-      const saved = window.localStorage.getItem(STORAGE_KEY);
-      if (saved === "accepted" || saved === "declined") savedConsent = saved;
-    } catch {
-      savedConsent = "declined";
-    }
-    const frame = window.requestAnimationFrame(() => setConsent(savedConsent));
+    readAnalyticsTrafficClass(window);
+    applyAnalyticsConsent(window, readAnalyticsConsent(window), measurementId);
+    const frame = window.requestAnimationFrame(() => setConsent(readAnalyticsConsent(window)));
 
-    const openSettings = () => setConsent("unknown");
+    const openSettings = () => {
+      applyAnalyticsConsent(window, "unknown", measurementId);
+      setConsent("unknown");
+    };
+    const syncStorage = (event: StorageEvent) => {
+      try {
+        if (event.storageArea && event.storageArea !== window.localStorage) return;
+      } catch {
+        applyAnalyticsConsent(window, "declined", measurementId);
+        setConsent("declined");
+        return;
+      }
+      const next = syncAnalyticsConsentStorage(window, event.key, event.newValue, measurementId);
+      if (next) setConsent(next);
+    };
     window.addEventListener("apex-cookie-settings", openSettings);
+    window.addEventListener("storage", syncStorage);
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener("apex-cookie-settings", openSettings);
+      window.removeEventListener("storage", syncStorage);
     };
-  }, []);
+  }, [measurementId]);
 
   if (!measurementId) return null;
 
-  function choose(value: Exclude<Consent, "unknown">) {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, value);
-    } catch {
-      // A blocked storage implementation should behave like a declined choice.
-      value = "declined";
-    }
-    setConsent(value);
+  function choose(value: Exclude<AnalyticsConsent, "unknown">) {
+    setConsent(chooseAnalyticsConsent(window, value, measurementId));
   }
 
   return (

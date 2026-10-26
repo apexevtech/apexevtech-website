@@ -9,7 +9,7 @@ describe("ProductDocumentDownload", () => {
 
   it("downloads the product document and tracks the catalog conversion", () => {
     const gtag = vi.fn();
-    vi.stubGlobal("window", { gtag });
+    vi.stubGlobal("window", { gtag, apexAnalyticsConsent: "accepted" });
 
     const link = ProductDocumentDownload({
       href: "/downloads/st-hcdc-hpc-specifications.docx",
@@ -28,6 +28,7 @@ describe("ProductDocumentDownload", () => {
     expect(gtag).toHaveBeenCalledWith("event", "catalog_download", {
       location: "product-detail",
       model: "ST-HCDC-HPC",
+      traffic_class: "public",
     });
   });
 });
