@@ -1,15 +1,12 @@
 "use client";
 
-import { useCallback, useState } from "react";
 import { ProductCatalog, type ProductCatalogComparison } from "@/components/ProductCatalog";
 import Link from "next/link";
 import { Columns3, RotateCcw, X } from "lucide-react";
 import { CatalogControls } from "@/components/CatalogControls";
-import { QueryStateSync } from "@/components/QueryStateSync";
 import type { Product } from "@/data/site";
 import {
   filterProductCatalog,
-  parseProductFilters,
   type InterfaceFilter,
   type ProductFilter,
   type ProductFilters,
@@ -19,24 +16,20 @@ import { trackEvent } from "@/lib/analytics/events";
 import { buildCatalogInquiryHref } from "@/lib/inquiries/catalog-scope";
 import { TrackedLink } from "@/components/TrackedLink";
 import { T, useLanguage } from "@/components/LanguageProvider";
+import { getComparedProducts } from "@/lib/products/comparison";
 
-type ProductCatalogSectionProps = { products: Product[]; comparison: ProductCatalogComparison };
+type ProductCatalogSectionProps = { products: Product[]; comparison: ProductCatalogComparison; filters: ProductFilters; onFiltersChange: (filters: ProductFilters) => void };
 const defaults: ProductFilters = { type: "all", interface: "all", workflow: "all" };
 const typeOptions: Array<[ProductFilter, string]> = [["all", "All charger types"], ["ac", "AC chargers"], ["dc", "DC chargers"]];
 const interfaceOptions: Array<[InterfaceFilter, string]> = [["all", "All interfaces / standards"], ["gbt", "GB/T"], ["ccs2", "CCS2 / ISO 15118"], ["chademo", "CHAdeMO"], ["type1", "Type 1 / SAE J1772"], ["type2", "Type 2 / IEC 61851"], ["nacs", "NACS / SAE J3400"]];
 const workflowOptions: Array<[WorkflowFilter, string]> = [["all", "All workflows"], ["portable", "Portable testing"], ["laboratory", "Laboratory / R&D"], ["production", "Production / end-of-line"], ["field", "Field commissioning"]];
 
-export function ProductCatalogSection({ products, comparison }: ProductCatalogSectionProps) {
+export function ProductCatalogSection({ products, comparison, filters, onFiltersChange }: ProductCatalogSectionProps) {
   const { t } = useLanguage();
-  const [filters, setFilters] = useState<ProductFilters>(defaults);
-
-  const syncFilters = useCallback((params: URLSearchParams) => {
-    setFilters(parseProductFilters(params));
-  }, []);
 
   function updateFilter<Key extends keyof ProductFilters>(key: Key, value: ProductFilters[Key]) {
     const next = { ...filters, [key]: value };
-    setFilters(next);
+    onFiltersChange(next);
     const url = new URL(window.location.href);
     for (const [name, selected] of Object.entries(next)) {
       if (selected === "all") url.searchParams.delete(name);
@@ -48,7 +41,7 @@ export function ProductCatalogSection({ products, comparison }: ProductCatalogSe
   }
 
   function resetFilters() {
-    setFilters(defaults);
+    onFiltersChange(defaults);
     const url = new URL(window.location.href);
     for (const key of Object.keys(defaults)) url.searchParams.delete(key);
     url.hash = "equipment";
@@ -57,11 +50,11 @@ export function ProductCatalogSection({ products, comparison }: ProductCatalogSe
 
   const filteredProducts = filterProductCatalog(products, filters);
   const hasFilters = Object.values(filters).some((value) => value !== "all");
-  const selectedProducts = comparison.selectedSlugs.flatMap((slug) => products.find((product) => product.slug === slug) ?? []);
+  const selectedProducts = getComparedProducts(comparison.selectedSlugs.join(","), products);
+  const inquiryHref = buildCatalogInquiryHref(filters, "/products", selectedProducts);
 
   return (
     <section id="equipment" className="scroll-mt-28 px-5 py-16 lg:px-8">
-      <QueryStateSync onChange={syncFilters} />
       <div className="mx-auto max-w-7xl">
         <CatalogControls className="rounded-md border border-slate-200 bg-[#f3f8fa] p-5 sm:p-6">
           <div className="flex flex-wrap items-end justify-between gap-3">
@@ -88,13 +81,14 @@ export function ProductCatalogSection({ products, comparison }: ProductCatalogSe
             </div>
           </div>
           {selectedProducts.length ? <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1">{selectedProducts.map((product) => <li key={product.slug} className="inline-flex min-w-0 max-w-full items-center gap-2 text-sm leading-6 text-[#385064]"><span className="break-words">{product.model}</span><button type="button" onClick={() => comparison.onToggle(product.slug)} disabled={!comparison.ready} title={`${t("Remove from comparison")}: ${product.model}`} aria-label={`${t("Remove from comparison")}: ${product.model}`} className="inline-flex h-11 w-11 shrink-0 items-center justify-center text-[#526b7d] hover:bg-[#edf5fc] hover:text-[#1268a8]"><X size={17} aria-hidden="true" /></button></li>)}</ul> : null}
+          {selectedProducts.length && hasFilters ? <p className="mt-2 text-sm leading-6 text-[#526b7d]"><T>Selected models are candidates for review and may not match every current requirement.</T></p> : null}
         </CatalogControls>
 
         <p aria-live="polite" className="mb-5 mt-6 text-sm font-semibold text-[#526b7d]">{filteredProducts.length} {t(filteredProducts.length === 1 ? "matching equipment model" : "matching equipment models")}</p>
         {hasFilters && filteredProducts.length > 0 ? (
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-y border-slate-200 py-4">
             <p className="max-w-xl text-sm leading-6 text-[#526b7d]"><T>Need to confirm the connector, electrical range or included options? Send this test scope for a configuration review.</T></p>
-            <TrackedLink href={buildCatalogInquiryHref(filters)} eventName="catalog_inquiry_click" location="catalog-matching-results" className="inline-flex min-h-11 items-center rounded-md bg-[#1479c9] px-5 py-3 text-sm font-bold text-white hover:bg-[#0f5f9f]"><T>Review my configuration</T></TrackedLink>
+            <TrackedLink href={inquiryHref} eventName="catalog_inquiry_click" location="catalog-matching-results" className="inline-flex min-h-11 items-center rounded-md bg-[#1479c9] px-5 py-3 text-sm font-bold text-white hover:bg-[#0f5f9f]"><T>Review my configuration</T></TrackedLink>
           </div>
         ) : null}
         {filteredProducts.length ? <ProductCatalog eyebrow="Matching equipment" title="Compare specifications and configuration boundaries" products={filteredProducts} comparison={comparison} /> : (
@@ -103,7 +97,7 @@ export function ProductCatalogSection({ products, comparison }: ProductCatalogSe
             <p className="mt-2 text-sm text-[#526b7d]"><T>Reset one filter or send the complete test scope for a configuration review.</T></p>
             <div className="mt-4 flex flex-wrap justify-center gap-3">
               <button type="button" onClick={resetFilters} className="min-h-11 rounded-md border border-slate-300 px-5 py-3 text-sm font-bold text-[#1268a8]"><T>Reset filters</T></button>
-              <TrackedLink href={buildCatalogInquiryHref(filters)} eventName="catalog_inquiry_click" location="catalog-no-results" className="inline-flex min-h-11 rounded-md bg-[#1479c9] px-5 py-3 text-sm font-black text-white"><T>Ask an engineer</T></TrackedLink>
+              <TrackedLink href={inquiryHref} eventName="catalog_inquiry_click" location="catalog-no-results" className="inline-flex min-h-11 rounded-md bg-[#1479c9] px-5 py-3 text-sm font-black text-white"><T>Ask an engineer</T></TrackedLink>
             </div>
           </div>
         )}

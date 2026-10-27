@@ -7,6 +7,8 @@ import { ProductCatalogSection } from "./ProductCatalogSection";
 import { ProductComparison } from "./ProductComparison";
 import { ProductExplorer } from "./ProductExplorer";
 import HomePage from "@/app/page";
+import type { ProductFilters } from "@/lib/products/filter";
+import { buildCatalogInquiryHref } from "@/lib/inquiries/catalog-scope";
 
 const locale = vi.hoisted(() => ({ chinese: false }));
 vi.mock("@/components/LanguageProvider", async () => {
@@ -18,6 +20,7 @@ vi.mock("@/components/LanguageProvider", async () => {
 vi.mock("@/components/QueryStateSync", () => ({ QueryStateSync: () => null }));
 
 const controls = (selectedSlugs: string[], ready = true) => ({ selectedSlugs, ready, onToggle: vi.fn(), onClear: vi.fn() });
+const defaultFilters: ProductFilters = { type: "all", interface: "all", workflow: "all" };
 const renderCatalog = (selectedSlugs: string[], ready = true) => renderToStaticMarkup(createElement(ProductCatalog, { products, eyebrow: "Matching equipment", title: "Compare specifications and configuration boundaries", comparison: controls(selectedSlugs, ready) }));
 
 describe("catalog comparison selection", () => {
@@ -61,8 +64,8 @@ describe("catalog comparison selection", () => {
 
   it("renders the same selected models in the summary, specification table and inquiry destination", () => {
     const selectedSlugs = products.slice(0, 3).map((product) => product.slug);
-    const catalog = renderToStaticMarkup(createElement(ProductCatalogSection, { products, comparison: controls(selectedSlugs) }));
-    const comparison = renderToStaticMarkup(createElement(ProductComparison, { products, selectedSlugs, ready: true, onChange: vi.fn(), onClear: vi.fn() }));
+    const catalog = renderToStaticMarkup(createElement(ProductCatalogSection, { products, comparison: controls(selectedSlugs), filters: defaultFilters, onFiltersChange: vi.fn() }));
+    const comparison = renderToStaticMarkup(createElement(ProductComparison, { products, selectedSlugs, filters: defaultFilters, ready: true, onChange: vi.fn(), onClear: vi.fn() }));
     expect(catalog).toContain("3 / 3");
     expect(catalog).toContain("Comparison limit reached");
     for (const product of products.slice(0, 3)) {
@@ -76,7 +79,7 @@ describe("catalog comparison selection", () => {
   it("translates comparison actions and model-labelled controls in Chinese", () => {
     locale.chinese = true;
     const selectedSlugs = products.slice(0, 3).map((product) => product.slug);
-    const html = renderToStaticMarkup(createElement(ProductCatalogSection, { products, comparison: controls(selectedSlugs) }));
+    const html = renderToStaticMarkup(createElement(ProductCatalogSection, { products, comparison: controls(selectedSlugs), filters: defaultFilters, onFiltersChange: vi.fn() }));
     expect(html).toContain("已达到对比数量上限");
     expect(html).toContain("查看对比");
     for (const product of products.slice(0, 3)) {
@@ -86,5 +89,44 @@ describe("catalog comparison selection", () => {
     expect(html).toContain(`aria-label="加入对比: ${products[3].model}"`);
     expect(html).not.toContain("Add to comparison");
     expect(html).not.toContain("Comparison limit reached");
+  });
+
+  it("keeps hidden candidates and requested filters together in both inquiry destinations", () => {
+    const filters: ProductFilters = { type: "ac", interface: "ccs2", workflow: "field" };
+    const candidates = products.slice(0, 3);
+    const selectedSlugs = candidates.map((product) => product.slug);
+    const catalog = renderToStaticMarkup(createElement(ProductCatalogSection, { products, comparison: controls(selectedSlugs), filters, onFiltersChange: vi.fn() }));
+    const comparison = renderToStaticMarkup(createElement(ProductComparison, { products, selectedSlugs, filters, ready: true, onChange: vi.fn(), onClear: vi.fn() }));
+    const href = buildCatalogInquiryHref(filters, "/products", candidates).replaceAll("&", "&amp;");
+    expect(catalog).toContain("No model matches every selected filter");
+    expect(catalog).toContain(`href="${href}"`);
+    expect(comparison).toContain(`href="${href}"`);
+    for (const candidate of candidates) expect(catalog).toContain(`aria-label="Remove from comparison: ${candidate.model}"`);
+    expect(comparison).toContain("Review models and test scope");
+    for (const html of [catalog, comparison]) expect(html).toContain("Selected models are candidates for review and may not match every current requirement.");
+  });
+
+  it("also carries candidates from matching results without claiming they all match", () => {
+    const filters: ProductFilters = { type: "dc", interface: "all", workflow: "all" };
+    const candidate = products.find((product) => !product.capabilities.chargerTypes.includes("dc"))!;
+    const catalog = renderToStaticMarkup(createElement(ProductCatalogSection, { products, comparison: controls([candidate.slug]), filters, onFiltersChange: vi.fn() }));
+    expect(catalog).toContain("Review my configuration");
+    expect(catalog).toContain(`products=${candidate.slug}`);
+    expect(catalog).toContain("may not match every current requirement");
+  });
+
+  it("translates joint-context labels and qualifications without changing the query", () => {
+    const filters: ProductFilters = { type: "dc", interface: "ccs2", workflow: "field" };
+    const selectedSlugs = [products[0].slug];
+    const props = { products, selectedSlugs, filters, ready: true, onChange: vi.fn(), onClear: vi.fn() };
+    const english = renderToStaticMarkup(createElement(ProductComparison, props));
+    locale.chinese = true;
+    const chinese = renderToStaticMarkup(createElement(ProductComparison, props));
+    expect(chinese).toContain("审核型号与测试范围");
+    expect(chinese).toContain("所选型号仅供候选评审，未必满足当前的全部要求。");
+    const href = buildCatalogInquiryHref(filters, "/products", [products[0]]).replaceAll("&", "&amp;");
+    expect(english).toContain(`href="${href}"`);
+    expect(chinese).toContain(`href="${href}"`);
+    expect(chinese).not.toContain("Review models and test scope");
   });
 });

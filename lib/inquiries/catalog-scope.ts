@@ -1,4 +1,6 @@
+import type { Product } from "@/data/site";
 import { parseProductFilters, type ProductFilters } from "@/lib/products/filter";
+import { getComparedProducts } from "@/lib/products/comparison";
 
 const labels = {
   type: { ac: "AC chargers", dc: "DC chargers" },
@@ -6,12 +8,32 @@ const labels = {
   workflow: { portable: "Portable testing", laboratory: "Laboratory / R&D", production: "Production / end-of-line", field: "Field commissioning" },
 };
 
-export function buildCatalogInquiryHref(filters: ProductFilters, sourcePage = "/products") {
-  const params = new URLSearchParams({ source: "equipment-finder" });
-  if (sourcePage) params.set("sourcePage", sourcePage);
-  for (const [key, value] of Object.entries(filters)) {
-    if (value !== "all") params.set(key, value);
+function appendFilters(params: URLSearchParams, filters: ProductFilters) {
+  const safeFilters = parseProductFilters(new URLSearchParams(filters));
+  for (const key of ["type", "interface", "workflow"] as const) {
+    if (safeFilters[key] !== "all") params.set(key, safeFilters[key]);
   }
+}
+
+function appendCandidates(params: URLSearchParams, selectedProducts: Product[]) {
+  const candidates = getComparedProducts(selectedProducts.map((product) => product.slug).join(","), selectedProducts);
+  if (candidates.length) params.set("products", candidates.map((product) => product.slug).join(","));
+}
+
+export function buildCatalogInquiryHref(filters: ProductFilters, sourcePage = "/products", selectedProducts: Product[] = []) {
+  const params = new URLSearchParams({ source: "equipment-finder" });
+  if (/^\/(?:products|resources)(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?$/.test(sourcePage)) params.set("sourcePage", sourcePage);
+  appendFilters(params, filters);
+  appendCandidates(params, selectedProducts);
+  return `/contact?${params}#inquiry-form`;
+}
+
+export function buildComparisonInquiryHref(filters: ProductFilters, selectedProducts: Product[]) {
+  const params = new URLSearchParams();
+  appendFilters(params, filters);
+  if (params.size) return buildCatalogInquiryHref(filters, "/products", selectedProducts);
+  appendCandidates(params, selectedProducts);
+  if (!params.size) return "/contact#inquiry-form";
   return `/contact?${params}#inquiry-form`;
 }
 

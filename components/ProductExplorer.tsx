@@ -7,15 +7,18 @@ import { QueryStateSync } from "@/components/QueryStateSync";
 import type { Product } from "@/data/site";
 import { trackEvent } from "@/lib/analytics/events";
 import { parseComparedProductSlugs, reduceProductComparison, serializeComparedProducts, type ProductComparisonAction } from "@/lib/products/comparison";
+import { parseProductFilters, type ProductFilters } from "@/lib/products/filter";
 
 export function ProductExplorer({ products }: { products: Product[] }) {
   const [selectedSlugs, setSelectedSlugs] = useState<string[]>([]);
   const [ready, setReady] = useState(false);
+  const [filters, setFilters] = useState<ProductFilters>({ type: "all", interface: "all", workflow: "all" });
   const selection = useRef<string[]>([]);
   const syncSelection = useCallback((params: URLSearchParams) => {
     const next = parseComparedProductSlugs(params.get("compare"), products);
     selection.current = next;
     setSelectedSlugs(next);
+    setFilters(parseProductFilters(params));
     setReady(true);
   }, [products]);
 
@@ -33,7 +36,7 @@ export function ProductExplorer({ products }: { products: Product[] }) {
 
   return <>
     <QueryStateSync onChange={syncSelection} />
-    <ProductComparison products={products} selectedSlugs={selectedSlugs} ready={ready} onChange={(index, slug) => updateSelection({ type: "replace", index, slug }, "compare")} onClear={() => updateSelection({ type: "clear" }, "compare")} />
-    <ProductCatalogSection products={products} comparison={{ selectedSlugs, ready, onToggle: (slug) => updateSelection({ type: "toggle", slug }, "equipment"), onClear: () => updateSelection({ type: "clear" }, "equipment") }} />
+    <ProductComparison products={products} selectedSlugs={selectedSlugs} filters={filters} ready={ready} onChange={(index, slug) => updateSelection({ type: "replace", index, slug }, "compare")} onClear={() => updateSelection({ type: "clear" }, "compare")} />
+    <ProductCatalogSection products={products} filters={filters} onFiltersChange={setFilters} comparison={{ selectedSlugs, ready, onToggle: (slug) => updateSelection({ type: "toggle", slug }, "equipment"), onClear: () => updateSelection({ type: "clear" }, "equipment") }} />
   </>;
 }

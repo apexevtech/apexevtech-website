@@ -97,16 +97,12 @@ button {
   }
 }
 
-body:has([data-floating-controls-visible="true"]) .whatsapp-floating {
+body:has([data-floating-controls-visible="true"]) .whatsapp-floating,
+body:has([data-inquiry-form-visible="true"]) .whatsapp-floating,
+body:has(.inquiry-form:focus-within) .whatsapp-floating,
+body:has([data-cookie-preferences="true"]) .whatsapp-floating {
   visibility: hidden;
   pointer-events: none;
-}
-
-@media (max-width: 639px) {
-  body:has(.inquiry-form:focus-within) .whatsapp-floating,
-  body:has([data-cookie-preferences="true"]) .whatsapp-floating {
-    visibility: hidden;
-  }
 }
 
 @media print {

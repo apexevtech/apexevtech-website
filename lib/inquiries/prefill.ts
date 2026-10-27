@@ -1,6 +1,6 @@
 import type { Product } from "@/data/site";
 import { getComparedProducts } from "@/lib/products/comparison";
-import { readCatalogInquiryScope } from "@/lib/inquiries/catalog-scope";
+import { readCatalogInquiryConfiguration, readCatalogInquiryScope } from "@/lib/inquiries/catalog-scope";
 import { readReferenceCaseInquiry, type ReferenceCaseInquiry } from "@/lib/inquiries/reference-case";
 
 type PrefillOptions = {
@@ -21,6 +21,20 @@ export function resolveInquiryPrefill(params: URLSearchParams, options: PrefillO
   const models = options.prefillProductsFromQuery
     ? getComparedProducts(params.get("products"), products).map((product) => product.model)
     : [];
+  const configuration = options.prefillContextFromQuery ? readCatalogInquiryConfiguration(params) : null;
+  if (models.length && configuration) return {
+    context: `Product comparison and configuration inquiry: ${models.join(", ")}`,
+    productModels: models.join(", "),
+    message: `I would like help reviewing these candidate models: ${models.join(", ")}.
+
+Requested test scope:
+${configuration}
+
+The selected models are candidates for review and may not match every requested requirement. Please confirm the appropriate configuration.
+
+Voltage and current range:
+Required standards and tests:`,
+  };
   if (models.length) return {
     context: `Product comparison inquiry: ${models.join(", ")}`,
     productModels: models.join(", "),

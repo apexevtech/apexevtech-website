@@ -50,6 +50,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
   const previousPrefill = useRef("");
   const prefillEdited = useRef(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const [visible, setVisible] = useState(false);
   const feedbackRef = useRef<HTMLDivElement>(null);
   const focusField = useRef<string | null>(null);
   const analyticsParameters = {
@@ -62,6 +63,14 @@ export function InquiryForm({ compact = false, context = "General website inquir
 
   useEffect(() => {
     startedAt.current = Date.now();
+  }, []);
+
+  useEffect(() => {
+    const form = formRef.current;
+    if (!form) return;
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting));
+    observer.observe(form);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -152,7 +161,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
   }
 
   return (
-    <form ref={formRef} aria-label={t("Equipment inquiry")} aria-busy={submitting} className="inquiry-form relative grid gap-5 rounded-md border border-slate-200 bg-white p-6 shadow-[0_12px_36px_rgba(18,38,58,0.07)] sm:p-8" onSubmit={handleSubmit} onInvalid={() => {
+    <form ref={formRef} data-inquiry-form-visible={visible} aria-label={t("Equipment inquiry")} aria-busy={submitting} className="inquiry-form relative grid gap-5 rounded-md border border-slate-200 bg-white p-6 shadow-[0_12px_36px_rgba(18,38,58,0.07)] sm:p-8" onSubmit={handleSubmit} onInvalid={() => {
       if (!invalidTracked.current) {
         invalidTracked.current = true;
         trackEvent("inquiry_error", { ...analyticsParameters, reason: "CLIENT_VALIDATION" });

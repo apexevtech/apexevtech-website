@@ -65,6 +65,8 @@ export const productMessages: Record<string, string> = {
   "Test capabilities": "测试能力",
   "Typical applications": "典型应用",
   "Discuss these products": "咨询所选产品",
+  "Review models and test scope": "审核型号与测试范围",
+  "Selected models are candidates for review and may not match every current requirement.": "所选型号仅供候选评审，未必满足当前的全部要求。",
   "Your selected models will be added to the inquiry form.": "所选型号将自动添加到询盘表单。",
   "Select at least one product to start the comparison.": "请选择至少一款产品开始对比。",
   "Confirm the exact standards and editions with APEX.": "请向 APEX 确认具体标准及版本。",

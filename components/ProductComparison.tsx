@@ -3,28 +3,27 @@
 import Link from "next/link";
 import { ArrowUpRight, MessageSquare, RotateCcw } from "lucide-react";
 import type { Product } from "@/data/site";
-import { getProductComparisonDetails } from "@/lib/products/comparison";
+import { getComparedProducts, getProductComparisonDetails } from "@/lib/products/comparison";
+import type { ProductFilters } from "@/lib/products/filter";
+import { buildComparisonInquiryHref } from "@/lib/inquiries/catalog-scope";
 import { trackEvent } from "@/lib/analytics/events";
 import { T, useLanguage } from "@/components/LanguageProvider";
 
 type ProductComparisonProps = {
   products: Product[];
   selectedSlugs: string[];
+  filters: ProductFilters;
   ready: boolean;
   onChange: (index: number, slug: string) => void;
   onClear: () => void;
 };
 
-export function ProductComparison({ products, selectedSlugs, ready, onChange, onClear }: ProductComparisonProps) {
+export function ProductComparison({ products, selectedSlugs, filters, ready, onChange, onClear }: ProductComparisonProps) {
   const { t } = useLanguage();
-  const selectedProducts = selectedSlugs.flatMap((slug) => {
-    const product = products.find((item) => item.slug === slug);
-    return product ? [product] : [];
-  });
+  const selectedProducts = getComparedProducts(selectedSlugs.join(","), products);
 
-  const inquiryHref = selectedSlugs.length
-    ? `/contact?products=${encodeURIComponent(selectedSlugs.join(","))}#inquiry-form`
-    : "/contact#inquiry-form";
+  const inquiryHref = buildComparisonInquiryHref(filters, selectedProducts);
+  const hasFilters = Object.values(filters).some((value) => value !== "all");
   const rows = [
     ["System type", "type"],
     ["Interface / connector", "interface"],
@@ -77,8 +76,8 @@ export function ProductComparison({ products, selectedSlugs, ready, onChange, on
               </table>
             </div>
             <div className="mt-6 flex flex-wrap items-center gap-4">
-              <Link href={inquiryHref} onClick={() => trackEvent("comparison_inquiry_click", { models: selectedProducts.map((product) => product.model).join(", ") })} className="inline-flex min-h-11 items-center gap-2 rounded-md bg-[#1479c9] px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-[#0f5f9f]"><MessageSquare size={18} aria-hidden="true" className="shrink-0" /><T>Discuss these products</T></Link>
-              <p className="text-sm text-[#526b7d]"><T>Your selected models will be added to the inquiry form.</T></p>
+              <Link href={inquiryHref} onClick={() => trackEvent("comparison_inquiry_click", { models: selectedProducts.map((product) => product.model).join(", ") })} className="inline-flex min-h-11 items-center gap-2 rounded-md bg-[#1479c9] px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-[#0f5f9f]"><MessageSquare size={18} aria-hidden="true" className="shrink-0" /><T>{hasFilters ? "Review models and test scope" : "Discuss these products"}</T></Link>
+              <p className="text-sm leading-6 text-[#526b7d]"><T>{hasFilters ? "Selected models are candidates for review and may not match every current requirement." : "Your selected models will be added to the inquiry form."}</T></p>
             </div>
           </>
         ) : <p className="mt-6 rounded-md border border-dashed border-slate-300 bg-white px-5 py-4 text-sm text-[#526b7d]"><T>Select at least one product to start the comparison.</T></p>}

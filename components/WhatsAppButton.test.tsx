@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { whatsappButtonClassName, whatsappIconPath } from "@/components/WhatsAppButton.styles";
+import { parse } from "postcss";
 
 describe("WhatsAppButton", () => {
   it("keeps the contact action visible on narrow screens", () => {
@@ -34,11 +35,24 @@ describe("WhatsAppButton", () => {
     expect(source).toContain('trackEvent("whatsapp_click", { location: "floating" })');
   });
 
-  it("avoids mobile form input and cookie-choice controls", async () => {
+  it("avoids visible forms, focused fields and cookie choices at every viewport width", async () => {
     const { readFile } = await import("node:fs/promises");
     const css = await readFile("app/globals.css", "utf8");
-    expect(css).toContain("body:has(.inquiry-form:focus-within) .whatsapp-floating");
-    expect(css).toContain('body:has([data-cookie-preferences="true"]) .whatsapp-floating');
+    const root = parse(css);
+    for (const selector of [
+      'body:has([data-inquiry-form-visible="true"]) .whatsapp-floating',
+      "body:has(.inquiry-form:focus-within) .whatsapp-floating",
+      'body:has([data-cookie-preferences="true"]) .whatsapp-floating',
+    ]) {
+      const rule = root.nodes.find((node) => node.type === "rule" && node.selectors.includes(selector));
+      expect(rule, `${selector} must not be scoped to a media query`).toBeDefined();
+      if (rule?.type === "rule") {
+        expect(rule.nodes).toEqual(expect.arrayContaining([
+          expect.objectContaining({ prop: "visibility", value: "hidden" }),
+          expect.objectContaining({ prop: "pointer-events", value: "none" }),
+        ]));
+      }
+    }
   });
 
   it("does not obstruct catalog filters while they are visible", async () => {
