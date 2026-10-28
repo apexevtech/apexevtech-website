@@ -1,8 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { Children, isValidElement, type ChangeEvent, type ReactNode } from "react";
+import { inquiryMessages } from "@/lib/i18n/messages-inquiry";
 
 const hooks = vi.hoisted(() => ({
   effects: [] as Array<() => void | (() => void)>,
   setters: [] as ReturnType<typeof vi.fn>[],
+  feedback: null as { type: "success" | "error"; text: string } | null,
 }));
 
 vi.mock("react", async (importOriginal) => ({
@@ -10,9 +13,10 @@ vi.mock("react", async (importOriginal) => ({
   useEffect: (effect: () => void | (() => void)) => { hooks.effects.push(effect); },
   useRef: (current: unknown) => ({ current }),
   useState: (value: unknown) => {
+    const initial = hooks.setters.length === 1 && hooks.feedback ? hooks.feedback : value;
     const setter = vi.fn();
     hooks.setters.push(setter);
-    return [value, setter];
+    return [initial, setter];
   },
   useCallback: (callback: unknown) => callback,
 }));
@@ -23,10 +27,27 @@ vi.mock("@/components/LanguageProvider", () => ({
 
 import { InquiryForm } from "@/components/InquiryForm";
 
-describe("InquiryForm floating-control protection", () => {
+function findPrivacyLink(node: ReactNode): Record<string, unknown> | undefined {
+  if (!isValidElement<{ href?: string; children?: ReactNode }>(node)) return;
+  if (node.type === "a" && node.props.href === "/privacy-policy") return node.props;
+  for (const child of Children.toArray(node.props.children)) {
+    const link = findPrivacyLink(child);
+    if (link) return link;
+  }
+}
+
+function editField(tree: ReturnType<typeof InquiryForm>, name: string) {
+  class Input { constructor(public name: string) {} }
+  vi.stubGlobal("HTMLInputElement", Input);
+  vi.stubGlobal("HTMLTextAreaElement", class {});
+  tree.props.onChange({ target: new Input(name) } as unknown as ChangeEvent<HTMLFormElement>);
+}
+
+describe("InquiryForm interaction protections", () => {
   beforeEach(() => {
     hooks.effects.length = 0;
     hooks.setters.length = 0;
+    hooks.feedback = null;
   });
   afterEach(() => vi.unstubAllGlobals());
 
@@ -61,5 +82,38 @@ describe("InquiryForm floating-control protection", () => {
     InquiryForm({});
     expect(hooks.effects[1]()).toBeUndefined();
     expect(observer).not.toHaveBeenCalled();
+  });
+
+  it("opens the privacy policy safely without navigating away from the draft", () => {
+    const link = findPrivacyLink(InquiryForm({}));
+    expect(link).toMatchObject({
+      href: "/privacy-policy",
+      target: "_blank",
+      rel: "noopener noreferrer",
+      "aria-label": "Privacy Policy (opens in a new tab)",
+      title: "Privacy Policy (opens in a new tab)",
+    });
+    expect(inquiryMessages["Privacy Policy (opens in a new tab)"]).toBe("隐私政策（在新标签页打开）");
+  });
+
+  it("clears the previous success confirmation when a new inquiry is started", () => {
+    hooks.feedback = { type: "success", text: "Sent" };
+    const tree = InquiryForm({});
+    editField(tree, "name");
+    expect(hooks.setters[1]).toHaveBeenCalledWith(null);
+  });
+
+  it("does not hide delivery uncertainty when the user edits a field", () => {
+    hooks.feedback = { type: "error", text: "Your inquiry may have reached us." };
+    const tree = InquiryForm({});
+    editField(tree, "email");
+    expect(hooks.setters[1]).not.toHaveBeenCalled();
+  });
+
+  it("does not treat the honeypot field as a new inquiry", () => {
+    hooks.feedback = { type: "success", text: "Sent" };
+    const tree = InquiryForm({});
+    editField(tree, "website");
+    expect(hooks.setters[1]).not.toHaveBeenCalled();
   });
 });

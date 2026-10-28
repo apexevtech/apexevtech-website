@@ -3,6 +3,7 @@
 import { company } from "@/data/site";
 import { TrackedLink } from "@/components/TrackedLink";
 import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 import type { FormEvent } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { InquiryField, InquiryFieldErrors } from "@/lib/inquiries/types";
@@ -169,6 +170,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
     }} onChange={(event) => {
       const target = event.target;
       if (target instanceof HTMLInputElement && target.name === "website") return;
+      if (message?.type === "success") setMessage(null);
       if (target instanceof HTMLTextAreaElement && target.name === "message") prefillEdited.current = true;
       if ((target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) && target.name in fieldErrors) {
         setFieldErrors((previous) => {
@@ -254,7 +256,8 @@ export function InquiryForm({ compact = false, context = "General website inquir
       <label className="flex items-start gap-3 text-sm leading-6 text-[#526b7d]">
         <input className="mt-1 h-4 w-4 shrink-0 accent-[#1479c9]" type="checkbox" name="privacyAccepted" required disabled={submitting} aria-invalid={Boolean(fieldErrors.privacyAccepted)} aria-describedby={fieldErrors.privacyAccepted ? "privacy-error" : undefined} />
         <span>
-          <T>I agree that APEX may use my information to respond to this inquiry. See the</T> <a className="font-bold text-[#1268a8] underline" href="/privacy-policy"><T>Privacy Policy</T></a>.
+          <T>I agree that APEX may use my information to respond to this inquiry. See the</T>{" "}
+          <a className="inline-flex items-center gap-1 font-bold text-[#1268a8] underline" href="/privacy-policy" target="_blank" rel="noopener noreferrer" aria-label={t("Privacy Policy (opens in a new tab)")} title={t("Privacy Policy (opens in a new tab)")}><T>Privacy Policy</T><ExternalLink size={13} aria-hidden="true" className="shrink-0" /></a>.
         </span>
       </label>
       {fieldErrors.privacyAccepted ? <span id="privacy-error" className="text-xs font-semibold text-red-600">{t(fieldErrors.privacyAccepted)}</span> : null}

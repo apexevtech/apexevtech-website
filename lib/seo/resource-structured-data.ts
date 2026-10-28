@@ -1,9 +1,12 @@
 import { company } from "@/data/site";
 import type { Resource } from "@/lib/resources/catalog";
+import { getResourceGuideIndexHref } from "@/lib/navigation/resource-hash";
 
 export function buildResourceStructuredData(resource: Resource, baseUrl: string) {
   const url = new URL(`/resources/${resource.slug}`, baseUrl).toString();
   const organization = { "@type": "Organization", name: company.name, url: new URL("/", baseUrl).toString() };
+  const indexUrl = new URL(getResourceGuideIndexHref(resource.slug), baseUrl);
+  indexUrl.hash = "";
 
   return {
     articleData: {
@@ -24,7 +27,7 @@ export function buildResourceStructuredData(resource: Resource, baseUrl: string)
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: new URL("/", baseUrl).toString() },
-        { "@type": "ListItem", position: 2, name: "Project Cases", item: new URL("/project-cases", baseUrl).toString() },
+        { "@type": "ListItem", position: 2, name: "Technical materials", item: indexUrl.toString() },
         { "@type": "ListItem", position: 3, name: resource.title, item: url },
       ],
     },

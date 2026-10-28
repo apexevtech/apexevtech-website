@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { parseInquiry } from "@/lib/inquiries/validation";
 import { engineeringCases } from "@/data/engineering-cases";
 import { readReferenceCaseInquiry } from "@/lib/inquiries/reference-case";
-import { engineeringCaseDetailSlugs } from "@/lib/engineering-cases/detail-path";
+import { engineeringCaseDetailSlugs, getEngineeringCaseIndexHref } from "@/lib/engineering-cases/detail-path";
 
 const validInput = {
   name: "  Ada Lovelace  ",
@@ -50,9 +50,11 @@ describe("parseInquiry", () => {
     }
     for (const entry of engineeringCases) {
       const reference = readReferenceCaseInquiry(new URLSearchParams({ case: entry.slug }))!;
+      expect(reference.sourcePage).toBe(getEngineeringCaseIndexHref(entry.slug));
       expect(parseInquiry({ ...validInput, message: reference.message, context: reference.context, sourcePage: reference.sourcePage })).toMatchObject({ ok: true, isBot: false, value: { sourcePage: reference.sourcePage, context: reference.context } });
+      expect(parseInquiry({ ...validInput, sourcePage: `/project-cases#${entry.slug}` })).toMatchObject({ ok: true, isBot: false, value: { sourcePage: `/project-cases#${entry.slug}` } });
     }
-    for (const sourcePage of ["/project-cases#unknown", "/project-cases#ccs-charger-laboratory-testing?email=private@example.com", "/project-cases?email=private@example.com", "https://www.link-jl.com/project-cases#ccs-charger-laboratory-testing"]) {
+    for (const sourcePage of ["/project-cases#unknown", "/project-cases#ccs-charger-laboratory-testing?email=private@example.com", "/project-cases?email=private@example.com", "https://www.link-jl.com/project-cases#ccs-charger-laboratory-testing", "/project-cases?page=2#ccs-charger-laboratory-testing", "/project-cases?page=2#production-embedded-charger-testing", "/project-cases?page=3&email=private@example.com#production-embedded-charger-testing"]) {
       const result = parseInquiry({ ...validInput, sourcePage });
       expect(result.ok && !result.isBot && result.value.sourcePage).toBeUndefined();
     }

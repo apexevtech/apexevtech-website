@@ -5,6 +5,8 @@ import HomePage from "./page";
 import AboutPage from "./about/page";
 import NotFound from "./not-found";
 import ResourcePage, { generateMetadata } from "./resources/[slug]/page";
+import { getResourceGuideIndexHref } from "@/lib/navigation/resource-hash";
+import { getResourceBrowserPage, parseResourceBrowserFilters } from "@/lib/resources/browser";
 
 describe("project cases entry links", () => {
   it.each([
@@ -19,10 +21,18 @@ describe("project cases entry links", () => {
   });
 
   it("keeps guide URLs stable and returns to the combined hub from the visible breadcrumb", async () => {
-    const params = Promise.resolve({ slug: "choose-ev-charger-test-system" });
+    const slug = "choose-ev-charger-test-system";
+    const params = Promise.resolve({ slug });
     const html = renderToStaticMarkup(await ResourcePage({ params }));
     const breadcrumb = html.match(/<nav aria-label="Breadcrumb"[^>]*>(.*?)<\/nav>/)![1];
-    expect(breadcrumb).toContain('href="/project-cases">Project Cases</a>');
+    const href = getResourceGuideIndexHref(slug);
+    expect(breadcrumb).toContain(`href="${href.replaceAll("&", "&amp;")}">Technical materials</a>`);
+    const target = new URL(href, "https://www.link-jl.com");
+    expect(target.pathname).toBe("/project-cases");
+    expect(target.searchParams.get("section")).toBe("resources");
+    expect([...target.searchParams.keys()]).toEqual(target.searchParams.has("page") ? ["section", "page"] : ["section"]);
+    expect(target.hash).toBe(`#material-${slug}`);
+    expect(getResourceBrowserPage(parseResourceBrowserFilters(target.searchParams)).items.some((entry) => entry.kind === "guide" && entry.resource.slug === slug)).toBe(true);
     expect(breadcrumb).not.toContain('href="/resources"');
     expect(html).toContain('href="/resources/');
     const metadata = await generateMetadata({ params });

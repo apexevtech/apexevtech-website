@@ -19,6 +19,7 @@ export const inquiryMessages: Record<string, string> = {
   "Include your charger connector, voltage/current range and required tests (at least 10 characters).": "请填写充电连接器、电压 / 电流范围及所需测试（至少 10 个字符）。",
   "I agree that APEX may use my information to respond to this inquiry. See the": "我同意 APEX 使用我的信息回复本次询盘。请参阅",
   "Privacy Policy": "隐私政策",
+  "Privacy Policy (opens in a new tab)": "隐私政策（在新标签页打开）",
   "Continue on WhatsApp": "继续通过 WhatsApp 沟通",
   "Browse products": "浏览产品",
   "Review solutions": "查看解决方案",

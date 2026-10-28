@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { engineeringCases } from "@/data/engineering-cases";
-import { engineeringCaseDetailSlugs } from "@/lib/engineering-cases/detail-path";
+import { engineeringCaseDetailSlugs, getEngineeringCaseIndexHref } from "@/lib/engineering-cases/detail-path";
+import { defaultEngineeringCaseFilters, getEngineeringCasePage } from "@/lib/engineering-cases/filter";
 import { buildReferenceCaseInquiryHref, isReferenceCaseInquirySourcePage, readReferenceCaseInquiry } from "./reference-case";
 
 describe("reference scenario inquiry links", () => {
@@ -12,13 +13,13 @@ describe("reference scenario inquiry links", () => {
       expect(isReferenceCaseInquirySourcePage(`/project-cases/${slug}`)).toBe(true);
       for (const origin of ["", "unknown", "/project-cases/other", "https://example.com", "detail&caseOrigin=detail"]) {
         const params = new URLSearchParams(`case=${slug}&caseOrigin=${origin}`);
-        expect(readReferenceCaseInquiry(params)?.sourcePage).toBe(`/project-cases#${slug}`);
+        expect(readReferenceCaseInquiry(params)?.sourcePage).toBe(getEngineeringCaseIndexHref(slug));
       }
     }
     const unexpanded = engineeringCases.find((entry) => !engineeringCaseDetailSlugs.some((slug) => slug === entry.slug))!;
     const url = new URL(buildReferenceCaseInquiryHref(unexpanded.slug, "detail"), "https://www.link-jl.com");
     expect(url.searchParams.has("caseOrigin")).toBe(false);
-    expect(readReferenceCaseInquiry(new URLSearchParams({ case: unexpanded.slug, caseOrigin: "detail" }))?.sourcePage).toBe(`/project-cases#${unexpanded.slug}`);
+    expect(readReferenceCaseInquiry(new URLSearchParams({ case: unexpanded.slug, caseOrigin: "detail" }))?.sourcePage).toBe(getEngineeringCaseIndexHref(unexpanded.slug));
     expect(isReferenceCaseInquirySourcePage(`/project-cases/${unexpanded.slug}`)).toBe(false);
     expect(isReferenceCaseInquirySourcePage(`/project-cases/${engineeringCaseDetailSlugs[0]}?email=private@example.com`)).toBe(false);
   });
@@ -33,13 +34,34 @@ describe("reference scenario inquiry links", () => {
       expect(result.title).toBe(entry.title);
       expect(result.technicalFocus).toEqual(entry.technicalFocus);
       expect(result.context).toBe(`Reference scenario inquiry: ${entry.title}`);
-      expect(result.sourcePage).toBe(`/project-cases#${entry.slug}`);
+      expect(result.sourcePage).toBe(getEngineeringCaseIndexHref(entry.slug));
       expect(isReferenceCaseInquirySourcePage(result.sourcePage)).toBe(true);
+      const source = new URL(result.sourcePage, "https://www.link-jl.com");
+      const page = getEngineeringCasePage({ ...defaultEngineeringCaseFilters, page: Number(source.searchParams.get("page") ?? 1) });
+      expect(source.hash).toBe(`#${entry.slug}`);
+      expect(page.items.some((item) => item.slug === entry.slug)).toBe(true);
       expect(result.message).toContain(entry.title);
       expect(result.message).toContain("not a verified APEX delivery record");
       expect(result.message).toContain("Voltage and current range:");
       expect(result.message).not.toMatch(/delivered by APEX|APEX customer|successful APEX project/i);
     }
+  });
+
+  it("accepts only exact derived gallery pages while retaining legacy source compatibility", () => {
+    for (const entry of engineeringCases) {
+      const source = getEngineeringCaseIndexHref(entry.slug);
+      expect(isReferenceCaseInquirySourcePage(source)).toBe(true);
+      expect(isReferenceCaseInquirySourcePage(`/project-cases#${entry.slug}`)).toBe(true);
+      const url = new URL(source, "https://www.link-jl.com");
+      const page = Number(url.searchParams.get("page") ?? 1);
+      for (const wrongPage of [1, 2, 3, 4].filter((value) => value !== page)) {
+        expect(isReferenceCaseInquirySourcePage(`/project-cases?page=${wrongPage}#${entry.slug}`)).toBe(false);
+      }
+      url.searchParams.set("email", "private@example.com");
+      expect(isReferenceCaseInquirySourcePage(`${url.pathname}${url.search}${url.hash}`)).toBe(false);
+    }
+    expect(isReferenceCaseInquirySourcePage("/project-cases?page=2#unknown")).toBe(false);
+    expect(isReferenceCaseInquirySourcePage("/project-cases?page=3&page=3#production-embedded-charger-testing")).toBe(false);
   });
 
   it("ignores user-supplied titles, contexts and source paths for a valid reference", () => {

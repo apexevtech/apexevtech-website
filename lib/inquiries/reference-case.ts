@@ -1,5 +1,5 @@
 import { engineeringCases } from "@/data/engineering-cases";
-import { getEngineeringCaseDetailHref } from "@/lib/engineering-cases/detail-path";
+import { getEngineeringCaseDetailHref, getEngineeringCaseIndexHref } from "@/lib/engineering-cases/detail-path";
 
 export type ReferenceCaseInquiry = {
   slug: string;
@@ -22,7 +22,7 @@ export function readReferenceCaseInquiry(params: URLSearchParams): ReferenceCase
     title: entry.title,
     technicalFocus: entry.technicalFocus,
     context: `Reference scenario inquiry: ${entry.title}`,
-    sourcePage: detailSource ?? `/project-cases#${entry.slug}`,
+    sourcePage: detailSource ?? getEngineeringCaseIndexHref(entry.slug),
     message: `I would like to discuss a configuration for a similar application.\n\nReference scenario: ${entry.title}\nTechnical focus: ${entry.technicalFocus.join("; ")}\n\nCharger connector / interface:\nVoltage and current range:\nRequired standards and test workflow:\n\nThis is a partner-published technical reference, not a verified APEX delivery record. Please review the configuration for my actual requirements.`,
   };
 }
@@ -34,5 +34,7 @@ export function buildReferenceCaseInquiryHref(slug: string, origin?: "detail"): 
 }
 
 export function isReferenceCaseInquirySourcePage(sourcePage: string): boolean {
-  return engineeringCases.some((entry) => sourcePage === `/project-cases#${entry.slug}` || sourcePage === getEngineeringCaseDetailHref(entry.slug));
+  return engineeringCases.some((entry) => sourcePage === getEngineeringCaseIndexHref(entry.slug)
+    || sourcePage === `/project-cases#${entry.slug}`
+    || sourcePage === getEngineeringCaseDetailHref(entry.slug));
 }

@@ -22,19 +22,19 @@ export default function ContactPage() {
       />
       <section className="px-5 py-16 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-          <div className="rounded-md bg-[#102a43] p-8 text-white">
-            <h2 className="text-3xl font-black"><T>{"APEX Contact"}</T></h2>
+          <aside className="min-w-0 self-start rounded-md bg-[#102a43] p-8 text-white">
+            <h2 className="text-2xl font-black"><T>{"APEX Contact"}</T></h2>
             <div className="mt-6 grid gap-4 text-slate-300">
               <p><T>{company.name}</T></p>
               <p><T>{company.location}</T></p>
-              <TrackedLink href={`mailto:${company.email}`} eventName="email_click" location="contact-details" className="text-white hover:text-sky-300">
+              <TrackedLink href={`mailto:${company.email}`} eventName="email_click" location="contact-details" className="inline-flex min-h-11 max-w-full items-center break-all text-white hover:text-sky-300">
                 <T>{company.email}</T>
               </TrackedLink>
-              <TrackedLink href={`tel:${company.phone.replaceAll(" ", "")}`} eventName="phone_click" location="contact-details" className="text-white hover:text-sky-300">
+              <TrackedLink href={`tel:${company.phone.replaceAll(" ", "")}`} eventName="phone_click" location="contact-details" className="inline-flex min-h-11 max-w-full items-center text-white hover:text-sky-300">
                 <T>{company.phone}</T>
               </TrackedLink>
             </div>
-          </div>
+          </aside>
           <div id="inquiry-form" className="scroll-mt-28">
             <InquiryForm context="Website contact page" prefillProductsFromQuery prefillContextFromQuery />
           </div>

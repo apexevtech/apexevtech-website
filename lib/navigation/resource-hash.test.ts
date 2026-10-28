@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { applicationScenarios, solutionBriefs } from "@/data/technical-library";
-import { decodeResourceHash, resolveResourceHash } from "@/lib/navigation/resource-hash";
-import { defaultResourceBrowserFilters, filterResourceBrowserEntries, resourceBrowserEntries } from "@/lib/resources/browser";
+import { decodeResourceHash, getResourceGuideIndexHref, resolveResourceHash } from "@/lib/navigation/resource-hash";
+import { defaultResourceBrowserFilters, filterResourceBrowserEntries, getResourceBrowserPage, parseResourceBrowserFilters, resourceBrowserEntries } from "@/lib/resources/browser";
+import { resources } from "@/lib/resources/catalog";
 
 describe("resource fragment resolution", () => {
   it("locates material anchors in the combined catalog's interleaved order", () => {
@@ -46,5 +47,27 @@ describe("resource fragment resolution", () => {
       expect(resolveResourceHash(hash, defaultResourceBrowserFilters)).toBeNull();
     }
     expect(decodeResourceHash("#%")).toBeNull();
+  });
+
+  it("returns every guide to its real mixed-material page without requiring a client redirect", () => {
+    for (const resource of resources) {
+      const url = new URL(getResourceGuideIndexHref(resource.slug), "https://www.link-jl.com");
+      expect(url.pathname).toBe("/project-cases");
+      expect(url.searchParams.get("section")).toBe("resources");
+      expect([...url.searchParams.keys()]).toEqual(url.searchParams.has("page") ? ["section", "page"] : ["section"]);
+      expect(url.hash).toBe(`#material-${resource.slug}`);
+      const filters = parseResourceBrowserFilters(url.searchParams);
+      expect(filters.type).toBe("all");
+      expect(filters.category).toBe("all");
+      expect(filters.query).toBe("");
+      expect(getResourceBrowserPage(filters).items.some((entry) => entry.kind === "guide" && entry.resource.slug === resource.slug)).toBe(true);
+      expect(resolveResourceHash(url.hash, filters)?.page).toBe(filters.page);
+    }
+  });
+
+  it("rejects arbitrary guide return targets and non-guide material identifiers", () => {
+    for (const slug of ["", "unknown", "__proto__", "../contact", "https://example.com", `${resources[0].slug}?email=private@example.com`, `${resources[0].slug}#private`, applicationScenarios[0].id]) {
+      expect(getResourceGuideIndexHref(slug)).toBe("/project-cases?section=resources");
+    }
   });
 });
