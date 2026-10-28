@@ -3,6 +3,7 @@ import { paginate, parsePageNumber } from "@/lib/navigation/pagination";
 import { resources, type Resource } from "@/lib/resources/catalog";
 import { resourceGroups } from "@/lib/resources/groups";
 import { resourceSearchText } from "@/lib/i18n/search";
+import { guideBodyStrings } from "@/lib/i18n/guide-body";
 
 export type ResourceBrowserFilters = {
   type: "all" | "guides" | "sources" | "scenarios" | "materials";
@@ -115,11 +116,18 @@ export function filterResourceBrowserEntries(filters: ResourceBrowserFilters) {
   const entries = filters.type === "materials" ? [...sourceEntries, ...scenarioEntries] : resourceBrowserEntries;
   return entries.filter((entry) => {
     if (!matchesType(entry, filters.type) || !matchesCategory(entry, filters.category)) return false;
+    if (!query) return true;
     const category = `${getResourceBrowserCategoryLabel(entry.categoryId)} ${getResourceBrowserCategoryLabel(entry.originalCategoryId)}`;
     const text = entry.kind === "guide"
-      ? [entry.resource.title, entry.resource.description, entry.resource.topic, category].join(" ")
+      ? [
+        entry.resource.title, entry.resource.description, entry.resource.topic, entry.resource.summaryAnswer,
+        ...entry.resource.sections.map((section) => section.heading),
+        ...guideBodyStrings(entry.resource),
+        ...entry.resource.faqs.flatMap((faq) => [faq.question, faq.answer]),
+        category,
+      ].join(" ")
       : [entry.material.title, entry.material.summary, ...entry.material.requirements, entry.material.reviewOutput, entry.material.planningNote, entry.material.relatedLabel, entry.material.source.publisher, entry.material.source.title, entry.material.source.summary, entry.material.source.scopeNote, category].join(" ");
-    return !query || `${text} ${resourceSearchText[entry.id] ?? ""}`.toLocaleLowerCase().includes(query);
+    return `${text} ${resourceSearchText[entry.id] ?? ""}`.toLocaleLowerCase().includes(query);
   });
 }
 

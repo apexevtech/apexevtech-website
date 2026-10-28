@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 import { company, navItems } from "@/data/site";
 import { TrackedLink } from "@/components/TrackedLink";
 import { T } from "@/components/LanguageProvider";
@@ -23,8 +24,10 @@ export function Footer() {
                   <T>{item.label}</T>
                 </Link>
               ))}
-              <Link href="/privacy-policy" className="text-sm text-gray-300 transition-colors hover:text-[#7de3ef]">
-                <T>Privacy Policy</T>
+              <Link href="/privacy-policy" target="_blank" rel="noopener noreferrer" prefetch={false} className="inline-flex min-h-11 w-fit max-w-full items-center gap-1 text-sm text-gray-300 transition-colors hover:text-[#7de3ef]">
+                <span aria-hidden="true"><T>Privacy Policy</T></span>
+                <ExternalLink size={13} aria-hidden="true" className="shrink-0" />
+                <span className="sr-only"><T>Privacy Policy (opens in a new tab)</T></span>
               </Link>
             </div>
           </div>
