@@ -9,6 +9,13 @@ describe("legacy redirects", () => {
     expect(legacyRedirects.filter(({ source }) => source.startsWith("/applications"))).toHaveLength(1);
   });
 
+  it("uses the query-preserving framework redirect for the Chinese application index", () => {
+    expect(legacyRedirects.find(({ source }) => source === "/zh/applications")).toEqual({
+      source: "/zh/applications", destination: "/zh/solutions#application-architectures", permanent: true,
+    });
+    expect(legacyRedirects.filter(({ source }) => source.startsWith("/zh/applications"))).toHaveLength(1);
+  });
+
   it("permanently maps every legacy product document to a clean download URL", () => {
     const documentRedirects = legacyRedirects.filter(({ source }) => source.startsWith("/product-documents/"));
     expect(documentRedirects).toHaveLength(12);
