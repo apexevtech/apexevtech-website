@@ -4,7 +4,7 @@ import type { Product } from "@/data/site";
 import { ProductCard } from "@/components/ProductCard";
 import { CatalogControls } from "@/components/CatalogControls";
 import { T, useLanguage } from "@/components/LanguageProvider";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { Columns3 } from "lucide-react";
 
 export type ProductCatalogComparison = {

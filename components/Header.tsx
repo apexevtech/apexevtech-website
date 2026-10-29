@@ -1,20 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { company, navItems } from "@/data/site";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { T, useLanguage } from "@/components/LanguageProvider";
+import { stripLanguagePrefix } from "@/lib/i18n/urls";
 
 export function Header() {
   const { t } = useLanguage();
   const headerRef = useRef<HTMLElement>(null);
   const mobileToggleRef = useRef<HTMLButtonElement>(null);
   const productsToggleRef = useRef<HTMLButtonElement>(null);
-  const pathname = usePathname();
+  const pathname = stripLanguagePrefix(usePathname());
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const isActive = (href: string) => {

@@ -1,10 +1,10 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import HomePage from "./page";
-import AboutPage from "./about/page";
-import NotFound from "./not-found";
-import ResourcePage, { generateMetadata } from "./resources/[slug]/page";
+import HomePage from "@/app/(en)/page";
+import AboutPage from "@/app/(en)/about/page";
+import NotFound from "@/app/(en)/not-found";
+import ResourcePage, { generateMetadata } from "@/app/(en)/resources/[slug]/page";
 import { getResourceGuideIndexHref } from "@/lib/navigation/resource-hash";
 import { getResourceBrowserPage, parseResourceBrowserFilters } from "@/lib/resources/browser";
 

@@ -20,8 +20,8 @@ describe("product image assets", () => {
   });
 
   it("uses optimized WebP assets for the high-traffic about and solutions pages", () => {
-    const aboutSource = readFileSync(join(process.cwd(), "app", "about", "page.tsx"), "utf8");
-    const solutionsSource = readFileSync(join(process.cwd(), "app", "solutions", "page.tsx"), "utf8");
+    const aboutSource = readFileSync(join(process.cwd(), "app", "(en)", "about", "page.tsx"), "utf8");
+    const solutionsSource = readFileSync(join(process.cwd(), "app", "(en)", "solutions", "page.tsx"), "utf8");
     expect(aboutSource).toContain('src="/assets/products/AST-9000x-fitted.webp"');
     expect(solutionsSource).toContain("src={application.image}");
     const optimizedAssets = ["/assets/products/AST-9000x-fitted.webp", ...applicationExamples.map((application) => application.image)];
@@ -33,7 +33,7 @@ describe("product image assets", () => {
   });
 
   it("uses the optimized favicon in the root metadata", () => {
-    const layoutSource = readFileSync(join(process.cwd(), "app", "layout.tsx"), "utf8");
+    const layoutSource = readFileSync(join(process.cwd(), "components", "SiteDocument.tsx"), "utf8");
 
     expect(layoutSource).toContain('icon: "/assets/apex-logo.webp"');
     expect(layoutSource).not.toContain('icon: "/assets/apex-logo.jpg"');
@@ -48,8 +48,8 @@ describe("product image assets", () => {
   });
 
   it("uses the optimized WebP hero asset on the homepage and Open Graph metadata", () => {
-    const homeSource = readFileSync(join(process.cwd(), "app", "page.tsx"), "utf8");
-    const layoutSource = readFileSync(join(process.cwd(), "app", "layout.tsx"), "utf8");
+    const homeSource = readFileSync(join(process.cwd(), "app", "(en)", "page.tsx"), "utf8");
+    const layoutSource = readFileSync(join(process.cwd(), "components", "SiteDocument.tsx"), "utf8");
     const heroAsset = "/assets/hero/test-lab-systems.webp";
 
     expect(homeSource).toContain(`src="${heroAsset}"`);

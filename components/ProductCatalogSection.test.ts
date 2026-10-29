@@ -6,7 +6,7 @@ describe("product catalog filter initialization", () => {
   it("keeps the page static and synchronizes the client filter with the URL", () => {
     const source = readFileSync(join(process.cwd(), "components", "ProductCatalogSection.tsx"), "utf8");
     const explorerSource = readFileSync(join(process.cwd(), "components", "ProductExplorer.tsx"), "utf8");
-    const pageSource = readFileSync(join(process.cwd(), "app", "products", "page.tsx"), "utf8");
+    const pageSource = readFileSync(join(process.cwd(), "app", "(en)", "products", "page.tsx"), "utf8");
 
     expect(pageSource).not.toContain("searchParams");
     expect(explorerSource).toContain("useState<ProductFilters>");

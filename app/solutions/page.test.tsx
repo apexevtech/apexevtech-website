@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import SolutionsPage from "./page";
+import SolutionsPage from "@/app/(en)/solutions/page";
 import { applicationExamples } from "@/data/applications";
 import { products, solutions } from "@/data/site";
 import { solutionLinks } from "@/data/solution-links";

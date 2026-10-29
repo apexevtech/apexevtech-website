@@ -6,7 +6,7 @@ import { projectBriefs } from "@/data/project-briefs";
 import { getProjectBrief } from "@/lib/engineering-cases/briefs";
 import { engineeringCaseDetailSlugs, getEngineeringCaseIndexHref, getEngineeringCaseMaterialDetailHref } from "@/lib/engineering-cases/detail-path";
 import { buildReferenceCaseInquiryHref } from "@/lib/inquiries/reference-case";
-import Page, { generateMetadata, generateStaticParams } from "./page";
+import Page, { generateMetadata, generateStaticParams } from "@/app/(en)/project-cases/[slug]/page";
 
 const locale = vi.hoisted(() => ({ chinese: false }));
 vi.mock("@/components/LanguageProvider", async () => {

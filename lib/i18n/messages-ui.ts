@@ -1,5 +1,8 @@
 export const uiMessages: Record<string, string> = {
   "Change language": "切换语言",
+  "Switching language reloads this page. Unsaved changes will be lost. Continue?": "切换语言会重新载入页面，尚未提交的修改将丢失。是否继续？",
+  "Delivery has not been confirmed. Check whether your inquiry was received before sending again. Switching language reloads this page and clears the entries and warning. Continue?": "目前尚未确认投递结果，请先确认询盘是否已收到再决定是否重发。切换语言会重新载入页面，并清除当前填写内容和提示。是否继续？",
+  "Please wait for the inquiry submission to finish before switching languages.": "询盘正在提交，请等待提交完成后再切换语言。",
   "Home": "首页",
   "Products": "产品",
   "Solutions": "解决方案",

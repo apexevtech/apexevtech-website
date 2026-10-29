@@ -26,7 +26,7 @@ describe("internal navigation", () => {
   });
 
   it("renders related products as crawlable links from resource pages", () => {
-    const source = readFileSync(join(process.cwd(), "app", "resources", "[slug]", "page.tsx"), "utf8");
+    const source = readFileSync(join(process.cwd(), "app", "(en)", "resources", "[slug]", "page.tsx"), "utf8");
 
     expect(source).toContain("`/products/${product.slug}`");
   });

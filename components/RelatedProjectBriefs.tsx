@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { ArrowRight, BriefcaseBusiness } from "lucide-react";
 import { T } from "@/components/LanguageProvider";
 import { getResourceProjectBriefs } from "@/lib/engineering-cases/briefs";

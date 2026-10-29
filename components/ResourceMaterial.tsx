@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useLanguage } from "@/components/LanguageProvider";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { ArrowRight, BookOpen, ChevronDown, FileText, ListChecks, Workflow } from "lucide-react";
 import { SourceCitation } from "@/components/SourceCitation";
 import { TrackedLink } from "@/components/TrackedLink";

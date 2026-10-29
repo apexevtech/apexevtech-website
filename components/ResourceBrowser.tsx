@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { BookOpen, ChevronRight, FileText, Home, Layers3, RotateCcw, Search, Workflow, X } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { CatalogControls } from "@/components/CatalogControls";

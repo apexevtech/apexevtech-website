@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
-import ProjectCasesPage, { generateMetadata } from "@/app/project-cases/page";
+import ProjectCasesPage, { generateMetadata } from "@/app/(en)/project-cases/page";
 import { engineeringCaseCategories } from "@/data/engineering-cases";
 import { defaultEngineeringCaseFilters, getEngineeringCasePage } from "@/lib/engineering-cases/filter";
 import { projectCasesIndexTitle } from "@/lib/seo/catalog-metadata";

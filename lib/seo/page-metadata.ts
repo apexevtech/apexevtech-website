@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { siteUrl } from "@/lib/seo/site-urls";
+import type { Language } from "@/lib/i18n/preference";
+import { localizePageMetadata } from "@/lib/seo/localized-metadata";
 
 type PageMetadataInput = {
   title: string;
@@ -7,12 +9,13 @@ type PageMetadataInput = {
   path: string;
   image?: string;
   article?: { publishedAt: string; modifiedAt: string };
+  language?: Language;
 };
 
-export function buildPageMetadata({ title, description, path, article, image = "/assets/hero/test-lab-systems.webp" }: PageMetadataInput): Metadata {
+export function buildPageMetadata({ title, description, path, article, image = "/assets/hero/test-lab-systems.webp", language = "en" }: PageMetadataInput): Metadata {
   const url = new URL(path, siteUrl).toString();
 
-  return {
+  return localizePageMetadata({
     title,
     description,
     alternates: { canonical: path },
@@ -30,5 +33,5 @@ export function buildPageMetadata({ title, description, path, article, image = "
       description,
       images: [image],
     },
-  };
+  }, language);
 }

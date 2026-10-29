@@ -2,7 +2,7 @@
 
 import { company } from "@/data/site";
 import { TrackedLink } from "@/components/TrackedLink";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { ExternalLink } from "lucide-react";
 import type { FormEvent } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -18,6 +18,7 @@ import { QueryStateSync } from "@/components/QueryStateSync";
 import { readCatalogInquiryConfiguration } from "@/lib/inquiries/catalog-scope";
 import { T, useLanguage } from "@/components/LanguageProvider";
 import type { ReferenceCaseInquiry } from "@/lib/inquiries/reference-case";
+import { localizeHref, stripLanguagePrefix } from "@/lib/i18n/urls";
 
 type InquiryFormProps = {
   compact?: boolean;
@@ -35,8 +36,10 @@ const fieldLabels: Record<string, string> = {
   message: "Message",
 };
 
+const deliveryUncertainMessage = "We could not confirm delivery. Your inquiry may have reached us. Your entries are still here; please contact us by email to confirm before sending again.";
+
 export function InquiryForm({ compact = false, context = "General website inquiry", prefillProductsFromQuery = false, prefillContextFromQuery = false }: InquiryFormProps) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [fieldErrors, setFieldErrors] = useState<InquiryFieldErrors>({});
@@ -51,6 +54,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
   const previousPrefill = useRef("");
   const prefillEdited = useRef(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const [dirty, setDirty] = useState(false);
   const [visible, setVisible] = useState(false);
   const feedbackRef = useRef<HTMLDivElement>(null);
   const focusField = useRef<string | null>(null);
@@ -114,7 +118,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
       country: formData.get("country"),
       message: formData.get("message"),
       context: resolvedContext,
-      sourcePage: prefill.sourcePage ?? (prefillContextFromQuery ? params.get("sourcePage") : window.location.pathname),
+      sourcePage: stripLanguagePrefix(prefill.sourcePage ?? (prefillContextFromQuery ? params.get("sourcePage") ?? "" : window.location.pathname)),
       configuration: prefillContextFromQuery ? readCatalogInquiryConfiguration(params) : undefined,
       privacyAccepted: formData.get("privacyAccepted") === "on",
       website: formData.get("website"),
@@ -137,6 +141,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
       }
 
       form.reset();
+      setDirty(false);
       prefillEdited.current = false;
       startedAt.current = Date.now();
       if (result.leadRecorded) trackEvent("generate_lead", { ...analyticsParameters, lead_source: "website_form" });
@@ -146,7 +151,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
     } catch (error) {
       const timedOut = error instanceof DOMException && error.name === "TimeoutError";
       trackEvent("inquiry_error", { ...analyticsParameters, reason: timedOut ? "TIMEOUT" : "NETWORK_ERROR" });
-      setMessage({ type: "error", text: "We could not confirm delivery. Your inquiry may have reached us. Your entries are still here; please contact us by email to confirm before sending again." });
+      setMessage({ type: "error", text: deliveryUncertainMessage });
     } finally {
       inFlight.current = false;
       setSubmitting(false);
@@ -162,7 +167,10 @@ export function InquiryForm({ compact = false, context = "General website inquir
   }
 
   return (
-    <form ref={formRef} data-inquiry-form-visible={visible} aria-label={t("Equipment inquiry")} aria-busy={submitting} className="inquiry-form relative grid gap-5 rounded-md border border-slate-200 bg-white p-6 shadow-[0_12px_36px_rgba(18,38,58,0.07)] sm:p-8" onSubmit={handleSubmit} onInvalid={() => {
+    <form ref={formRef} data-inquiry-form-visible={visible} data-inquiry-dirty={dirty} data-inquiry-pending={submitting} data-inquiry-uncertain={message?.type === "error" && message.text === deliveryUncertainMessage} aria-label={t("Equipment inquiry")} aria-busy={submitting} className="inquiry-form relative grid gap-5 rounded-md border border-slate-200 bg-white p-6 shadow-[0_12px_36px_rgba(18,38,58,0.07)] sm:p-8" onSubmit={handleSubmit} onInput={(event) => {
+      const target = event.target;
+      if ((target instanceof HTMLInputElement && target.name !== "website") || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement) setDirty(true);
+    }} onInvalid={() => {
       if (!invalidTracked.current) {
         invalidTracked.current = true;
         trackEvent("inquiry_error", { ...analyticsParameters, reason: "CLIENT_VALIDATION" });
@@ -170,6 +178,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
     }} onChange={(event) => {
       const target = event.target;
       if (target instanceof HTMLInputElement && target.name === "website") return;
+      if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement) setDirty(true);
       if (message?.type === "success") setMessage(null);
       if (target instanceof HTMLTextAreaElement && target.name === "message") prefillEdited.current = true;
       if ((target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) && target.name in fieldErrors) {
@@ -228,6 +237,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
         const combined = addInquiryRequirements(textarea.value, summary);
         if (combined === null) return false;
         textarea.value = combined;
+        setDirty(true);
         prefillEdited.current = true;
         setFieldErrors((previous) => ({ ...previous, message: undefined }));
         textarea.focus();
@@ -257,7 +267,7 @@ export function InquiryForm({ compact = false, context = "General website inquir
         <input className="mt-1 h-4 w-4 shrink-0 accent-[#1479c9]" type="checkbox" name="privacyAccepted" required disabled={submitting} aria-invalid={Boolean(fieldErrors.privacyAccepted)} aria-describedby={fieldErrors.privacyAccepted ? "privacy-error" : undefined} />
         <span>
           <T>I agree that APEX may use my information to respond to this inquiry. See the</T>{" "}
-          <a className="inline-flex items-center gap-1 font-bold text-[#1268a8] underline" href="/privacy-policy" target="_blank" rel="noopener noreferrer" aria-label={t("Privacy Policy (opens in a new tab)")} title={t("Privacy Policy (opens in a new tab)")}><T>Privacy Policy</T><ExternalLink size={13} aria-hidden="true" className="shrink-0" /></a>.
+          <a className="inline-flex items-center gap-1 font-bold text-[#1268a8] underline" href={localizeHref("/privacy-policy", language)} target="_blank" rel="noopener noreferrer" aria-label={t("Privacy Policy (opens in a new tab)")} title={t("Privacy Policy (opens in a new tab)")}><T>Privacy Policy</T><ExternalLink size={13} aria-hidden="true" className="shrink-0" /></a>.
         </span>
       </label>
       {fieldErrors.privacyAccepted ? <span id="privacy-error" className="text-xs font-semibold text-red-600">{t(fieldErrors.privacyAccepted)}</span> : null}

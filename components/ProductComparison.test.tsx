@@ -139,12 +139,18 @@ describe("responsive product comparison", () => {
 
   it("preserves the three-model limit and exact configuration handoff in both languages", () => {
     const selectedFilters: ProductFilters = { type: "ac", interface: "ccs2", workflow: "field" };
-    const href = buildComparisonInquiryHref(selectedFilters, products.slice(0, 3)).replaceAll("&", "&amp;");
+    const inquiryHref = buildComparisonInquiryHref(selectedFilters, products.slice(0, 3));
     for (const chinese of [false, true]) {
       locale.chinese = chinese;
       const html = renderComparison(4, selectedFilters);
+      const href = `${chinese ? "/zh" : ""}${inquiryHref}`.replaceAll("&", "&amp;");
       expect(html.match(/data-comparison-model/g)).toHaveLength(3);
       expect(html).toContain(`href="${href}"`);
+      const destination = new URL(`${chinese ? "/zh" : ""}${inquiryHref}`, "https://www.link-jl.com");
+      expect(destination.pathname).toBe(chinese ? "/zh/contact" : "/contact");
+      expect(destination.searchParams.get("sourcePage")).toBe("/products");
+      expect(destination.searchParams.get("products")).toBe(products.slice(0, 3).map((product) => product.slug).join(","));
+      expect(destination.hash).toBe("#inquiry-form");
       expect(html).not.toContain(`id="comparison-model-${products[3].slug}"`);
       expect(html).toContain(chinese ? "所选型号仅供候选评审，未必满足当前的全部要求。" : "Selected models are candidates for review and may not match every current requirement.");
     }

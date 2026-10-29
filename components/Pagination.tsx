@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { CatalogControls } from "@/components/CatalogControls";
 import { useLanguage } from "@/components/LanguageProvider";
 

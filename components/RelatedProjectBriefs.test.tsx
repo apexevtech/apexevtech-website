@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { projectBriefs } from "@/data/project-briefs";
 import { getProjectBrief, getResourceProjectBriefs } from "@/lib/engineering-cases/briefs";
-import ResourcePage from "@/app/resources/[slug]/page";
+import ResourcePage from "@/app/(en)/resources/[slug]/page";
 import { RelatedProjectBriefs } from "./RelatedProjectBriefs";
 
 describe("related scenario brief links", () => {

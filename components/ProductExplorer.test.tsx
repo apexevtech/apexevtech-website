@@ -6,7 +6,7 @@ import { ProductCatalog } from "./ProductCatalog";
 import { ProductCatalogSection } from "./ProductCatalogSection";
 import { ProductComparison } from "./ProductComparison";
 import { ProductExplorer } from "./ProductExplorer";
-import HomePage from "@/app/page";
+import HomePage from "@/app/(en)/page";
 import type { ProductFilters } from "@/lib/products/filter";
 import { buildCatalogInquiryHref } from "@/lib/inquiries/catalog-scope";
 
@@ -126,7 +126,15 @@ describe("catalog comparison selection", () => {
     expect(chinese).toContain("所选型号仅供候选评审，未必满足当前的全部要求。");
     const href = buildCatalogInquiryHref(filters, "/products", [products[0]]).replaceAll("&", "&amp;");
     expect(english).toContain(`href="${href}"`);
-    expect(chinese).toContain(`href="${href}"`);
+    expect(chinese).toContain(`href="/zh${href}"`);
+    const englishInquiry = new URL(english.match(/href="([^\"]*\/contact\?[^\"]*)"/)![1].replaceAll("&amp;", "&"), "https://www.link-jl.com");
+    const chineseInquiry = new URL(chinese.match(/href="([^\"]*\/contact\?[^\"]*)"/)![1].replaceAll("&amp;", "&"), "https://www.link-jl.com");
+    expect(englishInquiry.pathname).toBe("/contact");
+    expect(chineseInquiry.pathname).toBe("/zh/contact");
+    expect(chineseInquiry.search).toBe(englishInquiry.search);
+    expect(chineseInquiry.searchParams.get("sourcePage")).toBe("/products");
+    expect(chineseInquiry.searchParams.get("products")).toBe(products[0].slug);
+    expect(chineseInquiry.hash).toBe(englishInquiry.hash);
     expect(chinese).not.toContain("Review models and test scope");
   });
 });

@@ -31,6 +31,13 @@ describe("catalog inquiry handoff", () => {
     expect(new URL(buildCatalogInquiryHref({ type: "dc", interface: "all", workflow: "all" }), "https://example.com").searchParams.get("sourcePage")).toBe("/products");
   });
 
+  it("normalizes Chinese page origins without carrying locale into the business context", () => {
+    const filters: ProductFilters = { type: "dc", interface: "ccs2", workflow: "field" };
+    for (const source of ["/products", "/resources/ccs2-dc-fast-charger-testing"]) {
+      expect(buildCatalogInquiryHref(filters, `/zh${source}`, products.slice(0, 2))).toBe(buildCatalogInquiryHref(filters, source, products.slice(0, 2)));
+    }
+  });
+
   it("carries at most three unique candidate models alongside valid scope", () => {
     const filters: ProductFilters = { type: "dc", interface: "ccs2", workflow: "field" };
     const candidates = [products[0], products[0], ...products.slice(1, 4)];
@@ -50,7 +57,7 @@ describe("catalog inquiry handoff", () => {
 
   it("serializes only supported filter keys and public origin paths", () => {
     const filters = { type: "invalid@example.com", interface: "ccs2", workflow: "https://external.test", email: "private@example.com" } as unknown as ProductFilters;
-    for (const sourcePage of ["https://external.test/products", "//external.test/products", "/products?email=private@example.com", "/products#private", "/resources/../contact"]) {
+    for (const sourcePage of ["https://external.test/products", "//external.test/products", "/products?email=private@example.com", "/products#private", "/resources/../contact", "/zh/products?email=private@example.com", "/zh/resources/../contact", "/zh/zh/products", "/zh//external.test/products"]) {
       const url = new URL(buildCatalogInquiryHref(filters, sourcePage, [products[0]]), "https://example.com");
       expect(url.searchParams.get("interface")).toBe("ccs2");
       expect(url.searchParams.has("type")).toBe(false);

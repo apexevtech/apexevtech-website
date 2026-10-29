@@ -7,6 +7,10 @@ import { interfaceTopics } from "@/data/interface-topics";
 import { defaultEngineeringCaseFilters, getEngineeringCasePage } from "@/lib/engineering-cases/filter";
 import { projectBriefs } from "@/data/project-briefs";
 import { getProjectBrief } from "@/lib/engineering-cases/briefs";
+import { localizedPagePaths } from "@/lib/i18n/public-pages";
+import { localizeHref } from "@/lib/i18n/urls";
+
+const chinesePublishedAt = "2026-10-29T00:00:00.000Z";
 
 const siteContentLastModified = "2026-10-08T00:00:00.000Z";
 const staticPageUpdates: Record<string, string> = {
@@ -36,7 +40,7 @@ function absoluteImageUrls(paths: string[] | undefined) {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
+  const englishEntries: MetadataRoute.Sitemap = [
     ...staticRoutes.map((route) => ({
       url: `${siteUrl}${route}`,
       lastModified: new Date(staticPageUpdates[route] || siteContentLastModified),
@@ -81,4 +85,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     })),
   ];
+  return englishEntries.flatMap((entry) => {
+    const url = new URL(entry.url);
+    if (!localizedPagePaths.includes(url.pathname)) return [entry];
+    const path = `${url.pathname}${url.search}`;
+    const languages = {
+      en: new URL(path, siteUrl).toString(),
+      "zh-Hans": new URL(localizeHref(path, "zh"), siteUrl).toString(),
+      "x-default": new URL(path, siteUrl).toString(),
+    };
+    const alternates = { languages };
+    return [
+      { ...entry, alternates },
+      { ...entry, url: languages["zh-Hans"], lastModified: new Date(chinesePublishedAt), alternates },
+    ];
+  });
 }

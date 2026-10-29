@@ -1,6 +1,7 @@
 import type { InquiryFieldErrors, InquiryParseResult } from "@/lib/inquiries/types";
 import type { UtmAttribution, UtmValues } from "@/lib/attribution/utm";
 import { isReferenceCaseInquirySourcePage } from "@/lib/inquiries/reference-case";
+import { stripLanguagePrefix } from "@/lib/i18n/urls";
 
 const MIN_SUBMIT_TIME_MS = 1_200;
 const MAX_FORM_AGE_MS = 24 * 60 * 60 * 1_000;
@@ -70,7 +71,7 @@ export function parseInquiry(input: unknown, now = Date.now()): InquiryParseResu
     ? { firstTouch: cleanUtmValues(attribution.firstTouch), latestTouch: cleanUtmValues(attribution.latestTouch) }
     : undefined;
   if (Object.keys(fieldErrors).length > 0) return errorResult(fieldErrors);
-  const sourcePage = clean(record.sourcePage, 200);
+  const sourcePage = stripLanguagePrefix(clean(record.sourcePage, 200));
   const configuration = clean(record.configuration, 600);
   const value = {
     name, email, company, country, message, context, privacyAccepted: true as const,

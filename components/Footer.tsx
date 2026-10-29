@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { ExternalLink } from "lucide-react";
 import { company, navItems } from "@/data/site";
 import { TrackedLink } from "@/components/TrackedLink";

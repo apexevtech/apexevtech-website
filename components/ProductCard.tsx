@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { ArrowUpRight } from "lucide-react";
 import type { Product } from "@/data/site";
 import { useLanguage } from "@/components/LanguageProvider";

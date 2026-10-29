@@ -2,7 +2,7 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { ResourceBrowser } from "./ResourceBrowser";
-import ProjectCasesPage, { generateMetadata } from "@/app/project-cases/page";
+import ProjectCasesPage, { generateMetadata } from "@/app/(en)/project-cases/page";
 import { defaultResourceBrowserFilters, getResourceBrowserPage } from "@/lib/resources/browser";
 import { resourceGroups } from "@/lib/resources/groups";
 import { getResourceMaterialImage } from "@/lib/resources/images";

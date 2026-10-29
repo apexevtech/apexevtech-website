@@ -1,6 +1,6 @@
 import { T } from "@/components/LanguageProvider";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import type { ApplicationExample } from "@/data/applications";
 
 export function ApplicationCard({ application, headingLevel = "h2", priority = false }: { application: ApplicationExample; headingLevel?: "h2" | "h3"; priority?: boolean }) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { ProductCatalog, type ProductCatalogComparison } from "@/components/ProductCatalog";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { Columns3, RotateCcw, X } from "lucide-react";
 import { CatalogControls } from "@/components/CatalogControls";
 import type { Product } from "@/data/site";

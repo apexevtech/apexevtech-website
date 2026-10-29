@@ -36,7 +36,7 @@ describe("priority product SEO content", () => {
   });
 
   it("renders priority SEO content and FAQ structured data on product pages", () => {
-    const source = readFileSync("app/products/[slug]/page.tsx", "utf8");
+    const source = readFileSync("app/(en)/products/[slug]/page.tsx", "utf8");
     expect(source).toContain("getProductSeo(product.slug)");
     expect(source).toContain('"@type": "FAQPage"');
     expect(source).toContain("Common questions about");

@@ -4,6 +4,7 @@ import { securityHeaders } from "./lib/security/headers";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  experimental: { globalNotFound: true },
   images: {
     minimumCacheTTL: 2592000,
     qualities: [60, 75],

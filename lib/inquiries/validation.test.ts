@@ -43,6 +43,16 @@ describe("parseInquiry", () => {
     });
   });
 
+  it("normalizes only approved Chinese source-page paths to the existing business identity", () => {
+    for (const source of ["/products", "/products/ast-9000", "/resources/ccs2-dc-fast-charger-testing", ...engineeringCaseDetailSlugs.map((slug) => `/project-cases/${slug}`), ...engineeringCases.map((entry) => getEngineeringCaseIndexHref(entry.slug))]) {
+      expect(parseInquiry({ ...validInput, sourcePage: `/zh${source}` })).toMatchObject({ ok: true, isBot: false, value: { sourcePage: source } });
+    }
+    for (const sourcePage of ["/zh/products?email=private@example.com", "/zh/products#private", "/zh/resources/../contact", "/zh//external.test/products", "/zh/zh/products", `/zh/zh/project-cases/${engineeringCaseDetailSlugs[0]}`, "/zh/project-cases#unknown", "/zh/project-cases?page=3&email=private@example.com#production-embedded-charger-testing"]) {
+      const result = parseInquiry({ ...validInput, sourcePage });
+      expect(result.ok && !result.isBot && result.value.sourcePage).toBeUndefined();
+    }
+  });
+
   it("retains only published reference-scenario source paths for inquiry delivery", () => {
     for (const slug of engineeringCaseDetailSlugs) {
       const reference = readReferenceCaseInquiry(new URLSearchParams({ case: slug, caseOrigin: "detail" }))!;

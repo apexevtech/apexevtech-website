@@ -62,6 +62,10 @@ describe("main navigation emphasis", () => {
     ["/products/st-hcdc-hpc", "Products"],
     ["/applications/ccs2-lab", "Solutions"],
     ["/solutions/evse-lab", "Solutions"],
+    ["/zh/project-cases", "Project Cases"],
+    ["/zh/resources/ccs2-testing-guide", "Project Cases"],
+    ["/zh/products/st-hcdc-hpc", "Products"],
+    ["/zh/applications/ccs2-lab", "Solutions"],
   ])("preserves the active navigation branch for %s", (pathname, label) => {
     navigation.pathname = pathname;
     const html = renderToStaticMarkup(createElement(Header));

@@ -9,8 +9,28 @@ import { applicationExamples } from "@/data/applications";
 import { interfaceTopics } from "@/data/interface-topics";
 import { engineeringCases } from "@/data/engineering-cases";
 import { projectBriefs } from "@/data/project-briefs";
+import { localizedPagePaths } from "@/lib/i18n/public-pages";
+import { localizeHref } from "@/lib/i18n/urls";
 
 describe("sitemap", () => {
+  it("publishes reciprocal English and SSR Chinese language groups without legacy or query URLs", () => {
+    const entries = sitemap();
+    expect(entries).toHaveLength(110);
+    for (const path of localizedPagePaths) {
+      const englishUrl = new URL(path, siteUrl).toString();
+      const chineseUrl = new URL(localizeHref(path, "zh"), siteUrl).toString();
+      const english = entries.find((entry) => new URL(entry.url).toString() === englishUrl)!;
+      const chinese = entries.find((entry) => entry.url === chineseUrl)!;
+      expect(english).toBeDefined();
+      expect(chinese).toBeDefined();
+      expect(english.alternates?.languages).toEqual({ en: englishUrl, "zh-Hans": chineseUrl, "x-default": englishUrl });
+      expect(chinese.alternates).toEqual(english.alternates);
+      expect(chinese.lastModified).toEqual(new Date("2026-10-29T00:00:00.000Z"));
+      expect(chinese.images).toEqual(english.images);
+    }
+    expect(entries.every((entry) => !/[?#]/.test(entry.url))).toBe(true);
+    expect(entries.some((entry) => /\/zh\/(?:resources|library|engineering-cases|applications)$/.test(entry.url))).toBe(false);
+  });
   it("publishes exactly three canonical reference briefs with their existing images", () => {
     const entries = sitemap().filter((entry) => entry.url.startsWith(`${siteUrl}/project-cases/`));
     expect(entries).toHaveLength(3);
@@ -49,7 +69,7 @@ describe("sitemap", () => {
       expect(entries.find((entry) => entry.url === `${siteUrl}${route}`)?.lastModified)
         .toEqual(new Date("2026-10-09T00:00:00.000Z"));
     }
-    const productEntries = entries.filter((entry) => entry.url.includes("/products/"));
+    const productEntries = entries.filter((entry) => entry.url.startsWith(`${siteUrl}/products/`));
     for (const entry of productEntries) {
       const date = entry.url.endsWith("/st-hcac-gb-ua-ea") ? "2026-10-09T00:00:00.000Z" : "2026-10-08T00:00:00.000Z";
       expect(entry.lastModified).toEqual(new Date(date));

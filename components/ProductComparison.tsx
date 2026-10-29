@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { ArrowUpRight, MessageSquare, RotateCcw } from "lucide-react";
 import type { Product } from "@/data/site";
 import { getComparedProducts, getProductComparisonDetails } from "@/lib/products/comparison";

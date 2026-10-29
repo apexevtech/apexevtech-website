@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import ContactPage from "./page";
+import ContactPage from "@/app/(en)/contact/page";
 import { company } from "@/data/site";
 
 describe("Contact page layout", () => {

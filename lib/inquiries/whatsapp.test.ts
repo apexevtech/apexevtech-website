@@ -24,6 +24,18 @@ describe("WhatsApp inquiry context", () => {
     }
   });
 
+  it("recognizes Chinese detail pages while sharing their actual language URL only", () => {
+    for (const path of ["/products/ast-9000", "/resources/ccs2-dc-fast-charger-testing", "/interfaces/nacs-evse-testing", "/applications/charger-end-of-line-testing", ...engineeringCaseDetailSlugs.map((slug) => `/project-cases/${slug}`)]) {
+      const url = new URL(buildWhatsAppInquiryHref(`/zh${path}?email=private@example.com#inquiry-form`));
+      expect(url.origin + url.pathname).toBe("https://api.whatsapp.com/send");
+      expect(url.searchParams.get("text")).toContain(`\n${new URL(`/zh${path}`, siteUrl)}\n`);
+      expect(url.searchParams.get("text")).not.toMatch(/private@example|inquiry-form/);
+    }
+    for (const path of ["/zh/zh/products/ast-9000", "/zh/products/../private", "/zh/project-cases/unknown-case", "/zh//external.test/products/ast-9000"]) {
+      expect(new URL(buildWhatsAppInquiryHref(path)).searchParams.get("text")).toBe("Hello APEX, I would like to learn more about your EV charger testing systems.");
+    }
+  });
+
   it("never includes query strings or fragments in shared context", () => {
     for (const path of ["/products/ast-9000", ...engineeringCaseDetailSlugs.map((slug) => `/project-cases/${slug}`)]) {
       const text = new URL(buildWhatsAppInquiryHref(`${path}?email=private@example.com&redirect=https://external.test#inquiry-form`)).searchParams.get("text");

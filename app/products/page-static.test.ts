@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 describe("products page rendering", () => {
   it("does not read request search params so the catalog can be statically rendered", () => {
-    const source = readFileSync(join(process.cwd(), "app", "products", "page.tsx"), "utf8");
+    const source = readFileSync(join(process.cwd(), "app", "(en)", "products", "page.tsx"), "utf8");
 
     expect(source).not.toContain("searchParams");
     expect(source).not.toContain("parseProductFilter");
@@ -12,7 +12,7 @@ describe("products page rendering", () => {
   });
 
   it("generates a stable canonical URL for filtered catalog requests", () => {
-    const source = readFileSync(join(process.cwd(), "app", "products", "page.tsx"), "utf8");
+    const source = readFileSync(join(process.cwd(), "app", "(en)", "products", "page.tsx"), "utf8");
 
     expect(source).toContain("export const metadata");
     expect(source).toContain('path: "/products"');

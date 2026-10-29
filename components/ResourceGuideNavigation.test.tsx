@@ -1,8 +1,8 @@
 import { Children, createElement, isValidElement, type ReactElement, type ReactNode } from "react";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import ResourcePage from "@/app/resources/[slug]/page";
+import ResourcePage from "@/app/(en)/resources/[slug]/page";
 import { ResourceBrowser } from "@/components/ResourceBrowser";
 import { resources } from "@/lib/resources/catalog";
 import * as resourceCatalog from "@/lib/resources/catalog";
@@ -10,6 +10,7 @@ import { getResourceGuideIndexHref } from "@/lib/navigation/resource-hash";
 import { parseResourceBrowserFilters } from "@/lib/resources/browser";
 import { messages } from "@/lib/i18n/zh";
 import { translateText } from "@/lib/i18n/translate";
+import { localizeHref } from "@/lib/i18n/urls";
 
 const locale = vi.hoisted(() => ({ chinese: false }));
 vi.mock("next/navigation", () => ({
@@ -42,13 +43,13 @@ describe("guide collection navigation", () => {
     }
   });
 
-  it("uses the existing Chinese collection label without changing the return destination", async () => {
+  it("uses the existing Chinese collection label and returns to the matching Chinese collection", async () => {
     locale.chinese = true;
     const resource = resources.at(-1)!;
     const article = renderToStaticMarkup(await ResourcePage({ params: Promise.resolve({ slug: resource.slug }) }));
     const breadcrumb = article.match(/<nav aria-label="Breadcrumb"[\s\S]*?<\/nav>/)?.[0];
     expect(breadcrumb).toContain("技术资料");
-    expect(breadcrumb).toContain(`href="${getResourceGuideIndexHref(resource.slug).replaceAll("&", "&amp;")}"`);
+    expect(breadcrumb).toContain(`href="${localizeHref(getResourceGuideIndexHref(resource.slug), "zh").replaceAll("&", "&amp;")}"`);
     expect(breadcrumb).not.toContain("Technical materials");
   });
 
@@ -134,7 +135,8 @@ describe("guide collection navigation", () => {
         const related = resourceCatalog.getResource(relatedSlug)!;
         const title = translateText(related.title, chinese ? "zh" : "en", messages);
         if (chinese) expect(title).not.toBe(related.title);
-        const link = section.match(new RegExp(`<a\\b[^>]*href="/resources/${related.slug}"[^>]*>[\\s\\S]*?<\\/a>`))![0];
+        const href = localizeHref(`/resources/${related.slug}`, chinese ? "zh" : "en");
+        const link = section.match(new RegExp(`<a\\b[^>]*href="${href}"[^>]*>[\\s\\S]*?<\\/a>`))![0];
         expect(link).toContain(`>${renderToStaticMarkup(createElement("span", null, title)).slice(6, -7)}</a>`);
         expect(link).toContain("inline-flex min-h-11 items-center py-2 text-sm");
         if (linkedSection.checklist?.length) expect(section.indexOf(link)).toBeGreaterThan(section.indexOf("</ul>"));

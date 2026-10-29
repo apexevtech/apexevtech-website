@@ -1,0 +1,35 @@
+import { T } from "@/components/LanguageProvider";
+import type { Metadata } from "next";
+import Link from "@/components/LocaleLink";
+import { notFound } from "next/navigation";
+import { StructuredData } from "@/components/StructuredData";
+import { getInterfaceTopic, interfaceTopics } from "@/data/interface-topics";
+import { products } from "@/data/site";
+import { getResource } from "@/lib/resources/catalog";
+import { buildInterfaceStructuredData } from "@/lib/seo/interface-structured-data";
+import { buildPageMetadata } from "@/lib/seo/page-metadata";
+import { siteUrl } from "@/lib/seo/site-urls";
+
+type Props = { params: Promise<{ slug: string }> };
+export function generateStaticParams() { return interfaceTopics.map((topic) => ({ slug: topic.slug })); }
+export async function generateMetadata({ params }: Props): Promise<Metadata> { const topic = getInterfaceTopic((await params).slug); return topic ? buildPageMetadata({ title: topic.title, description: topic.description, path: `/interfaces/${topic.slug}`, article: { publishedAt: topic.publishedAt, modifiedAt: topic.modifiedAt } }) : {}; }
+
+export default async function InterfacePage({ params }: Props) {
+  const topic = getInterfaceTopic((await params).slug); if (!topic) notFound();
+  const relatedProducts = products.filter((product) => topic.relatedProductSlugs.includes(product.slug));
+  const relatedResources = topic.relatedResourceSlugs.map((slug) => getResource(slug)).filter((resource) => Boolean(resource));
+  const otherInterfaces = interfaceTopics.filter((candidate) => candidate.slug !== topic.slug);
+  const { pageData, breadcrumbData, faqData } = buildInterfaceStructuredData(topic, siteUrl);
+  return <>
+    <StructuredData data={pageData} /><StructuredData data={breadcrumbData} /><StructuredData data={faqData} />
+    <article>
+      <header className="bg-[#102a43] px-5 py-14 text-white lg:px-8"><div className="mx-auto max-w-5xl"><nav aria-label="Breadcrumb" className="text-sm text-sky-300"><Link href="/"><T>{"Home"}</T></Link> / <Link href="/interfaces"><T>{"Interfaces"}</T></Link> / <span aria-current="page"><T>{topic.name}</T></span></nav><p className="mt-9 text-sm font-black uppercase tracking-wide text-sky-300"><T>{topic.name}</T><T>{" charger testing"}</T></p><h1 className="mt-3 text-4xl font-black leading-tight md:text-5xl"><T>{topic.title}</T></h1><p className="mt-5 max-w-4xl text-lg leading-8 text-slate-200"><T>{topic.summary}</T></p></div></header>
+      <section className="mx-auto max-w-5xl px-5 py-12 lg:px-8"><h2 className="text-3xl font-black text-[#12263a]"><T>{"Define the test scope"}</T></h2><div className="mt-7 grid gap-4 sm:grid-cols-2">{topic.scope.map((item) => <div key={item} className="border-l-4 border-[#00a6c7] bg-[#f3f8fa] p-5 font-bold text-[#385064]"><T>{item}</T></div>)}</div></section>
+      <section className="bg-slate-50 px-5 py-14 lg:px-8"><div className="mx-auto max-w-5xl"><h2 className="text-3xl font-black text-[#12263a]"><T>{"Plan the equipment and evidence"}</T></h2><ol className="mt-8 grid gap-6 md:grid-cols-2">{topic.planningSteps.map((step, index) => <li key={step.title} className="rounded-md border border-slate-200 bg-white p-6"><span className="text-sm font-black text-[#1268a8]"><T>{"STEP "}</T>{index + 1}</span><h3 className="mt-2 text-xl font-black text-[#12263a]"><T>{step.title}</T></h3><p className="mt-3 text-sm leading-6 text-[#526b7d]"><T>{step.detail}</T></p></li>)}</ol></div></section>
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-8"><h2 className="text-3xl font-black text-[#12263a]"><T>{topic.name}</T><T>{" test equipment"}</T></h2><p className="mt-3 max-w-3xl leading-7 text-[#526b7d]"><T>{"Compare interface ratings, included functions, options and the external power path against the actual charger and procedure."}</T></p><div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">{relatedProducts.map((product) => <Link key={product.slug} href={`/products/${product.slug}`} className="rounded-md border border-slate-200 p-6 hover:border-[#1479c9]"><span className="text-lg font-black text-[#1268a8]"><T>{product.model}</T> →</span><span className="mt-2 block font-bold text-[#12263a]"><T>{product.title}</T></span><span className="mt-3 block text-sm leading-6 text-[#526b7d]"><T>{product.shortDescription}</T></span></Link>)}</div></section>
+      <section className="border-y border-slate-200 bg-[#f3f8fa] px-5 py-14 lg:px-8"><div className="mx-auto max-w-5xl"><h2 className="text-3xl font-black text-[#12263a]"><T>{"Technical planning guides"}</T></h2><div className="mt-6 grid gap-4 md:grid-cols-3">{relatedResources.map((resource) => resource ? <Link key={resource.slug} href={`/resources/${resource.slug}`} className="rounded-md border border-slate-200 bg-white p-5 font-bold text-[#1268a8] hover:border-[#1479c9]"><T>{resource.title}</T> →</Link> : null)}</div></div></section>
+      <section className="mx-auto max-w-5xl px-5 py-14 lg:px-8"><h2 className="text-3xl font-black text-[#12263a]"><T>{"Compare other charging interfaces"}</T></h2><p className="mt-3 max-w-3xl leading-7 text-[#526b7d]"><T>{"Review the connector, communication method and electrical workflow separately before choosing adapters, simulators or a complete test platform."}</T></p><div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{otherInterfaces.map((candidate) => <Link key={candidate.slug} href={`/interfaces/${candidate.slug}`} className="rounded-md border border-slate-200 p-5 hover:border-[#1479c9]"><span className="block text-lg font-black text-[#1268a8]"><T>{candidate.name}</T> →</span><span className="mt-2 block text-sm leading-6 text-[#526b7d]"><T>{candidate.title}</T></span></Link>)}</div></section>
+      <section className="mx-auto max-w-5xl px-5 py-14 lg:px-8"><h2 className="text-3xl font-black text-[#12263a]"><T>{"Common questions"}</T></h2>{topic.faqs.map((faq) => <div key={faq.question} className="mt-6 border-t border-slate-200 pt-5"><h3 className="font-black text-[#12263a]"><T>{faq.question}</T></h3><p className="mt-2 leading-7 text-[#526b7d]"><T>{faq.answer}</T></p></div>)}<div className="mt-10 rounded-md bg-[#102a43] p-7 text-white"><h2 className="text-2xl font-black"><T>{"Confirm your "}</T><T>{topic.name}</T><T>{" test configuration"}</T></h2><p className="mt-3 text-slate-300"><T>{"Send the charger rating, protocol editions, workflow and required evidence for a project-specific recommendation."}</T></p><Link href="/contact#inquiry-form" className="mt-5 inline-flex rounded-md bg-[#1479c9] px-5 py-3 font-black text-white"><T>{"Talk to an engineer"}</T></Link></div></section>
+    </article>
+  </>;
+}

@@ -1,6 +1,7 @@
 import type { Product } from "@/data/site";
 import { parseProductFilters, type ProductFilters } from "@/lib/products/filter";
 import { getComparedProducts } from "@/lib/products/comparison";
+import { stripLanguagePrefix } from "@/lib/i18n/urls";
 
 const labels = {
   type: { ac: "AC chargers", dc: "DC chargers" },
@@ -22,7 +23,8 @@ function appendCandidates(params: URLSearchParams, selectedProducts: Product[]) 
 
 export function buildCatalogInquiryHref(filters: ProductFilters, sourcePage = "/products", selectedProducts: Product[] = []) {
   const params = new URLSearchParams({ source: "equipment-finder" });
-  if (/^\/(?:products|resources)(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?$/.test(sourcePage)) params.set("sourcePage", sourcePage);
+  const canonicalSource = stripLanguagePrefix(sourcePage);
+  if (/^\/(?:products|resources)(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?$/.test(canonicalSource)) params.set("sourcePage", canonicalSource);
   appendFilters(params, filters);
   appendCandidates(params, selectedProducts);
   return `/contact?${params}#inquiry-form`;

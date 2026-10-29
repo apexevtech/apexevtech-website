@@ -2,7 +2,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { products } from "@/data/site";
 import { getProductSeo } from "@/lib/products/seo";
-import ProductDetailPage from "./[slug]/page";
+import ProductDetailPage from "@/app/(en)/products/[slug]/page";
 
 const escape = (text: string) => text.replaceAll("&", "&amp;").replaceAll("'", "&#x27;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { generateMetadata } from "@/app/project-cases/page";
+import { generateMetadata } from "@/app/(en)/project-cases/page";
 import { getCatalogMetadataState } from "@/lib/seo/catalog-metadata";
 
 describe("paginated catalog metadata", () => {

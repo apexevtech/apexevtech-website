@@ -1,5 +1,5 @@
 import { T } from "@/components/LanguageProvider";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import type { Resource } from "@/data/resources";
 
 export function ResourceCard({ resource, headingLevel = "h2" }: { resource: Resource; headingLevel?: "h2" | "h3" }) {
