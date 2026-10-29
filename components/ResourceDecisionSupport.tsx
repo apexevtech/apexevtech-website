@@ -12,7 +12,7 @@ type ResourceDecisionSupportProps = {
 
 export function ResourceDecisionSupport({ decisionTable, representativeProduct, resourceSlug }: ResourceDecisionSupportProps) {
   return (
-    <section className="mt-12 border-t border-slate-200 pt-8">
+    <section id="decision-support" className="mt-12 scroll-mt-28 border-t border-slate-200 pt-8">
       <p className="text-sm font-black uppercase tracking-wide text-[#1268a8]"><T>{decisionTable.eyebrow}</T></p>
       <h2 className="mt-2 text-2xl font-black text-[#12263a]"><T>{decisionTable.title}</T></h2>
       <p className="mt-3 leading-7 text-[#526b7d]"><T>{decisionTable.description}</T></p>

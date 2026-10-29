@@ -24,6 +24,11 @@ describe("resource catalog", () => {
       expect(resource.relatedResourceSlugs.length).toBeGreaterThanOrEqual(2);
       expect(resource.relatedProductSlugs.length).toBeGreaterThanOrEqual(1);
       expect(resource.relatedResourceSlugs.every((slug) => getResource(slug))).toBe(true);
+      for (const section of resource.sections) {
+        const links = section.relatedResourceSlugs ?? [];
+        expect(new Set(links).size).toBe(links.length);
+        expect(links.every((slug) => slug !== resource.slug && getResource(slug))).toBe(true);
+      }
     }
   });
 

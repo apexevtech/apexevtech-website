@@ -1,4 +1,4 @@
-export type ResourceSection = { heading: string; paragraphs: string[]; checklist?: string[] };
+export type ResourceSection = { heading: string; paragraphs: string[]; checklist?: string[]; relatedResourceSlugs?: string[] };
 export type ResourceDecisionTable = {
   eyebrow: string;
   title: string;
@@ -26,7 +26,7 @@ export const resources: Resource[] = [
     description: "Compare AC and DC EV charger test systems by connector, protocol, voltage and current range, load path, test environment and required evidence.",
     topic: "EV charger test system selection",
     intent: "selection",
-    publishedAt, modifiedAt: "2026-10-19",
+    publishedAt, modifiedAt: "2026-10-29",
     summaryAnswer: "Choose an EV charger test system by defining the connector, communication standard, voltage and current range, test environment and required evidence before comparing equipment. The correct platform is the one that reproduces the target charging workflow and records the measurements your team must review.",
     sections: [
       { heading: "Define the charger and target market", paragraphs: [
@@ -45,6 +45,10 @@ export const resources: Resource[] = [
         "If the approved test actually requires 1000 V and 300 A at the same time, the power-absorption path must handle 300 kW at that operating point for the specified duration. A 300 kW nameplate alone is insufficient: check the load's voltage-current operating envelope, continuous-duty rating, cooling, cabling and facility requirements. Lower-power communication diagnosis is a separate test scope.",
         "A reviewable quotation therefore separates the interface tester, PLC and capture options, voltage/current measurement, load and power equipment, rated cables, protection, software and reports. Request one normal charging sequence and one approved termination case as acceptance examples. This is a configuration-planning example, not a measured APEX test result or a claim of certification coverage.",
       ], checklist: ["Define the simultaneous voltage-current operating point", "Specify load duration and cooling", "Confirm protocol edition and evidence exports", "Agree an acceptance sequence before purchase"] },
+      { heading: "Match the guide to your project stage", paragraphs: [
+        "Choose the next guide by the decision your team needs to make. For development or pre-compliance planning, use the standards-validation guide to define the required editions, cases and evidence before specifying modules. For factory release, use the EVSE end-of-line guide to separate repeatable production checks from deeper laboratory diagnosis.",
+        "For an installed charger, use the field-commissioning equipment guide to plan the connector, permitted site checks and load arrangement. Once the test architecture is agreed, use the procurement-specification guide to document included equipment, options, acceptance records and responsibilities. These are planning routes, not proof that one configuration covers every application.",
+      ], relatedResourceSlugs: ["prepare-ev-charger-standards-validation", "evse-end-of-line-testing", "field-commissioning-test-equipment", "ev-charger-test-equipment-guide"] },
     ],
     decisionTable: {
       eyebrow: "Configuration worksheet",
@@ -594,13 +598,15 @@ export const resources: Resource[] = [
     topic: "EV charger testing workflow",
     intent: "process",
     publishedAt: "2026-09-23",
-    modifiedAt: "2026-10-19",
-    summaryAnswer: "EV charger testing should define the charger interface, applicable standard, electrical range, test environment and required evidence before equipment is connected. A useful workflow verifies preconditions, reproduces the vehicle-side charging sequence, compares requested and measured values, checks controlled abnormal responses and saves enough context to repeat the result.",
+    modifiedAt: "2026-10-29",
+    summaryAnswer: "EV charger testing should define the charger interface, applicable standard, electrical range, test environment and required evidence before equipment is connected. A useful workflow verifies preconditions, reproduces the vehicle-side charging sequence, compares requested and measured values, checks controlled abnormal responses and saves enough context to repeat the result. These are vehicle-side functional checks, not a complete electrical-installation inspection or certification result.",
     sections: [
       { heading: "Define the EV charger testing scope", paragraphs: [
         "Start with the charger rather than a generic tester specification. Record whether the unit is AC or DC, its connector, target market, communication method, rated voltage and current, firmware and intended operating environment. These facts determine the pilot circuits, message exchange, measurement range and power path the test setup must support.",
         "State the decision the test must support. Development diagnosis, conformance preparation, production release and field commissioning need different depth, controls and records. Separate required checks from optional investigations so a quotation or test plan does not confuse broad equipment capability with the cases that will actually be executed.",
-      ], checklist: ["Identify AC or DC and the exact connector", "Record standards, ratings and firmware", "Define the decision and evidence required"] },
+        "This guide addresses functional testing of the EVSE through the vehicle-side charging interface: connection states, charging communication, electrical response and retained test evidence. It does not provide a complete electrical-installation inspection procedure or establish conformity of the upstream supply. Treat site safety and installation checks as separate prerequisites under the approved project procedure.",
+        "If your task is commissioning or checking a repaired charger, start with the post-installation EVSE guide and record what changed. If you need equipment for that visit, use the field-commissioning equipment guide. A successful charging session supports the executed functional checks, not a blanket installation-safety or certification result.",
+      ], checklist: ["Identify AC or DC and the exact connector", "Record standards, ratings and firmware", "Define the decision and evidence required"], relatedResourceSlugs: ["post-installation-evse-testing", "field-commissioning-test-equipment"] },
       { heading: "Select equipment and the power path", paragraphs: [
         "Choose equipment that can reproduce the vehicle-side interface and observe the charger response. AC work commonly needs control-pilot and proximity states, switching checks and metering. DC work adds digital charging communication, output-voltage control, insulation behavior and a planned path for absorbing charging energy.",
         "Confirm whether the tester contains a load or coordinates with an external resistive, electronic, regenerative or vehicle load. Match connectors, cables, switching devices and instruments to the maximum planned condition. A communication test at limited power and a sustained rated-power test are different setups even when they use the same charger interface.",

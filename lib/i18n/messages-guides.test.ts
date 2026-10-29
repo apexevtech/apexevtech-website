@@ -13,7 +13,7 @@ describe("guide body translations", () => {
         count += 1;
       }
     }
-    expect(count).toBe(217);
+    expect(count).toBe(219);
   });
 
   it("keeps numeric ratings, model numbers and standards versions unchanged", () => {
