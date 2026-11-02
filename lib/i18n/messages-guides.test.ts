@@ -13,7 +13,7 @@ describe("guide body translations", () => {
         count += 1;
       }
     }
-    expect(count).toBe(219);
+    expect(count).toBe(220);
   });
 
   it("keeps numeric ratings, model numbers and standards versions unchanged", () => {
@@ -24,5 +24,13 @@ describe("guide body translations", () => {
     expect(guideMessages[example[1]]).toContain("同时");
     expect(guideMessages[example[1]]).toContain("300 kW");
     expect(guideMessages[example[2]]).toContain("并非 APEX 实测结果");
+  });
+
+  it("translates the protocol guide's vehicle-side and backend scope boundary", () => {
+    const guide = resources.find(({ slug }) => slug === "ev-charging-protocol-testing")!;
+    const scope = guide.sections[0].paragraphs[1];
+    expect(scope).toContain("backend integration and OCPP testing require a separately defined scope");
+    expect(guideMessages[scope]).toContain("后台集成和 OCPP 测试需要另行明确范围");
+    expect(guideMessages[guide.sections[0].paragraphs[2]]).toContain("ST-9980EA-HPC");
   });
 });

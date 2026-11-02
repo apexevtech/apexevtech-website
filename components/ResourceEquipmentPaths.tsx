@@ -23,8 +23,8 @@ export function ResourceEquipmentPaths({ resourceSlug }: { resourceSlug: string 
               <h3 className="mt-3 font-black text-[#12263a]"><T>{path.title}</T></h3>
               <p className="mb-4 mt-2 text-sm leading-6 text-[#526b7d]"><T>{path.scope}</T></p>
               <div className="mt-auto grid gap-1">
-                <TrackedLink href={path.href} eventName="guide_equipment_click" location="guide-selection-path" eventParameters={{ resource_slug: resourceSlug, product_model: product.model }} className="inline-flex min-h-11 items-center py-2 text-sm font-bold text-[#1268a8] hover:underline"><T>{path.label}</T></TrackedLink>
-                {product.document ? <TrackedLink href={product.document} download prefetch={false} eventName="catalog_download" location="guide-original-specifications" eventParameters={{ resource_slug: resourceSlug, model: product.model }} className="inline-flex min-h-11 items-center py-2 text-sm text-[#385064] underline underline-offset-4"><T>{"Original specifications (Word)"}</T></TrackedLink> : null}
+                <TrackedLink href={path.href} eventName="guide_equipment_click" location="guide-selection-path" eventParameters={{ resource_slug: resourceSlug, ...(path.href === `/products/${product.slug}` ? { product_model: product.model } : {}) }} className="inline-flex min-h-11 items-center py-2 text-sm font-bold text-[#1268a8] hover:underline"><T>{path.label}</T></TrackedLink>
+                {product.document ? <TrackedLink href={product.document} download prefetch={false} eventName="catalog_download" location="guide-original-specifications" eventParameters={{ resource_slug: resourceSlug, model: product.model }} className="inline-flex min-h-11 flex-wrap items-center gap-x-1 py-2 text-sm text-[#385064] underline underline-offset-4"><span>{product.model}</span><T>{"Original specifications (Word)"}</T></TrackedLink> : null}
               </div>
             </article>
           );

@@ -11,6 +11,9 @@ import { localizedPagePaths } from "@/lib/i18n/public-pages";
 import { localizeHref } from "@/lib/i18n/urls";
 
 const chinesePublishedAt = "2026-10-29T00:00:00.000Z";
+const chinesePageUpdates: Record<string, string> = {
+  "/resources/ev-charging-protocol-testing": "2026-11-02T00:00:00.000Z",
+};
 
 const siteContentLastModified = "2026-10-08T00:00:00.000Z";
 const staticPageUpdates: Record<string, string> = {
@@ -97,7 +100,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const alternates = { languages };
     return [
       { ...entry, alternates },
-      { ...entry, url: languages["zh-Hans"], lastModified: new Date(chinesePublishedAt), alternates },
+      { ...entry, url: languages["zh-Hans"], lastModified: new Date(chinesePageUpdates[url.pathname] || chinesePublishedAt), alternates },
     ];
   });
 }

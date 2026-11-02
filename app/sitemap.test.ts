@@ -25,7 +25,8 @@ describe("sitemap", () => {
       expect(chinese).toBeDefined();
       expect(english.alternates?.languages).toEqual({ en: englishUrl, "zh-Hans": chineseUrl, "x-default": englishUrl });
       expect(chinese.alternates).toEqual(english.alternates);
-      expect(chinese.lastModified).toEqual(new Date("2026-10-29T00:00:00.000Z"));
+      const chineseDate = path === "/resources/ev-charging-protocol-testing" ? "2026-11-02T00:00:00.000Z" : "2026-10-29T00:00:00.000Z";
+      expect(chinese.lastModified).toEqual(new Date(chineseDate));
       expect(chinese.images).toEqual(english.images);
     }
     expect(entries.every((entry) => !/[?#]/.test(entry.url))).toBe(true);

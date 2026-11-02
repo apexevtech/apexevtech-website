@@ -104,11 +104,12 @@ export const resources: Resource[] = [
     description: "Plan eMobility protocol testing with CAN or PLC capture, pilot signals, charging-state checks, controlled faults and synchronized electrical evidence.",
     topic: "EV charging protocol diagnosis",
     intent: "technical",
-    publishedAt, modifiedAt: "2026-10-10",
+    publishedAt, modifiedAt: "2026-11-02",
     summaryAnswer: "Protocol testing should connect each communication event to the charger state and measured electrical response. Build a repeatable timeline from connection and initialization through parameter exchange, energy transfer and termination, then inject one fault at a time and retain the raw messages needed to explain the result.",
     sections: [
       { heading: "Select the interface and communication test scope", paragraphs: [
         "EV charger communication protocol testing starts with the connector and protocol revision. GB/T and CHAdeMO workflows can involve CAN communication; CCS workflows can involve PLC communication. Specify the actual charger implementation, required messages and test cases rather than assuming one analyzer covers every interface.",
+        "This guide focuses on communication at the vehicle-to-charger interface and its electrical response. OCPP addresses communication between a charging station and its management system; backend integration and OCPP testing require a separately defined scope. A vehicle-side protocol capture alone does not establish backend interoperability.",
         "Use the product configuration as the equipment boundary: AST-9000 provides an integrated laboratory route, ST-9980EA-HPC is a portable CCS2 option with optional PLC capture, and ST-6680CA-DC addresses CHAdeMO testing. Confirm capture, decoding, fault-injection and measurement options separately with the engineer.",
       ], checklist: ["Identify connector and protocol revision", "Confirm CAN or PLC capture requirements", "Define normal, timeout and termination cases"] },
       { heading: "Build a synchronized charging timeline", paragraphs: [
