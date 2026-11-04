@@ -13,7 +13,7 @@ describe("guide body translations", () => {
         count += 1;
       }
     }
-    expect(count).toBe(220);
+    expect(count).toBe(221);
   });
 
   it("keeps numeric ratings, model numbers and standards versions unchanged", () => {
@@ -32,5 +32,13 @@ describe("guide body translations", () => {
     expect(scope).toContain("backend integration and OCPP testing require a separately defined scope");
     expect(guideMessages[scope]).toContain("后台集成和 OCPP 测试需要另行明确范围");
     expect(guideMessages[guide.sections[0].paragraphs[2]]).toContain("ST-9980EA-HPC");
+  });
+
+  it("preserves the protocol timeline's uncertainty and original-record guidance in Chinese", () => {
+    const guide = resources.find(({ slug }) => slug === "ev-charging-protocol-testing")!;
+    const alignment = guide.sections[1].paragraphs[2];
+    expect(alignment).toContain("retain the original timestamps and alignment method");
+    expect(guideMessages[alignment]).toContain("保留原始时间戳与对齐方法");
+    expect(guideMessages[alignment]).toContain("仅有事件标记并不能证明测量精度");
   });
 });

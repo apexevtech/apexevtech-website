@@ -104,7 +104,7 @@ export const resources: Resource[] = [
     description: "Plan eMobility protocol testing with CAN or PLC capture, pilot signals, charging-state checks, controlled faults and synchronized electrical evidence.",
     topic: "EV charging protocol diagnosis",
     intent: "technical",
-    publishedAt, modifiedAt: "2026-11-02",
+    publishedAt, modifiedAt: "2026-11-04",
     summaryAnswer: "Protocol testing should connect each communication event to the charger state and measured electrical response. Build a repeatable timeline from connection and initialization through parameter exchange, energy transfer and termination, then inject one fault at a time and retain the raw messages needed to explain the result.",
     sections: [
       { heading: "Select the interface and communication test scope", paragraphs: [
@@ -115,6 +115,7 @@ export const resources: Resource[] = [
       { heading: "Build a synchronized charging timeline", paragraphs: [
         "Begin by recording the physical connection, pilot state and communication startup. For CAN-based or PLC-based charging, capture the raw traffic together with timestamps and charger measurements. A decoded message table is useful, but it should not replace the original data because timing, repetition and malformed fields can explain behavior that a summary hides.",
         "Mark the transition into parameter negotiation, readiness, current demand, active charging and shutdown. Compare requested voltage and current with charger output and tester measurements at each stage. This makes it possible to distinguish a communication disagreement from an electrical response problem.",
+        "When records come from separate instruments, document each time base and any measured clock offset. Use a common identifiable event to align traces where appropriate, check for clock drift over the capture, and retain the original timestamps and alignment method. Confirm that the remaining timing uncertainty is suitable for the event being investigated; an event marker alone does not establish measurement accuracy.",
       ], checklist: ["Retain raw messages and timestamps", "Record pilot and contactor transitions", "Align requests with measured output"] },
       { heading: "Test faults without losing context", paragraphs: [
         "A protocol fault test should change one controlled condition and define the expected recovery or shutdown behavior before execution. Examples include a delayed message, an out-of-range parameter, a communication interruption or a simulated insulation condition. Avoid changing several signals together because the resulting shutdown cannot be attributed confidently.",

@@ -12,7 +12,7 @@ import { localizeHref } from "@/lib/i18n/urls";
 
 const chinesePublishedAt = "2026-10-29T00:00:00.000Z";
 const chinesePageUpdates: Record<string, string> = {
-  "/resources/ev-charging-protocol-testing": "2026-11-02T00:00:00.000Z",
+  "/resources/ev-charging-protocol-testing": "2026-11-04T00:00:00.000Z",
 };
 
 const siteContentLastModified = "2026-10-08T00:00:00.000Z";
