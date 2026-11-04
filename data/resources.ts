@@ -32,7 +32,7 @@ export const resources: Resource[] = [
       { heading: "Define the charger and target market", paragraphs: [
         "Start with the actual charger interface rather than a general request for an EVSE tester. Record whether the equipment is AC or DC, the vehicle-side connector, the markets where it will be used and the standards named in the test plan. A Type 2 AC charger, a GB/T DC charger and a CCS2 high-power charger require different pilot circuits, communication stacks and connection ratings.",
         "Then document the maximum operating voltage and current, expected charging sequence and any unusual site conditions. These values determine the safe connection envelope and whether the tester can work directly with the charger or must coordinate with external sources, loads or measurement instruments.",
-      ], checklist: ["Identify AC or DC and the exact connector", "List target-market standards", "Record maximum voltage and current"] },
+      ], checklist: ["Identify AC or DC and the exact connector", "List target-market standards", "Record maximum voltage and current"], relatedResourceSlugs: ["ac-vs-dc-evse-testing"] },
       { heading: "Separate functional checks from diagnostic evidence", paragraphs: [
         "A pass or fail result is not the same as diagnostic evidence. Development teams may need message capture, waveform acquisition and adjustable fault simulation, while field teams may prioritize portability, fast setup and clear acceptance records. Certification preparation can require repeatable sequences and traceable exports that are unnecessary for a basic commissioning check.",
         "Ask which signals must be observed and which results must be retained. Charging voltage, current, energy, control-pilot state, CAN or PLC messages and safety responses should be listed individually so that optional functions are not mistaken for standard coverage.",
@@ -160,7 +160,7 @@ export const resources: Resource[] = [
       { heading: "Design for the decision being made", paragraphs: [
         "An end-of-line station answers whether a manufactured charger is ready to proceed. Its test sequence should cover critical safety, communication, output and metering checks within a predictable cycle time. Operator steps, fixture identification and automatic result storage matter as much as the range of available functions.",
         "A laboratory answers why a charger behaves in a particular way and whether it remains compliant across boundary conditions. Engineers need adjustable parameters, raw protocol and waveform data, deliberate fault insertion and enough access to change the sequence during investigation.",
-      ] },
+      ], relatedResourceSlugs: ["evse-end-of-line-testing"] },
       { heading: "Define what can be shared", paragraphs: [
         "Common test definitions, connector fixtures and result formats can reduce duplication, but production and laboratory equipment should not be assumed interchangeable. A flexible laboratory setup can be too slow or operator-dependent for a production line, while a fixed production station may hide the diagnostic data needed to investigate a failure.",
         "Create a handoff rule for failed units. The production station should retain the unit identity, failed step, measured values and relevant log segment so the laboratory can reproduce the condition without starting from an incomplete description.",
@@ -200,7 +200,7 @@ export const resources: Resource[] = [
       { heading: "EVSE testing after commissioning or maintenance", paragraphs: [
         "Keep the original acceptance record as a reference. After installation changes, repair or firmware updates, repeat the affected connection, startup, power-transfer and termination checks using a versioned procedure. Identify any change in the supply, connector, charger firmware or tester configuration.",
         "Create a separate record for each connector. Retain requested and measured output, relevant communication logs and the result of each defined check. Escalate unexplained differences with the original and new captures so the service or laboratory team can reproduce the condition.",
-      ], checklist: ["Compare against the acceptance baseline", "Record changes and affected test cases", "Track unresolved findings through retest"] },
+      ], checklist: ["Compare against the acceptance baseline", "Record changes and affected test cases", "Track unresolved findings through retest"], relatedResourceSlugs: ["post-installation-evse-testing"] },
       { heading: "Leave evidence that supports handover", paragraphs: [
         "A commissioning record should identify the site, charger, connector, tester, software version and procedure. Include measured values, relevant logs, photos where appropriate and clear pass or fail limits. If a test cannot be completed because the site lacks a required load or supply condition, record that limitation instead of treating a partial connection as full acceptance.",
       ], checklist: ["Identify every charger and instrument", "Export measurements and communication logs", "Record limitations and follow-up actions"] },
@@ -350,7 +350,7 @@ export const resources: Resource[] = [
       { heading: "Define the CCS2 charger and communication scope", paragraphs: [
         "Record the charger model, firmware, Combo 2 connector rating and target market before choosing test equipment. CCS2 identifies the physical charging system, but it does not by itself define every communication version, optional function or acceptance limit required by a project.",
         "List whether the work covers basic connection and startup, DIN SPEC 70121 behavior, a specific part and edition of ISO 15118, interoperability diagnosis or a formal conformance program. The tester, PLC module and test cases must support the same protocol scope as the charger under test.",
-      ], checklist: ["Confirm Combo 2 connection and cable rating", "Name the protocol and edition in scope", "Record charger firmware and configured options"] },
+      ], checklist: ["Confirm Combo 2 connection and cable rating", "Name the protocol and edition in scope", "Record charger firmware and configured options"], relatedResourceSlugs: ["iso-15118-din-70121-testing"] },
       { heading: "Separate communication from high-power loading", paragraphs: [
         "The vehicle simulator establishes pilot and high-level communication states, while the external load or laboratory power system absorbs charger output. Verify the tester connection limit separately from the load voltage, current, continuous power, cooling and facility requirements.",
         "Plan normal startup, requested-current changes, charging stop and protective shutdown before applying high power. Synchronize protocol messages, pilot state, voltage, current and load demand so a failed sequence can be traced to communication, power conversion or the test setup.",

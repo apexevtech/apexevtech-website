@@ -119,8 +119,12 @@ describe("guide collection navigation", () => {
   });
 
   it.each([
+    { slug: "choose-ev-charger-test-system", heading: "Define the charger and target market" },
     { slug: "choose-ev-charger-test-system", heading: "Match the guide to your project stage" },
     { slug: "ev-charger-testing-guide", heading: "Define the EV charger testing scope" },
+    { slug: "production-vs-laboratory-validation", heading: "Design for the decision being made" },
+    { slug: "field-commissioning-test-equipment", heading: "EVSE testing after commissioning or maintenance" },
+    { slug: "ccs2-dc-fast-charger-testing", heading: "Define the CCS2 charger and communication scope" },
   ])("renders $slug section references in English and Chinese after the checklist", async ({ slug, heading }) => {
     const resource = resources.find((item) => item.slug === slug)!;
     const sectionIndex = resource.sections.findIndex((section) => section.heading === heading);
