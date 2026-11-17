@@ -100,11 +100,11 @@ export const resources: Resource[] = [
   },
   {
     slug: "ev-charging-protocol-testing",
-    title: "eMobility and EV Charging Protocol Testing Guide",
-    description: "Plan eMobility protocol testing with CAN or PLC capture, pilot signals, charging-state checks, controlled faults and synchronized electrical evidence.",
+    title: "eMobility Protocol Testing Guide: EV Charger CAN & PLC",
+    description: "Plan EV charger protocol tests for CAN or PLC. Review charging states, controlled faults and time-aligned evidence. Covers vehicle-to-charger testing; OCPP backend testing is a separate scope.",
     topic: "EV charging protocol diagnosis",
     intent: "technical",
-    publishedAt, modifiedAt: "2026-11-04",
+    publishedAt, modifiedAt: "2026-11-17",
     summaryAnswer: "Protocol testing should connect each communication event to the charger state and measured electrical response. Build a repeatable timeline from connection and initialization through parameter exchange, energy transfer and termination, then inject one fault at a time and retain the raw messages needed to explain the result.",
     sections: [
       { heading: "Select the interface and communication test scope", paragraphs: [
