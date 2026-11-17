@@ -35,8 +35,15 @@ describe("search-priority guide scope", () => {
 
   it("keeps search titles and descriptions stable during this content revision", () => {
     const selection = getResource("choose-ev-charger-test-system")!;
-    expect(selection.title).toBe("EV Charger Test System Selection: AC/DC Equipment Guide");
-    expect(selection.description).toBe("Compare AC and DC EV charger test systems by connector, protocol, voltage and current range, load path, test environment and required evidence.");
+    expect(selection.title).toBe("EV Charger Test Equipment: AC/DC System Selection Guide");
+    expect(selection.description).toContain("Use the checklist to compare configurations before purchase.");
+    const endOfLine = getResource("evse-end-of-line-testing")!;
+    expect(endOfLine.title).toBe("EVSE End-of-Line Testing: Production Checklist");
+    expect(endOfLine.description).toContain("serial-number traceability");
+    const commissioning = getResource("post-installation-evse-testing")!;
+    expect(commissioning.title).toBe("EVSE Testing After Commissioning: Field Checklist");
+    expect(commissioning.sections[1].heading).toBe("Run repeatable EVSE tests after commissioning");
+    expect(commissioning.description).toContain("last known-good baseline");
     const workflow = getResource("ev-charger-testing-guide")!;
     expect(workflow.title).toBe("EV Charger Testing: Workflow, Equipment and Evidence");
     expect(workflow.description).toBe("Plan EV charger testing from scope and equipment selection through connection, communication, electrical response, faults and reviewable evidence.");

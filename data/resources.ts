@@ -22,11 +22,11 @@ const modifiedAt = "2026-09-18";
 export const resources: Resource[] = [
   {
     slug: "choose-ev-charger-test-system",
-    title: "EV Charger Test System Selection: AC/DC Equipment Guide",
-    description: "Compare AC and DC EV charger test systems by connector, protocol, voltage and current range, load path, test environment and required evidence.",
+    title: "EV Charger Test Equipment: AC/DC System Selection Guide",
+    description: "Choose an AC or DC EV charger test system by connector, protocol, voltage and current range, load path and test environment. Use the checklist to compare configurations before purchase.",
     topic: "EV charger test system selection",
     intent: "selection",
-    publishedAt, modifiedAt: "2026-10-29",
+    publishedAt, modifiedAt: "2026-11-17",
     summaryAnswer: "Choose an EV charger test system by defining the connector, communication standard, voltage and current range, test environment and required evidence before comparing equipment. The correct platform is the one that reproduces the target charging workflow and records the measurements your team must review.",
     sections: [
       { heading: "Define the charger and target market", paragraphs: [
@@ -473,12 +473,12 @@ export const resources: Resource[] = [
   },
   {
     slug: "evse-end-of-line-testing",
-    title: "EVSE End-of-Line Testing Checklist for Charger Production",
-    description: "Use this EVSE end-of-line testing checklist to define identity, safety, charging-state, measurement, communication and production traceability checks.",
+    title: "EVSE End-of-Line Testing: Production Checklist",
+    description: "Plan charger production end-of-line tests for unit identity, safety, communication, output limits, cycle time and serial-number traceability. Separate line screening from lab diagnosis.",
     topic: "EVSE end-of-line testing",
     intent: "process",
     publishedAt: "2026-09-21",
-    modifiedAt: "2026-10-20",
+    modifiedAt: "2026-11-17",
     summaryAnswer: "An EVSE end-of-line test should confirm unit identity, configuration, essential safety checks, interface states, charging communication, measured output and required fault responses within a controlled cycle time. Automate stable pass or fail limits and store results against the charger serial number while routing deeper diagnosis outside the main production station.",
     sections: [
       { heading: "Convert product requirements into station limits", paragraphs: [
@@ -517,19 +517,19 @@ export const resources: Resource[] = [
   },
   {
     slug: "post-installation-evse-testing",
-    title: "EVSE Testing After Commissioning: Site Checklist",
-    description: "Follow a practical EVSE testing checklist after commissioning, repair or firmware changes to verify site conditions, charging states and retained evidence.",
+    title: "EVSE Testing After Commissioning: Field Checklist",
+    description: "Checklist for EVSE testing after commissioning, repair or firmware changes. Verify site preconditions, charging states, measured output and records against the last known-good baseline.",
     topic: "EVSE testing after commissioning",
     intent: "process",
     publishedAt: "2026-09-21",
-    modifiedAt: "2026-10-10",
+    modifiedAt: "2026-11-17",
     summaryAnswer: "Post-installation EVSE testing should confirm site identity and configuration, supply and grounding preconditions, connector condition, normal charging states, measured output, communication evidence and safe stop behavior. Repeat the baseline after firmware, network, protection, power-module or wiring changes and compare results with the commissioning record.",
     sections: [
       { heading: "Start with site and change history", paragraphs: [
         "Record the charger identifier, location, connector, rating, hardware and firmware, backend configuration and reason for the visit. Review commissioning results and recent repairs before energizing tests so the procedure addresses what changed without losing the original acceptance baseline.",
         "Complete visual, supply, grounding and connector checks required by the site's safety procedure. Confirm that the tester, adapters and external load are rated for the planned session and that the charging area can be controlled during the work.",
       ], checklist: ["Identify the charger and change reason", "Review commissioning baseline", "Complete site safety preconditions"] },
-      { heading: "Run a repeatable functional sequence", paragraphs: [
+      { heading: "Run repeatable EVSE tests after commissioning", paragraphs: [
         "Use the same normal connection, readiness, charging and stop sequence for routine comparisons. Record pilot or communication state and measured output at defined points instead of relying only on a successful session indicator.",
         "Add targeted checks for the changed subsystem, such as communication after a firmware update, switching after contactor work or measured output after a power-module replacement. Avoid broad fault injection at a live site unless the approved procedure and equipment explicitly support it.",
       ] },
