@@ -36,7 +36,7 @@ describe("resource catalog", () => {
     expect(getResource("ev-charger-testing-guide")?.title).toMatch(/EV Charger Testing/);
     expect(getResource("ev-charger-test-equipment-guide")?.title).toMatch(/^EV Charger Test Equipment/);
     expect(getResource("dc-fast-charger-testing-guide")?.title).toMatch(/DC Fast Charger Testing/);
-    expect(getResource("choose-ev-charger-test-system")?.title).toMatch(/^EV Charger Test System/);
+    expect(getResource("choose-ev-charger-test-system")?.title).toMatch(/^EV Charger Test (Equipment|System)/);
     expect(getResource("post-installation-evse-testing")?.topic).toBe("EVSE testing after commissioning");
     expect(getResource("post-installation-evse-testing")?.title).toMatch(/^EVSE Testing After Commissioning/);
     expect(getResource("ev-charging-protocol-testing")?.title).toMatch(/eMobility.*Protocol Testing/);

@@ -22,7 +22,8 @@ describe("guide equipment coverage", () => {
     const titles = new Set<string>();
     for (const slug of ["field-commissioning-test-equipment", "evse-end-of-line-testing", "ccs2-dc-fast-charger-testing"]) {
       const guide = resources.find((resource) => resource.slug === slug)!;
-      expect(guide.modifiedAt).toBe("2026-10-20");
+      const expectedModifiedAt = slug === "evse-end-of-line-testing" ? "2026-11-17" : "2026-10-20";
+      expect(guide.modifiedAt).toBe(expectedModifiedAt);
       expect(guide.decisionTable!.rows.length).toBeGreaterThanOrEqual(4);
       expect(guide.decisionTable!.note).toBeTruthy();
       titles.add(guide.decisionTable!.title);
