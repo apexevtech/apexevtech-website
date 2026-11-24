@@ -179,12 +179,12 @@ export const resources: Resource[] = [
   },
   {
     slug: "field-commissioning-test-equipment",
-    title: "Field Commissioning Test Equipment for EV Chargers",
-    description: "Plan EVSE testing after installation: select portable AC/DC charger equipment, confirm the external load and record commissioning and acceptance evidence.",
+    title: "EV Charger Field Commissioning: Portable Equipment Guide",
+    description: "Plan EVSE testing after commissioning, repair or firmware changes. Match portable AC/DC test equipment, site conditions and load path, then retain repeatable acceptance evidence.",
     topic: "EV charger field commissioning",
     intent: "selection",
-    publishedAt, modifiedAt: "2026-10-20",
-    summaryAnswer: "Field commissioning equipment should safely reproduce a vehicle connection, show the charging sequence, measure the values needed for acceptance and preserve evidence that can be reviewed later. Portability matters, but connector coverage, environmental protection, setup checks and a defined external-load plan matter more than case size alone.",
+    publishedAt, modifiedAt: "2026-11-24",
+    summaryAnswer: "For EV charger field commissioning or post-installation testing, match the portable tester to the connector and protocol, then verify site and load preconditions before testing. Record measured output, charging-state transitions and any limits that prevented full acceptance; after repair or firmware changes, compare affected checks with the last known-good baseline.",
     sections: [
       { heading: "Prepare the site and test boundary", paragraphs: [
         "Confirm the installed charger model, connector, rated output, upstream supply and site access before dispatching equipment. The field team should know whether the work is initial commissioning, periodic inspection, metering verification or fault diagnosis because each objective requires different accessories and evidence.",
@@ -651,12 +651,12 @@ export const resources: Resource[] = [
   },
   {
     slug: "dc-fast-charger-testing-guide",
-    title: "DC Fast Charger Testing: Equipment & Load Guide",
-    description: "Build a DC fast charger testing procedure for connector and protocol setup, charging states, output measurements, load planning, faults and test evidence.",
+    title: "DC Fast Charger Testing Procedure: Equipment & Load Guide",
+    description: "Plan a DC fast charger testing procedure: confirm connector and protocol, define the load path, verify charging states and output, test approved faults, and retain reviewable evidence.",
     topic: "DC fast charger testing",
     intent: "technical",
     publishedAt: "2026-09-23",
-    modifiedAt: "2026-10-09",
+    modifiedAt: "2026-11-24",
     summaryAnswer: "DC fast charger testing combines a vehicle-side communication simulator, the correct connector and protocol, high-voltage measurement and a safe energy-absorption path. The procedure should verify initialization and insulation checks, parameter negotiation, controlled output, charging-state transitions, normal termination and defined fault responses while preserving synchronized protocol and electrical evidence.",
     sections: [
       { heading: "Identify the DC charging interface", paragraphs: [
@@ -681,6 +681,7 @@ export const resources: Resource[] = [
       ] },
     ],
     faqs: [
+      { question: "How do you test a DC fast charger?", answer: "Define the connector, protocol edition, operating range and safe load path first. Verify initialization and negotiation, compare requested with measured output during a controlled session, check normal termination, then run only approved fault cases while retaining time-aligned communication and electrical records." },
       { question: "Does a DC fast charger tester include a high-power load?", answer: "Not always. Many testers simulate the EV communication and control interface while using a separate external load or regenerative system. Confirm the energy path and ratings for the selected configuration." },
       { question: "Can DC fast charger communication be tested without full power?", answer: "Many initialization, negotiation and diagnostic checks can run at limited power, but the setup must still remain within safe connector, voltage and load conditions. Rated-output validation requires the appropriate power path." },
       { question: "Which evidence is most useful for a failed DC charging session?", answer: "Keep raw protocol messages with timestamps, pilot and state transitions, requested values, independently measured voltage and current, charger alarms, tester configuration and the last completed step." },

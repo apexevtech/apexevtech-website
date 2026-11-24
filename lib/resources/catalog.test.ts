@@ -35,7 +35,9 @@ describe("resource catalog", () => {
   it("covers the highest-impression charger testing topics with dedicated guides", () => {
     expect(getResource("ev-charger-testing-guide")?.title).toMatch(/EV Charger Testing/);
     expect(getResource("ev-charger-test-equipment-guide")?.title).toMatch(/^EV Charger Test Equipment/);
-    expect(getResource("dc-fast-charger-testing-guide")?.title).toMatch(/DC Fast Charger Testing/);
+    expect(getResource("dc-fast-charger-testing-guide")?.title).toMatch(/^DC Fast Charger Testing Procedure/);
+    expect(getResource("dc-fast-charger-testing-guide")?.faqs.some((faq) => faq.question === "How do you test a DC fast charger?")).toBe(true);
+    expect(getResource("field-commissioning-test-equipment")?.title).toMatch(/^EV Charger Field Commissioning/);
     expect(getResource("choose-ev-charger-test-system")?.title).toMatch(/^EV Charger Test (Equipment|System)/);
     expect(getResource("post-installation-evse-testing")?.topic).toBe("EVSE testing after commissioning");
     expect(getResource("post-installation-evse-testing")?.title).toMatch(/^EVSE Testing After Commissioning/);
