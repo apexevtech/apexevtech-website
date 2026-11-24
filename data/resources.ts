@@ -104,14 +104,14 @@ export const resources: Resource[] = [
     description: "Plan EV charger protocol tests for CAN or PLC. Review charging states, controlled faults and time-aligned evidence. Covers vehicle-to-charger testing; OCPP backend testing is a separate scope.",
     topic: "EV charging protocol diagnosis",
     intent: "technical",
-    publishedAt, modifiedAt: "2026-11-17",
+    publishedAt, modifiedAt: "2026-11-24",
     summaryAnswer: "Protocol testing should connect each communication event to the charger state and measured electrical response. Build a repeatable timeline from connection and initialization through parameter exchange, energy transfer and termination, then inject one fault at a time and retain the raw messages needed to explain the result.",
     sections: [
       { heading: "Select the interface and communication test scope", paragraphs: [
         "EV charger communication protocol testing starts with the connector and protocol revision. GB/T and CHAdeMO workflows can involve CAN communication; CCS workflows can involve PLC communication. Specify the actual charger implementation, required messages and test cases rather than assuming one analyzer covers every interface.",
         "This guide focuses on communication at the vehicle-to-charger interface and its electrical response. OCPP addresses communication between a charging station and its management system; backend integration and OCPP testing require a separately defined scope. A vehicle-side protocol capture alone does not establish backend interoperability.",
         "Use the product configuration as the equipment boundary: AST-9000 provides an integrated laboratory route, ST-9980EA-HPC is a portable CCS2 option with optional PLC capture, and ST-6680CA-DC addresses CHAdeMO testing. Confirm capture, decoding, fault-injection and measurement options separately with the engineer.",
-      ], checklist: ["Identify connector and protocol revision", "Confirm CAN or PLC capture requirements", "Define normal, timeout and termination cases"] },
+      ], checklist: ["Identify connector and protocol revision", "Confirm CAN or PLC capture requirements", "Define normal, timeout and termination cases"], relatedResourceSlugs: ["ev-charger-testing-guide", "dc-fast-charger-testing-guide"] },
       { heading: "Build a synchronized charging timeline", paragraphs: [
         "Begin by recording the physical connection, pilot state and communication startup. For CAN-based or PLC-based charging, capture the raw traffic together with timestamps and charger measurements. A decoded message table is useful, but it should not replace the original data because timing, repetition and malformed fields can explain behavior that a summary hides.",
         "Mark the transition into parameter negotiation, readiness, current demand, active charging and shutdown. Compare requested voltage and current with charger output and tester measurements at each stage. This makes it possible to distinguish a communication disagreement from an electrical response problem.",
@@ -478,13 +478,13 @@ export const resources: Resource[] = [
     topic: "EVSE end-of-line testing",
     intent: "process",
     publishedAt: "2026-09-21",
-    modifiedAt: "2026-11-17",
+    modifiedAt: "2026-11-24",
     summaryAnswer: "An EVSE end-of-line test should confirm unit identity, configuration, essential safety checks, interface states, charging communication, measured output and required fault responses within a controlled cycle time. Automate stable pass or fail limits and store results against the charger serial number while routing deeper diagnosis outside the main production station.",
     sections: [
       { heading: "Convert product requirements into station limits", paragraphs: [
         "Define the charger variants that will use the station, including connector, power class, firmware and market configuration. Map each production check to a measurable stimulus, response and limit rather than copying a broad laboratory validation plan into the line.",
         "Prioritize faults that assembly, wiring, configuration or calibration can introduce. Confirm which checks require energized power, a communication simulator, metering reference, safety instrument or external load, and assign safe ownership of every connection.",
-      ], checklist: ["Identify product variants and firmware", "Define numeric pass or fail limits", "Assign fixtures and instruments to each check"] },
+      ], checklist: ["Identify product variants and firmware", "Define numeric pass or fail limits", "Assign fixtures and instruments to each check"], relatedResourceSlugs: ["ev-charger-testing-guide"] },
       { heading: "Balance coverage with cycle time", paragraphs: [
         "Run fast identity and precondition checks before expensive power or communication sequences so obvious failures exit early. Use stable fixtures, automatic configuration and controlled test data to reduce operator choices and prevent variant settings from carrying into the next unit.",
         "Keep full boundary investigation and long-duration aging outside the end-of-line station unless the production requirement explicitly needs them. The line should detect and contain nonconforming units; engineering diagnosis can use a separate station without blocking takt time.",

@@ -25,14 +25,17 @@ describe("sitemap", () => {
       expect(chinese).toBeDefined();
       expect(english.alternates?.languages).toEqual({ en: englishUrl, "zh-Hans": chineseUrl, "x-default": englishUrl });
       expect(chinese.alternates).toEqual(english.alternates);
-      const chineseDate = path === "/resources/ev-charger-testing-guide"
+      const chineseDate = [
+        "/resources/ev-charger-testing-guide",
+        "/resources/ev-charging-protocol-testing",
+        "/resources/evse-end-of-line-testing",
+        "/resources/field-commissioning-test-equipment",
+        "/resources/dc-fast-charger-testing-guide",
+      ].includes(path)
         ? "2026-11-24T00:00:00.000Z"
-        : [
-            "/resources/ev-charging-protocol-testing",
-            "/resources/choose-ev-charger-test-system",
-            "/resources/evse-end-of-line-testing",
-            "/resources/post-installation-evse-testing",
-          ].includes(path) ? "2026-11-17T00:00:00.000Z" : "2026-10-29T00:00:00.000Z";
+        : ["/resources/choose-ev-charger-test-system", "/resources/post-installation-evse-testing"].includes(path)
+          ? "2026-11-17T00:00:00.000Z"
+          : "2026-10-29T00:00:00.000Z";
       expect(chinese.lastModified).toEqual(new Date(chineseDate));
       expect(chinese.images).toEqual(english.images);
     }

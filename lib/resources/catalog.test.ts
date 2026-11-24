@@ -49,6 +49,13 @@ describe("resource catalog", () => {
     expect(getResource("sae-j3400-nacs-testing")?.title).toMatch(/SAE J3400/);
   });
 
+  it("places contextual links from high-visibility protocol and production guides", () => {
+    const protocol = getResource("ev-charging-protocol-testing")!;
+    const production = getResource("evse-end-of-line-testing")!;
+    expect(protocol.sections[0].relatedResourceSlugs).toEqual(["ev-charger-testing-guide", "dc-fast-charger-testing-guide"]);
+    expect(production.sections[0].relatedResourceSlugs).toEqual(["ev-charger-testing-guide"]);
+  });
+
   it("returns undefined for an unknown slug", () => {
     expect(getResource("missing")).toBeUndefined();
   });

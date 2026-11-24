@@ -12,11 +12,13 @@ import { localizeHref } from "@/lib/i18n/urls";
 
 const chinesePublishedAt = "2026-10-29T00:00:00.000Z";
 const chinesePageUpdates: Record<string, string> = {
-  "/resources/ev-charging-protocol-testing": "2026-11-17T00:00:00.000Z",
+  "/resources/ev-charging-protocol-testing": "2026-11-24T00:00:00.000Z",
   "/resources/choose-ev-charger-test-system": "2026-11-17T00:00:00.000Z",
-  "/resources/evse-end-of-line-testing": "2026-11-17T00:00:00.000Z",
+  "/resources/evse-end-of-line-testing": "2026-11-24T00:00:00.000Z",
   "/resources/post-installation-evse-testing": "2026-11-17T00:00:00.000Z",
   "/resources/ev-charger-testing-guide": "2026-11-24T00:00:00.000Z",
+  "/resources/field-commissioning-test-equipment": "2026-11-24T00:00:00.000Z",
+  "/resources/dc-fast-charger-testing-guide": "2026-11-24T00:00:00.000Z",
 };
 
 const siteContentLastModified = "2026-10-08T00:00:00.000Z";
