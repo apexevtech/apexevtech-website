@@ -16,6 +16,7 @@ const chinesePageUpdates: Record<string, string> = {
   "/resources/choose-ev-charger-test-system": "2026-11-17T00:00:00.000Z",
   "/resources/evse-end-of-line-testing": "2026-11-17T00:00:00.000Z",
   "/resources/post-installation-evse-testing": "2026-11-17T00:00:00.000Z",
+  "/resources/ev-charger-testing-guide": "2026-11-24T00:00:00.000Z",
 };
 
 const siteContentLastModified = "2026-10-08T00:00:00.000Z";

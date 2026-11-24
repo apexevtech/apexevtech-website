@@ -595,13 +595,13 @@ export const resources: Resource[] = [
   },
   {
     slug: "ev-charger-testing-guide",
-    title: "EV Charger Testing: Workflow, Equipment and Evidence",
-    description: "Plan EV charger testing from scope and equipment selection through connection, communication, electrical response, faults and reviewable evidence.",
+    title: "EV Charger Testing Procedure: Equipment & Evidence Guide",
+    description: "Plan an EV charger testing procedure: define scope, prepare equipment, run charging checks, verify measured output and approved faults, and retain reviewable evidence.",
     topic: "EV charger testing workflow",
     intent: "process",
     publishedAt: "2026-09-23",
-    modifiedAt: "2026-10-29",
-    summaryAnswer: "EV charger testing should define the charger interface, applicable standard, electrical range, test environment and required evidence before equipment is connected. A useful workflow verifies preconditions, reproduces the vehicle-side charging sequence, compares requested and measured values, checks controlled abnormal responses and saves enough context to repeat the result. These are vehicle-side functional checks, not a complete electrical-installation inspection or certification result.",
+    modifiedAt: "2026-11-24",
+    summaryAnswer: "An EV charger testing procedure should define the charger interface, applicable standard, electrical range, test environment and required evidence before equipment is connected. A useful workflow verifies preconditions, reproduces the vehicle-side charging sequence, compares requested and measured values, checks controlled abnormal responses and saves enough context to repeat the result. These are vehicle-side functional checks, not a complete electrical-installation inspection or certification result.",
     sections: [
       { heading: "Define the EV charger testing scope", paragraphs: [
         "Start with the charger rather than a generic tester specification. Record whether the unit is AC or DC, its connector, target market, communication method, rated voltage and current, firmware and intended operating environment. These facts determine the pilot circuits, message exchange, measurement range and power path the test setup must support.",
@@ -641,6 +641,7 @@ export const resources: Resource[] = [
       note: "This is a planning template, not a completed test report or a universal compliance checklist. Record site or setup limitations and distinguish an inconclusive test from a confirmed charger fault.",
     },
     faqs: [
+      { question: "What is an EV charger testing procedure?", answer: "It is a documented sequence that defines the charger and test setup, required preconditions, normal charging checks, approved fault cases, pass limits and evidence to retain. Set numerical limits from the applicable standard edition, charger specification and approved project plan." },
       { question: "What equipment is needed for EV charger testing?", answer: "The minimum set depends on the charger. It normally includes a vehicle-interface simulator or EVSE tester, suitable cables and adapters, electrical measurement, and a defined load path; protocol capture, waveform acquisition and fault simulation may be added for the required cases." },
       { question: "Can one EV charger testing system cover every connector?", answer: "An integrated platform can combine several interface modules, but each connector, protocol, voltage and current range still needs a confirmed configuration and acceptance boundary." },
       { question: "What should an EV charger test report contain?", answer: "Include charger and tester identity, configuration and versions, procedure and test case, measured values and limits, protocol or waveform evidence where relevant, result, timestamps and any test limitations." },

@@ -45,8 +45,9 @@ describe("search-priority guide scope", () => {
     expect(commissioning.sections[1].heading).toBe("Run repeatable EVSE tests after commissioning");
     expect(commissioning.description).toContain("last known-good baseline");
     const workflow = getResource("ev-charger-testing-guide")!;
-    expect(workflow.title).toBe("EV Charger Testing: Workflow, Equipment and Evidence");
-    expect(workflow.description).toBe("Plan EV charger testing from scope and equipment selection through connection, communication, electrical response, faults and reviewable evidence.");
+    expect(workflow.title).toBe("EV Charger Testing Procedure: Equipment & Evidence Guide");
+    expect(workflow.description).toContain("Plan an EV charger testing procedure");
+    expect(workflow.faqs[0].question).toBe("What is an EV charger testing procedure?");
   });
 
   it("provides Chinese for both revised guides and their contextual link titles", () => {
